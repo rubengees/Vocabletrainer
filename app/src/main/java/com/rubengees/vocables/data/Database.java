@@ -31,11 +31,11 @@ public class Database extends SQLiteOpenHelper {
     private static final String COLUMN_VOCABLE_INCORRECT = "vocable_answered";
     private static final String COLUMN_VOCABLE_HINT = "vocable_hint";
     private static final String COLUMN_VOCABLE_CREATION_TIME = "vocable_creation_time";
-    private static final String CREATE_TABLE_VOCABLES = "create table " + TABLE_VOCABLES + " ( " + COLUMN_VOCABLE_ID + " long primary key autoincrement, " + COLUMN_VOCABLE_CORRECT + " integer, " + COLUMN_VOCABLE_INCORRECT + " integer, " + COLUMN_VOCABLE_HINT + " text, " + COLUMN_VOCABLE_CREATION_TIME + " long);";
+    private static final String CREATE_TABLE_VOCABLES = "create table " + TABLE_VOCABLES + " ( " + COLUMN_VOCABLE_ID + " long primary key, " + COLUMN_VOCABLE_CORRECT + " integer, " + COLUMN_VOCABLE_INCORRECT + " integer, " + COLUMN_VOCABLE_HINT + " text, " + COLUMN_VOCABLE_CREATION_TIME + " long);";
     private static final String COLUMN_UNIT_ID = "unit_id";
     private static final String COLUMN_UNIT_TITLE = "unit_title";
     private static final String COLUMN_UNIT_CREATION_TIME = "unit_creation_time";
-    private static final String CREATE_TABLE_UNITS = "create table " + TABLE_UNITS + " ( " + COLUMN_UNIT_ID + " long primary key autoincrement, " + COLUMN_UNIT_TITLE + " text, " + COLUMN_UNIT_CREATION_TIME + " long);";
+    private static final String CREATE_TABLE_UNITS = "create table " + TABLE_UNITS + " ( " + COLUMN_UNIT_ID + " long primary key, " + COLUMN_UNIT_TITLE + " text, " + COLUMN_UNIT_CREATION_TIME + " long);";
     private static final String COLUMN_UNIT_VOCABLE_U_ID = "unit_id";
     private static final String COLUMN_UNIT_VOCABLE_V_ID = "vocable_id";
     private static final String CREATE_TABLE_UNIT_VOCABLE = "create table " + TABLE_UNIT_VOCABLE + " ( " + COLUMN_UNIT_VOCABLE_U_ID + " long, " + COLUMN_UNIT_VOCABLE_V_ID + " long);";
