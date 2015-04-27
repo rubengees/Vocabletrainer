@@ -21,8 +21,6 @@ public abstract class Test {
     private boolean animate;
     private boolean caseSensitive;
 
-    private List<Vocable> vocables;
-
     public Test(final OnTestFinishedListener listener, TestSettings settings, final Context context, final int color, final int darkColor) {
         this.listener = listener;
         this.settings = settings;
@@ -31,10 +29,6 @@ public abstract class Test {
         this.darkColor = darkColor;
         animate = PreferenceUtils.areAnimationsEnabled(context);
         caseSensitive = PreferenceUtils.isCaseSensitive(context);
-    }
-
-    public Vocable getVocableAt(int index) {
-        return vocables.get(index);
     }
 
     protected Context getContext() {
@@ -59,6 +53,10 @@ public abstract class Test {
 
     protected boolean isCaseSensitive() {
         return caseSensitive;
+    }
+
+    protected void finishTest(TestResult result, List<Vocable> vocables){
+        listener.onTestFinished(result, settings, vocables);
     }
 
     public interface OnTestFinishedListener {

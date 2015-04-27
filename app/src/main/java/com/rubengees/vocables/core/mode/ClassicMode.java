@@ -2,6 +2,9 @@ package com.rubengees.vocables.core.mode;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+
+import com.rubengees.vocables.R;
 
 /**
  * Created by ruben on 27.04.15.
@@ -14,12 +17,12 @@ public class ClassicMode extends Mode {
 
     @Override
     public int getColor(final Context context) {
-        return 0;
+        return context.getResources().getColor(R.color.classic_mode);
     }
 
     @Override
     public int getDarkColor(final Context context) {
-        return 0;
+        return context.getResources().getColor(R.color.classic_mode_dark);
     }
 
     @Override
@@ -29,21 +32,21 @@ public class ClassicMode extends Mode {
 
     @Override
     public String getHelpText(final Context context) {
-        return null;
+        return "Test";
     }
 
     @Override
     public String getTitle(final Context context) {
-        return null;
+        return "Classic Mode";
     }
 
     @Override
     public String getShortTitle(final Context context) {
-        return null;
+        return "Classic";
     }
 
     @Override
     public Drawable getIcon(final Context context) {
-        return null;
+        return ContextCompat.getDrawable(context, R.drawable.ic_mode_classic);
     }
 }
