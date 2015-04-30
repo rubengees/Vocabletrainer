@@ -5,15 +5,13 @@ package com.rubengees.vocables.pojo;
  */
 public interface TrainerItem {
 
-    public long getLastModificationTime();
+    public Long getLastModificationTime();
 
     public void setLastModificationTime(long time);
 
     public Long getId();
 
     public void setId(long id);
-
-    public String getTitle();
 
     public int getCorrect();
 

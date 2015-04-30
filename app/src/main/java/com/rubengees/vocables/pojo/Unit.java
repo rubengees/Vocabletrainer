@@ -47,7 +47,7 @@ public class Unit implements TrainerItem, Parcelable, Iterable {
     }
 
     @Override
-    public long getLastModificationTime() {
+    public Long getLastModificationTime() {
         return lastModificationTime;
     }
 
@@ -66,8 +66,7 @@ public class Unit implements TrainerItem, Parcelable, Iterable {
         this.id = id;
     }
 
-    @Override
-    public String getTitle() {
+    public String getTitle(){
         return title;
     }
 

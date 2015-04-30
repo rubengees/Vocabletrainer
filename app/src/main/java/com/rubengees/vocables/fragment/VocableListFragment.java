@@ -38,6 +38,9 @@ public class VocableListFragment extends MainFragment {
         if (getArguments() != null) {
 
         }
+
+
+
     }
 
     @Override

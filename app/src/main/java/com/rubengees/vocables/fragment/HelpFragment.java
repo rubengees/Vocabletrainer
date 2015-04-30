@@ -20,7 +20,7 @@ public class HelpFragment extends MainFragment {
         // Required empty public constructor
     }
 
-    public static HelpFragment newInstance(String param1, String param2) {
+    public static HelpFragment newInstance() {
         HelpFragment fragment = new HelpFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

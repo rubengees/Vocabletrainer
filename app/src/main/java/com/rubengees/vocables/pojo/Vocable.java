@@ -77,7 +77,7 @@ public class Vocable implements TrainerItem, Parcelable {
     }
 
     @Override
-    public long getLastModificationTime() {
+    public Long getLastModificationTime() {
         return lastModificationTime;
     }
 
@@ -94,11 +94,6 @@ public class Vocable implements TrainerItem, Parcelable {
     @Override
     public void setId(long id) {
         this.id = id;
-    }
-
-    @Override
-    public String getTitle() {
-        return firstMeaning.toString();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.rubengees.vocables.pojo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Created by Ruben on 24.04.2015.
  */
-public class Meaning implements Parcelable {
+public class Meaning implements Comparable<Meaning>, Parcelable {
 
     public static final Parcelable.Creator<Meaning> CREATOR = new Parcelable.Creator<Meaning>() {
 
@@ -133,5 +134,10 @@ public class Meaning implements Parcelable {
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeStringList(meanings);
+    }
+
+    @Override
+    public int compareTo(@NonNull Meaning meaning) {
+        return meanings.toString().compareTo(meaning.getMeanings().toString());
     }
 }

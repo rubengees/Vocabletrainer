@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.core.mode.Mode;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,9 +22,10 @@ public class TestSettingsFragment extends MainFragment {
         // Required empty public constructor
     }
 
-    public static TestSettingsFragment newInstance() {
+    public static TestSettingsFragment newInstance(Mode mode) {
         TestSettingsFragment fragment = new TestSettingsFragment();
         Bundle args = new Bundle();
+        args.putParcelable("mode", mode);
         fragment.setArguments(args);
         return fragment;
     }
