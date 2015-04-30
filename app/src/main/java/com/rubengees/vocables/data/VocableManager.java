@@ -9,6 +9,7 @@ import com.rubengees.vocables.pojo.Vocable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Ruben on 24.04.2015.
@@ -127,8 +128,12 @@ public class VocableManager {
         }.execute();
     }
 
-    public List<Unit> getUnits() {
+    public List<Unit> getUnitList() {
         return new ArrayList<>(units.values());
+    }
+
+    public Map<Long, Unit> getUnitMap() {
+        return new HashMap<>(units);
     }
 
     public void clear() {

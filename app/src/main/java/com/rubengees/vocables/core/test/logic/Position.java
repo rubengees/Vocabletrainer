@@ -1,4 +1,4 @@
-package com.rubengees.vocables.core.testlogic;
+package com.rubengees.vocables.core.test.logic;
 
 import android.os.Parcel;
 import android.os.Parcelable;

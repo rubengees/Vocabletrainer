@@ -1,14 +1,27 @@
 package com.rubengees.vocables.pojo;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Ruben on 24.04.2015.
  */
-public class Meaning implements Serializable {
+public class Meaning implements Parcelable {
 
+    public static final Parcelable.Creator<Meaning> CREATOR = new Parcelable.Creator<Meaning>() {
+
+        public Meaning createFromParcel(Parcel in) {
+            return new Meaning(in);
+        }
+
+        public Meaning[] newArray(int size) {
+            return new Meaning[size];
+        }
+
+    };
     private List<String> meanings;
 
     public Meaning(List<String> meanings) {
@@ -16,6 +29,10 @@ public class Meaning implements Serializable {
             throw new RuntimeException("The list with the meanings can not be empty");
         }
         this.meanings = meanings;
+    }
+
+    private Meaning(Parcel in) {
+        readFromParcel(in);
     }
 
     public List<String> getMeanings() {
@@ -66,6 +83,22 @@ public class Meaning implements Serializable {
 
     }
 
+    @Override
+    public String toString() {
+        String result = "";
+
+        if (meanings.size() > 0) {
+            result += meanings.get(0);
+        }
+
+        for (int i = 1; i < meanings.size(); i++) {
+            result += "/";
+            result += meanings.get(i);
+        }
+
+        return result;
+    }
+
     public boolean equalsIgnoreCase(Object another) {
         if (another == this) {
             return true;
@@ -88,19 +121,17 @@ public class Meaning implements Serializable {
         }
     }
 
+    private void readFromParcel(Parcel in) {
+        in.readStringList(meanings);
+    }
+
     @Override
-    public String toString() {
-        String result = "";
+    public int describeContents() {
+        return 0;
+    }
 
-        if (meanings.size() > 0) {
-            result += meanings.get(0);
-        }
-
-        for (int i = 1; i < meanings.size(); i++) {
-            result += "/";
-            result += meanings.get(i);
-        }
-
-        return result;
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeStringList(meanings);
     }
 }

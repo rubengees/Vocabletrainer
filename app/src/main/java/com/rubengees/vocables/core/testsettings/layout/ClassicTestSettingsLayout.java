@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 
-import com.rubengees.vocables.core.testsettings.TestSettings;
+import com.rubengees.vocables.core.testsettings.ClassicTestSettings;
 
 /**
  * Created by Ruben on 24.04.2015.
@@ -21,7 +21,7 @@ public class ClassicTestSettingsLayout extends TestSettingsLayout {
     }
 
     @Override
-    public TestSettings generateTestSettings() {
+    public ClassicTestSettings generateTestSettings() {
         return null;
     }
 

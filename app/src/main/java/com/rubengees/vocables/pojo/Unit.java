@@ -1,21 +1,39 @@
 package com.rubengees.vocables.pojo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.rubengees.vocables.utils.Utils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by Ruben on 24.04.2015.
  */
-public class Unit implements TrainerItem, Serializable {
+public class Unit implements TrainerItem, Parcelable, Iterable {
 
+    public static final Parcelable.Creator<Unit> CREATOR = new Parcelable.Creator<Unit>() {
+
+        public Unit createFromParcel(Parcel in) {
+            return new Unit(in);
+        }
+
+        public Unit[] newArray(int size) {
+            return new Unit[size];
+        }
+
+    };
     private Long id;
     private String title;
     private List<Vocable> vocables;
     private long lastModificationTime;
+
+    private Unit(Parcel in) {
+        readFromParcel(in);
+    }
 
     public Unit(Long id, String title, long lastModificationTime) {
         this();
@@ -123,5 +141,30 @@ public class Unit implements TrainerItem, Serializable {
 
     public boolean remove(Vocable vocable) {
         return vocables.remove(vocable);
+    }
+
+    private void readFromParcel(Parcel in) {
+        id = in.readLong();
+        title = in.readString();
+        lastModificationTime = in.readLong();
+        in.readTypedList(vocables, Vocable.CREATOR);
+    }
+
+    @Override
+    public final int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public final void writeToParcel(Parcel out, int flags) {
+        out.writeLong(id);
+        out.writeString(title);
+        out.writeLong(lastModificationTime);
+        out.writeTypedList(vocables);
+    }
+
+    @Override
+    public Iterator iterator() {
+        return vocables.iterator();
     }
 }

@@ -1,5 +1,7 @@
 package com.rubengees.vocables.core.testsettings;
 
+import android.os.Parcel;
+
 import java.util.List;
 
 /**
@@ -13,9 +15,20 @@ public class ClassicTestSettings extends TestSettings {
 
     }
 
-    public ClassicTestSettings(List<Integer> unitIds, int maxRate, Direction direction) {
+    public ClassicTestSettings(List<Long> unitIds, int maxRate, Direction direction) {
         super(unitIds, maxRate);
         this.direction = direction;
+    }
+
+    public ClassicTestSettings(final Parcel in) {
+        super(in);
+        direction = (Direction) in.readSerializable();
+    }
+
+    @Override
+    public void writeToParcel(final Parcel out, final int flags) {
+        super.writeToParcel(out, flags);
+        out.writeSerializable(direction);
     }
 
     public Direction getDirection() {

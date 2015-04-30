@@ -20,6 +20,7 @@ import dalvik.system.DexFile;
  * Created by Ruben on 24.04.2015.
  */
 public class Core {
+
     private static Core ourInstance;
     private GoogleServiceConnection connection;
     private VocableManager vocableManager;
@@ -56,6 +57,7 @@ public class Core {
 
     private void generateModes() throws IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         DexFile df = new DexFile(context.getPackageCodePath());
+
         for (Enumeration<String> iter = df.entries(); iter.hasMoreElements(); ) {
             String s = iter.nextElement();
 
