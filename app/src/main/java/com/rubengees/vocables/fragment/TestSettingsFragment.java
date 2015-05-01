@@ -1,8 +1,8 @@
 package com.rubengees.vocables.fragment;
 
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +15,17 @@ import com.rubengees.vocables.R;
  * Use the {@link TestSettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TestSettingsFragment extends Fragment {
+public class TestSettingsFragment extends MainFragment {
+
+    public TestSettingsFragment() {
+        // Required empty public constructor
+    }
 
     public static TestSettingsFragment newInstance() {
         TestSettingsFragment fragment = new TestSettingsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public TestSettingsFragment() {
-        // Required empty public constructor
     }
 
     @Override
