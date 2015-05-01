@@ -55,7 +55,7 @@ public abstract class Test {
         return caseSensitive;
     }
 
-    protected void finishTest(TestResult result, List<Vocable> vocables){
+    protected void finishTest(TestResult result, List<Vocable> vocables) {
         listener.onTestFinished(result, settings, vocables);
     }
 
