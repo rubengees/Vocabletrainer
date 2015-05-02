@@ -21,6 +21,7 @@ public class Vocable implements TrainerItem, Parcelable {
         }
 
     };
+
     private Long id;
     private Meaning firstMeaning;
     private Meaning secondMeaning;

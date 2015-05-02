@@ -25,11 +25,7 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
 
     public abstract void addAll(List<T> items);
 
-    public void setSortMode(SortMode sortMode){
-        this.sortMode = sortMode;
-    }
-
-    public abstract void sort();
+    public abstract void update(int pos, T item);
 
     public boolean isEmpty(){
         return getItemCount() <= 0;

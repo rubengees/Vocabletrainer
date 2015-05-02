@@ -2,9 +2,13 @@ package com.rubengees.vocables.adapter;
 
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.rubengees.vocables.R;
 import com.rubengees.vocables.enumeration.SortMode;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
@@ -18,18 +22,20 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
 
     private Unit unit;
     private SortedList<Vocable> list;
+    private OnItemClickListener listener;
 
-    public VocableAdapter(Unit unit, SortMode sortMode) {
+    public VocableAdapter(Unit unit, SortMode sortMode, OnItemClickListener listener) {
         super(sortMode);
         this.unit = unit;
-        list = new SortedList<Vocable>(Vocable.class, new SortedList.Callback<Vocable>() {
+        this.listener = listener;
+        list = new SortedList<>(Vocable.class, new SortedList.Callback<Vocable>() {
             @Override
             public int compare(Vocable vocable, Vocable other) {
-                switch(getSortMode()){
+                switch (getSortMode()) {
                     case TITLE:
                         int result = vocable.getFirstMeaning().compareTo(other.getFirstMeaning());
 
-                        if(result == 0){
+                        if (result == 0) {
                             return vocable.getSecondMeaning().compareTo(other.getSecondMeaning());
                         }
                     case TIME:
@@ -69,52 +75,84 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
                 return vocable.getId().equals(other.getId());
             }
         });
+
+        addAll(unit.getVocables());
     }
 
     @Override
     public void remove(int pos) {
-
+        list.removeItemAt(pos);
     }
 
     @Override
     public void clear() {
-
+        list.beginBatchedUpdates();
+        for (int i = list.size() - 1; i >= 0; i--) {
+            list.removeItemAt(i);
+        }
+        list.endBatchedUpdates();
     }
 
     @Override
     public void add(Vocable item) {
-
+        list.add(item);
     }
 
     @Override
     public void addAll(List<Vocable> items) {
-
+        list.beginBatchedUpdates();
+        for (Vocable item : items) {
+            list.add(item);
+        }
+        list.endBatchedUpdates();
     }
 
     @Override
-    public void sort() {
-
+    public void update(int pos, Vocable item) {
+        list.remove(item);
+        list.add(item);
+        list.updateItemAt(pos, item);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        return null;
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_vocable, null));
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        Vocable vocable = list.get(i);
 
+        viewHolder.firstMeaning.setText(vocable.getFirstMeaning().toString());
+        viewHolder.secondMeaning.setText(vocable.getSecondMeaning().toString());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return list.size();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Unit unit, Vocable vocable);
+
+        void onInfoClick(Vocable vocable);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        TextView firstMeaning;
+        TextView secondMeaning;
+
         public ViewHolder(View itemView) {
             super(itemView);
+
+            firstMeaning = (TextView) itemView.findViewById(R.id.list_item_vocable_first_meaning);
+            secondMeaning = (TextView) itemView.findViewById(R.id.list_item_vocable_second_meaning);
+            ImageButton icon = (ImageButton) itemView.findViewById(R.id.list_item_vocable_info);
+
+            itemView.setOnClickListener(v -> listener.onItemClick(unit, list.get(getLayoutPosition())));
+
+            icon.setOnClickListener(v -> listener.onInfoClick(list.get(getLayoutPosition())));
         }
     }
 }

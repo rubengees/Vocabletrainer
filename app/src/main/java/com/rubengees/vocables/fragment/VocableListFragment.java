@@ -26,10 +26,7 @@ public class VocableListFragment extends MainFragment {
     }
 
     public static VocableListFragment newInstance() {
-        VocableListFragment fragment = new VocableListFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        return new VocableListFragment();
     }
 
     @Override
@@ -48,6 +45,11 @@ public class VocableListFragment extends MainFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_vocable_list, container, false);
+
+        recycler = (RecyclerView) root.findViewById(R.id.fragment_vocable_list_recycler);
+        fab = (FloatingActionButton) root.findViewById(R.id.fragment_vocable_list_add);
+
+
 
         return root;
     }
