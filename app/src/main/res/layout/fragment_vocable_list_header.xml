@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center_horizontal"
     android:orientation="horizontal">
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true" />
-
-    <TextView
-        android:id="@+id/textView"
+        android:id="@+id/fragment_vocable_list_header_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_toEndOf="@+id/imageButton"
-        android:layout_toRightOf="@+id/imageButton"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_back" />
+
+    <TextView
+        android:id="@+id/fragment_vocable_list_header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_toEndOf="@+id/fragment_vocable_list_header_back"
+        android:layout_toRightOf="@+id/fragment_vocable_list_header_back"
         android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/white" />
+
 </RelativeLayout>

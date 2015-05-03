@@ -22,7 +22,7 @@ public class TestSettings implements Parcelable {
         }
 
     };
-    private List<Long> unitIds;
+    private List<Integer> unitIds;
     private int maxRate;
 
     public TestSettings() {
@@ -33,16 +33,16 @@ public class TestSettings implements Parcelable {
         readFromParcel(in);
     }
 
-    public TestSettings(List<Long> unitIds, int maxRate) {
+    public TestSettings(List<Integer> unitIds, int maxRate) {
         this.unitIds = unitIds;
         this.maxRate = maxRate;
     }
 
-    public void addUnitId(long id) {
+    public void addUnitId(int id) {
         unitIds.add(id);
     }
 
-    public List<Long> getUnitIds() {
+    public List<Integer> getUnitIds() {
         return unitIds;
     }
 

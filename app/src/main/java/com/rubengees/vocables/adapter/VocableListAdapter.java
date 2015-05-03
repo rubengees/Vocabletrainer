@@ -27,6 +27,8 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
 
     public abstract void update(int pos, T item);
 
+    public abstract T get(int pos);
+
     public boolean isEmpty(){
         return getItemCount() <= 0;
     }

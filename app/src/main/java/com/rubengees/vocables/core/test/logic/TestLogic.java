@@ -35,9 +35,9 @@ public class TestLogic {
         this.settings = settings;
         this.vocables = new ArrayList<>();
 
-        Map<Long, Unit> units = Core.getInstance((android.app.Activity) context).getVocableManager().getUnitMap();
+        Map<Integer, Unit> units = Core.getInstance((android.app.Activity) context).getVocableManager().getUnitMap();
 
-        for (Long unitId : settings.getUnitIds()) {
+        for (Integer unitId : settings.getUnitIds()) {
             vocables.addAll(units.get(unitId).getVocables());
         }
 

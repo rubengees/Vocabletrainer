@@ -1,12 +1,12 @@
 package com.rubengees.vocables.adapter;
 
 import android.support.v7.util.SortedList;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.enumeration.SortMode;
@@ -74,7 +74,7 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
             public boolean areItemsTheSame(Vocable vocable, Vocable other) {
                 return vocable.getId().equals(other.getId());
             }
-        });
+        }, unit.size());
 
         addAll(unit.getVocables());
     }
@@ -115,6 +115,15 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
     }
 
     @Override
+    public Vocable get(int pos) {
+        return list.get(pos);
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_vocable, null));
     }
@@ -140,19 +149,29 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView firstMeaning;
-        TextView secondMeaning;
+        AppCompatTextView firstMeaning;
+        AppCompatTextView secondMeaning;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            firstMeaning = (TextView) itemView.findViewById(R.id.list_item_vocable_first_meaning);
-            secondMeaning = (TextView) itemView.findViewById(R.id.list_item_vocable_second_meaning);
+            firstMeaning = (AppCompatTextView) itemView.findViewById(R.id.list_item_vocable_first_meaning);
+            secondMeaning = (AppCompatTextView) itemView.findViewById(R.id.list_item_vocable_second_meaning);
             ImageButton icon = (ImageButton) itemView.findViewById(R.id.list_item_vocable_info);
 
-            itemView.setOnClickListener(v -> listener.onItemClick(unit, list.get(getLayoutPosition())));
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(unit, list.get(getLayoutPosition()));
+                }
+            });
 
-            icon.setOnClickListener(v -> listener.onInfoClick(list.get(getLayoutPosition())));
+            icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onInfoClick(list.get(getLayoutPosition()));
+                }
+            });
         }
     }
 }

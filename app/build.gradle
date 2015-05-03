@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        encoding "UTF-8"
+    }
 }
 
 dependencies {
@@ -24,10 +28,9 @@ dependencies {
     compile 'com.android.support:cardview-v7:22.1.1'
     compile 'com.android.support:recyclerview-v7:22.1.1'
     compile 'com.google.android.gms:play-services-games:7.0.0'
-
     compile 'com.afollestad:material-dialogs:0.7.2.7'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
-    compile('com.mikepenz.materialdrawer:library:2.9.1@aar') {
+    compile('com.mikepenz.materialdrawer:library:2.9.2@aar') {
         transitive = true
     }
     compile('com.mikepenz.aboutlibraries:library:4.6.6@aar') {

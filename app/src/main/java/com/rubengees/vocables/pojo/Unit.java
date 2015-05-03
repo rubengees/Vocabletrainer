@@ -2,6 +2,7 @@ package com.rubengees.vocables.pojo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.rubengees.vocables.utils.Utils;
 
@@ -26,7 +27,7 @@ public class Unit implements TrainerItem, Parcelable, Iterable {
         }
 
     };
-    private Long id;
+    private Integer id;
     private String title;
     private List<Vocable> vocables;
     private long lastModificationTime;
@@ -35,7 +36,7 @@ public class Unit implements TrainerItem, Parcelable, Iterable {
         readFromParcel(in);
     }
 
-    public Unit(Long id, String title, long lastModificationTime) {
+    public Unit(@NonNull Integer id, String title, long lastModificationTime) {
         this();
         this.id = id;
         this.title = title;
@@ -57,12 +58,12 @@ public class Unit implements TrainerItem, Parcelable, Iterable {
     }
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -143,7 +144,7 @@ public class Unit implements TrainerItem, Parcelable, Iterable {
     }
 
     private void readFromParcel(Parcel in) {
-        id = in.readLong();
+        id = in.readInt();
         title = in.readString();
         lastModificationTime = in.readLong();
         in.readTypedList(vocables, Vocable.CREATOR);
@@ -156,7 +157,7 @@ public class Unit implements TrainerItem, Parcelable, Iterable {
 
     @Override
     public final void writeToParcel(Parcel out, int flags) {
-        out.writeLong(id);
+        out.writeInt(id);
         out.writeString(title);
         out.writeLong(lastModificationTime);
         out.writeTypedList(vocables);

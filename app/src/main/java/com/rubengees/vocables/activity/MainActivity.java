@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.mikepenz.materialdrawer.Drawer;
@@ -24,6 +25,7 @@ import com.rubengees.vocables.fragment.SettingsFragment;
 import com.rubengees.vocables.fragment.StatisticsFragment;
 import com.rubengees.vocables.fragment.TestSettingsFragment;
 import com.rubengees.vocables.fragment.VocableListFragment;
+import com.rubengees.vocables.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +34,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener {
 
     private Toolbar toolbar;
-    private View toolbarView;
+    private ViewGroup toolbarExtension;
     private Drawer.Result drawer;
 
     private Core core;
+
+    private String currentTitle;
+    private int currentColor;
+    private int currentColorDark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +49,18 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarExtension = (ViewGroup) findViewById(R.id.toolbar_extension);
+        core = Core.getInstance(this, savedInstanceState);
 
         setSupportActionBar(toolbar);
 
-        core = Core.getInstance(this, savedInstanceState);
-
         generateDrawer(savedInstanceState);
+
+        if (savedInstanceState == null) {
+            setFragment(VocableListFragment.newInstance(), "Vocablelist");
+        } else {
+            styleApplication(savedInstanceState.getString("current_title"), savedInstanceState.getInt("current_color"), savedInstanceState.getInt("current_color_dark"));
+        }
     }
 
     @Override
@@ -65,8 +77,13 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
-        core.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
+        core.onSaveInstanceState(outState);
+        drawer.saveInstanceState(outState);
+
+        outState.putString("current_title", currentTitle);
+        outState.putInt("current_color", currentColor);
+        outState.putInt("current_color_dark", currentColorDark);
     }
 
     @Override
@@ -75,13 +92,13 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         core.onStart();
     }
 
-    private void generateDrawer(Bundle savedInstanceState){
-        drawer = new Drawer().withActivity(this).withFireOnInitialOnClick(true).withToolbar(toolbar)
+    private void generateDrawer(Bundle savedInstanceState) {
+        drawer = new Drawer().withActivity(this).withToolbar(toolbar)
                 .withDrawerItems(generateDrawerItems()).withSavedInstance(savedInstanceState).withStickyDrawerItems(generateStickyDrawerItems())
-                .withOnDrawerItemClickListener(this).build();
+                .withOnDrawerItemClickListener(this).withActionBarDrawerToggleAnimated(true).build();
     }
 
-    private ArrayList<IDrawerItem> generateDrawerItems(){
+    private ArrayList<IDrawerItem> generateDrawerItems() {
         ArrayList<IDrawerItem> result = new ArrayList<>();
 
         result.add(new PrimaryDrawerItem().withName("Vocablelist").withIcon(R.drawable.ic_list).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(0));
@@ -94,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         return result;
     }
 
-    private ArrayList<IDrawerItem> generateStickyDrawerItems(){
+    private ArrayList<IDrawerItem> generateStickyDrawerItems() {
         ArrayList<IDrawerItem> result = new ArrayList<>();
 
         result.add(new SecondaryDrawerItem().withName("Help").withIcon(R.drawable.ic_help).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(4));
@@ -103,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         return result;
     }
 
-    private List<IDrawerItem> generateModeItems(){
+    private List<IDrawerItem> generateModeItems() {
         List<IDrawerItem> result = new ArrayList<>();
 
         for (Mode mode : core.getModes()) {
@@ -116,40 +133,57 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         return result;
     }
 
-    public void setFragment(Fragment fragment, String title){
+    public void setFragment(Fragment fragment, String title, int color, int darkColor) {
         getFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 
-        setToolbarView(null);
-        ActionBar ab = getSupportActionBar();
-        if(ab != null){
-            ab.setTitle(title);
-            ab.setSubtitle(null);
+        setToolbarView(null, 0);
+        styleApplication(title, color, darkColor);
+    }
+
+    public void setFragment(Fragment fragment, String title) {
+        int color = getResources().getColor(R.color.primary);
+        int darkColor = getResources().getColor(R.color.primary_dark);
+
+        setFragment(fragment, title, color, darkColor);
+    }
+
+    public void setToolbarView(@Nullable View view, int color) {
+
+        toolbarExtension.removeAllViews();
+
+        if (view != null) {
+            toolbarExtension.addView(view);
+            toolbarExtension.setBackgroundColor(color);
         }
     }
 
-    public void setToolbarView(@Nullable View view) {
+    public void styleApplication(String title, int color, int darkColor) {
 
-        if (toolbarView != null) {
-            toolbar.removeView(toolbarView);
+        currentTitle = title;
+        currentColor = color;
+        currentColorDark = darkColor;
+
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setTitle(title);
+            ab.setSubtitle(null);
         }
 
-        if (view != null) {
-            toolbar.addView(view);
-        }
-
-        toolbarView = view;
+        toolbar.setBackgroundColor(color);
+        Utils.colorWindow(this, color, darkColor);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
-        switch (drawerItem.getIdentifier()){
+
+        switch (drawerItem.getIdentifier()) {
             case 0:
                 setFragment(VocableListFragment.newInstance(), "Vocablelist");
                 break;
             case 1:
                 Mode mode = (Mode) drawerItem.getTag();
 
-                setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(this));
+                setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(this), mode.getColor(this), mode.getDarkColor(this));
                 break;
             case 2:
                 setFragment(StatisticsFragment.newInstance(), "Statistics");

@@ -22,7 +22,7 @@ public class Vocable implements TrainerItem, Parcelable {
 
     };
 
-    private Long id;
+    private Integer id;
     private Meaning firstMeaning;
     private Meaning secondMeaning;
     private String hint;
@@ -43,7 +43,7 @@ public class Vocable implements TrainerItem, Parcelable {
         this.incorrect = 0;
     }
 
-    public Vocable(@NonNull Long id, @NonNull Meaning firstMeaning, @NonNull Meaning secondMeaning, int correct, int incorrect, @Nullable String hint, long lastModificationTime) {
+    public Vocable(@NonNull Integer id, @NonNull Meaning firstMeaning, @NonNull Meaning secondMeaning, int correct, int incorrect, @Nullable String hint, long lastModificationTime) {
         this.id = id;
         this.firstMeaning = firstMeaning;
         this.secondMeaning = secondMeaning;
@@ -54,7 +54,7 @@ public class Vocable implements TrainerItem, Parcelable {
     }
 
     private void readFromParcel(Parcel in) {
-        id = in.readLong();
+        id = in.readInt();
         firstMeaning = in.readParcelable(firstMeaning.getClass().getClassLoader());
         secondMeaning = in.readParcelable(secondMeaning.getClass().getClassLoader());
         hint = in.readString();
@@ -69,7 +69,7 @@ public class Vocable implements TrainerItem, Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeLong(id);
+        out.writeInt(id);
         out.writeParcelable(firstMeaning, 0);
         out.writeParcelable(secondMeaning, 0);
         out.writeString(hint);
@@ -88,12 +88,12 @@ public class Vocable implements TrainerItem, Parcelable {
     }
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

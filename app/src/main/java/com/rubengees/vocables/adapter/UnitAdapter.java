@@ -1,12 +1,11 @@
 package com.rubengees.vocables.adapter;
 
 import android.support.v7.util.SortedList;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.enumeration.SortMode;
@@ -68,7 +67,7 @@ public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder
             public boolean areItemsTheSame(Unit item1, Unit item2) {
                 return item1.getId().equals(item2.getId());
             }
-        }, list.size());
+        }, units.size());
 
         addAll(units);
     }
@@ -107,8 +106,13 @@ public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder
     }
 
     @Override
+    public Unit get(int pos) {
+        return list.get(pos);
+    }
+
+    @Override
     public UnitAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_unit, null));
+        return new ViewHolder(View.inflate(parent.getContext(), R.layout.list_item_unit, null));
     }
 
     @Override
@@ -126,22 +130,42 @@ public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder
     public interface OnItemClickListener {
         void onItemClick(Unit unit);
 
+        void onItemEdit(Unit unit);
+
         void onInfoClick(Unit unit);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title;
+        AppCompatTextView title;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            title = (TextView) itemView.findViewById(R.id.list_item_unit_title);
+            title = (AppCompatTextView) itemView.findViewById(R.id.list_item_unit_title);
             ImageButton icon = (ImageButton) itemView.findViewById(R.id.list_item_unit_info);
+            ImageButton edit = (ImageButton) itemView.findViewById(R.id.list_item_unit_edit);
 
-            itemView.setOnClickListener(v -> listener.onItemClick(list.get(getLayoutPosition())));
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(list.get(getLayoutPosition()));
+                }
+            });
 
-            icon.setOnClickListener(v -> listener.onInfoClick(list.get(getLayoutPosition())));
+            icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onInfoClick(list.get(getLayoutPosition()));
+                }
+            });
+
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemEdit(list.get(getLayoutPosition()));
+                }
+            });
         }
     }
 }

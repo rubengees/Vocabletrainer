@@ -31,20 +31,20 @@ public class Database extends SQLiteOpenHelper {
     private static final String COLUMN_VOCABLE_INCORRECT = "vocable_answered";
     private static final String COLUMN_VOCABLE_HINT = "vocable_hint";
     private static final String COLUMN_VOCABLE_CREATION_TIME = "vocable_creation_time";
-    private static final String CREATE_TABLE_VOCABLES = "create table " + TABLE_VOCABLES + " ( " + COLUMN_VOCABLE_ID + " long primary key, " + COLUMN_VOCABLE_CORRECT + " integer, " + COLUMN_VOCABLE_INCORRECT + " integer, " + COLUMN_VOCABLE_HINT + " text, " + COLUMN_VOCABLE_CREATION_TIME + " long);";
+    private static final String CREATE_TABLE_VOCABLES = "create table " + TABLE_VOCABLES + " ( " + COLUMN_VOCABLE_ID + " integer primary key autoincrement, " + COLUMN_VOCABLE_CORRECT + " integer, " + COLUMN_VOCABLE_INCORRECT + " integer, " + COLUMN_VOCABLE_HINT + " text, " + COLUMN_VOCABLE_CREATION_TIME + " long);";
     private static final String COLUMN_UNIT_ID = "unit_id";
     private static final String COLUMN_UNIT_TITLE = "unit_title";
     private static final String COLUMN_UNIT_CREATION_TIME = "unit_creation_time";
-    private static final String CREATE_TABLE_UNITS = "create table " + TABLE_UNITS + " ( " + COLUMN_UNIT_ID + " long primary key, " + COLUMN_UNIT_TITLE + " text, " + COLUMN_UNIT_CREATION_TIME + " long);";
+    private static final String CREATE_TABLE_UNITS = "create table " + TABLE_UNITS + " ( " + COLUMN_UNIT_ID + " integer primary key autoincrement, " + COLUMN_UNIT_TITLE + " text, " + COLUMN_UNIT_CREATION_TIME + " long);";
     private static final String COLUMN_UNIT_VOCABLE_U_ID = "unit_id";
     private static final String COLUMN_UNIT_VOCABLE_V_ID = "vocable_id";
-    private static final String CREATE_TABLE_UNIT_VOCABLE = "create table " + TABLE_UNIT_VOCABLE + " ( " + COLUMN_UNIT_VOCABLE_U_ID + " long, " + COLUMN_UNIT_VOCABLE_V_ID + " long);";
+    private static final String CREATE_TABLE_UNIT_VOCABLE = "create table " + TABLE_UNIT_VOCABLE + " ( " + COLUMN_UNIT_VOCABLE_U_ID + " integer, " + COLUMN_UNIT_VOCABLE_V_ID + " integer);";
     private static final String COLUMN_MEANING1_ID = "meaning1_id";
     private static final String COLUMN_MEANING1_MEANING = "meaning1_data";
-    private static final String CREATE_TABLE_MEANINGS1 = "create table " + TABLE_MEANINGS1 + " ( " + COLUMN_MEANING1_ID + " long, " + COLUMN_MEANING1_MEANING + " text);";
+    private static final String CREATE_TABLE_MEANINGS1 = "create table " + TABLE_MEANINGS1 + " ( " + COLUMN_MEANING1_ID + " integer, " + COLUMN_MEANING1_MEANING + " text);";
     private static final String COLUMN_MEANING2_ID = "meaning2_id";
     private static final String COLUMN_MEANING2_MEANING = "meaning2_data";
-    private static final String CREATE_TABLE_MEANINGS2 = "create table " + TABLE_MEANINGS2 + " ( " + COLUMN_MEANING2_ID + " long, " + COLUMN_MEANING2_MEANING + " text);";
+    private static final String CREATE_TABLE_MEANINGS2 = "create table " + TABLE_MEANINGS2 + " ( " + COLUMN_MEANING2_ID + " integer, " + COLUMN_MEANING2_MEANING + " text);";
 
     public Database(Context context) {
         super(context, DATABASE, null, VERSION);
@@ -80,7 +80,7 @@ public class Database extends SQLiteOpenHelper {
                     String unitTitle;
                     ArrayList<String> meanings1;
                     ArrayList<String> meanings2;
-                    long id = cursor.getLong(0);
+                    int id = cursor.getInt(0);
                     int correct;
                     int incorrect;
                     String hint = null;
@@ -163,11 +163,11 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
-    private ArrayList<String> generateMeanings(long id, Cursor cursor) {
+    private ArrayList<String> generateMeanings(int id, Cursor cursor) {
         ArrayList<String> result = new ArrayList<>();
 
         do {
-            if (cursor.getLong(0) != id) {
+            if (cursor.getInt(0) != id) {
                 break;
             }
             result.add(cursor.getString(1));
@@ -199,7 +199,7 @@ public class Database extends SQLiteOpenHelper {
         unitValues.put(COLUMN_UNIT_TITLE, unit.getTitle());
         unitValues.put(COLUMN_UNIT_CREATION_TIME, unit.getLastModificationTime());
 
-        long newId = db.insert(TABLE_UNITS, null, unitValues);
+        int newId = (int) db.insert(TABLE_UNITS, null, unitValues);
         unit.setId(newId);
     }
 
@@ -212,7 +212,7 @@ public class Database extends SQLiteOpenHelper {
         vocableValues.put(COLUMN_VOCABLE_HINT, vocable.getHint());
         vocableValues.put(COLUMN_VOCABLE_CREATION_TIME, vocable.getLastModificationTime());
 
-        long id = db.insert(TABLE_VOCABLES, null, vocableValues);
+        int id = (int) db.insert(TABLE_VOCABLES, null, vocableValues);
         vocable.setId(id);
 
         insertMeanings(db, id, vocable.getFirstMeaning(), COLUMN_MEANING1_ID, COLUMN_MEANING1_MEANING, TABLE_MEANINGS1);
@@ -223,7 +223,7 @@ public class Database extends SQLiteOpenHelper {
         db.insert(TABLE_UNIT_VOCABLE, null, unitVocableValues);
     }
 
-    private void insertMeanings(SQLiteDatabase db, long id, Meaning meaning, String columnId, String columnMeaning, String table) {
+    private void insertMeanings(SQLiteDatabase db, int id, Meaning meaning, String columnId, String columnMeaning, String table) {
         for (String m : meaning.getMeanings()) {
             ContentValues meaningValues = new ContentValues(2);
 
@@ -247,10 +247,7 @@ public class Database extends SQLiteOpenHelper {
 
     public final void addUnit(Unit unit) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.beginTransaction();
         addUnit(db, unit);
-        db.setTransactionSuccessful();
-        db.endTransaction();
         db.close();
     }
 
@@ -365,8 +362,8 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
-    public final HashMap<Long, Unit> getUnits() {
-        HashMap<Long, Unit> result = new HashMap<>();
+    public final HashMap<Integer, Unit> getUnits() {
+        HashMap<Integer, Unit> result = new HashMap<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -380,7 +377,7 @@ public class Database extends SQLiteOpenHelper {
             result = getUnitMap(units);
 
             do {
-                long id = vocables.getInt(0);
+                int id = vocables.getInt(0);
                 int correct = vocables.getInt(1);
                 int incorrect = vocables.getInt(2);
                 String hint = vocables.getString(3);
@@ -390,7 +387,7 @@ public class Database extends SQLiteOpenHelper {
 
                 Vocable vocable = new Vocable(id, first, second, correct, incorrect, hint, lastModificationTime);
 
-                long unitId = getUnitIdForVocable(unitVocable);
+                int unitId = getUnitIdForVocable(unitVocable);
 
                 result.get(unitId).add(vocable);
             } while (vocables.moveToNext());
@@ -405,16 +402,15 @@ public class Database extends SQLiteOpenHelper {
         return result;
     }
 
-
-    private HashMap<Long, Unit> getUnitMap(Cursor cursor) {
-        HashMap<Long, Unit> result = new HashMap<>();
+    private HashMap<Integer, Unit> getUnitMap(Cursor cursor) {
+        HashMap<Integer, Unit> result = new HashMap<>();
 
         do {
             Unit unit = new Unit();
 
             unit.setId(cursor.getInt(0));
             unit.setTitle(cursor.getString(1));
-            unit.setLastModificationTime(cursor.getLong(2));
+            unit.setLastModificationTime(cursor.getInt(2));
             result.put(unit.getId(), unit);
         } while (cursor.moveToNext());
 

@@ -15,7 +15,7 @@ public class ClassicTestSettings extends TestSettings {
 
     }
 
-    public ClassicTestSettings(List<Long> unitIds, int maxRate, Direction direction) {
+    public ClassicTestSettings(List<Integer> unitIds, int maxRate, Direction direction) {
         super(unitIds, maxRate);
         this.direction = direction;
     }

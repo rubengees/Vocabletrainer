@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class VocableManager {
 
-    private HashMap<Long, Unit> units;
+    private HashMap<Integer, Unit> units;
     private Database db;
 
     public VocableManager(Context context) {
@@ -31,7 +31,6 @@ public class VocableManager {
             protected Void doInBackground(Void... params) {
                 checkUnit(unit);
                 db.addVocable(unit, vocable);
-                unit.add(vocable);
                 return null;
             }
         }.execute();
@@ -44,10 +43,13 @@ public class VocableManager {
             protected Void doInBackground(Void... params) {
                 checkUnit(unit);
                 db.addVocables(unit, vocables);
-                unit.addAll(vocables);
                 return null;
             }
         }.execute();
+    }
+
+    public void addUnit(Unit unit) {
+        addVocables(unit, unit.getVocables());
     }
 
     public void updateVocable(final Unit newUnit, final Unit oldUnit, final Vocable vocable) {
@@ -93,7 +95,6 @@ public class VocableManager {
     }
 
     public void removeVocable(final Unit unit, final Vocable vocable) {
-        unit.remove(vocable);
         if (unit.isEmpty()) {
             removeUnit(unit);
         }
@@ -132,7 +133,7 @@ public class VocableManager {
         return new ArrayList<>(units.values());
     }
 
-    public Map<Long, Unit> getUnitMap() {
+    public Map<Integer, Unit> getUnitMap() {
         return new HashMap<>(units);
     }
 
