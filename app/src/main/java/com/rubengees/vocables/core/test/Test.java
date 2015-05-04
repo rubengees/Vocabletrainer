@@ -60,6 +60,6 @@ public abstract class Test {
     }
 
     public interface OnTestFinishedListener {
-        public void onTestFinished(TestResult result, TestSettings settings, List<Vocable> vocables);
+        void onTestFinished(TestResult result, TestSettings settings, List<Vocable> vocables);
     }
 }

@@ -1,5 +1,6 @@
 package com.rubengees.vocables.utils;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -306,7 +307,7 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
         }
 
         @Override
-        public int compareTo(PendingDismissData other) {
+        public int compareTo(@NonNull PendingDismissData other) {
             return other.position - position;
         }
     }

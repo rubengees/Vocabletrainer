@@ -5,12 +5,13 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by Ruben on 24.04.2015.
  */
-public class Meaning implements Comparable<Meaning>, Parcelable {
+public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelable {
 
     public static final Parcelable.Creator<Meaning> CREATOR = new Parcelable.Creator<Meaning>() {
 
@@ -44,8 +45,8 @@ public class Meaning implements Comparable<Meaning>, Parcelable {
         this.meanings = firstMeanings;
     }
 
-    public boolean contains(Object o) {
-        return meanings.contains(o);
+    public boolean contains(String s) {
+        return meanings.contains(s);
     }
 
     public boolean containsIgnoreCase(Object o) {
@@ -139,5 +140,10 @@ public class Meaning implements Comparable<Meaning>, Parcelable {
     @Override
     public int compareTo(@NonNull Meaning meaning) {
         return meanings.toString().compareTo(meaning.getMeanings().toString());
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return meanings.iterator();
     }
 }

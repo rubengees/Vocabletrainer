@@ -38,19 +38,19 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
 
         this.context = context;
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             mResolvingError = savedInstanceState.getBoolean(STATE_RESOLVING_ERROR);
             shouldConnect = savedInstanceState.getBoolean(STATE_SHOULD_CONNECT);
-        }else{
+        } else {
             shouldConnect = PreferenceUtils.shouldSignIn(context);
         }
     }
 
-    public boolean isConnected(){
+    public boolean isConnected() {
         return mGoogleApiClient.isConnected();
     }
 
-    public void connect(){
+    public void connect() {
         shouldConnect = true;
         PreferenceUtils.setSignIn(context, true);
 
@@ -59,7 +59,7 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
         }
     }
 
-    public void disconnect(){
+    public void disconnect() {
         shouldConnect = false;
         PreferenceUtils.setSignIn(context, false);
 
@@ -88,26 +88,25 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        if (mResolvingError) {
-
-            return;
-        } else if (result.hasResolution()) {
-            try {
-                mResolvingError = true;
-                result.startResolutionForResult(context, REQUEST_RESOLVE_ERROR);
-            } catch (IntentSender.SendIntentException e) {
-                mGoogleApiClient.connect();
-            }
-        } else {
-            new MaterialDialog.Builder(context).title("Error").content(GooglePlayServicesUtil.getErrorString(result.getErrorCode())).dismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    mResolvingError = false;
+        if (!mResolvingError) {
+            if (result.hasResolution()) {
+                try {
+                    mResolvingError = true;
+                    result.startResolutionForResult(context, REQUEST_RESOLVE_ERROR);
+                } catch (IntentSender.SendIntentException e) {
+                    mGoogleApiClient.connect();
                 }
-            }).build().show();
-            mResolvingError = true;
-            shouldConnect = false;
-            PreferenceUtils.setSignIn(context, false);
+            } else {
+                new MaterialDialog.Builder(context).title("Error").content(GooglePlayServicesUtil.getErrorString(result.getErrorCode())).dismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        mResolvingError = false;
+                    }
+                }).build().show();
+                mResolvingError = true;
+                shouldConnect = false;
+                PreferenceUtils.setSignIn(context, false);
+            }
         }
     }
 
@@ -124,7 +123,7 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
         }
     }
 
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(STATE_RESOLVING_ERROR, mResolvingError);
         outState.putBoolean(STATE_SHOULD_CONNECT, shouldConnect);
     }

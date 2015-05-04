@@ -1,6 +1,5 @@
 package com.rubengees.vocables.core.test.logic;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -114,11 +113,6 @@ public class TestLogic {
 
         result.addAnswer(testAnswer);
         vocable.processAnswer(correct);
-        updateVocable(vocable);
-    }
-
-    final void updateVocable(Vocable vocable) {
-        Core.getInstance((Activity) context).getVocableManager().updateVocableFast(vocable);
     }
 
     public void saveInstanceState(Bundle outState) {
