@@ -4,8 +4,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
+import android.widget.CheckBox;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rubengees.vocables.R;
@@ -26,9 +26,9 @@ public class WelcomeDialog extends DialogFragment {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
         View view = View.inflate(getActivity(), R.layout.dialog_welcome, null);
-        final AppCompatCheckBox ads = (AppCompatCheckBox) view.findViewById(R.id.dialog_welcome_ads);
-        final AppCompatCheckBox reminder = (AppCompatCheckBox) view.findViewById(R.id.dialog_welcome_reminder);
-        final AppCompatCheckBox playGames = (AppCompatCheckBox) view.findViewById(R.id.dialog_welcome_play_games);
+        final CheckBox ads = (CheckBox) view.findViewById(R.id.dialog_welcome_ads);
+        final CheckBox reminder = (CheckBox) view.findViewById(R.id.dialog_welcome_reminder);
+        final CheckBox playGames = (CheckBox) view.findViewById(R.id.dialog_welcome_play_games);
 
         builder.title("Welcome!").customView(view, true).positiveText(getActivity().getString(android.R.string.ok)).dismissListener(new DialogInterface.OnDismissListener() {
             @Override

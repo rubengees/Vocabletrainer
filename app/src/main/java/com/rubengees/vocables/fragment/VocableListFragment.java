@@ -2,6 +2,7 @@ package com.rubengees.vocables.fragment;
 
 
 import android.app.Fragment;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +33,9 @@ import java.util.List;
  */
 public class VocableListFragment extends MainFragment implements UnitAdapter.OnItemClickListener, VocableAdapter.OnItemClickListener {
 
+    private static final String SORT_MODE = "sort_mode";
+    private static final String CURRENT_UNIT = "current_unit";
+
     private RecyclerView recycler;
     private FloatingActionButton fab;
     private GridLayoutManager layoutManager;
@@ -54,7 +58,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            mode = (SortMode) savedInstanceState.getSerializable("sort_mode");
+            mode = (SortMode) savedInstanceState.getSerializable(SORT_MODE);
         } else {
             mode = SortMode.TITLE;
         }
@@ -66,9 +70,9 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putSerializable("sort_mode", mode);
+        outState.putSerializable(SORT_MODE, mode);
         if (adapter instanceof VocableAdapter) {
-            outState.putParcelable("current_unit", ((VocableAdapter) adapter).getUnit());
+            outState.putParcelable(CURRENT_UNIT, ((VocableAdapter) adapter).getUnit());
         }
     }
 
@@ -102,26 +106,29 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
             @Override
             public void onDismiss(RecyclerView view, List<SwipeToDismissTouchListener.PendingDismissData> dismissData) {
                 for (SwipeToDismissTouchListener.PendingDismissData pendingDismissData : dismissData) {
-                    adapter.remove(pendingDismissData.position);
                     if (adapter instanceof VocableAdapter) {
                         Unit unit = ((VocableAdapter) adapter).getUnit();
                         Vocable vocable = ((VocableAdapter) adapter).get(pendingDismissData.position);
 
                         unit.remove(vocable);
-                        manager.removeVocable(unit, vocable);
+                        manager.vocableRemoved(unit, vocable);
                     } else {
                         Unit unit = ((UnitAdapter) adapter).get(pendingDismissData.position);
 
                         manager.removeUnit(unit);
                     }
+
+                    adapter.remove(pendingDismissData.position);
                 }
+
+                checkAdapter();
             }
         });
 
         recycler.addOnItemTouchListener(listener);
 
         if (savedInstanceState != null) {
-            Unit current = savedInstanceState.getParcelable("current_unit");
+            Unit current = savedInstanceState.getParcelable(CURRENT_UNIT);
 
             if (current == null) {
                 setUnitAdapter();
@@ -131,6 +138,14 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         } else {
             setUnitAdapter();
         }
+
+        checkAdapter();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        layoutManager.setSpanCount(Utils.getSpanCount(getActivity()));
     }
 
     private void setupFAB() {
@@ -167,7 +182,13 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     private void checkAdapter() {
-
+        if (adapter.isEmpty()) {
+            if (adapter instanceof VocableAdapter) {
+                setUnitAdapter();
+            } else if (adapter instanceof UnitAdapter) {
+                //TODO Show View
+            }
+        }
     }
 
     @Override
@@ -177,7 +198,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     @Override
     public void onItemEdit(Unit unit) {
-
+        //TODO Show Edit Dialog
     }
 
     @Override

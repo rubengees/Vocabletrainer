@@ -5,34 +5,30 @@ import android.os.Parcel;
 import java.util.List;
 
 /**
- * Created by Ruben on 24.04.2015.
+ * Created by Ruben on 04.05.2015.
  */
-public class ClassicTestSettings extends TestSettings {
+public class TimeTestSettings extends TestSettings {
 
     private Direction direction;
-    private boolean caseSensitive;
 
-    public ClassicTestSettings() {
+    public TimeTestSettings() {
 
     }
 
-    public ClassicTestSettings(List<Integer> unitIds, int maxRate, Direction direction, boolean caseSensitive) {
+    public TimeTestSettings(List<Integer> unitIds, int maxRate, Direction direction) {
         super(unitIds, maxRate);
         this.direction = direction;
-        this.caseSensitive = caseSensitive;
     }
 
-    public ClassicTestSettings(final Parcel in) {
+    public TimeTestSettings(final Parcel in) {
         super(in);
         direction = (Direction) in.readSerializable();
-        caseSensitive = in.readInt() == 1;
     }
 
     @Override
     public void writeToParcel(final Parcel out, final int flags) {
         super.writeToParcel(out, flags);
         out.writeSerializable(direction);
-        out.writeInt(caseSensitive ? 1 : 0);
     }
 
     public Direction getDirection() {
@@ -43,11 +39,4 @@ public class ClassicTestSettings extends TestSettings {
         this.direction = direction;
     }
 
-    public boolean isCaseSensitive() {
-        return caseSensitive;
-    }
-
-    public void setCaseSensitive(boolean caseSensitive) {
-        this.caseSensitive = caseSensitive;
-    }
 }

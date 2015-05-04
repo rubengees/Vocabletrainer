@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/dialog_vocable_meanings1_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/dialog_vocable_meanings1_add"
+        android:layout_toStartOf="@+id/dialog_vocable_meanings1_add"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:id="@+id/dialog_vocable_meanings2_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_vocable_meanings1_container"
+        android:layout_marginTop="12dp"
+        android:layout_toLeftOf="@+id/dialog_vocable_meanings2_add"
+        android:layout_toStartOf="@+id/dialog_vocable_meanings2_add"
+        android:orientation="vertical" />
+
+    <ImageButton
+        android:id="@+id/dialog_vocable_meanings1_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/dialog_vocable_meanings1_container"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/btn_add" />
+
+    <ImageButton
+        android:id="@+id/dialog_vocable_meanings2_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/dialog_vocable_meanings2_container"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/btn_add" />
+
+    <EditText
+        android:id="@+id/dialog_vocable_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_vocable_meanings2_container"
+        android:layout_marginTop="16dp"
+        android:hint="Hint"
+        android:inputType="textNoSuggestions" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_vocable_hint"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp">
+
+        <Spinner
+            android:id="@+id/dialog_vocable_units"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/dialog_vocable_toggle_unit_input"
+            android:layout_toStartOf="@+id/dialog_vocable_toggle_unit_input" />
+
+        <EditText
+            android:id="@+id/dialog_vocable_unit_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/dialog_vocable_toggle_unit_input"
+            android:layout_toStartOf="@+id/dialog_vocable_toggle_unit_input"
+            android:hint="Unit title"
+            android:inputType="textNoSuggestions" />
+
+        <ImageButton
+            android:id="@+id/dialog_vocable_toggle_unit_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

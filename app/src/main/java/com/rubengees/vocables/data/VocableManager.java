@@ -96,6 +96,17 @@ public class VocableManager {
         }
     }
 
+    public void removeUnit(Unit unit) {
+        List<Vocable> vocables = unit.getVocables();
+
+        unit.clear();
+        vocablesRemoved(unit, vocables);
+    }
+
+    public Unit getUnit(int id) {
+        return units.get(id);
+    }
+
     public List<Unit> getUnitList() {
         return new ArrayList<>(units.values());
     }
