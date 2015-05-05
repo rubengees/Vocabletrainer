@@ -20,11 +20,14 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.mode.Mode;
+import com.rubengees.vocables.dialog.EvaluationDialog;
+import com.rubengees.vocables.dialog.WelcomeDialog;
 import com.rubengees.vocables.fragment.HelpFragment;
 import com.rubengees.vocables.fragment.SettingsFragment;
 import com.rubengees.vocables.fragment.StatisticsFragment;
 import com.rubengees.vocables.fragment.TestSettingsFragment;
 import com.rubengees.vocables.fragment.VocableListFragment;
+import com.rubengees.vocables.utils.PreferenceUtils;
 import com.rubengees.vocables.utils.Utils;
 
 import java.util.ArrayList;
@@ -58,8 +61,18 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         if (savedInstanceState == null) {
             setFragment(VocableListFragment.newInstance(), "Vocablelist");
+
+            showDialog();
         } else {
             styleApplication(savedInstanceState.getString("current_title"), savedInstanceState.getInt("current_color"), savedInstanceState.getInt("current_color_dark"));
+        }
+    }
+
+    private void showDialog() {
+        if (PreferenceUtils.isFirstStart(this)) {
+            WelcomeDialog dialog = WelcomeDialog.newInstance();
+        } else if (!PreferenceUtils.hasEvaluated(this)) {
+            EvaluationDialog dialog = EvaluationDialog.newInstance();
         }
     }
 

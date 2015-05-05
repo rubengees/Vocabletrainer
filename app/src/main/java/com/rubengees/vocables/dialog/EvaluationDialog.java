@@ -13,6 +13,10 @@ public class EvaluationDialog extends DialogFragment {
 
     private EvaluationDialogCallback callback;
 
+    public static EvaluationDialog newInstance() {
+        return new EvaluationDialog();
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
