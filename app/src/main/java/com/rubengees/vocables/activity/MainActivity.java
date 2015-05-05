@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener {
+public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback {
 
     private Toolbar toolbar;
     private ViewGroup toolbarExtension;
@@ -71,8 +71,14 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private void showDialog() {
         if (PreferenceUtils.isFirstStart(this)) {
             WelcomeDialog dialog = WelcomeDialog.newInstance();
+            dialog.setCallback(this);
+
+            dialog.show(getFragmentManager(), "dialog_welcome");
         } else if (!PreferenceUtils.hasEvaluated(this)) {
             EvaluationDialog dialog = EvaluationDialog.newInstance();
+            dialog.setCallback(this);
+
+            dialog.show(getFragmentManager(), "dialog_evaluation");
         }
     }
 
@@ -84,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         core.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -212,5 +217,42 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 setFragment(new SettingsFragment(), "Settings");
                 break;
         }
+    }
+
+    @Override
+    public void onWelcomeDialogClosed(boolean showAds, boolean enableReminder, boolean signIntoPlayGames) {
+        if (showAds) {
+            showAds();
+        }
+
+        if (enableReminder) {
+
+        }
+
+        if (signIntoPlayGames) {
+            core.getConnection().connect();
+        }
+
+        PreferenceUtils.setFirstStarted(this);
+    }
+
+    public void hideAds() {
+
+    }
+
+    public void showAds() {
+
+    }
+
+    @Override
+    public void onEvaluate() {
+        //TODO show Playstore
+
+        PreferenceUtils.setEvaluated(this);
+    }
+
+    @Override
+    public void onEvaluateNot() {
+        PreferenceUtils.setEvaluated(this);
     }
 }

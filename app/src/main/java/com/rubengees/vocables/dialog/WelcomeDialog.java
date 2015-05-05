@@ -2,7 +2,6 @@ package com.rubengees.vocables.dialog;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -30,9 +29,10 @@ public class WelcomeDialog extends DialogFragment {
         final CheckBox reminder = (CheckBox) view.findViewById(R.id.dialog_welcome_reminder);
         final CheckBox playGames = (CheckBox) view.findViewById(R.id.dialog_welcome_play_games);
 
-        builder.title("Welcome!").customView(view, true).positiveText(getActivity().getString(android.R.string.ok)).dismissListener(new DialogInterface.OnDismissListener() {
+        builder.title("Welcome!").customView(view, true).positiveText("Let's go!").callback(new MaterialDialog.ButtonCallback() {
             @Override
-            public void onDismiss(DialogInterface dialog) {
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
                 if (callback != null) {
                     callback.onWelcomeDialogClosed(ads.isChecked(), reminder.isChecked(), playGames.isChecked());
                 }

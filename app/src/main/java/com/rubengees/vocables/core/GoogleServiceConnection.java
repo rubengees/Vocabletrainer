@@ -1,22 +1,20 @@
 package com.rubengees.vocables.core;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
+import com.rubengees.vocables.dialog.GoogleServiceErrorDialog;
 import com.rubengees.vocables.utils.PreferenceUtils;
 
 /**
  * Created by Ruben on 24.04.2015.
  */
-public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleServiceErrorDialog.GoogleServiceErrorDialogCallback {
 
     private static final int REQUEST_RESOLVE_ERROR = 1001;
     private static final String STATE_RESOLVING_ERROR = "resolving_error";
@@ -97,12 +95,10 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
                     mGoogleApiClient.connect();
                 }
             } else {
-                new MaterialDialog.Builder(context).title("Error").content(GooglePlayServicesUtil.getErrorString(result.getErrorCode())).dismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        mResolvingError = false;
-                    }
-                }).build().show();
+                GoogleServiceErrorDialog dialog = GoogleServiceErrorDialog.newInstance(result.getErrorCode(), REQUEST_RESOLVE_ERROR);
+                dialog.setCallback(this);
+
+                dialog.show(context.getFragmentManager(), "google_service_error_dialog");
                 mResolvingError = true;
                 shouldConnect = false;
                 PreferenceUtils.setSignIn(context, false);
@@ -119,6 +115,9 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
                         !mGoogleApiClient.isConnected()) {
                     mGoogleApiClient.connect();
                 }
+            } else {
+                shouldConnect = false;
+                PreferenceUtils.setSignIn(context, false);
             }
         }
     }
@@ -126,5 +125,10 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
     public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(STATE_RESOLVING_ERROR, mResolvingError);
         outState.putBoolean(STATE_SHOULD_CONNECT, shouldConnect);
+    }
+
+    @Override
+    public void onDismiss() {
+        mResolvingError = false;
     }
 }
