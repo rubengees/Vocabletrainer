@@ -111,8 +111,16 @@ public class Vocable implements TrainerItem, Parcelable {
         return firstMeaning;
     }
 
+    public void setFirstMeaning(Meaning firstMeaning) {
+        this.firstMeaning = firstMeaning;
+    }
+
     public Meaning getSecondMeaning() {
         return secondMeaning;
+    }
+
+    public void setSecondMeaning(Meaning secondMeaning) {
+        this.secondMeaning = secondMeaning;
     }
 
     public void processAnswer(boolean correct) {

@@ -1,6 +1,7 @@
 package com.rubengees.vocables.data;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteException;
 
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
@@ -20,7 +21,11 @@ public class VocableManager {
 
     public VocableManager(Context context) {
         db = new Database(context);
-        units = db.getUnits();
+        try {
+            units = db.getUnits();
+        } catch (SQLiteException e) {
+            db.clear();
+        }
     }
 
     public void vocableAdded(Unit unit, Vocable vocable) {
@@ -69,6 +74,10 @@ public class VocableManager {
     }
 
     public void addUnit(Unit unit) {
+        if (unit.isEmpty()) {
+            throw new RuntimeException("A unit cannot be empty!");
+        }
+
         if (unit.getId() == null) {
             Unit sameTitle = null;
 

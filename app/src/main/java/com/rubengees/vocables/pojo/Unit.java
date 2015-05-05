@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Ruben on 24.04.2015.
  */
-public class Unit implements TrainerItem, Parcelable, Iterable {
+public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Comparable<Unit> {
 
     public static final Parcelable.Creator<Unit> CREATOR = new Parcelable.Creator<Unit>() {
 
@@ -164,7 +164,12 @@ public class Unit implements TrainerItem, Parcelable, Iterable {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<Vocable> iterator() {
         return vocables.iterator();
+    }
+
+    @Override
+    public int compareTo(Unit another) {
+        return title.compareTo(another.getTitle());
     }
 }
