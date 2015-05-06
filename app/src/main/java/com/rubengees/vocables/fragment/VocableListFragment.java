@@ -166,10 +166,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                     unitId = ((VocableAdapter) adapter).getUnit().getId();
                 }
 
-                VocableDialog dialog = VocableDialog.newInstance(unitId, null);
-
-                dialog.setCallback(VocableListFragment.this);
-                dialog.show(getFragmentManager(), "vocable_dialog");
+                showVocableDialog(unitId, null);
             }
         });
     }
@@ -227,7 +224,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     @Override
     public void onItemClick(Unit unit, Vocable vocable) {
-        //TODO Show Dialog
+        showVocableDialog(unit.getId(), vocable);
     }
 
     @Override
@@ -256,6 +253,25 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     @Override
     public void onVocableChanged(Unit newUnit, Unit oldUnit, Vocable vocable) {
+        manager.updateVocable(oldUnit, newUnit, vocable);
 
+        if (oldUnit == newUnit) {
+            if (adapter instanceof VocableAdapter) {
+                ((VocableAdapter) adapter).update(vocable);
+            }
+        } else {
+            if (adapter instanceof VocableAdapter) {
+                ((VocableAdapter) adapter).remove(vocable);
+            } else if (adapter instanceof UnitAdapter) {
+                ((UnitAdapter) adapter).add(newUnit);
+            }
+        }
+    }
+
+    private void showVocableDialog(Integer unitId, Vocable vocable) {
+        VocableDialog dialog = VocableDialog.newInstance(unitId, vocable);
+
+        dialog.setCallback(VocableListFragment.this);
+        dialog.show(getFragmentManager(), "vocable_dialog");
     }
 }

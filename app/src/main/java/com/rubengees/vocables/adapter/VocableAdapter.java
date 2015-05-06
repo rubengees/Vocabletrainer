@@ -84,6 +84,10 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
         return list.removeItemAt(pos);
     }
 
+    public void remove(Vocable vocable) {
+        list.remove(vocable);
+    }
+
     @Override
     public void clear() {
         list.beginBatchedUpdates();
@@ -108,9 +112,10 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
     }
 
     @Override
-    public void update(int pos, Vocable item) {
-        list.remove(item);
-        list.add(item);
+    public void update(Vocable item) {
+        //TODO make better
+        list.removeItemAt(list.indexOf(item));
+        int pos = list.add(item);
         list.updateItemAt(pos, item);
     }
 

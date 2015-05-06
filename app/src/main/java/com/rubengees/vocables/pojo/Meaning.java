@@ -78,7 +78,7 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
                 }
             }
 
-            return copy.size() == 0;
+            return copy.size() <= 0;
         } else {
             return false;
         }

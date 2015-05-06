@@ -138,4 +138,18 @@ public class Vocable implements TrainerItem, Parcelable {
     public void setHint(@Nullable String hint) {
         this.hint = hint;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Vocable) {
+            Vocable other = (Vocable) o;
+
+            return other == this || firstMeaning.equals(other.getFirstMeaning()) && secondMeaning.equals(other.getSecondMeaning()) &&
+                    hint.equals(other.getHint()) && lastModificationTime == other.getLastModificationTime() &&
+                    getCorrect() == other.getCorrect() && incorrect == other.getIncorrect();
+
+        } else {
+            return false;
+        }
+    }
 }

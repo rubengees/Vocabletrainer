@@ -101,8 +101,8 @@ public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder
     }
 
     @Override
-    public void update(int pos, Unit item) {
-        list.updateItemAt(pos, item);
+    public void update(Unit item) {
+        list.updateItemAt(list.indexOf(item), item);
     }
 
     @Override

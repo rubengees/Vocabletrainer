@@ -206,20 +206,27 @@ public class VocableDialog extends DialogFragment {
         if (index > -1) {
             units.setSelection(index);
         } else {
+            boolean found = false;
             for (int i = 0; i < adapter.getCount(); i++) {
                 Unit current = adapter.getItem(i);
 
                 if (unit.compareTo(current) > 0) {
                     adapter.insert(unit, i);
                     units.setSelection(i);
+                    found = true;
 
                     break;
                 }
             }
+
+            if (!found) {
+                adapter.add(unit);
+                units.setSelection(adapter.getCount() - 1);
+            }
         }
 
         toggleUnit.setVisibility(View.VISIBLE);
-        setShowUnitInput(true);
+        setShowUnitInput(false);
     }
 
     private void setupButtons() {
@@ -271,12 +278,12 @@ public class VocableDialog extends DialogFragment {
 
         if (unit == null) {
             if (adapter.isEmpty()) {
-                setShowUnitInput(true);
                 toggleUnit.setVisibility(View.GONE);
             } else {
                 units.setSelection(0);
-                setShowUnitInput(false);
             }
+
+            setShowUnitInput(true);
         } else {
             units.setSelection(adapter.getPosition(unit));
             setShowUnitInput(false);

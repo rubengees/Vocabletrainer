@@ -25,7 +25,7 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
 
     public abstract void addAll(List<T> items);
 
-    public abstract void update(int pos, T item);
+    public abstract void update(T item);
 
     public abstract T get(int pos);
 
