@@ -1,7 +1,6 @@
 package com.rubengees.vocables.data;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteException;
 
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
@@ -23,8 +22,9 @@ public class VocableManager {
         db = new Database(context);
         try {
             units = db.getUnits();
-        } catch (SQLiteException e) {
+        } catch (Exception e) {
             db.clear();
+            units = new HashMap<>();
         }
     }
 
@@ -112,8 +112,12 @@ public class VocableManager {
         vocablesRemoved(unit, vocables);
     }
 
-    public Unit getUnit(int id) {
-        return units.get(id);
+    public Unit getUnit(Integer id) {
+        if (id == null) {
+            return null;
+        } else {
+            return units.get(id);
+        }
     }
 
     public List<Unit> getUnitList() {

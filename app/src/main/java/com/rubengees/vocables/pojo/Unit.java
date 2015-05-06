@@ -169,7 +169,12 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
     }
 
     @Override
-    public int compareTo(Unit another) {
+    public int compareTo(@NonNull Unit another) {
         return title.compareTo(another.getTitle());
+    }
+
+    @Override
+    public String toString() {
+        return title;
     }
 }

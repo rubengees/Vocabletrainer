@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.rubengees.vocables.R;
@@ -18,6 +19,7 @@ import com.rubengees.vocables.adapter.VocableAdapter;
 import com.rubengees.vocables.adapter.VocableListAdapter;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.data.VocableManager;
+import com.rubengees.vocables.dialog.VocableDialog;
 import com.rubengees.vocables.enumeration.SortMode;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
@@ -31,7 +33,7 @@ import java.util.List;
  * Use the {@link VocableListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VocableListFragment extends MainFragment implements UnitAdapter.OnItemClickListener, VocableAdapter.OnItemClickListener {
+public class VocableListFragment extends MainFragment implements UnitAdapter.OnItemClickListener, VocableAdapter.OnItemClickListener, VocableDialog.VocableDialogCallback {
 
     private static final String SORT_MODE = "sort_mode";
     private static final String CURRENT_UNIT = "current_unit";
@@ -59,6 +61,12 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
         if (savedInstanceState != null) {
             mode = (SortMode) savedInstanceState.getSerializable(SORT_MODE);
+
+            VocableDialog dialog = (VocableDialog) getFragmentManager().findFragmentByTag("vocable_dialog");
+
+            if (dialog != null) {
+                dialog.setCallback(this);
+            }
         } else {
             mode = SortMode.TITLE;
         }
@@ -152,7 +160,16 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO show Dialog
+                Integer unitId = null;
+
+                if (adapter instanceof VocableAdapter) {
+                    unitId = ((VocableAdapter) adapter).getUnit().getId();
+                }
+
+                VocableDialog dialog = VocableDialog.newInstance(unitId, null);
+
+                dialog.setCallback(VocableListFragment.this);
+                dialog.show(getFragmentManager(), "vocable_dialog");
             }
         });
     }
@@ -170,6 +187,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         recycler.setAdapter(adapter);
         View header = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_vocable_list_header, null);
         ImageButton back = (ImageButton) header.findViewById(R.id.fragment_vocable_list_header_back);
+        TextView title = (TextView) header.findViewById(R.id.fragment_vocable_list_header_title);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,6 +195,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                 setUnitAdapter();
             }
         });
+        title.setText(unit.getTitle());
 
         getMainActivity().setToolbarView(header, getResources().getColor(R.color.primary));
     }
@@ -213,6 +232,30 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     @Override
     public void onInfoClick(Vocable vocable) {
+
+    }
+
+    @Override
+    public void onVocableAdded(Unit unit, Vocable vocable) {
+        unit.add(vocable);
+
+        if (adapter instanceof VocableAdapter) {
+            ((VocableAdapter) adapter).add(vocable);
+        } else if (adapter instanceof UnitAdapter) {
+            if (unit.getId() == null) {
+                ((UnitAdapter) adapter).add(unit);
+            }
+        }
+
+        if (unit.getId() == null) {
+            manager.addUnit(unit);
+        } else {
+            manager.vocableAdded(unit, vocable);
+        }
+    }
+
+    @Override
+    public void onVocableChanged(Unit newUnit, Unit oldUnit, Vocable vocable) {
 
     }
 }

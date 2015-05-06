@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -21,6 +22,7 @@ import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,12 +44,15 @@ public class VocableDialog extends DialogFragment {
     private Spinner units;
     private EditText inputUnit;
     private ImageButton toggleUnit;
+    private ArrayAdapter<Unit> adapter;
 
-    public VocableDialog newInstance(int unitId, Vocable vocable) {
+    public static VocableDialog newInstance(Integer unitId, Vocable vocable) {
         VocableDialog dialog = new VocableDialog();
         Bundle bundle = new Bundle();
 
-        bundle.putInt("unit_id", unitId);
+        if (unitId != null) {
+            bundle.putInt("unit_id", unitId);
+        }
         bundle.putParcelable("vocable", vocable);
         dialog.setArguments(bundle);
 
@@ -62,7 +67,10 @@ public class VocableDialog extends DialogFragment {
 
         if (getArguments() != null) {
             vocable = getArguments().getParcelable("vocable");
-            unit = manager.getUnit(getArguments().getInt("unit_id"));
+
+            if (getArguments().containsKey("unit_id")) {
+                unit = manager.getUnit(getArguments().getInt("unit_id"));
+            }
         }
     }
 
@@ -98,11 +106,11 @@ public class VocableDialog extends DialogFragment {
     private boolean processInput() {
         List<String> firstMeanings = new ArrayList<>();
         List<String> secondMeanings = new ArrayList<>();
-        Meaning firstMeaning = null;
-        Meaning secondMeaning = null;
+        Meaning firstMeaning;
+        Meaning secondMeaning;
         String hint = null;
         String unitTitle;
-        Unit unit = null;
+        Unit unit;
 
         for (int i = 0; i < meaningContainer1.getChildCount(); i++) {
             EditText current = (EditText) meaningContainer1.getChildAt(i);
@@ -150,7 +158,7 @@ public class VocableDialog extends DialogFragment {
                 return false;
             }
         } else {
-            //TODO get unit from spinner
+            unit = adapter.getItem(units.getSelectedItemPosition());
         }
 
         if (vocable == null) {
@@ -186,7 +194,32 @@ public class VocableDialog extends DialogFragment {
             meaningContainer2.removeViewAt(i);
         }
 
-        //TODO set unit
+        EditText meaningInput1 = (EditText) meaningContainer1.getChildAt(0);
+        EditText meaningInput2 = (EditText) meaningContainer2.getChildAt(0);
+
+        meaningInput1.getText().clear();
+        meaningInput2.getText().clear();
+        hint.getText().clear();
+
+        int index = adapter.getPosition(unit);
+
+        if (index > -1) {
+            units.setSelection(index);
+        } else {
+            for (int i = 0; i < adapter.getCount(); i++) {
+                Unit current = adapter.getItem(i);
+
+                if (unit.compareTo(current) > 0) {
+                    adapter.insert(unit, i);
+                    units.setSelection(i);
+
+                    break;
+                }
+            }
+        }
+
+        toggleUnit.setVisibility(View.VISIBLE);
+        setShowUnitInput(true);
     }
 
     private void setupButtons() {
@@ -200,7 +233,7 @@ public class VocableDialog extends DialogFragment {
         addMeaning2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                meaningContainer1.addView(generateInput(null, "Meaning in foreign language"));
+                meaningContainer2.addView(generateInput(null, "Meaning in foreign language"));
             }
         });
 
@@ -219,16 +252,35 @@ public class VocableDialog extends DialogFragment {
     private void setShowUnitInput(boolean show) {
         if (show) {
             units.setVisibility(View.GONE);
+            inputUnit.setVisibility(View.VISIBLE);
             toggleUnit.setImageResource(R.drawable.btn_hide);
         } else {
             units.setVisibility(View.VISIBLE);
+            inputUnit.setVisibility(View.GONE);
             toggleUnit.setImageResource(R.drawable.btn_expand);
         }
     }
 
     private void processUnit() {
-        //TODO populate Spinner
+        List<Unit> unitList = manager.getUnitList();
 
+        Collections.sort(unitList);
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, unitList);
+
+        units.setAdapter(adapter);
+
+        if (unit == null) {
+            if (adapter.isEmpty()) {
+                setShowUnitInput(true);
+                toggleUnit.setVisibility(View.GONE);
+            } else {
+                units.setSelection(0);
+                setShowUnitInput(false);
+            }
+        } else {
+            units.setSelection(adapter.getPosition(unit));
+            setShowUnitInput(false);
+        }
     }
 
     private void processVocable() {
@@ -240,14 +292,12 @@ public class VocableDialog extends DialogFragment {
             for (String s : vocable.getSecondMeaning()) {
                 meaningContainer2.addView(generateInput(s, "Meaning in foreign language"));
             }
+
+            this.hint.setText(vocable.getHint());
         } else {
             meaningContainer1.addView(generateInput(null, "Meaning in your language"));
             meaningContainer2.addView(generateInput(null, "Meaning in foreign language"));
         }
-
-        this.hint.setText(vocable.getHint());
-
-        //TODO set unit
     }
 
     private View inflateView() {
@@ -261,6 +311,9 @@ public class VocableDialog extends DialogFragment {
         units = (Spinner) content.findViewById(R.id.dialog_vocable_units);
         inputUnit = (EditText) content.findViewById(R.id.dialog_vocable_unit_input);
         toggleUnit = (ImageButton) content.findViewById(R.id.dialog_vocable_toggle_unit_input);
+
+        hint.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        inputUnit.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
         return content;
     }

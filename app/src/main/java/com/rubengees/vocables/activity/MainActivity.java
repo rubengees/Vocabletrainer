@@ -65,6 +65,17 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
             showDialog();
         } else {
             styleApplication(savedInstanceState.getString("current_title"), savedInstanceState.getInt("current_color"), savedInstanceState.getInt("current_color_dark"));
+
+            WelcomeDialog welcomeDialog = (WelcomeDialog) getFragmentManager().findFragmentByTag("dialog_welcome");
+            EvaluationDialog evaluationDialog = (EvaluationDialog) getFragmentManager().findFragmentByTag("dialog_evaluation");
+
+            if (welcomeDialog != null) {
+                welcomeDialog.setCallback(this);
+            }
+
+            if (evaluationDialog != null) {
+                evaluationDialog.setCallback(this);
+            }
         }
     }
 
