@@ -17,7 +17,7 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
         this.sortMode = sortMode;
     }
 
-    public abstract void remove(int pos);
+    public abstract T remove(int pos);
 
     public abstract void clear();
 

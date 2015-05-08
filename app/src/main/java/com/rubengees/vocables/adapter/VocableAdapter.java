@@ -1,12 +1,12 @@
 package com.rubengees.vocables.adapter;
 
 import android.support.v7.util.SortedList;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.enumeration.SortMode;
@@ -80,8 +80,8 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
     }
 
     @Override
-    public void remove(int pos) {
-        list.removeItemAt(pos);
+    public Vocable remove(int pos) {
+        return list.removeItemAt(pos);
     }
 
     @Override
@@ -149,14 +149,14 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        AppCompatTextView firstMeaning;
-        AppCompatTextView secondMeaning;
+        TextView firstMeaning;
+        TextView secondMeaning;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            firstMeaning = (AppCompatTextView) itemView.findViewById(R.id.list_item_vocable_first_meaning);
-            secondMeaning = (AppCompatTextView) itemView.findViewById(R.id.list_item_vocable_second_meaning);
+            firstMeaning = (TextView) itemView.findViewById(R.id.list_item_vocable_first_meaning);
+            secondMeaning = (TextView) itemView.findViewById(R.id.list_item_vocable_second_meaning);
             ImageButton icon = (ImageButton) itemView.findViewById(R.id.list_item_vocable_info);
 
             itemView.setOnClickListener(new View.OnClickListener() {

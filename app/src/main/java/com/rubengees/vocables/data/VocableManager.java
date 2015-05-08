@@ -1,7 +1,6 @@
 package com.rubengees.vocables.data;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
@@ -24,109 +23,77 @@ public class VocableManager {
         units = db.getUnits();
     }
 
-    public void addVocable(final Unit unit, final Vocable vocable) {
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                checkUnit(unit);
-                db.addVocable(unit, vocable);
-                return null;
-            }
-        }.execute();
+    public void vocableAdded(Unit unit, Vocable vocable) {
+        db.addVocable(unit, vocable);
     }
 
-    public void addVocables(final Unit unit, final List<Vocable> vocables) {
-        new AsyncTask<Void, Void, Void>() {
+    public void vocablesAdded(Unit unit, List<Vocable> vocables) {
+        db.addVocables(unit, vocables);
+    }
 
-            @Override
-            protected Void doInBackground(Void... params) {
-                checkUnit(unit);
-                db.addVocables(unit, vocables);
-                return null;
+    public void vocableRemoved(Unit unit, Vocable vocable) {
+        if (unit.isEmpty()) {
+            units.remove(unit.getId());
+            db.removeUnit(unit);
+        }
+
+        db.removeVocable(vocable);
+    }
+
+    public void vocablesRemoved(Unit unit, List<Vocable> vocables) {
+        if (unit.isEmpty()) {
+            units.remove(unit.getId());
+            db.removeUnit(unit);
+        }
+
+        db.removeVocables(vocables);
+    }
+
+    public void updateVocable(Unit oldUnit, Unit newUnit, Vocable vocable) {
+        if (oldUnit == newUnit) {
+            db.updateVocable(oldUnit, vocable);
+        } else {
+            oldUnit.remove(vocable);
+            if (oldUnit.isEmpty()) {
+                units.remove(oldUnit.getId());
+                db.removeUnit(oldUnit);
             }
-        }.execute();
+
+            newUnit.add(vocable);
+            vocableAdded(newUnit, vocable);
+        }
+    }
+
+    public void updateVocablesFast(List<Vocable> vocables) {
+        db.updateVocablesFast(vocables);
     }
 
     public void addUnit(Unit unit) {
-        addVocables(unit, unit.getVocables());
-    }
+        if (unit.getId() == null) {
+            Unit sameTitle = null;
 
-    public void updateVocable(final Unit newUnit, final Unit oldUnit, final Vocable vocable) {
-        if (newUnit != oldUnit) {
-            checkUnit(newUnit);
-            newUnit.add(vocable);
-            oldUnit.remove(vocable);
-            if (oldUnit.isEmpty()) {
-                removeUnit(oldUnit);
-            }
-        }
-
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                db.updateVocable(newUnit, vocable);
-                return null;
-            }
-        }.execute();
-    }
-
-    public void updateVocableFast(final Vocable vocable) {
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                db.updateVocableFast(vocable);
-                return null;
-            }
-        }.execute();
-    }
-
-    public void updateUnit(final Unit unit) {
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                db.updateUnit(unit);
-                return null;
-            }
-        }.execute();
-    }
-
-    public void removeVocable(final Unit unit, final Vocable vocable) {
-        if (unit.isEmpty()) {
-            removeUnit(unit);
-        }
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                db.removeVocable(vocable);
-                return null;
-            }
-        }.execute();
-    }
-
-    public void removeUnit(final Unit unit) {
-        final List<Vocable> vocables = unit.getVocables();
-
-        if (!unit.isEmpty()) {
-            unit.clear();
-        }
-        units.remove(unit.getId());
-
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                if (!vocables.isEmpty()) {
-                    db.removeVocables(vocables);
+            for (Unit unit1 : units.values()) {
+                if (unit1.getTitle().equals(unit.getTitle())) {
+                    sameTitle = unit1;
                 }
-                db.removeUnit(unit);
-                return null;
             }
-        }.execute();
+
+            if (sameTitle == null) {
+                db.addUnit(unit);
+                units.put(unit.getId(), unit);
+                vocablesAdded(unit, unit.getVocables());
+            } else {
+                vocablesAdded(sameTitle, unit.getVocables());
+            }
+        } else {
+            vocablesAdded(units.get(unit.getId()), unit.getVocables());
+        }
+    }
+
+    public void addUnits(List<Unit> units) {
+        for (Unit unit : units) {
+            addUnit(unit);
+        }
     }
 
     public List<Unit> getUnitList() {
@@ -139,23 +106,10 @@ public class VocableManager {
 
     public void clear() {
         units.clear();
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                db.clear();
-                return null;
-            }
-        }.execute();
+        db.clear();
     }
 
     public int getCount() {
         return units.size();
-    }
-
-    private void checkUnit(Unit unit) {
-        if (unit.getId() == null || !units.containsKey(unit.getId())) {
-            db.addUnit(unit);
-            units.put(unit.getId(), unit);
-        }
     }
 }

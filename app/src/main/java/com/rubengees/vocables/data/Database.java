@@ -331,13 +331,28 @@ public class Database extends SQLiteOpenHelper {
 
     public final void updateVocableFast(Vocable vocable) {
         SQLiteDatabase db = this.getWritableDatabase();
+        updateVocableFast(db, vocable);
+        db.close();
+    }
+
+    public void updateVocablesFast(List<Vocable> vocables) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        for (Vocable vocable : vocables) {
+            updateVocableFast(vocable);
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+    }
+
+    public void updateVocableFast(SQLiteDatabase db, Vocable vocable) {
         String[] id = new String[]{String.valueOf(vocable.getId())};
         ContentValues vocableValues = new ContentValues(2);
 
         vocableValues.put(COLUMN_VOCABLE_CORRECT, vocable.getCorrect());
         vocableValues.put(COLUMN_VOCABLE_INCORRECT, vocable.getIncorrect());
         db.update(TABLE_VOCABLES, vocableValues, COLUMN_VOCABLE_ID + " = ?", id);
-        db.close();
     }
 
     public final void updateUnit(Unit unit) {

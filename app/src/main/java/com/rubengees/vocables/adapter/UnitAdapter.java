@@ -1,11 +1,11 @@
 package com.rubengees.vocables.adapter;
 
 import android.support.v7.util.SortedList;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.enumeration.SortMode;
@@ -73,8 +73,8 @@ public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder
     }
 
     @Override
-    public void remove(int pos) {
-        list.removeItemAt(pos);
+    public Unit remove(int pos) {
+        return list.removeItemAt(pos);
     }
 
     @Override
@@ -137,12 +137,12 @@ public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        AppCompatTextView title;
+        TextView title;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            title = (AppCompatTextView) itemView.findViewById(R.id.list_item_unit_title);
+            title = (TextView) itemView.findViewById(R.id.list_item_unit_title);
             ImageButton icon = (ImageButton) itemView.findViewById(R.id.list_item_unit_info);
             ImageButton edit = (ImageButton) itemView.findViewById(R.id.list_item_unit_edit);
 
