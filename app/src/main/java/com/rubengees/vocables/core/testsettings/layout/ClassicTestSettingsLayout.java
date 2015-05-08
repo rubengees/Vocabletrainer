@@ -2,26 +2,26 @@ package com.rubengees.vocables.core.testsettings.layout;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioGroup;
 
-import com.rubengees.vocables.core.testsettings.ClassicTestSettings;
+import com.rubengees.vocables.core.testsettings.TestSettings;
 
 /**
  * Created by Ruben on 24.04.2015.
  */
 public class ClassicTestSettingsLayout extends TestSettingsLayout {
 
-    public ClassicTestSettingsLayout(Context context) {
-        super(context);
+    private RadioGroup direction;
+    private RadioGroup rate;
+    private CheckBox allUnits;
+
+    public ClassicTestSettingsLayout(Context context, OnTestSettingsListener listener) {
+        super(context, listener);
     }
 
     @Override
-    public Button getNext() {
-        return null;
-    }
-
-    @Override
-    public ClassicTestSettings generateTestSettings() {
+    protected TestSettings generateSpecificTestSettings() {
         return null;
     }
 

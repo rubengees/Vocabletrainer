@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RadioButton
+        android:id="@+id/fragment_test_settings_rate_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="All Vocables" />
+
+    <RadioButton
+        android:id="@+id/fragment_test_settings_rate_okay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Acceptable Vocables and worse" />
+
+    <RadioButton
+        android:id="@+id/fragment_test_settings_rate_bad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Only error-prone Vocables" />
+</RadioGroup>

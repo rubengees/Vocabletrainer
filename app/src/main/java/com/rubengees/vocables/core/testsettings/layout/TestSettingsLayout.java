@@ -2,7 +2,6 @@ package com.rubengees.vocables.core.testsettings.layout;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 
 import com.rubengees.vocables.core.testsettings.TestSettings;
 
@@ -12,18 +11,34 @@ import com.rubengees.vocables.core.testsettings.TestSettings;
 public abstract class TestSettingsLayout {
 
     private Context context;
+    private OnTestSettingsListener listener;
 
-    protected TestSettingsLayout(Context context) {
+    protected TestSettingsLayout(Context context, OnTestSettingsListener listener) {
         this.context = context;
+        this.listener = listener;
     }
 
     protected Context getContext() {
         return context;
     }
 
-    public abstract Button getNext();
+    public TestSettings generateTestSettings() {
+        TestSettings settings = generateSpecificTestSettings();
 
-    public abstract TestSettings generateTestSettings();
+        return settings;
+    }
+
+    protected abstract TestSettings generateSpecificTestSettings();
 
     public abstract View getLayout();
+
+    protected void finish() {
+        if (listener != null) {
+            listener.onComplete();
+        }
+    }
+
+    public interface OnTestSettingsListener {
+        void onComplete();
+    }
 }
