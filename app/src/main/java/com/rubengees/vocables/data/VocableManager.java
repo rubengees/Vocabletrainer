@@ -55,25 +55,27 @@ public class VocableManager {
     }
 
     public void updateVocable(Unit oldUnit, Unit newUnit, Vocable vocable) {
-        if (oldUnit == newUnit) {
-            db.updateVocable(oldUnit, vocable);
-        } else {
+        if (oldUnit != newUnit) {
             oldUnit.remove(vocable);
+            newUnit.add(vocable);
+            if (!units.containsKey(newUnit.getId())) {
+                units.put(newUnit.getId(), newUnit);
+                db.addUnit(newUnit);
+            }
             if (oldUnit.isEmpty()) {
                 units.remove(oldUnit.getId());
                 db.removeUnit(oldUnit);
             }
-
-            newUnit.add(vocable);
-            vocableAdded(newUnit, vocable);
         }
+
+        db.updateVocable(newUnit, vocable);
     }
 
     public void updateVocablesFast(List<Vocable> vocables) {
         db.updateVocablesFast(vocables);
     }
 
-    public void addUnit(Unit unit) {
+    public boolean addUnit(Unit unit) {
         if (unit.isEmpty()) {
             throw new RuntimeException("A unit cannot be empty!");
         }
@@ -92,11 +94,21 @@ public class VocableManager {
                 units.put(unit.getId(), unit);
                 vocablesAdded(unit, unit.getVocables());
             } else {
+                sameTitle.addAll(unit.getVocables());
                 vocablesAdded(sameTitle, unit.getVocables());
+
+                return true;
             }
         } else {
-            vocablesAdded(units.get(unit.getId()), unit.getVocables());
+            Unit existing = units.get(unit.getId());
+
+            existing.addAll(unit.getVocables());
+            vocablesAdded(existing, unit.getVocables());
+
+            return true;
         }
+
+        return false;
     }
 
     public void addUnits(List<Unit> units) {
@@ -135,5 +147,9 @@ public class VocableManager {
 
     public int getCount() {
         return units.size();
+    }
+
+    public void updateUnit(Unit unit) {
+        db.updateUnit(unit);
     }
 }

@@ -14,13 +14,17 @@ import com.rubengees.vocables.pojo.Unit;
 public class UnitDialog extends DialogFragment {
 
     private Unit unit;
+    private Integer unitPos;
     private UnitDialogCallback callback;
 
-    public static UnitDialog newInstance(int unitId) {
+    public static UnitDialog newInstance(int unitId, Integer pos) {
         UnitDialog dialog = new UnitDialog();
 
         Bundle bundle = new Bundle();
         bundle.putInt("unit_id", unitId);
+        if (pos != null) {
+            bundle.putInt("unit_pos", pos);
+        }
         dialog.setArguments(bundle);
 
         return dialog;
@@ -31,25 +35,28 @@ public class UnitDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
 
         unit = Core.getInstance(getActivity()).getVocableManager().getUnit(getArguments().getInt("unit_id"));
+        if (getArguments().containsKey("unit_pos")) {
+            unitPos = getArguments().getInt("unit_pos");
+        }
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.input("Unit title", unit.getTitle(), false, new MaterialDialog.InputCallback() {
+        builder.title("Modify Unit").input("Unit title", unit.getTitle(), false, new MaterialDialog.InputCallback() {
             @Override
             public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
 
-                unit.setTitle((String) charSequence);
+                unit.setTitle(charSequence.toString());
                 unit.setLastModificationTime(System.currentTimeMillis());
 
                 if (callback != null) {
-                    callback.onUnitChanged(unit);
+                    callback.onUnitChanged(unit, unitPos);
                 }
 
             }
-        });
+        }).negativeText("Cancel");
 
         return builder.build();
     }
@@ -59,6 +66,6 @@ public class UnitDialog extends DialogFragment {
     }
 
     public interface UnitDialogCallback {
-        void onUnitChanged(Unit unit);
+        void onUnitChanged(Unit unit, int pos);
     }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_vocable_list_delete"
+        android:icon="@drawable/ic_action_delete"
+        android:title="Delete all Vocables"
+        app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/action_vocable_list_sort"
+        android:icon="@drawable/ic_action_sort"
+        android:title="Sort"
+        app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/action_vocable_list_import"
+        android:icon="@drawable/ic_action_import"
+        android:title="Import"
+        app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/action_vocable_list_export"
+        android:icon="@drawable/ic_action_export"
+        android:title="Export"
+        app:showAsAction="ifRoom"></item>
+</menu>

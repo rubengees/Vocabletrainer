@@ -139,7 +139,7 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
 
     @Override
     public int compareTo(@NonNull Meaning meaning) {
-        return meanings.toString().compareTo(meaning.getMeanings().toString());
+        return meanings.toString().compareToIgnoreCase(meaning.getMeanings().toString());
     }
 
     @Override

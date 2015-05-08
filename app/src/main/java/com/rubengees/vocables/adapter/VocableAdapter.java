@@ -37,9 +37,12 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
 
                         if (result == 0) {
                             return vocable.getSecondMeaning().compareTo(other.getSecondMeaning());
+                        } else {
+                            return result;
                         }
+
                     case TIME:
-                        return vocable.getLastModificationTime().compareTo(other.getLastModificationTime());
+                        return other.getLastModificationTime().compareTo(vocable.getLastModificationTime());
                     default:
                         return 0;
                 }
@@ -112,16 +115,18 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
     }
 
     @Override
-    public void update(Vocable item) {
-        //TODO make better
-        list.removeItemAt(list.indexOf(item));
-        int pos = list.add(item);
+    public void update(Vocable item, int pos) {
         list.updateItemAt(pos, item);
     }
 
     @Override
     public Vocable get(int pos) {
         return list.get(pos);
+    }
+
+    @Override
+    public void refresh() {
+
     }
 
     public Unit getUnit() {
@@ -147,7 +152,7 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Unit unit, Vocable vocable);
+        void onItemClick(Unit unit, Vocable vocable, int pos);
 
         void onInfoClick(Vocable vocable);
     }
@@ -167,7 +172,7 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onItemClick(unit, list.get(getLayoutPosition()));
+                    listener.onItemClick(unit, list.get(getLayoutPosition()), getLayoutPosition());
                 }
             });
 

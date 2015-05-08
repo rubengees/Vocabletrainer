@@ -141,12 +141,17 @@ public class Vocable implements TrainerItem, Parcelable {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Vocable) {
+        if (o != null && o instanceof Vocable) {
             Vocable other = (Vocable) o;
 
-            return other == this || firstMeaning.equals(other.getFirstMeaning()) && secondMeaning.equals(other.getSecondMeaning()) &&
-                    hint.equals(other.getHint()) && lastModificationTime == other.getLastModificationTime() &&
+            boolean result = other == this || firstMeaning.equals(other.getFirstMeaning()) && secondMeaning.equals(other.getSecondMeaning())
+                    && lastModificationTime == other.getLastModificationTime() &&
                     getCorrect() == other.getCorrect() && incorrect == other.getIncorrect();
+            if (hint != null) {
+                result = hint.equals(other.getHint());
+            }
+
+            return result;
 
         } else {
             return false;

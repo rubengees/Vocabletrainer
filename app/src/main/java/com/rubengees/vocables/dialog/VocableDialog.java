@@ -32,6 +32,7 @@ public class VocableDialog extends DialogFragment {
 
     private Vocable vocable;
     private Unit unit;
+    private int vocablePos;
     private VocableDialogCallback callback;
 
     private VocableManager manager;
@@ -46,7 +47,7 @@ public class VocableDialog extends DialogFragment {
     private ImageButton toggleUnit;
     private ArrayAdapter<Unit> adapter;
 
-    public static VocableDialog newInstance(Integer unitId, Vocable vocable) {
+    public static VocableDialog newInstance(Integer unitId, Vocable vocable, Integer vocablePos) {
         VocableDialog dialog = new VocableDialog();
         Bundle bundle = new Bundle();
 
@@ -54,6 +55,9 @@ public class VocableDialog extends DialogFragment {
             bundle.putInt("unit_id", unitId);
         }
         bundle.putParcelable("vocable", vocable);
+        if (vocablePos != null) {
+            bundle.putInt("vocable_pos", vocablePos);
+        }
         dialog.setArguments(bundle);
 
         return dialog;
@@ -70,6 +74,9 @@ public class VocableDialog extends DialogFragment {
 
             if (getArguments().containsKey("unit_id")) {
                 unit = manager.getUnit(getArguments().getInt("unit_id"));
+            }
+            if (getArguments().containsKey("vocable_pos")) {
+                vocablePos = getArguments().getInt("vocable_pos");
             }
         }
     }
@@ -178,7 +185,7 @@ public class VocableDialog extends DialogFragment {
             vocable.setHint(hint);
 
             if (callback != null) {
-                callback.onVocableChanged(unit, this.unit, vocable);
+                callback.onVocableChanged(unit, this.unit, vocable, vocablePos);
             }
 
             return true;
@@ -347,6 +354,6 @@ public class VocableDialog extends DialogFragment {
     public interface VocableDialogCallback {
         void onVocableAdded(Unit unit, Vocable vocable);
 
-        void onVocableChanged(Unit newUnit, Unit oldUnit, Vocable vocable);
+        void onVocableChanged(Unit newUnit, Unit oldUnit, Vocable vocable, int pos);
     }
 }

@@ -1,5 +1,6 @@
 package com.rubengees.vocables.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
 import com.rubengees.vocables.enumeration.SortMode;
@@ -25,12 +26,18 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
 
     public abstract void addAll(List<T> items);
 
-    public abstract void update(T item);
+    public abstract void update(T item, int pos);
 
     public abstract T get(int pos);
 
+    public abstract void refresh();
+
     public boolean isEmpty(){
         return getItemCount() <= 0;
+    }
+
+    public void setMode(@NonNull SortMode mode) {
+        this.sortMode = mode;
     }
 
     protected SortMode getSortMode(){

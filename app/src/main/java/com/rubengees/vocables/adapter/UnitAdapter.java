@@ -32,7 +32,7 @@ public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder
                     case TITLE:
                         return o1.getTitle().compareToIgnoreCase(o2.getTitle());
                     case TIME:
-                        return o1.getLastModificationTime().compareTo(o2.getLastModificationTime());
+                        return o2.getLastModificationTime().compareTo(o1.getLastModificationTime());
                     default:
                         return 0;
                 }
@@ -101,13 +101,18 @@ public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder
     }
 
     @Override
-    public void update(Unit item) {
-        list.updateItemAt(list.indexOf(item), item);
+    public void update(Unit item, int pos) {
+        list.updateItemAt(pos, item);
     }
 
     @Override
     public Unit get(int pos) {
         return list.get(pos);
+    }
+
+    @Override
+    public void refresh() {
+
     }
 
     @Override
@@ -130,7 +135,7 @@ public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder
     public interface OnItemClickListener {
         void onItemClick(Unit unit);
 
-        void onItemEdit(Unit unit);
+        void onItemEdit(Unit unit, int pos);
 
         void onInfoClick(Unit unit);
     }
@@ -163,7 +168,7 @@ public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onItemEdit(list.get(getLayoutPosition()));
+                    listener.onItemEdit(list.get(getLayoutPosition()), getLayoutPosition());
                 }
             });
         }

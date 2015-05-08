@@ -346,7 +346,7 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void updateVocableFast(SQLiteDatabase db, Vocable vocable) {
+    private void updateVocableFast(SQLiteDatabase db, Vocable vocable) {
         String[] id = new String[]{String.valueOf(vocable.getId())};
         ContentValues vocableValues = new ContentValues(2);
 

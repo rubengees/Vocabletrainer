@@ -98,7 +98,7 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
     }
 
     public List<Vocable> getVocables() {
-        return vocables;
+        return new ArrayList<>(vocables);
     }
 
     public List<Vocable> getVocables(int maxRate) {

@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -19,6 +22,9 @@ import com.rubengees.vocables.adapter.VocableAdapter;
 import com.rubengees.vocables.adapter.VocableListAdapter;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.data.VocableManager;
+import com.rubengees.vocables.dialog.DeleteDialog;
+import com.rubengees.vocables.dialog.SortDialog;
+import com.rubengees.vocables.dialog.UnitDialog;
 import com.rubengees.vocables.dialog.VocableDialog;
 import com.rubengees.vocables.enumeration.SortMode;
 import com.rubengees.vocables.pojo.Unit;
@@ -33,7 +39,7 @@ import java.util.List;
  * Use the {@link VocableListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VocableListFragment extends MainFragment implements UnitAdapter.OnItemClickListener, VocableAdapter.OnItemClickListener, VocableDialog.VocableDialogCallback {
+public class VocableListFragment extends MainFragment implements UnitAdapter.OnItemClickListener, VocableAdapter.OnItemClickListener, VocableDialog.VocableDialogCallback, UnitDialog.UnitDialogCallback, SortDialog.SortDialogCallback, DeleteDialog.DeleteDialogCallback {
 
     private static final String SORT_MODE = "sort_mode";
     private static final String CURRENT_UNIT = "current_unit";
@@ -62,16 +68,62 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         if (savedInstanceState != null) {
             mode = (SortMode) savedInstanceState.getSerializable(SORT_MODE);
 
-            VocableDialog dialog = (VocableDialog) getFragmentManager().findFragmentByTag("vocable_dialog");
+            VocableDialog vocableDialog = (VocableDialog) getFragmentManager().findFragmentByTag("vocable_dialog");
+            UnitDialog unitDialog = (UnitDialog) getFragmentManager().findFragmentByTag("unit_dialog");
+            SortDialog sortDialog = (SortDialog) getFragmentManager().findFragmentByTag("sort_dialog");
+            DeleteDialog deleteDialog = (DeleteDialog) getFragmentManager().findFragmentByTag("delete_dialog");
 
-            if (dialog != null) {
-                dialog.setCallback(this);
+            if (vocableDialog != null) {
+                vocableDialog.setCallback(this);
+            }
+
+            if (unitDialog != null) {
+                unitDialog.setCallback(this);
+            }
+
+            if (sortDialog != null) {
+                sortDialog.setCallback(this);
+            }
+
+            if (deleteDialog != null) {
+                deleteDialog.setCallback(this);
             }
         } else {
             mode = SortMode.TITLE;
         }
 
         manager = Core.getInstance(getActivity()).getVocableManager();
+
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_vocable_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_vocable_list_delete:
+                DeleteDialog deleteDialog = DeleteDialog.newInstance();
+
+                deleteDialog.setCallback(this);
+                deleteDialog.show(getFragmentManager(), "delete_dialog");
+                return true;
+            case R.id.action_vocable_list_export:
+                return true;
+            case R.id.action_vocable_list_import:
+                return true;
+            case R.id.action_vocable_list_sort:
+                SortDialog sortDialog = SortDialog.newInstance(mode);
+
+                sortDialog.setCallback(this);
+                sortDialog.show(getFragmentManager(), "sort_dialog");
+                return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -166,7 +218,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                     unitId = ((VocableAdapter) adapter).getUnit().getId();
                 }
 
-                showVocableDialog(unitId, null);
+                showVocableDialog(unitId, null, null);
             }
         });
     }
@@ -213,8 +265,11 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     @Override
-    public void onItemEdit(Unit unit) {
-        //TODO Show Edit Dialog
+    public void onItemEdit(Unit unit, int pos) {
+        UnitDialog dialog = UnitDialog.newInstance(unit.getId(), pos);
+
+        dialog.setCallback(this);
+        dialog.show(getFragmentManager(), "unit_dialog");
     }
 
     @Override
@@ -223,8 +278,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     @Override
-    public void onItemClick(Unit unit, Vocable vocable) {
-        showVocableDialog(unit.getId(), vocable);
+    public void onItemClick(Unit unit, Vocable vocable, int pos) {
+        showVocableDialog(unit.getId(), vocable, pos);
     }
 
     @Override
@@ -236,28 +291,30 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     public void onVocableAdded(Unit unit, Vocable vocable) {
         unit.add(vocable);
 
+        boolean unitFound;
+        if (manager.getUnit(unit.getId()) == null) {
+            unitFound = manager.addUnit(unit);
+        } else {
+            manager.vocableAdded(unit, vocable);
+            unitFound = true;
+        }
+
         if (adapter instanceof VocableAdapter) {
             ((VocableAdapter) adapter).add(vocable);
         } else if (adapter instanceof UnitAdapter) {
-            if (unit.getId() == null) {
+            if (!unitFound) {
                 ((UnitAdapter) adapter).add(unit);
             }
-        }
-
-        if (unit.getId() == null) {
-            manager.addUnit(unit);
-        } else {
-            manager.vocableAdded(unit, vocable);
         }
     }
 
     @Override
-    public void onVocableChanged(Unit newUnit, Unit oldUnit, Vocable vocable) {
+    public void onVocableChanged(Unit newUnit, Unit oldUnit, Vocable vocable, int pos) {
         manager.updateVocable(oldUnit, newUnit, vocable);
 
         if (oldUnit == newUnit) {
             if (adapter instanceof VocableAdapter) {
-                ((VocableAdapter) adapter).update(vocable);
+                ((VocableAdapter) adapter).update(vocable, pos);
             }
         } else {
             if (adapter instanceof VocableAdapter) {
@@ -268,10 +325,39 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         }
     }
 
-    private void showVocableDialog(Integer unitId, Vocable vocable) {
-        VocableDialog dialog = VocableDialog.newInstance(unitId, vocable);
+    private void showVocableDialog(Integer unitId, Vocable vocable, Integer pos) {
+        VocableDialog dialog = VocableDialog.newInstance(unitId, vocable, pos);
 
         dialog.setCallback(VocableListFragment.this);
         dialog.show(getFragmentManager(), "vocable_dialog");
+    }
+
+    @Override
+    public void onUnitChanged(Unit unit, int pos) {
+        manager.updateUnit(unit);
+
+        if (adapter instanceof UnitAdapter) {
+            ((UnitAdapter) adapter).update(unit, pos);
+        }
+    }
+
+    @Override
+    public void onSort(SortMode mode) {
+        this.mode = mode;
+
+        /* adapter.setMode(mode);
+        adapter.refresh(); */
+
+        if (adapter instanceof UnitAdapter) {
+            setUnitAdapter();
+        } else if (adapter instanceof VocableAdapter) {
+            setVocableAdapter(((VocableAdapter) adapter).getUnit());
+        }
+    }
+
+    @Override
+    public void onDelete() {
+        manager.clear();
+        adapter.clear();
     }
 }
