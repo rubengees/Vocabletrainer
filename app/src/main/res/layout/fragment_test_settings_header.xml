@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <FrameLayout
-        android:id="@+id/fragment_test_settings_header_status_container"
+        android:id="@+id/fragment_test_settings_header_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -16,15 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|top"
-            android:layout_margin="8dp"
+            android:layout_margin="16dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@android:color/white" />
     </FrameLayout>
-
-    <View
-        android:layout_width="72dp"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/fragment_test_settings_header_status_container"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
 </RelativeLayout>

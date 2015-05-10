@@ -3,6 +3,40 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="preferences_ads_off">Ads are disabled. Ads support the development of this App</string>
+    <string name="preferences_ads_on">Ads are enabled. Thank you!</string>
+    <string name="preferences_ads_title">Advertisements</string>
+    <string name="preferences_category_general">General</string>
+    <string name="preferences_reminder_off">You won\'t be reminded</string>
+    <string name="preferences_reminder_on">You will be reminded</string>
+    <string name="preferences_reminder_title">Reminder</string>
+    <string name="preferences_reminder_time_title">Reminder time</string>
+    <string name="preferences_animations_off">Animations won\'t be displayed</string>
+    <string name="preferences_animations_on">Animations will be displayed</string>
+    <string name="preferences_animations_title">Animations in Tests</string>
+    <string name="preferences_category_contact">Contact</string>
+    <string name="preference_mail_summary">Give feedback, suggest or ask something</string>
+    <string name="preference_mail_title">Mail to the developer</string>
+    <string name="preferences_evaluation_summary">Rate this App in the Play Store</string>
+    <string name="preferences_evaluation_title">Evaluation</string>
+    <string name="preferences_developer_summary" translatable="false">Ruben Gees</string>
+    <string name="preferences_developer_title">Developer of this App</string>
+    <string name="preferences_licences_summary">Licences of libraries used in this App</string>
+    <string name="preferences_licences_title">Licences</string>
+    <string name="preferences_reminder_time_morning">In the morning</string>
+    <string name="preferences_reminder_time_noon">At noon</string>
+    <string name="preferences_reminder_time_evening">In the evening</string>
+
+    <string name="help_add_vocables_title">Add Vocables</string>
+    <string name="help_delete_vocables_title">Delete Vocables</string>
+    <string name="help_import_title">Import</string>
+    <string name="help_export_title">Export</string>
+    <string name="help_add_vocables">To add a Vocable go to the Vocablelist and click on the \'+\' button. A dialog will open and you can type in your vocable. If you click on the \'+\' icons on the right of the textboxes another textbox will appear in which you can insert more meanings for your vocable. You can provide a Hint that you can view in the test. In the last step you must select a unit or create a new one. The small arrow on the right allows you to toggle between creating a new one and selecting an existing one.</string>
+    <string name="help_delete_vocables">To delete Vocables you go to the Vocablelist and swipe them away. This is evan possible with whole units. If you made a mistake you can undo the deletion by clicking the undo button at the bottom of the screen. If you want to delete all of your Vocables click the bin icon.</string>
+    <string name="help_import">You can import already prepared lists into Vocabletrainer. To do so go to the vocablelist and select \'import\' from the menu. A filebrowser will open in which you can select your file to import. The file-type must be either xml or csv. If you want to create a list fast at your computer create a text file and save it as csv. Example:\nHello,Greetings;Hallo;English-German\nGoodbye;Tschüss,Auf Wiedersehen;English-German\nThe xml file-type is for the backups of Vocabletrainer; see \'Export\'</string>
+    <string name="help_export">You can make a backup of your vocablelist to share it to other devices or just to save your list. If you want to create a backup go to the vocablelist and select \'export\' from the menu. A filexplorer opens and you can select in which directory the backup file should be saved. if you found a directory click on the save button. The file-type of the backup is xml and you can open it with any text editor.</string>
+
+    <string name="donate_50">Donate 50 Cent</string>
+    <string name="donate_100">Donate 1€</string>
+    <string name="donate_200">Donate 2€</string>
 </resources>

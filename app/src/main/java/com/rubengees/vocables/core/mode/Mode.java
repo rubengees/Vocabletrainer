@@ -5,7 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.rubengees.vocables.core.test.Test;
 import com.rubengees.vocables.core.test.TestResult;
+import com.rubengees.vocables.core.testsettings.layout.TestSettingsLayout;
 
 /**
  * Created by Ruben Gees on 12.02.2015.
@@ -15,13 +17,15 @@ public abstract class Mode implements Parcelable {
     private int played;
     private int correct;
     private int incorrect;
+    private int perfectInRow = 0;
     private int bestTime;
     private int averageTime;
 
-    protected Mode(int played, int correct, int incorrect, int bestTime, int averageTime) {
+    protected Mode(int played, int correct, int incorrect, int perfectInRow, int bestTime, int averageTime) {
         this.played = played;
         this.correct = correct;
         this.incorrect = incorrect;
+        this.perfectInRow = perfectInRow;
         this.bestTime = bestTime;
         this.averageTime = averageTime;
     }
@@ -40,6 +44,7 @@ public abstract class Mode implements Parcelable {
         out.writeInt(played);
         out.writeInt(correct);
         out.writeInt(incorrect);
+        out.writeInt(perfectInRow);
         out.writeInt(bestTime);
         out.writeInt(averageTime);
     }
@@ -48,6 +53,7 @@ public abstract class Mode implements Parcelable {
         played = in.readInt();
         correct = in.readInt();
         incorrect = in.readInt();
+        perfectInRow = in.readInt();
         bestTime = in.readInt();
         averageTime = in.readInt();
     }
@@ -64,6 +70,10 @@ public abstract class Mode implements Parcelable {
         return incorrect;
     }
 
+    public int getPerfectInRow() {
+        return perfectInRow;
+    }
+
     public final int getBestTime() {
         return bestTime;
     }
@@ -76,6 +86,9 @@ public abstract class Mode implements Parcelable {
         played++;
         correct += result.getCorrect();
         incorrect += result.getIncorrect();
+        if (result.getCorrect() >= getMinAmount() && result.getIncorrect() <= 0) {
+            perfectInRow++;
+        }
         int avrgTime = result.getAverageTime();
         if (avrgTime < bestTime) {
             bestTime = avrgTime;
@@ -96,4 +109,8 @@ public abstract class Mode implements Parcelable {
     public abstract String getShortTitle(Context context);
 
     public abstract Drawable getIcon(Context context);
+
+    public abstract TestSettingsLayout getTestSettingsLayout(Context context, TestSettingsLayout.OnTestSettingsListener listener);
+
+    public abstract Test getTest();
 }

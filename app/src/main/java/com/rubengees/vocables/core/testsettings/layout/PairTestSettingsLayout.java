@@ -1,9 +1,10 @@
 package com.rubengees.vocables.core.testsettings.layout;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.RadioGroup;
+import android.view.ViewGroup;
 
 import com.rubengees.vocables.core.testsettings.TestSettings;
 
@@ -12,10 +13,7 @@ import com.rubengees.vocables.core.testsettings.TestSettings;
  */
 public class PairTestSettingsLayout extends TestSettingsLayout {
 
-    private RadioGroup rate;
-    private CheckBox all_units;
-
-    protected PairTestSettingsLayout(Context context, OnTestSettingsListener listener) {
+    public PairTestSettingsLayout(Context context, OnTestSettingsListener listener) {
         super(context, listener);
     }
 
@@ -25,7 +23,7 @@ public class PairTestSettingsLayout extends TestSettingsLayout {
     }
 
     @Override
-    public View getLayout() {
+    public View inflateSpecificLayout(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         return null;
     }
 }

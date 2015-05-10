@@ -5,14 +5,17 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.core.test.Test;
+import com.rubengees.vocables.core.testsettings.layout.PairTestSettingsLayout;
+import com.rubengees.vocables.core.testsettings.layout.TestSettingsLayout;
 
 /**
  * Created by ruben on 28.04.15.
  */
 public class PairMode extends Mode {
 
-    public PairMode(final int played, final int correct, final int incorrect, final int bestTime, final int averageTime) {
-        super(played, correct, incorrect, bestTime, averageTime);
+    public PairMode(int played, int correct, int incorrect, int perfectInRow, int bestTime, int averageTime) {
+        super(played, correct, incorrect, perfectInRow, bestTime, averageTime);
     }
 
     @Override
@@ -48,5 +51,15 @@ public class PairMode extends Mode {
     @Override
     public Drawable getIcon(final Context context) {
         return ContextCompat.getDrawable(context, R.drawable.ic_mode_pair);
+    }
+
+    @Override
+    public TestSettingsLayout getTestSettingsLayout(Context context, TestSettingsLayout.OnTestSettingsListener listener) {
+        return new PairTestSettingsLayout(context, listener);
+    }
+
+    @Override
+    public Test getTest() {
+        return null;
     }
 }

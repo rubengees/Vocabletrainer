@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="pref_ads"
+        android:summaryOff="@string/preferences_ads_off"
+        android:summaryOn="@string/preferences_ads_on"
+        android:title="@string/preferences_ads_title" />
+
+    <PreferenceCategory android:title="@string/preferences_category_general">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_reminder"
+            android:summaryOff="@string/preferences_reminder_off"
+            android:summaryOn="@string/preferences_reminder_on"
+            android:title="@string/preferences_reminder_title" />
+
+        <ListPreference
+            android:defaultValue="13"
+            android:entries="@array/reminder_time_preference_entries"
+            android:entryValues="@array/reminder_time_preference_values"
+            android:key="pref_reminder_time"
+            android:title="@string/preferences_reminder_time_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_animation"
+            android:summaryOff="@string/preferences_animations_off"
+            android:summaryOn="@string/preferences_animations_on"
+            android:title="@string/preferences_animations_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="category_contact"
+        android:title="@string/preferences_category_contact">
+        <Preference
+            android:key="pref_email"
+            android:summary="@string/preference_mail_summary"
+            android:title="@string/preference_mail_title" />
+
+        <Preference
+            android:key="pref_evaluation"
+            android:summary="@string/preferences_evaluation_summary"
+            android:title="@string/preferences_evaluation_title" />
+
+        <Preference
+            android:key="pref_developer"
+            android:summary="@string/preferences_developer_summary"
+            android:title="@string/preferences_developer_title" />
+    </PreferenceCategory>
+
+    <Preference
+        android:key="pref_licences"
+        android:summary="@string/preferences_licences_summary"
+        android:title="@string/preferences_licences_title" />
+
+    <Preference
+        android:key="pref_source"
+        android:summary="View the Source Code at GitHub.com"
+        android:title="Source Code" />
+
+</PreferenceScreen>

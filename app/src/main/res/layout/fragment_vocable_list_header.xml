@@ -18,11 +18,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="4dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/fragment_vocable_list_header_back"
         android:layout_toRightOf="@+id/fragment_vocable_list_header_back"
-        android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/white" />
 

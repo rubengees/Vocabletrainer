@@ -11,10 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.rubengees.vocables.R;
@@ -38,7 +38,9 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
     private Toolbar toolbar;
     private ViewGroup toolbarExtension;
+    private View toolbarExtensionPlaceholder;
     private Drawer.Result drawer;
+    private FloatingActionButton fab;
 
     private Core core;
 
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbarExtension = (ViewGroup) findViewById(R.id.toolbar_extension);
+        toolbarExtensionPlaceholder = findViewById(R.id.toolbar_extension_placeholder);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         core = Core.getInstance(this, savedInstanceState);
 
         setSupportActionBar(toolbar);
@@ -130,12 +134,21 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private ArrayList<IDrawerItem> generateDrawerItems() {
         ArrayList<IDrawerItem> result = new ArrayList<>();
 
-        result.add(new PrimaryDrawerItem().withName("Vocablelist").withIcon(R.drawable.ic_list).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(0));
+        result.add(new PrimaryDrawerItem().withName("Vocablelist").withIcon(R.drawable.ic_list)
+                .withSelectedTextColorRes(R.color.primary)
+                .withSelectedIconColorRes(R.color.primary).withIconTinted(true).withIdentifier(0));
         result.add(new SectionDrawerItem().withName("Modes"));
         result.addAll(generateModeItems());
         result.add(new DividerDrawerItem());
-        result.add(new PrimaryDrawerItem().withName("Statistics").withIcon(R.drawable.ic_stats).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(2));
-        result.add(new PrimaryDrawerItem().withName("Play Games").withIcon(R.drawable.ic_play_games).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(3));
+        result.add(new PrimaryDrawerItem().withName("Statistics").withIcon(R.drawable.ic_stats)
+                .withSelectedTextColorRes(R.color.primary)
+                .withIconTinted(true).withSelectedIconColorRes(R.color.primary).withIdentifier(2));
+
+        PrimaryDrawerItem playGames = new PrimaryDrawerItem().withName("Play Games").withIcon(R.drawable.ic_play_games)
+                .withIconTinted(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(3);
+
+        playGames.setCheckable(false);
+        result.add(playGames);
 
         return result;
     }
@@ -143,9 +156,16 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private ArrayList<IDrawerItem> generateStickyDrawerItems() {
         ArrayList<IDrawerItem> result = new ArrayList<>();
 
-        result.add(new SecondaryDrawerItem().withName("Help").withIcon(R.drawable.ic_help).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(4));
-        result.add(new SecondaryDrawerItem().withName("Donate").withIcon(R.drawable.ic_donate).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(5));
-        result.add(new SecondaryDrawerItem().withName("Settings").withIcon(R.drawable.ic_settings).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(6));
+        PrimaryDrawerItem donate = new PrimaryDrawerItem().withName("Donate").withIcon(R.drawable.ic_donate)
+                .withIconTinted(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(5);
+
+        donate.setCheckable(false);
+        result.add(donate);
+
+        result.add(new PrimaryDrawerItem().withName("Help").withIcon(R.drawable.ic_help).withSelectedTextColorRes(R.color.primary)
+                .withIconTinted(true).withSelectedIconColorRes(R.color.primary).withIdentifier(4));
+        result.add(new PrimaryDrawerItem().withName("Settings").withIcon(R.drawable.ic_settings)
+                .withIconTinted(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(6));
         return result;
     }
 
@@ -156,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
             int color = mode.getColor(this);
 
             result.add(new PrimaryDrawerItem().withName(mode.getTitle(this)).withIcon(mode.getIcon(this))
-                    .withSelectedTextColor(color).withSelectedIconColor(color).withIdentifier(1).withTag(mode));
+                    .withSelectedTextColor(color).withIconTinted(true).withSelectedIconColor(color).withIdentifier(1).withTag(mode));
         }
 
         return result;
@@ -165,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     public void setFragment(Fragment fragment, String title, int color, int darkColor) {
         getFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 
-        setToolbarView(null, 0);
+        setToolbarView(null, 0, false);
         styleApplication(title, color, darkColor);
     }
 
@@ -176,14 +196,37 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         setFragment(fragment, title, color, darkColor);
     }
 
-    public void setToolbarView(@Nullable View view, int color) {
+    public void setToolbarView(@Nullable View view, @Nullable Integer color, boolean showFab) {
 
         toolbarExtension.removeAllViews();
 
+        int colorToUse;
+        if (color == null) {
+            colorToUse = getResources().getColor(R.color.primary);
+        } else {
+            colorToUse = color;
+        }
+
         if (view != null) {
             toolbarExtension.addView(view);
-            toolbarExtension.setBackgroundColor(color);
+            toolbarExtension.setBackgroundColor(colorToUse);
+            toolbarExtensionPlaceholder.setBackgroundColor(colorToUse);
+            toolbarExtension.setVisibility(View.VISIBLE);
+            toolbarExtensionPlaceholder.setVisibility(View.VISIBLE);
+        } else {
+            toolbarExtension.setVisibility(View.GONE);
+            toolbarExtensionPlaceholder.setVisibility(View.GONE);
         }
+
+        if (showFab) {
+            fab.setVisibility(View.VISIBLE);
+        } else {
+            fab.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public FloatingActionButton getFAB() {
+        return fab;
     }
 
     public void styleApplication(String title, int color, int darkColor) {

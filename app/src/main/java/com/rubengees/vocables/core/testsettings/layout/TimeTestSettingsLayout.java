@@ -1,7 +1,10 @@
 package com.rubengees.vocables.core.testsettings.layout;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.rubengees.vocables.core.testsettings.TestSettings;
 
@@ -10,7 +13,7 @@ import com.rubengees.vocables.core.testsettings.TestSettings;
  */
 public class TimeTestSettingsLayout extends TestSettingsLayout {
 
-    protected TimeTestSettingsLayout(Context context, OnTestSettingsListener listener) {
+    public TimeTestSettingsLayout(Context context, OnTestSettingsListener listener) {
         super(context, listener);
     }
 
@@ -20,7 +23,7 @@ public class TimeTestSettingsLayout extends TestSettingsLayout {
     }
 
     @Override
-    public View getLayout() {
+    public View inflateSpecificLayout(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         return null;
     }
 }

@@ -5,14 +5,17 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.core.test.Test;
+import com.rubengees.vocables.core.testsettings.layout.TestSettingsLayout;
+import com.rubengees.vocables.core.testsettings.layout.TimeTestSettingsLayout;
 
 /**
  * Created by ruben on 28.04.15.
  */
 public class TimeMode extends Mode {
 
-    public TimeMode(final int played, final int correct, final int incorrect, final int bestTime, final int averageTime) {
-        super(played, correct, incorrect, bestTime, averageTime);
+    public TimeMode(int played, int correct, int incorrect, int perfectInRow, int bestTime, int averageTime) {
+        super(played, correct, incorrect, perfectInRow, bestTime, averageTime);
     }
 
     @Override
@@ -48,5 +51,15 @@ public class TimeMode extends Mode {
     @Override
     public Drawable getIcon(final Context context) {
         return ContextCompat.getDrawable(context, R.drawable.ic_mode_time);
+    }
+
+    @Override
+    public TestSettingsLayout getTestSettingsLayout(Context context, TestSettingsLayout.OnTestSettingsListener listener) {
+        return new TimeTestSettingsLayout(context, listener);
+    }
+
+    @Override
+    public Test getTest() {
+        return null;
     }
 }

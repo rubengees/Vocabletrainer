@@ -143,7 +143,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         View root = inflater.inflate(R.layout.fragment_vocable_list, container, false);
 
         recycler = (RecyclerView) root.findViewById(R.id.fragment_vocable_list_recycler);
-        fab = (FloatingActionButton) root.findViewById(R.id.fragment_vocable_list_add);
+        fab = (FloatingActionButton) root.findViewById(R.id.fab);
 
         setupRecycler(savedInstanceState);
         setupFAB();
@@ -221,13 +221,15 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                 showVocableDialog(unitId, null, null);
             }
         });
+        fab.setImageResource(R.drawable.ic_add);
+        fab.bringToFront();
     }
 
     private void setUnitAdapter() {
         adapter = new UnitAdapter(manager.getUnitList(), mode, this);
 
         recycler.setAdapter(adapter);
-        getMainActivity().setToolbarView(null, 0);
+        getMainActivity().setToolbarView(null, 0, false);
     }
 
     private void setVocableAdapter(Unit unit) {
@@ -246,7 +248,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         });
         title.setText(unit.getTitle());
 
-        getMainActivity().setToolbarView(header, getResources().getColor(R.color.primary));
+        getMainActivity().setToolbarView(header, getResources().getColor(R.color.primary), false);
     }
 
     private void checkAdapter() {

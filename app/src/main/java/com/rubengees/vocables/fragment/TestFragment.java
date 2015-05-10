@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.rubengees.vocables.R;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TestFragment#newInstance} factory method to
@@ -40,7 +38,6 @@ public class TestFragment extends MainFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         TextView textView = new TextView(getActivity());
-        textView.setText(R.string.hello_blank_fragment);
         return textView;
     }
 

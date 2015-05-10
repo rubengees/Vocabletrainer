@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="reminder_time_preference_entries">
+        <item>@string/preferences_reminder_time_morning</item>
+        <item>@string/preferences_reminder_time_noon</item>
+        <item>@string/preferences_reminder_time_evening</item>
+    </string-array>
+
+    <string-array name="reminder_time_preference_values" translatable="false">
+        <item>9</item>
+        <item>13</item>
+        <item>20</item>
+    </string-array>
+
+    <string-array name="donation_titles">
+        <item>@string/donate_50</item>
+        <item>@string/donate_100</item>
+        <item>@string/donate_200</item>
+    </string-array>
+
+    <string-array name="help_titles">
+        <item>@string/help_add_vocables_title</item>
+        <item>@string/help_delete_vocables_title</item>
+        <item>@string/help_import_title</item>
+        <item>@string/help_export_title</item>
+    </string-array>
+
+    <string-array name="help_texts">
+        <item>@string/help_add_vocables</item>
+        <item>@string/help_delete_vocables</item>
+        <item>@string/help_import</item>
+        <item>@string/help_export</item>
+    </string-array>
+</resources>

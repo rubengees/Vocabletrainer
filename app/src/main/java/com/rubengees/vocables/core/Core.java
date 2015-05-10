@@ -62,8 +62,8 @@ public class Core {
             String s = iter.nextElement();
 
             if (s.contains("com.rubengees.vocables.core.mode") && !(s.substring(s.lastIndexOf(".") + 1, s.length()).equals("Mode"))) {
-                Constructor c = Class.forName(s).getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE);
-                Mode mode = (Mode) c.newInstance(0, 0, 0, 0, 0);
+                Constructor c = Class.forName(s).getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE);
+                Mode mode = (Mode) c.newInstance(0, 0, 0, 0, 0, 0);
 
                 modes.add(mode);
             }
