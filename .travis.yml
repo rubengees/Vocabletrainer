@@ -22,4 +22,5 @@ script:
   - ./gradlew
   
 cache:
-  - $HOME/.gradle/caches/
+  directories:
+    - $HOME/.gradle/caches/
