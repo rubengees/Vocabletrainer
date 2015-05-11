@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.daimajia.androidanimations.library.Techniques;
 import com.melnykov.fab.FloatingActionButton;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -29,6 +31,7 @@ import com.rubengees.vocables.fragment.SettingsFragment;
 import com.rubengees.vocables.fragment.StatisticsFragment;
 import com.rubengees.vocables.fragment.TestSettingsFragment;
 import com.rubengees.vocables.fragment.VocableListFragment;
+import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.PreferenceUtils;
 import com.rubengees.vocables.utils.ReminderUtils;
 import com.rubengees.vocables.utils.Utils;
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private Toolbar toolbar;
     private ViewGroup toolbarExtension;
     private View toolbarExtensionPlaceholder;
+    private View content;
     private Drawer.Result drawer;
     private FloatingActionButton fab;
 
@@ -61,11 +65,12 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbarExtension = (ViewGroup) findViewById(R.id.toolbar_extension);
         toolbarExtensionPlaceholder = findViewById(R.id.toolbar_extension_placeholder);
+        content = findViewById(R.id.content);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         core = Core.getInstance(this, savedInstanceState);
 
+        toolbar.bringToFront();
         setSupportActionBar(toolbar);
-
         generateDrawer(savedInstanceState);
 
         if (savedInstanceState == null) {
@@ -214,27 +219,31 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         return result;
     }
 
-    public void setFragment(Fragment fragment, String title, int color, int darkColor) {
+    public void setFragment(Fragment fragment, String title, int color, int darkColor, boolean hasExtendedToolbar, boolean hasFab) {
+        //TODO rework this
         if (fragment instanceof OnBackPressedListener) {
             onBackPressedListener = (OnBackPressedListener) fragment;
         } else {
             onBackPressedListener = null;
         }
-        getFragmentManager().beginTransaction().replace(R.id.content, fragment).addToBackStack(null).commit();
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content, fragment).commit();
 
         setToolbarView(null, 0, false);
         styleApplication(title, color, darkColor);
     }
 
-    public void setFragment(Fragment fragment, String title) {
+    public void setFragment(Fragment fragment, String title, boolean hasExtendedToolbar, boolean hasFab) {
+        //TODO rework this
         int color = getResources().getColor(R.color.primary);
         int darkColor = getResources().getColor(R.color.primary_dark);
 
-        setFragment(fragment, title, color, darkColor);
+        setFragment(fragment, title, color, darkColor, hasExtendedToolbar, hasFab);
     }
 
-    public void setToolbarView(@Nullable View view, @Nullable Integer color, boolean showFab) {
-
+    public void setToolbarView(@Nullable View view, @Nullable Integer color, final boolean showFab) {
+        //TODO rework this
         toolbarExtension.removeAllViews();
 
         int colorToUse;
@@ -250,13 +259,28 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
             toolbarExtensionPlaceholder.setBackgroundColor(colorToUse);
             toolbarExtension.setVisibility(View.VISIBLE);
             toolbarExtensionPlaceholder.setVisibility(View.VISIBLE);
+
+            fab.setVisibility(View.INVISIBLE);
+            AnimationUtils.animateAndroidFramework(toolbarExtension, R.anim.abc_slide_in_top, 500, null);
+            AnimationUtils.animateAndroidFramework(toolbarExtensionPlaceholder, R.anim.abc_slide_in_top, 500, new AnimationUtils.AnimationEndListener() {
+                @Override
+                public void onAnimationEnd() {
+                    fab.setVisibility(View.VISIBLE);
+                    AnimationUtils.animate(fab, Techniques.Landing, 500, 0, null);
+                }
+            });
+            content.setY(content.getY() - toolbarExtension.getHeight());
+            AnimationUtils.translateY(content, toolbarExtension.getHeight(), 500, new LinearOutSlowInInterpolator(), null);
         } else {
             toolbarExtension.setVisibility(View.GONE);
             toolbarExtensionPlaceholder.setVisibility(View.GONE);
         }
 
         if (showFab) {
-            fab.setVisibility(View.VISIBLE);
+            if (view == null) {
+                fab.setVisibility(View.VISIBLE);
+            }
+            fab.bringToFront();
         } else {
             fab.setVisibility(View.INVISIBLE);
         }

@@ -1,6 +1,9 @@
 package com.rubengees.vocables.fragment;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -9,6 +12,7 @@ import android.preference.PreferenceFragment;
 import android.preference.TwoStatePreference;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.ActionBar;
+import android.view.Display;
 
 import com.mikepenz.aboutlibraries.Libs;
 import com.rubengees.vocables.R;
@@ -140,6 +144,25 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     private MainActivity getMainActivity() {
         return (MainActivity) getActivity();
+    }
+
+    @Override
+    public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        float displayWidth = size.x;
+        Animator animator = null;
+
+        if(enter) {
+            animator = ObjectAnimator.ofFloat(this, "translationX", displayWidth / 4, 0);
+        }
+
+        if(animator != null) {
+            animator.setDuration(500);
+        }
+
+        return animator;
     }
 
 }

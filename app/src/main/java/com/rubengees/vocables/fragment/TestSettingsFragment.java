@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.androidanimations.library.Techniques;
 import com.melnykov.fab.FloatingActionButton;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
@@ -17,7 +16,6 @@ import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.core.testsettings.layout.TestSettingsLayout;
 import com.rubengees.vocables.data.VocableManager;
-import com.rubengees.vocables.utils.AnimationUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,7 +78,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
                 }
             }
         });
-        AnimationUtils.animate(fab, Techniques.Landing, 500, 0, null);
+        // AnimationUtils.animate(fab, Techniques.Landing, 500, 0, null);
 
         View root = layout.inflateLayout(inflater, container, savedInstanceState);
 
