@@ -1,6 +1,5 @@
 # Vocabletrainer
-A free App to learn Vocables
-
+A free App to learn Vocables 
 [![Build Status](https://travis-ci.org/RubenGees/Vocabletrainer.svg?branch=master)](https://travis-ci.org/RubenGees/Vocabletrainer)
 
 The Source Code of this App: https://play.google.com/store/apps/details?id=com.rubengees.vocables
