@@ -1,8 +1,11 @@
 package com.rubengees.vocables.utils;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.view.Window;
 
@@ -74,6 +77,19 @@ public class Utils {
             Window window = activity.getWindow();
             window.setNavigationBarColor(color);
             window.setStatusBarColor(darkColor);
+        }
+    }
+
+    public static void showPlayStorePage(Context context) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+
+            intent.setClassName("com.google.android.apps.plus",
+                    "com.google.android.apps.plus.phone.UrlGatewayActivity");
+            intent.putExtra("customAppUri", "+RubenGeesistDerBoss");
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/" + "+RubenGeesistDerBoss" + "/posts")));
         }
     }
 

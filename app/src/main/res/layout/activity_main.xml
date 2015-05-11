@@ -20,7 +20,8 @@
         android:layout_toLeftOf="@+id/fab"
         android:layout_toStartOf="@+id/fab"
         android:elevation="4dp"
-        android:minHeight="?attr/actionBarSize" />
+        android:minHeight="?attr/actionBarSize"
+        android:visibility="gone" />
 
     <View
         android:id="@+id/toolbar_extension_placeholder"
@@ -30,7 +31,8 @@
         android:layout_below="@+id/toolbar"
         android:layout_toEndOf="@+id/toolbar_extension"
         android:layout_toRightOf="@+id/toolbar_extension"
-        android:elevation="4dp" />
+        android:elevation="4dp"
+        android:visibility="gone" />
 
     <include
         android:id="@+id/fab"

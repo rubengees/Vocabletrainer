@@ -19,7 +19,7 @@ public class PairTestSettingsLayout extends TestSettingsLayout {
 
     @Override
     protected TestSettings generateSpecificTestSettings() {
-        return null;
+        return new TestSettings();
     }
 
     @Override

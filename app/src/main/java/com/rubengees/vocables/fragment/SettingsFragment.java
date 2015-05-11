@@ -1,6 +1,5 @@
 package com.rubengees.vocables.fragment;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +14,7 @@ import com.mikepenz.aboutlibraries.Libs;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.MainActivity;
 import com.rubengees.vocables.utils.ReminderUtils;
+import com.rubengees.vocables.utils.Utils;
 
 /**
  * Created by Ruben on 24.04.2015.
@@ -121,17 +121,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
             return true;
         } else if (preference == developer) {
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-
-                intent.setClassName("com.google.android.apps.plus",
-                        "com.google.android.apps.plus.phone.UrlGatewayActivity");
-                intent.putExtra("customAppUri", "+RubenGeesistDerBoss");
-                startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/" + "+RubenGeesistDerBoss" + "/posts")));
-            }
-
+            Utils.showPlayStorePage(getActivity());
             return true;
         } else if (preference == licences) {
             new Libs.Builder().withAboutIconShown(true).withAboutVersionShownName(true).withAnimations(true)

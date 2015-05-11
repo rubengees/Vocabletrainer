@@ -92,7 +92,7 @@ public abstract class TestSettingsLayout {
         allUnits = (CheckBox) root.findViewById(R.id.fragment_test_settings_all_units);
         units = (FlowLayout) root.findViewById(R.id.fragment_test_settings_units);
 
-        specificContainer.addView(inflateSpecificLayout(inflater, viewGroup, savedInstanceState));
+        inflateSpecificLayout(inflater, specificContainer, savedInstanceState);
 
         for (int i = 0; i < rate.getChildCount(); i++) {
             View radioButton = rate.getChildAt(i);
@@ -200,7 +200,7 @@ public abstract class TestSettingsLayout {
         savedInstanceState.putInt("checked_unit_amount", checkedUnitAmount);
     }
 
-    public abstract View inflateSpecificLayout(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState);
+    public abstract View inflateSpecificLayout(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState);
 
     public interface OnTestSettingsListener {
         void onChange(TestSettings settings);

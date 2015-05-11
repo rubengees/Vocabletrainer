@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
 import com.melnykov.fab.FloatingActionButton;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.adapter.UnitAdapter;
@@ -29,6 +30,7 @@ import com.rubengees.vocables.dialog.VocableDialog;
 import com.rubengees.vocables.enumeration.SortMode;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
+import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.SwipeToDismissTouchListener;
 import com.rubengees.vocables.utils.Utils;
 
@@ -223,6 +225,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         });
         fab.setImageResource(R.drawable.ic_add);
         fab.bringToFront();
+        AnimationUtils.animate(fab, Techniques.Landing, 500, 0, null);
     }
 
     private void setUnitAdapter() {

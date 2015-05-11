@@ -28,6 +28,7 @@ import com.rubengees.vocables.fragment.StatisticsFragment;
 import com.rubengees.vocables.fragment.TestSettingsFragment;
 import com.rubengees.vocables.fragment.VocableListFragment;
 import com.rubengees.vocables.utils.PreferenceUtils;
+import com.rubengees.vocables.utils.ReminderUtils;
 import com.rubengees.vocables.utils.Utils;
 
 import java.util.ArrayList;
@@ -280,7 +281,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         }
 
         if (enableReminder) {
-
+            PreferenceUtils.setReminder(this, true);
+            ReminderUtils.setReminder(this);
         }
 
         if (signIntoPlayGames) {
@@ -300,8 +302,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
     @Override
     public void onEvaluate() {
-        //TODO show Playstore
-
+        Utils.showPlayStorePage(this);
         PreferenceUtils.setEvaluated(this);
     }
 

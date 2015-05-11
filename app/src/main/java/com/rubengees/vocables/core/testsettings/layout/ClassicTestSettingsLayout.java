@@ -49,10 +49,10 @@ public class ClassicTestSettingsLayout extends TestSettingsLayout {
     }
 
     @Override
-    public View inflateSpecificLayout(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_test_settings_classic, viewGroup, false);
+    public View inflateSpecificLayout(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_test_settings_classic, parent, true);
 
-        direction = (RadioGroup) root.findViewById(R.id.fragment_test_settings_classic_direction);
+        direction = (RadioGroup) root.findViewById(R.id.fragment_test_settings_direction);
         caseSensitive = (CheckBox) root.findViewById(R.id.fragment_test_settings_classic_case_sensitive);
 
         for (int i = 0; i < direction.getChildCount(); i++) {
