@@ -139,7 +139,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                     .withAboutDescription("A free and Opensource App to learn Vocables").withActivityTitle("Libraries")
                     .withFields(R.string.class.getFields()).withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR).start(getActivity());
         } else if (preference == source) {
-            Uri webpage = Uri.parse("https://github.com/RubyDerBoss/Vocabletrainer");
+            Uri webpage = Uri.parse("https://github.com/RubenGees/Vocabletrainer");
             Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
             if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                 startActivity(intent);
