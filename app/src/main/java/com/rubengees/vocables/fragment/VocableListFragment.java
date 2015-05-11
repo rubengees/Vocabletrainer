@@ -265,6 +265,16 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     @Override
+    public boolean onBackPressed() {
+        if (adapter instanceof VocableAdapter) {
+            setUnitAdapter();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
     public void onItemClick(Unit unit) {
         setVocableAdapter(unit);
     }

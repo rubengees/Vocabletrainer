@@ -9,7 +9,7 @@ import com.rubengees.vocables.activity.MainActivity;
 /**
  * Created by ruben on 01.05.15.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements MainActivity.OnBackPressedListener {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -24,5 +24,10 @@ public class MainFragment extends Fragment {
 
     protected MainActivity getMainActivity() {
         return (MainActivity) getActivity();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return true;
     }
 }

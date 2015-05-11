@@ -1,6 +1,7 @@
 package com.rubengees.vocables.activity;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private int currentColor;
     private int currentColorDark;
 
+    private OnBackPressedListener onBackPressedListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,10 +72,11 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
             showDialog();
         } else {
+            FragmentManager manager = getFragmentManager();
             styleApplication(savedInstanceState.getString("current_title"), savedInstanceState.getInt("current_color"), savedInstanceState.getInt("current_color_dark"));
 
-            WelcomeDialog welcomeDialog = (WelcomeDialog) getFragmentManager().findFragmentByTag("dialog_welcome");
-            EvaluationDialog evaluationDialog = (EvaluationDialog) getFragmentManager().findFragmentByTag("dialog_evaluation");
+            WelcomeDialog welcomeDialog = (WelcomeDialog) manager.findFragmentByTag("dialog_welcome");
+            EvaluationDialog evaluationDialog = (EvaluationDialog) manager.findFragmentByTag("dialog_evaluation");
 
             if (welcomeDialog != null) {
                 welcomeDialog.setCallback(this);
@@ -80,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
             if (evaluationDialog != null) {
                 evaluationDialog.setCallback(this);
+            }
+
+            Fragment current = manager.findFragmentById(manager.getBackStackEntryAt(0).getId());
+            if (current != null && current instanceof OnBackPressedListener) {
+                onBackPressedListener = (OnBackPressedListener) current;
             }
         }
     }
@@ -124,6 +133,21 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     protected void onStart() {
         super.onStart();
         core.onStart();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen()) {
+            drawer.closeDrawer();
+        } else {
+            if (onBackPressedListener != null && onBackPressedListener.onBackPressed()) {
+                if (onBackPressedListener instanceof VocableListFragment) {
+                    super.onBackPressed();
+                } else {
+                    drawer.setSelection(0);
+                }
+            }
+        }
     }
 
     private void generateDrawer(Bundle savedInstanceState) {
@@ -184,6 +208,12 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     }
 
     public void setFragment(Fragment fragment, String title, int color, int darkColor) {
+        if (fragment instanceof OnBackPressedListener) {
+            onBackPressedListener = (OnBackPressedListener) fragment;
+        } else {
+            onBackPressedListener = null;
+        }
+
         getFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 
         setToolbarView(null, 0, false);
@@ -309,5 +339,16 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     @Override
     public void onEvaluateNot() {
         PreferenceUtils.setEvaluated(this);
+    }
+
+    public interface OnBackPressedListener {
+
+        /**
+         * Callback called if the Back Button is pressed.
+         * Fragments that extend MainFragment can/should override this Method.
+         *
+         * @return true if the App can be closed, false otherwise
+         */
+        boolean onBackPressed();
     }
 }
