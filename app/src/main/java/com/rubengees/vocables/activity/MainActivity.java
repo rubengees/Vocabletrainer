@@ -220,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         } else {
             onBackPressedListener = null;
         }
-        getFragmentManager().popBackStack();
         getFragmentManager().beginTransaction().replace(R.id.content, fragment).addToBackStack(null).commit();
 
         setToolbarView(null, 0, false);
