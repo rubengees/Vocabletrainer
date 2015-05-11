@@ -43,6 +43,12 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
         } else {
             shouldConnect = PreferenceUtils.shouldSignIn(context);
         }
+
+        GoogleServiceErrorDialog dialog = (GoogleServiceErrorDialog) context.getFragmentManager().findFragmentByTag("google_service_error_dialog");
+
+        if (dialog != null) {
+            dialog.setCallback(this);
+        }
     }
 
     public boolean isConnected() {
@@ -124,6 +130,9 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
                     mGoogleApiClient.connect();
                 }
             } else {
+                GoogleServiceErrorDialog.newInstance("An unknown error occurred. Check your network connection. If this error occurs repeatedly please notify the developer")
+                        .show(context.getFragmentManager(), "google_service_error_dialog");
+
                 shouldConnect = false;
                 PreferenceUtils.setSignIn(context, false);
             }

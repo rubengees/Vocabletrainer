@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 /**
@@ -12,8 +13,9 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
  */
 public class GoogleServiceErrorDialog extends DialogFragment {
 
-    private int errorCode;
-    private int requestCode;
+    private Integer errorCode;
+    private Integer requestCode;
+    private String errorText;
 
     private GoogleServiceErrorDialogCallback callback;
 
@@ -27,27 +29,45 @@ public class GoogleServiceErrorDialog extends DialogFragment {
         return dialog;
     }
 
+    public static GoogleServiceErrorDialog newInstance(String errorText) {
+        GoogleServiceErrorDialog dialog = new GoogleServiceErrorDialog();
+        Bundle bundle = new Bundle();
+
+        bundle.putString("error_text", errorText);
+        dialog.setArguments(bundle);
+        return dialog;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        errorCode = getArguments().getInt("error_code");
-        requestCode = getArguments().getInt("request_code");
+        if (getArguments().containsKey("error_code")) {
+            errorCode = getArguments().getInt("error_code");
+        }
+
+        if (getArguments().containsKey("request_code")) {
+            requestCode = getArguments().getInt("request_code");
+        }
+
+        errorText = getArguments().getString("error_text");
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog result = GooglePlayServicesUtil.getErrorDialog(errorCode, getActivity(), requestCode);
-        result.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if (callback != null) {
-                    callback.onDismiss();
-                }
-            }
-        });
+        if (errorText == null) {
+            return GooglePlayServicesUtil.getErrorDialog(errorCode, getActivity(), requestCode);
+        } else {
+            return new MaterialDialog.Builder(getActivity())
+                    .content(errorText).build();
+        }
+    }
 
-        return result;
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        if (callback != null) {
+            callback.onDismiss();
+        }
     }
 
     public void setCallback(GoogleServiceErrorDialogCallback callback) {
