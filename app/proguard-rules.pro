@@ -15,3 +15,9 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keep public class * extends com.rubengees.vocables.core.mode.Mode { *; }
+
+-keepclassmembers class * extends com.rubengees.vocables.core.mode.Mode { *; }
+
+-keep class com.daimajia.** { *; }

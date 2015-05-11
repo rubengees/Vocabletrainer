@@ -22,6 +22,7 @@ import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.dialog.EvaluationDialog;
+import com.rubengees.vocables.dialog.PlayGamesDialog;
 import com.rubengees.vocables.dialog.WelcomeDialog;
 import com.rubengees.vocables.fragment.HelpFragment;
 import com.rubengees.vocables.fragment.SettingsFragment;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback {
+public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback {
 
     private Toolbar toolbar;
     private ViewGroup toolbarExtension;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
             WelcomeDialog welcomeDialog = (WelcomeDialog) manager.findFragmentByTag("dialog_welcome");
             EvaluationDialog evaluationDialog = (EvaluationDialog) manager.findFragmentByTag("dialog_evaluation");
+            PlayGamesDialog playGamesDialog = (PlayGamesDialog) manager.findFragmentByTag("dialog_play_games");
 
             if (welcomeDialog != null) {
                 welcomeDialog.setCallback(this);
@@ -84,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
             if (evaluationDialog != null) {
                 evaluationDialog.setCallback(this);
+            }
+
+            if (playGamesDialog != null) {
+                playGamesDialog.setCallback(this);
             }
 
             Fragment current = manager.findFragmentById(manager.getBackStackEntryAt(0).getId());
@@ -292,6 +298,10 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 setFragment(StatisticsFragment.newInstance(), "Statistics");
                 break;
             case 3:
+                PlayGamesDialog dialog = PlayGamesDialog.newInstance();
+
+                dialog.setCallback(this);
+                dialog.show(getFragmentManager(), "dialog_play_games");
                 break;
             case 4:
                 setFragment(HelpFragment.newInstance(), "Help");
@@ -339,6 +349,21 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     @Override
     public void onEvaluateNot() {
         PreferenceUtils.setEvaluated(this);
+    }
+
+    @Override
+    public void onSignIn() {
+        core.getConnection().connect();
+    }
+
+    @Override
+    public void onSignOut() {
+        core.getConnection().disconnect();
+    }
+
+    @Override
+    public void onShowAchievements() {
+        core.getConnection().showAchievements();
     }
 
     public interface OnBackPressedListener {

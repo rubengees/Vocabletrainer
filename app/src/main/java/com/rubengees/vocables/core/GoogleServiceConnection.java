@@ -17,6 +17,7 @@ import com.rubengees.vocables.utils.PreferenceUtils;
 public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleServiceErrorDialog.GoogleServiceErrorDialogCallback {
 
     private static final int REQUEST_RESOLVE_ERROR = 1001;
+    private static final int REQUEST_ACHIEVEMENTS = 1002;
     private static final String STATE_RESOLVING_ERROR = "resolving_error";
     private static final String STATE_SHOULD_CONNECT = "should_connect";
     private GoogleApiClient mGoogleApiClient;
@@ -61,7 +62,14 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
         shouldConnect = false;
         PreferenceUtils.setSignIn(context, false);
 
-        Games.signOut(mGoogleApiClient);
+        if (mGoogleApiClient.isConnected()) {
+            Games.signOut(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    public void showAchievements() {
+        context.startActivityForResult(Games.Achievements.getAchievementsIntent(mGoogleApiClient), REQUEST_ACHIEVEMENTS);
     }
 
     public void onStart() {
