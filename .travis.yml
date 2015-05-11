@@ -20,3 +20,6 @@ android:
 
 script:
   - ./gradlew
+  
+cache:
+  - $HOME/.gradle/caches/
