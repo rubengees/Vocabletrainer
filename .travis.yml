@@ -23,3 +23,11 @@ script:
   
 before_install:
  - chmod +x gradlew
+ 
+ cache:
+  directories:
+  - $HOME/.gradle/wrapper
+  - $HOME/.gradle/native
+  - $HOME/.gradle/daemon
+  - $HOME/.gradle/caches/jars-1
+  - $HOME/.gradle/caches/2.3
