@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 playGamesDialog.setCallback(this);
             }
 
-            Fragment current = manager.findFragmentById(manager.getBackStackEntryAt(0).getId());
+            Fragment current = manager.findFragmentById(R.id.content);
+
             if (current != null && current instanceof OnBackPressedListener) {
                 onBackPressedListener = (OnBackPressedListener) current;
             }
@@ -219,8 +220,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         } else {
             onBackPressedListener = null;
         }
-
-        getFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
+        getFragmentManager().popBackStack();
+        getFragmentManager().beginTransaction().replace(R.id.content, fragment).addToBackStack(null).commit();
 
         setToolbarView(null, 0, false);
         styleApplication(title, color, darkColor);
