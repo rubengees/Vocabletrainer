@@ -65,7 +65,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
         View header = inflater.inflate(R.layout.fragment_test_settings_header, container, false);
         status = (TextView) header.findViewById(R.id.fragment_test_settings_header_status);
 
-        getMainActivity().setToolbarView(header, mode.getColor(getActivity()), true);
+        getMainActivity().setToolbarView(header);
         FloatingActionButton fab = getMainActivity().getFAB();
         fab.setImageResource(R.drawable.ic_next);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +78,6 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
                 }
             }
         });
-        // AnimationUtils.animate(fab, Techniques.Landing, 500, 0, null);
 
         View root = layout.inflateLayout(inflater, container, savedInstanceState);
 

@@ -23,7 +23,7 @@ import com.rubengees.vocables.utils.Utils;
 /**
  * Created by Ruben on 24.04.2015.
  */
-public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
+public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener, MainActivity.OnBackPressedListener {
 
     private Preference ads, reminder, email, evaluation, developer, licences, source;
     private ListPreference reminderTime;
@@ -165,4 +165,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         return animator;
     }
 
+    @Override
+    public boolean onBackPressed() {
+        return true;
+    }
 }

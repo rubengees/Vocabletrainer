@@ -1,12 +1,11 @@
 package com.rubengees.vocables.utils;
 
-import android.os.Build;
+import android.animation.ObjectAnimator;
 import android.support.annotation.AnimRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 
@@ -19,38 +18,38 @@ import com.nineoldandroids.animation.Animator;
  */
 public class AnimationUtils {
 
-    public static void translateY(View view, int y, int duration, Interpolator interpolator, @Nullable final AnimationEndListener listener) {
-        ViewPropertyAnimator animator = view.animate().translationYBy(y).setDuration(duration).setInterpolator(interpolator);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            animator.withLayer();
-        }
-        animator.setListener(new android.animation.Animator.AnimatorListener() {
+    public static void translateY(View view, int from, int to, int duration, Interpolator interpolator, @Nullable final AnimationEndListener listener) {
+        ObjectAnimator.ofFloat(view, "translationY", from).setDuration(0).start();
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationY", to).setDuration(duration);
+
+        animator.setInterpolator(interpolator);
+        animator.addListener(new android.animation.Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(android.animation.Animator animator) {
+            public void onAnimationStart(android.animation.Animator animation) {
 
             }
 
             @Override
-            public void onAnimationEnd(android.animation.Animator animator) {
-                if(listener != null){
+            public void onAnimationEnd(android.animation.Animator animation) {
+                if (listener != null) {
                     listener.onAnimationEnd();
                 }
             }
 
             @Override
-            public void onAnimationCancel(android.animation.Animator animator) {
+            public void onAnimationCancel(android.animation.Animator animation) {
 
             }
 
             @Override
-            public void onAnimationRepeat(android.animation.Animator animator) {
+            public void onAnimationRepeat(android.animation.Animator animation) {
 
             }
         });
         animator.start();
     }
 
-    public static void animateAndroidFramework(@NonNull final View view, @AnimRes int anim, int duration, @Nullable final AnimationEndListener listener){
+    public static void animateAndroidFramework(@NonNull final View view, @AnimRes int anim, int duration, @Nullable final AnimationEndListener listener) {
         Animation animation = android.view.animation.AnimationUtils.loadAnimation(view.getContext(), anim);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -60,7 +59,7 @@ public class AnimationUtils {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if(listener != null){
+                if (listener != null) {
                     listener.onAnimationEnd();
                 }
             }

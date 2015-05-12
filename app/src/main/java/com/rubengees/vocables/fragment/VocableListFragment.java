@@ -49,6 +49,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     private RecyclerView recycler;
     private FloatingActionButton fab;
     private GridLayoutManager layoutManager;
+    private View header;
+    private TextView unitTitle;
 
     private VocableListAdapter adapter;
     private VocableManager manager;
@@ -147,6 +149,17 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         recycler = (RecyclerView) root.findViewById(R.id.fragment_vocable_list_recycler);
         fab = (FloatingActionButton) root.findViewById(R.id.fab);
 
+        header = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_vocable_list_header, null);
+        ImageButton back = (ImageButton) header.findViewById(R.id.fragment_vocable_list_header_back);
+        unitTitle = (TextView) header.findViewById(R.id.fragment_vocable_list_header_title);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setUnitAdapter();
+            }
+        });
+
         setupRecycler(savedInstanceState);
         setupFAB();
 
@@ -229,29 +242,22 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     private void setUnitAdapter() {
+        getMainActivity().managerToolbarExtension(getResources().getColor(R.color.primary), false, false);
+        getMainActivity().setToolbarView(null);
+
         adapter = new UnitAdapter(manager.getUnitList(), mode, this);
 
         recycler.setAdapter(adapter);
-        getMainActivity().setToolbarView(null, 0, false);
     }
 
     private void setVocableAdapter(Unit unit) {
+        getMainActivity().managerToolbarExtension(getResources().getColor(R.color.primary), true, false);
+        getMainActivity().setToolbarView(header);
+
         adapter = new VocableAdapter(unit, mode, this);
 
         recycler.setAdapter(adapter);
-        View header = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_vocable_list_header, null);
-        ImageButton back = (ImageButton) header.findViewById(R.id.fragment_vocable_list_header_back);
-        TextView title = (TextView) header.findViewById(R.id.fragment_vocable_list_header_title);
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setUnitAdapter();
-            }
-        });
-        title.setText(unit.getTitle());
-
-        getMainActivity().setToolbarView(header, getResources().getColor(R.color.primary), false);
+        unitTitle.setText(unit.getTitle());
     }
 
     private void checkAdapter() {

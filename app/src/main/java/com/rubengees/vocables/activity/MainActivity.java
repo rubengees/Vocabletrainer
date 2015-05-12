@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private Toolbar toolbar;
     private ViewGroup toolbarExtension;
     private View toolbarExtensionPlaceholder;
-    private View content;
     private Drawer.Result drawer;
     private FloatingActionButton fab;
 
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbarExtension = (ViewGroup) findViewById(R.id.toolbar_extension);
         toolbarExtensionPlaceholder = findViewById(R.id.toolbar_extension_placeholder);
-        content = findViewById(R.id.content);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         core = Core.getInstance(this, savedInstanceState);
 
@@ -74,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         generateDrawer(savedInstanceState);
 
         if (savedInstanceState == null) {
-            setFragment(VocableListFragment.newInstance(), "Vocablelist");
+            setFragment(VocableListFragment.newInstance(), "Vocablelist", false, false);
 
             showDialog();
         } else {
@@ -220,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     }
 
     public void setFragment(Fragment fragment, String title, int color, int darkColor, boolean hasExtendedToolbar, boolean hasFab) {
-        //TODO rework this
         if (fragment instanceof OnBackPressedListener) {
             onBackPressedListener = (OnBackPressedListener) fragment;
         } else {
@@ -230,22 +227,18 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         getFragmentManager().beginTransaction()
                 .replace(R.id.content, fragment).commit();
 
-        setToolbarView(null, 0, false);
+        managerToolbarExtension(color, hasExtendedToolbar, hasFab);
         styleApplication(title, color, darkColor);
     }
 
     public void setFragment(Fragment fragment, String title, boolean hasExtendedToolbar, boolean hasFab) {
-        //TODO rework this
         int color = getResources().getColor(R.color.primary);
         int darkColor = getResources().getColor(R.color.primary_dark);
 
         setFragment(fragment, title, color, darkColor, hasExtendedToolbar, hasFab);
     }
 
-    public void setToolbarView(@Nullable View view, @Nullable Integer color, final boolean showFab) {
-        //TODO rework this
-        toolbarExtension.removeAllViews();
-
+    public void managerToolbarExtension(@Nullable final Integer color, final boolean showToolbar, final boolean showFab) {
         int colorToUse;
         if (color == null) {
             colorToUse = getResources().getColor(R.color.primary);
@@ -253,36 +246,54 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
             colorToUse = color;
         }
 
+        toolbarExtension.setBackgroundColor(colorToUse);
+        toolbarExtensionPlaceholder.setBackgroundColor(colorToUse);
+
+        if (showToolbar) {
+            if (toolbarExtension.getVisibility() == View.VISIBLE) {
+                if (showFab) {
+                    fab.setVisibility(View.VISIBLE);
+                } else {
+                    fab.setVisibility(View.INVISIBLE);
+                }
+            } else {
+
+                toolbarExtension.setVisibility(View.VISIBLE);
+                toolbarExtensionPlaceholder.setVisibility(View.VISIBLE);
+                AnimationUtils.translateY(toolbarExtension, -toolbarExtension.getHeight(), 0, 500, new LinearOutSlowInInterpolator(), null);
+                AnimationUtils.translateY(toolbarExtensionPlaceholder, -toolbarExtensionPlaceholder.getHeight(), 0, 500, new LinearOutSlowInInterpolator(), new AnimationUtils.AnimationEndListener() {
+                    @Override
+                    public void onAnimationEnd() {
+                        if (showFab) {
+                            fab.setVisibility(View.VISIBLE);
+                            AnimationUtils.animate(fab, Techniques.Landing, 500, 0, null);
+                        }
+                    }
+                });
+
+            }
+        } else {
+            if (toolbarExtension.getVisibility() == View.VISIBLE) {
+                AnimationUtils.translateY(toolbarExtension, 0, -toolbarExtension.getHeight(), 500, new LinearOutSlowInInterpolator(), null);
+                AnimationUtils.translateY(toolbarExtensionPlaceholder, 0, -toolbarExtensionPlaceholder.getHeight(), 500, new LinearOutSlowInInterpolator(), new AnimationUtils.AnimationEndListener() {
+                    @Override
+                    public void onAnimationEnd() {
+                        toolbarExtension.setVisibility(View.GONE);
+                        toolbarExtensionPlaceholder.setVisibility(View.GONE);
+                    }
+                });
+            } else {
+
+            }
+
+            fab.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void setToolbarView(@Nullable View view) {
+        toolbarExtension.removeAllViews();
         if (view != null) {
             toolbarExtension.addView(view);
-            toolbarExtension.setBackgroundColor(colorToUse);
-            toolbarExtensionPlaceholder.setBackgroundColor(colorToUse);
-            toolbarExtension.setVisibility(View.VISIBLE);
-            toolbarExtensionPlaceholder.setVisibility(View.VISIBLE);
-
-            fab.setVisibility(View.INVISIBLE);
-            AnimationUtils.animateAndroidFramework(toolbarExtension, R.anim.abc_slide_in_top, 500, null);
-            AnimationUtils.animateAndroidFramework(toolbarExtensionPlaceholder, R.anim.abc_slide_in_top, 500, new AnimationUtils.AnimationEndListener() {
-                @Override
-                public void onAnimationEnd() {
-                    fab.setVisibility(View.VISIBLE);
-                    AnimationUtils.animate(fab, Techniques.Landing, 500, 0, null);
-                }
-            });
-            content.setY(content.getY() - toolbarExtension.getHeight());
-            AnimationUtils.translateY(content, toolbarExtension.getHeight(), 500, new LinearOutSlowInInterpolator(), null);
-        } else {
-            toolbarExtension.setVisibility(View.GONE);
-            toolbarExtensionPlaceholder.setVisibility(View.GONE);
-        }
-
-        if (showFab) {
-            if (view == null) {
-                fab.setVisibility(View.VISIBLE);
-            }
-            fab.bringToFront();
-        } else {
-            fab.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -311,15 +322,15 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         switch (drawerItem.getIdentifier()) {
             case 0:
-                setFragment(VocableListFragment.newInstance(), "Vocablelist");
+                setFragment(VocableListFragment.newInstance(), "Vocablelist", false, false);
                 break;
             case 1:
                 Mode mode = (Mode) drawerItem.getTag();
 
-                setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(this), mode.getColor(this), mode.getDarkColor(this));
+                setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(this), mode.getColor(this), mode.getDarkColor(this), true, true);
                 break;
             case 2:
-                setFragment(StatisticsFragment.newInstance(), "Statistics");
+                setFragment(StatisticsFragment.newInstance(), "Statistics", false, false);
                 break;
             case 3:
                 PlayGamesDialog dialog = PlayGamesDialog.newInstance();
@@ -328,12 +339,12 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 dialog.show(getFragmentManager(), "dialog_play_games");
                 break;
             case 4:
-                setFragment(HelpFragment.newInstance(), "Help");
+                setFragment(HelpFragment.newInstance(), "Help", false, false);
                 break;
             case 5:
                 break;
             case 6:
-                setFragment(new SettingsFragment(), "Settings");
+                setFragment(new SettingsFragment(), "Settings", false, false);
                 break;
         }
     }
