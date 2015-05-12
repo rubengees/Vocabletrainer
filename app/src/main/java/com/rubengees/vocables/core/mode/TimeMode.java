@@ -2,6 +2,8 @@ package com.rubengees.vocables.core.mode;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 
 import com.rubengees.vocables.R;
@@ -14,8 +16,25 @@ import com.rubengees.vocables.core.testsettings.layout.TimeTestSettingsLayout;
  */
 public class TimeMode extends Mode {
 
-    public TimeMode(int played, int correct, int incorrect, int perfectInRow, int bestTime, int averageTime) {
-        super(played, correct, incorrect, perfectInRow, bestTime, averageTime);
+
+    public static final Parcelable.Creator<TimeMode> CREATOR = new Parcelable.Creator<TimeMode>() {
+
+        public TimeMode createFromParcel(Parcel in) {
+            return new TimeMode(in);
+        }
+
+        public TimeMode[] newArray(int size) {
+            return new TimeMode[size];
+        }
+
+    };
+
+    protected TimeMode(Parcel in) {
+        super(in);
+    }
+
+    public TimeMode(ModeData data) {
+        super(data);
     }
 
     @Override

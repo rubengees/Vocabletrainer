@@ -14,20 +14,10 @@ import com.rubengees.vocables.core.testsettings.layout.TestSettingsLayout;
  */
 public abstract class Mode implements Parcelable {
 
-    private int played;
-    private int correct;
-    private int incorrect;
-    private int perfectInRow = 0;
-    private int bestTime;
-    private int averageTime;
+    private ModeData data;
 
-    protected Mode(int played, int correct, int incorrect, int perfectInRow, int bestTime, int averageTime) {
-        this.played = played;
-        this.correct = correct;
-        this.incorrect = incorrect;
-        this.perfectInRow = perfectInRow;
-        this.bestTime = bestTime;
-        this.averageTime = averageTime;
+    public Mode(ModeData data) {
+        this.data = data;
     }
 
     protected Mode(Parcel in) {
@@ -41,59 +31,54 @@ public abstract class Mode implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(played);
-        out.writeInt(correct);
-        out.writeInt(incorrect);
-        out.writeInt(perfectInRow);
-        out.writeInt(bestTime);
-        out.writeInt(averageTime);
+
     }
 
     private void readFromParcel(Parcel in) {
-        played = in.readInt();
-        correct = in.readInt();
-        incorrect = in.readInt();
-        perfectInRow = in.readInt();
-        bestTime = in.readInt();
-        averageTime = in.readInt();
+
+    }
+
+    public final int getId() {
+        return data.getId();
     }
 
     public final int getPlayed() {
-        return played;
+        return data.getPlayed();
     }
 
     public final int getCorrect() {
-        return correct;
+        return data.getCorrect();
     }
 
     public final int getIncorrect() {
-        return incorrect;
+        return data.getIncorrect();
     }
 
     public int getPerfectInRow() {
-        return perfectInRow;
+        return data.getPerfectInRow();
     }
 
     public final int getBestTime() {
-        return bestTime;
+        return data.getBestTime();
     }
 
     public final int getAverageTime() {
-        return averageTime;
+        return data.getAverageTime();
     }
 
     public final void processResult(TestResult result) {
-        played++;
-        correct += result.getCorrect();
-        incorrect += result.getIncorrect();
+        data.setPlayed(data.getPlayed() + 1);
+        data.setCorrect(data.getCorrect() + result.getCorrect());
+        data.setIncorrect(data.getIncorrect() + result.getIncorrect());
         if (result.getCorrect() >= getMinAmount() && result.getIncorrect() <= 0) {
-            perfectInRow++;
+            data.setPerfectInRow(data.getPerfectInRow() + 1);
         }
         int avrgTime = result.getAverageTime();
-        if (avrgTime < bestTime) {
-            bestTime = avrgTime;
+        if (avrgTime < data.getBestTime()) {
+            data.setBestTime(avrgTime);
         }
-        averageTime = (averageTime * (played - 1) + avrgTime) / played;
+        int played = data.getPlayed();
+        data.setAverageTime((data.getAverageTime() * (played - 1) + avrgTime) / played);
     }
 
     public abstract int getColor(Context context);

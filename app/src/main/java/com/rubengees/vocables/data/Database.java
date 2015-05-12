@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.pojo.Meaning;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
@@ -26,16 +27,19 @@ public class Database extends SQLiteOpenHelper {
     private static final String TABLE_UNIT_VOCABLE = "unit_vocable";
     private static final String TABLE_MEANINGS1 = "meanings1";
     private static final String TABLE_MEANINGS2 = "meanings2";
+    private static final String TABLE_MODES = "modes";
     private static final String COLUMN_VOCABLE_ID = "vocable_id";
     private static final String COLUMN_VOCABLE_CORRECT = "vocable_correct";
     private static final String COLUMN_VOCABLE_INCORRECT = "vocable_answered";
     private static final String COLUMN_VOCABLE_HINT = "vocable_hint";
     private static final String COLUMN_VOCABLE_CREATION_TIME = "vocable_creation_time";
-    private static final String CREATE_TABLE_VOCABLES = "create table " + TABLE_VOCABLES + " ( " + COLUMN_VOCABLE_ID + " integer primary key autoincrement, " + COLUMN_VOCABLE_CORRECT + " integer, " + COLUMN_VOCABLE_INCORRECT + " integer, " + COLUMN_VOCABLE_HINT + " text, " + COLUMN_VOCABLE_CREATION_TIME + " long);";
+    private static final String CREATE_TABLE_VOCABLES = "create table " + TABLE_VOCABLES + " ( " + COLUMN_VOCABLE_ID + " integer primary key autoincrement, " +
+            COLUMN_VOCABLE_CORRECT + " integer, " + COLUMN_VOCABLE_INCORRECT + " integer, " + COLUMN_VOCABLE_HINT + " text, " + COLUMN_VOCABLE_CREATION_TIME + " long);";
     private static final String COLUMN_UNIT_ID = "unit_id";
     private static final String COLUMN_UNIT_TITLE = "unit_title";
     private static final String COLUMN_UNIT_CREATION_TIME = "unit_creation_time";
-    private static final String CREATE_TABLE_UNITS = "create table " + TABLE_UNITS + " ( " + COLUMN_UNIT_ID + " integer primary key autoincrement, " + COLUMN_UNIT_TITLE + " text, " + COLUMN_UNIT_CREATION_TIME + " long);";
+    private static final String CREATE_TABLE_UNITS = "create table " + TABLE_UNITS + " ( " + COLUMN_UNIT_ID + " integer primary key autoincrement, " + COLUMN_UNIT_TITLE +
+            " text, " + COLUMN_UNIT_CREATION_TIME + " long);";
     private static final String COLUMN_UNIT_VOCABLE_U_ID = "unit_id";
     private static final String COLUMN_UNIT_VOCABLE_V_ID = "vocable_id";
     private static final String CREATE_TABLE_UNIT_VOCABLE = "create table " + TABLE_UNIT_VOCABLE + " ( " + COLUMN_UNIT_VOCABLE_U_ID + " integer, " + COLUMN_UNIT_VOCABLE_V_ID + " integer);";
@@ -45,6 +49,16 @@ public class Database extends SQLiteOpenHelper {
     private static final String COLUMN_MEANING2_ID = "meaning2_id";
     private static final String COLUMN_MEANING2_MEANING = "meaning2_data";
     private static final String CREATE_TABLE_MEANINGS2 = "create table " + TABLE_MEANINGS2 + " ( " + COLUMN_MEANING2_ID + " integer, " + COLUMN_MEANING2_MEANING + " text);";
+    private static final String COLUMN_MODE_ID = "mode_id";
+    private static final String COLUMN_MODE_PLAYED = "mode_played";
+    private static final String COLUMN_MODE_CORRECT = "mode_correct";
+    private static final String COLUMN_MODE_INCORRECT = "mode_incorrect";
+    private static final String COLUMN_MODE_PERFECT_IN_ROW = "mode_perfect_in_row";
+    private static final String COLUMN_MODE_BEST_TIME = "mode_best_time";
+    private static final String COLUMN_MODE_AVERAGE_TIME = "mode_average_time";
+    private static final String CREATE_TABLE_MODES = "create table " + TABLE_MODES + " ( " + COLUMN_MODE_ID + " integer, " + COLUMN_MODE_PLAYED + " integer, " + COLUMN_MODE_CORRECT + " integer, " +
+            COLUMN_MODE_INCORRECT + " integer, " + COLUMN_MODE_PERFECT_IN_ROW + " integer, " + COLUMN_MODE_BEST_TIME + " integer, " + COLUMN_MODE_AVERAGE_TIME + " integer);";
+
 
     public Database(Context context) {
         super(context, DATABASE, null, VERSION);
@@ -57,6 +71,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_UNIT_VOCABLE);
         db.execSQL(CREATE_TABLE_MEANINGS1);
         db.execSQL(CREATE_TABLE_MEANINGS2);
+        db.execSQL(CREATE_TABLE_MODES);
     }
 
     @Override
@@ -99,7 +114,7 @@ public class Database extends SQLiteOpenHelper {
                     if (oldVersion <= 2) {
                         correct = cursor.getInt(4);
                         incorrect = cursor.getInt(3) - correct;
-                    }else{
+                    } else {
                         correct = cursor.getInt(2);
                         incorrect = cursor.getInt(1) - correct;
                     }
@@ -145,6 +160,7 @@ public class Database extends SQLiteOpenHelper {
             db.execSQL(CREATE_TABLE_UNIT_VOCABLE);
             db.execSQL(CREATE_TABLE_MEANINGS1);
             db.execSQL(CREATE_TABLE_MEANINGS2);
+            db.execSQL(CREATE_TABLE_MODES);
 
             List<Unit> units = new ArrayList<>();
 
@@ -379,7 +395,6 @@ public class Database extends SQLiteOpenHelper {
 
     public final HashMap<Integer, Unit> getUnits() {
         HashMap<Integer, Unit> result = new HashMap<>();
-
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor units = db.query(TABLE_UNITS, null, null, null, null, null, null);
@@ -412,6 +427,21 @@ public class Database extends SQLiteOpenHelper {
             unitVocable.close();
             meanings1.close();
             meanings2.close();
+        }
+
+        return result;
+    }
+
+    public final List<Mode> getModes() {
+        List<Mode> result = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor modes = db.query(TABLE_UNITS, null, null, null, null, null, null);
+
+        if (modes.moveToFirst()) {
+            do {
+
+            } while (modes.moveToNext());
         }
 
         return result;

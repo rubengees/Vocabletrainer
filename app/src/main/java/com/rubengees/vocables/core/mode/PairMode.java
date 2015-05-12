@@ -2,6 +2,8 @@ package com.rubengees.vocables.core.mode;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 
 import com.rubengees.vocables.R;
@@ -14,8 +16,26 @@ import com.rubengees.vocables.core.testsettings.layout.TestSettingsLayout;
  */
 public class PairMode extends Mode {
 
-    public PairMode(int played, int correct, int incorrect, int perfectInRow, int bestTime, int averageTime) {
-        super(played, correct, incorrect, perfectInRow, bestTime, averageTime);
+
+    public static final Parcelable.Creator<PairMode> CREATOR = new Parcelable.Creator<
+            PairMode>() {
+
+        public PairMode createFromParcel(Parcel in) {
+            return new PairMode(in);
+        }
+
+        public PairMode[] newArray(int size) {
+            return new PairMode[size];
+        }
+
+    };
+
+    protected PairMode(Parcel in) {
+        super(in);
+    }
+
+    public PairMode(ModeData data) {
+        super(data);
     }
 
     @Override

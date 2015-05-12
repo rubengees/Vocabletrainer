@@ -2,6 +2,8 @@ package com.rubengees.vocables.core.mode;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 
 import com.rubengees.vocables.R;
@@ -14,8 +16,25 @@ import com.rubengees.vocables.core.testsettings.layout.TestSettingsLayout;
  */
 public class ClassicMode extends Mode {
 
-    public ClassicMode(int played, int correct, int incorrect, int perfectInRow, int bestTime, int averageTime) {
-        super(played, correct, incorrect, perfectInRow, bestTime, averageTime);
+
+    public static final Parcelable.Creator<ClassicMode> CREATOR = new Parcelable.Creator<ClassicMode>() {
+
+        public ClassicMode createFromParcel(Parcel in) {
+            return new ClassicMode(in);
+        }
+
+        public ClassicMode[] newArray(int size) {
+            return new ClassicMode[size];
+        }
+
+    };
+
+    public ClassicMode(Parcel in) {
+        super(in);
+    }
+
+    public ClassicMode(ModeData data) {
+        super(data);
     }
 
     @Override

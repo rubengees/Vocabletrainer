@@ -40,6 +40,10 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f63ce66379581f9e21504cb73d75b1702ae7db86" />
     </application>
 
 </manifest>
