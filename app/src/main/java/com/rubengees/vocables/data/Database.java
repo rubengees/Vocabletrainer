@@ -7,11 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.rubengees.vocables.core.mode.Mode;
+import com.rubengees.vocables.core.mode.ModeData;
 import com.rubengees.vocables.pojo.Meaning;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -432,19 +434,58 @@ public class Database extends SQLiteOpenHelper {
         return result;
     }
 
-    public final List<Mode> getModes() {
-        List<Mode> result = new ArrayList<>();
+    public final HashMap<Integer, ModeData> getModes() {
+        HashMap<Integer, ModeData> result = new HashMap<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor modes = db.query(TABLE_UNITS, null, null, null, null, null, null);
 
         if (modes.moveToFirst()) {
             do {
+                ModeData data = new ModeData(modes.getInt(0), modes.getInt(1), modes.getInt(2), modes.getInt(3), modes.getInt(4), modes.getInt(5), modes.getInt(6));
 
+                result.put(data.getId(), data);
             } while (modes.moveToNext());
         }
 
+        modes.close();
+
         return result;
+    }
+
+    public final void update(Collection<Mode> modes) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        for (Mode mode : modes) {
+            update(mode);
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+    }
+
+    public final void update(Mode mode) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        update(db, mode);
+        db.close();
+    }
+
+    private void update(SQLiteDatabase db, Mode mode) {
+        ContentValues values = new ContentValues(7);
+
+        values.put(COLUMN_MODE_ID, mode.getId());
+        values.put(COLUMN_MODE_PLAYED, mode.getPlayed());
+        values.put(COLUMN_MODE_CORRECT, mode.getCorrect());
+        values.put(COLUMN_MODE_INCORRECT, mode.getIncorrect());
+        values.put(COLUMN_MODE_PERFECT_IN_ROW, mode.getPerfectInRow());
+        values.put(COLUMN_MODE_BEST_TIME, mode.getBestTime());
+        values.put(COLUMN_MODE_AVERAGE_TIME, mode.getAverageTime());
+
+        int rowsAffected = db.update(TABLE_MODES, values, COLUMN_MODE_ID + " = ?", new String[]{String.valueOf(mode.getId())});
+
+        if (rowsAffected < 1) {
+            db.insert(TABLE_MODES, null, values);
+        }
     }
 
     private HashMap<Integer, Unit> getUnitMap(Cursor cursor) {

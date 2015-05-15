@@ -4,18 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.rubengees.vocables.core.mode.ClassicMode;
 import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.core.mode.ModeData;
+import com.rubengees.vocables.core.mode.PairMode;
+import com.rubengees.vocables.core.mode.TimeMode;
+import com.rubengees.vocables.data.Database;
 import com.rubengees.vocables.data.VocableManager;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
-
-import dalvik.system.DexFile;
 
 /**
  * Created by Ruben on 24.04.2015.
@@ -33,11 +32,7 @@ public class Core {
         this.connection = new GoogleServiceConnection(context, savedInstanceState);
         this.vocableManager = new VocableManager(context);
         modes = new ArrayList<>(3);
-        try {
-            generateModes();
-        } catch (IOException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        generateModes();
     }
 
     public static Core getInstance(Activity context, Bundle savedInstanceState) {
@@ -56,19 +51,32 @@ public class Core {
         return ourInstance;
     }
 
-    private void generateModes() throws IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        DexFile df = new DexFile(context.getPackageCodePath());
+    private void generateModes() {
+        HashMap<Integer, ModeData> data = new Database(context).getModes();
 
-        for (Enumeration<String> iter = df.entries(); iter.hasMoreElements(); ) {
-            String s = iter.nextElement();
-
-            if (s.contains("com.rubengees.vocables.core.mode") && !(s.substring(s.lastIndexOf(".") + 1, s.length()).equals("Mode"))) {
-                Constructor c = Class.forName(s).getConstructor(ModeData.class);
-                Mode mode = (Mode) c.newInstance(new ModeData(0, 0, 0, 0, 0, 0, 0));
-
-                modes.add(mode);
-            }
+        if (data.containsKey(0)) {
+            modes.add(new ClassicMode(data.get(0)));
+        } else {
+            modes.add(new ClassicMode(new ModeData(0, 0, 0, 0, 0, 0, 0)));
         }
+
+        if (data.containsKey(1)) {
+            modes.add(new PairMode(data.get(1)));
+        } else {
+            modes.add(new PairMode(new ModeData(0, 0, 0, 0, 0, 0, 0)));
+        }
+
+        if (data.containsKey(2)) {
+            modes.add(new TimeMode(data.get(2)));
+        } else {
+            modes.add(new TimeMode(new ModeData(0, 0, 0, 0, 0, 0, 0)));
+        }
+    }
+
+    public void saveMode(Mode mode) {
+        Database db = new Database(context);
+
+        db.update(mode);
     }
 
     public List<Mode> getModes() {
