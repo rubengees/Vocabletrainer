@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(this), mode.getColor(this), mode.getDarkColor(this), true, true);
                 break;
             case 2:
-                setFragment(StatisticsFragment.newInstance(), "Statistics", false, false);
+                setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModes()), "Statistics", false, false);
                 break;
             case 3:
                 PlayGamesDialog dialog = PlayGamesDialog.newInstance();

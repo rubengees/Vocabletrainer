@@ -9,6 +9,9 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
 
+    <color name="red">#F44336</color>
+    <color name="green">#4CAF50</color>
+
     <color name="classic_mode">#03A9F4</color>
     <color name="classic_mode_dark">#0288D1</color>
     <color name="pair_mode">#673AB7</color>

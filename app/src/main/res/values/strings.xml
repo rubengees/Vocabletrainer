@@ -39,4 +39,11 @@
     <string name="donate_50">Donate 50 Cent</string>
     <string name="donate_100">Donate 1€</string>
     <string name="donate_200">Donate 2€</string>
+
+    <string name="chart_answer_correct">Correct</string>
+    <string name="chart_answer_incorrect">Incorrect</string>
+    <string name="chart_time_best">Best</string>
+    <string name="chart_time_average">Average</string>
+
+    <string name="item_stat_general_title">General</string>
 </resources>

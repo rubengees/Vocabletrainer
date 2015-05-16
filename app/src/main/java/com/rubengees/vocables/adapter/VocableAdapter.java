@@ -2,7 +2,6 @@ package com.rubengees.vocables.adapter;
 
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -135,7 +134,7 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_vocable, null));
+        return new ViewHolder(View.inflate(viewGroup.getContext(), R.layout.list_item_vocable, null));
     }
 
     @Override
