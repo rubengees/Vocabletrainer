@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
+import com.rubengees.vocables.R;
 import com.rubengees.vocables.dialog.GoogleServiceErrorDialog;
 import com.rubengees.vocables.utils.PreferenceUtils;
 
@@ -33,6 +34,7 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
                 .addScope(Games.SCOPE_GAMES)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
+                .setViewForPopups(context.findViewById(R.id.content))
                 .build();
 
         this.context = context;
@@ -90,7 +92,6 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
 
     @Override
     public void onConnected(Bundle bundle) {
-
     }
 
     @Override
@@ -133,8 +134,7 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
                 GoogleServiceErrorDialog.newInstance("An unknown error occurred. Check your network connection. If this error occurs repeatedly please notify the developer")
                         .show(context.getFragmentManager(), "google_service_error_dialog");
 
-                shouldConnect = false;
-                PreferenceUtils.setSignIn(context, false);
+                disconnect();
             }
         }
     }

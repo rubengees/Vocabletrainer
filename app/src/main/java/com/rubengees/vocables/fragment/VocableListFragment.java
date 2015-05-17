@@ -242,8 +242,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     private void setUnitAdapter() {
-        getMainActivity().managerToolbarExtension(getResources().getColor(R.color.primary), false, false);
         getMainActivity().setToolbarView(null);
+        getMainActivity().managerToolbarExtension(getResources().getColor(R.color.primary), false, false);
 
         adapter = new UnitAdapter(manager.getUnitList(), mode, this);
 
@@ -251,8 +251,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     private void setVocableAdapter(Unit unit) {
-        getMainActivity().managerToolbarExtension(getResources().getColor(R.color.primary), true, false);
         getMainActivity().setToolbarView(header);
+        getMainActivity().managerToolbarExtension(getResources().getColor(R.color.primary), true, false);
 
         adapter = new VocableAdapter(unit, mode, this);
 

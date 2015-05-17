@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private void generateDrawer(Bundle savedInstanceState) {
         drawer = new Drawer().withActivity(this).withToolbar(toolbar)
                 .withDrawerItems(generateDrawerItems()).withSavedInstance(savedInstanceState).withStickyDrawerItems(generateStickyDrawerItems())
-                .withOnDrawerItemClickListener(this).withActionBarDrawerToggleAnimated(true).build();
+                .withOnDrawerItemClickListener(this).withShowDrawerOnFirstLaunch(true).withActionBarDrawerToggleAnimated(true).build();
     }
 
     private ArrayList<IDrawerItem> generateDrawerItems() {
@@ -175,16 +175,16 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         result.add(new PrimaryDrawerItem().withName("Vocablelist").withIcon(R.drawable.ic_list)
                 .withSelectedTextColorRes(R.color.primary)
-                .withSelectedIconColorRes(R.color.primary).withIconTinted(true).withIdentifier(0));
+                .withSelectedIconColorRes(R.color.primary).withIconTintingEnabled(true).withIdentifier(0));
         result.add(new SectionDrawerItem().withName("Modes"));
         result.addAll(generateModeItems());
         result.add(new DividerDrawerItem());
         result.add(new PrimaryDrawerItem().withName("Statistics").withIcon(R.drawable.ic_stats)
                 .withSelectedTextColorRes(R.color.primary)
-                .withIconTinted(true).withSelectedIconColorRes(R.color.primary).withIdentifier(2));
+                .withIconTintingEnabled(true).withSelectedIconColorRes(R.color.primary).withIdentifier(2));
 
         PrimaryDrawerItem playGames = new PrimaryDrawerItem().withName("Play Games").withIcon(R.drawable.ic_play_games)
-                .withIconTinted(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(3);
+                .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(3);
 
         playGames.setCheckable(false);
         result.add(playGames);
@@ -196,15 +196,15 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         ArrayList<IDrawerItem> result = new ArrayList<>();
 
         PrimaryDrawerItem donate = new PrimaryDrawerItem().withName("Donate").withIcon(R.drawable.ic_donate)
-                .withIconTinted(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(5);
+                .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(5);
 
         donate.setCheckable(false);
         result.add(donate);
 
         result.add(new PrimaryDrawerItem().withName("Help").withIcon(R.drawable.ic_help).withSelectedTextColorRes(R.color.primary)
-                .withIconTinted(true).withSelectedIconColorRes(R.color.primary).withIdentifier(4));
+                .withIconTintingEnabled(true).withSelectedIconColorRes(R.color.primary).withIdentifier(4));
         result.add(new PrimaryDrawerItem().withName("Settings").withIcon(R.drawable.ic_settings)
-                .withIconTinted(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(6));
+                .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(6));
         return result;
     }
 
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
             int color = mode.getColor(this);
 
             result.add(new PrimaryDrawerItem().withName(mode.getTitle(this)).withIcon(mode.getIcon(this))
-                    .withSelectedTextColor(color).withIconTinted(true).withSelectedIconColor(color).withIdentifier(1).withTag(mode));
+                    .withSelectedTextColor(color).withIconTintingEnabled(true).withSelectedIconColor(color).withIdentifier(1).withTag(mode));
         }
 
         return result;
@@ -252,6 +252,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         toolbarExtension.setBackgroundColor(colorToUse);
         toolbarExtensionPlaceholder.setBackgroundColor(colorToUse);
+        toolbarExtension.animate().cancel();
+        toolbarExtensionPlaceholder.animate().cancel();
 
         if (showToolbar) {
             if (toolbarExtension.getVisibility() == View.VISIBLE) {

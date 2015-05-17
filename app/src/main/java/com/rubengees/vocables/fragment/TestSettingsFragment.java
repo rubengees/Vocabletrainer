@@ -83,9 +83,12 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
 
         if (savedInstanceState == null) {
             settings = layout.generateTestSettings();
+
             updateStatus(calculateAmount(settings));
         } else {
             this.vocableAmount = savedInstanceState.getInt("vocable_amount");
+
+            getMainActivity().managerToolbarExtension(mode.getColor(getActivity()), true, true);
             updateStatus(vocableAmount);
         }
 
@@ -93,7 +96,11 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
     }
 
     private void updateStatus(Integer amount) {
-        this.status.setText("Vocable selected:" + " " + (amount == null ? calculateAmount(settings) : amount));
+        if (amount == null) {
+            amount = calculateAmount(settings);
+        }
+
+        this.status.setText(amount + " " + (amount == 1 ? "Vocable selected" : "Vocables selected"));
     }
 
     private int calculateAmount(TestSettings settings) {

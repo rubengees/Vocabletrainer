@@ -16,8 +16,4 @@
 #   public *;
 #}
 
--keep public class * extends com.rubengees.vocables.core.mode.Mode { *; }
-
--keepclassmembers class * extends com.rubengees.vocables.core.mode.Mode { *; }
-
 -keep class com.daimajia.** { *; }

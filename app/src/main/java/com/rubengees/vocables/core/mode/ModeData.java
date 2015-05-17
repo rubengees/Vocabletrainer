@@ -19,6 +19,7 @@ public class ModeData implements Parcelable {
         }
 
     };
+
     private int id;
     private int played;
     private int correct;
