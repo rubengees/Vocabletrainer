@@ -2,7 +2,6 @@ package com.rubengees.vocables.fragment;
 
 
 import android.app.Fragment;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,7 +47,6 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     private RecyclerView recycler;
     private FloatingActionButton fab;
-    private GridLayoutManager layoutManager;
     private View header;
     private TextView unitTitle;
 
@@ -167,7 +165,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     private void setupRecycler(Bundle savedInstanceState) {
-        layoutManager = new GridLayoutManager(getActivity(), Utils.getSpanCount(getActivity()));
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), Utils.getSpanCount(getActivity()));
 
         recycler.setLayoutManager(layoutManager);
         recycler.setHasFixedSize(true);
@@ -215,12 +213,6 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         }
 
         checkAdapter();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        layoutManager.setSpanCount(Utils.getSpanCount(getActivity()));
     }
 
     private void setupFAB() {

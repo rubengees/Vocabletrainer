@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 dialog.show(getFragmentManager(), "dialog_play_games");
                 break;
             case 4:
-                setFragment(HelpFragment.newInstance(), "Help", false, false);
+                setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModes()), "Help", false, false);
                 break;
             case 5:
                 break;

@@ -74,20 +74,7 @@ public class ChartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return modes.size() + 1;
     }
 
-    public class ViewHolderGeneral extends RecyclerView.ViewHolder {
-
-        PieChartView modes;
-        PieChartView answers;
-
-        public ViewHolderGeneral(View itemView) {
-            super(itemView);
-
-            modes = (PieChartView) itemView.findViewById(R.id.stat_item_general_modes);
-            answers = (PieChartView) itemView.findViewById(R.id.stat_item_general_answers);
-        }
-    }
-
-    public class ViewHolderMode extends RecyclerView.ViewHolder {
+    static class ViewHolderMode extends RecyclerView.ViewHolder {
 
         TextView title;
         PieChartView answers;
@@ -99,6 +86,19 @@ public class ChartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             title = (TextView) itemView.findViewById(R.id.stat_item_mode_title);
             answers = (PieChartView) itemView.findViewById(R.id.stat_item_mode_answers);
             times = (ColumnChartView) itemView.findViewById(R.id.stat_item_mode_times);
+        }
+    }
+
+    public class ViewHolderGeneral extends RecyclerView.ViewHolder {
+
+        PieChartView modes;
+        PieChartView answers;
+
+        public ViewHolderGeneral(View itemView) {
+            super(itemView);
+
+            modes = (PieChartView) itemView.findViewById(R.id.stat_item_general_modes);
+            answers = (PieChartView) itemView.findViewById(R.id.stat_item_general_answers);
         }
     }
 }
