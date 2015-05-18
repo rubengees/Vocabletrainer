@@ -44,4 +44,7 @@
     <string name="chart_time_average">Average</string>
 
     <string name="item_stat_general_title">General</string>
+    <string name="title_activity_transfer">TransferActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

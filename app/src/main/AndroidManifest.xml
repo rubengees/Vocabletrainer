@@ -44,6 +44,14 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".activity.TransferActivity"
+            android:label="@string/title_activity_transfer"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rubengees.vocables.activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
