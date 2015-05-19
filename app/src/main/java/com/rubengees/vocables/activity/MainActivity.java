@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 if (showFab) {
                     fab.setVisibility(View.VISIBLE);
                 } else {
-                    fab.setVisibility(View.INVISIBLE);
+                    fab.setVisibility(View.GONE);
                 }
             } else {
 
@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
             }
 
-            fab.setVisibility(View.INVISIBLE);
+            fab.setVisibility(View.GONE);
         }
     }
 

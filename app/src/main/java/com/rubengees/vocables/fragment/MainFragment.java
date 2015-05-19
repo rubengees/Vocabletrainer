@@ -2,11 +2,11 @@ package com.rubengees.vocables.fragment;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
-import android.support.v7.app.ActionBar;
 import android.view.Display;
 
 import com.rubengees.vocables.activity.MainActivity;
@@ -20,7 +20,7 @@ public class MainFragment extends Fragment implements MainActivity.OnBackPressed
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar ab = getMainActivity().getSupportActionBar();
+        ActionBar ab = getActivity().getActionBar();
 
         if (ab != null) {
             ab.setSubtitle(null);

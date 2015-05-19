@@ -2,6 +2,7 @@ package com.rubengees.vocables.fragment;
 
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.melnykov.fab.FloatingActionButton;
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.activity.TransferActivity;
 import com.rubengees.vocables.adapter.UnitAdapter;
 import com.rubengees.vocables.adapter.VocableAdapter;
 import com.rubengees.vocables.adapter.VocableListAdapter;
@@ -114,8 +116,14 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                 deleteDialog.show(getFragmentManager(), "delete_dialog");
                 return true;
             case R.id.action_vocable_list_export:
+                Intent exportIntent = new Intent(getActivity(), TransferActivity.class);
+                exportIntent.putExtra("isImport", true);
+                startActivity(exportIntent);
                 return true;
             case R.id.action_vocable_list_import:
+                Intent importIntent = new Intent(getActivity(), TransferActivity.class);
+                importIntent.putExtra("isImport", false);
+                startActivity(importIntent);
                 return true;
             case R.id.action_vocable_list_sort:
                 SortDialog sortDialog = SortDialog.newInstance(mode);

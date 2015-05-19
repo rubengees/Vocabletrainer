@@ -5,10 +5,14 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.ColorRes;
 import android.view.Window;
 
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.iconics.typeface.IIcon;
 import com.rubengees.vocables.R;
 
 /**
@@ -91,6 +95,30 @@ public class Utils {
         } catch (ActivityNotFoundException e) {
             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/" + "+RubenGeesistDerBoss" + "/posts")));
         }
+    }
+
+    public static Drawable generateDrawable(Context context, IIcon icon, DrawableType type, @ColorRes int color) {
+        int size = 0;
+
+        switch (type) {
+            case GENERIC:
+                size = 24;
+                break;
+            case ACTIONBAR:
+                break;
+            case DRAWER:
+                size = 32;
+                break;
+        }
+        IconicsDrawable drawable = new IconicsDrawable(context, icon).paddingDp(8);
+
+        if (type == DrawableType.ACTIONBAR) {
+            drawable = drawable.actionBarSize();
+        } else {
+            drawable = drawable.sizeDp(size);
+        }
+
+        return drawable.colorRes(color);
     }
 
     public interface OnWaitFinishedListener {
