@@ -76,6 +76,18 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
         }
     }
 
+    public void unlockAchievement(String id) {
+        if (isConnected()) {
+            Games.Achievements.unlock(mGoogleApiClient, id);
+        }
+    }
+
+    public void incrementAchievement(String id, int amount) {
+        if (isConnected()) {
+            Games.Achievements.increment(mGoogleApiClient, id, amount);
+        }
+    }
+
     public void showAchievements() {
         context.startActivityForResult(Games.Achievements.getAchievementsIntent(mGoogleApiClient), REQUEST_ACHIEVEMENTS);
     }
