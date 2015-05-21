@@ -29,6 +29,7 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
     private FileAdapter adapter;
 
     private TextView status;
+    private ImageButton up;
 
     public TransferFragment() {
 
@@ -59,7 +60,7 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_transfer, container, false);
         View header = inflater.inflate(R.layout.fragmnet_transfer_header, container, false);
-        ImageButton up = (ImageButton) header.findViewById(R.id.fragment_transfer_header_back);
+        up = (ImageButton) header.findViewById(R.id.fragment_transfer_header_back);
         status = (TextView) header.findViewById(R.id.fragment_transfer_header_title);
         RecyclerView recycler = (RecyclerView) root.findViewById(R.id.fragment_transfer_recycler);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(Utils.getSpanCount(getActivity()), StaggeredGridLayoutManager.VERTICAL);
@@ -73,6 +74,7 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
         up.setImageDrawable(Utils.generateDrawable(getActivity(), FontAwesome.Icon.faw_arrow_up, DrawableType.ACTIONBAR, android.R.color.white));
         getTransferActivity().setToolbarView(header);
 
+        refreshList();
         refreshStatus();
 
         return root;
@@ -95,14 +97,24 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
 
     private void cd(String name) {
         filesystem.cd(name);
-        adapter.setFiles(filesystem.getList());
+        refreshList();
         refreshStatus();
     }
 
     private void cdUp() {
         filesystem.cdUp();
-        adapter.setFiles(filesystem.getList());
+        refreshList();
         refreshStatus();
+    }
+
+    private void refreshList() {
+        adapter.setFiles(filesystem.getList());
+
+        if (filesystem.isRoot()) {
+            up.setVisibility(View.VISIBLE);
+        } else {
+            up.setVisibility(View.GONE);
+        }
     }
 
     private void refreshStatus() {
