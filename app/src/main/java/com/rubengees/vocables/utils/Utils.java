@@ -102,23 +102,14 @@ public class Utils {
 
         switch (type) {
             case GENERIC:
-                size = 24;
-                break;
-            case ACTIONBAR:
-                break;
-            case DRAWER:
                 size = 32;
                 break;
-        }
-        IconicsDrawable drawable = new IconicsDrawable(context, icon).paddingDp(8);
-
-        if (type == DrawableType.ACTIONBAR) {
-            drawable = drawable.actionBarSize();
-        } else {
-            drawable = drawable.sizeDp(size);
+            case DRAWER:
+                size = 42;
+                break;
         }
 
-        return drawable.colorRes(color);
+        return new IconicsDrawable(context, icon).paddingDp(8).sizeDp(size).colorRes(color);
     }
 
     public interface OnWaitFinishedListener {

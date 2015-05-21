@@ -71,7 +71,7 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
         recycler.setAdapter(adapter);
 
         up.setOnClickListener(this);
-        up.setImageDrawable(Utils.generateDrawable(getActivity(), FontAwesome.Icon.faw_arrow_up, DrawableType.ACTIONBAR, android.R.color.white));
+        up.setImageDrawable(Utils.generateDrawable(getActivity(), FontAwesome.Icon.faw_arrow_up, DrawableType.GENERIC, android.R.color.white));
         getTransferActivity().setToolbarView(header);
 
         refreshList();
@@ -111,9 +111,9 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
         adapter.setFiles(filesystem.getList());
 
         if (filesystem.isRoot()) {
-            up.setVisibility(View.VISIBLE);
-        } else {
             up.setVisibility(View.GONE);
+        } else {
+            up.setVisibility(View.VISIBLE);
         }
     }
 
