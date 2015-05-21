@@ -52,7 +52,8 @@ public class Core {
     }
 
     private void generateModes() {
-        HashMap<Integer, ModeData> data = new Database(context).getModes();
+        Database db = new Database(context);
+        HashMap<Integer, ModeData> data = db.getModes();
 
         if (data.containsKey(0)) {
             modes.add(new ClassicMode(data.get(0)));
@@ -71,12 +72,16 @@ public class Core {
         } else {
             modes.add(new TimeMode(new ModeData(0, 0, 0, 0, 0, 0, 0)));
         }
+
+        db.close();
     }
 
     public void saveMode(Mode mode) {
         Database db = new Database(context);
 
         db.update(mode);
+
+        db.close();
     }
 
     public List<Mode> getModes() {

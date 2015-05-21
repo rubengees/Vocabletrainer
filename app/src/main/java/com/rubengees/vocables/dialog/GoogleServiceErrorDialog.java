@@ -65,6 +65,7 @@ public class GoogleServiceErrorDialog extends DialogFragment {
 
     @Override
     public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
         if (callback != null) {
             callback.onDismiss();
         }

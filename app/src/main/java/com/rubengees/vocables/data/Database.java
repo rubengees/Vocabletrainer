@@ -438,7 +438,7 @@ public class Database extends SQLiteOpenHelper {
         HashMap<Integer, ModeData> result = new HashMap<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor modes = db.query(TABLE_UNITS, null, null, null, null, null, null);
+        Cursor modes = db.query(TABLE_MODES, null, null, null, null, null, null);
 
         if (modes.moveToFirst()) {
             do {
