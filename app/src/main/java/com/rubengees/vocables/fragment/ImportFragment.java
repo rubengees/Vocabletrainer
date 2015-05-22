@@ -1,5 +1,6 @@
 package com.rubengees.vocables.fragment;
 
+import android.os.Bundle;
 import android.widget.Toast;
 
 import java.io.File;
@@ -8,6 +9,16 @@ import java.io.File;
  * Created by ruben on 19.05.15.
  */
 public class ImportFragment extends TransferFragment {
+
+
+    public static TransferFragment newInstance(String path) {
+        ImportFragment fragment = new ImportFragment();
+        Bundle bundle = new Bundle();
+
+        bundle.putString("path", path);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     public void onFileSelected(File file) {

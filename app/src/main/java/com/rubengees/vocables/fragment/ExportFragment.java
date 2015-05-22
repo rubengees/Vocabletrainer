@@ -15,6 +15,15 @@ import com.rubengees.vocables.utils.Utils;
  */
 public class ExportFragment extends TransferFragment implements TransferActivity.OnSaveClickedListener {
 
+    public static TransferFragment newInstance(String path) {
+        ExportFragment fragment = new ExportFragment();
+        Bundle bundle = new Bundle();
+
+        bundle.putString("path", path);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = super.onCreateView(inflater, container, savedInstanceState);

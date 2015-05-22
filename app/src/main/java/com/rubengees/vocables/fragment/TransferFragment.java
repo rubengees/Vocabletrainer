@@ -11,18 +11,22 @@ import android.widget.TextView;
 
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.activity.MainActivity;
 import com.rubengees.vocables.activity.TransferActivity;
 import com.rubengees.vocables.adapter.FileAdapter;
 import com.rubengees.vocables.utils.DrawableType;
+import com.rubengees.vocables.utils.FileComparator;
 import com.rubengees.vocables.utils.Filesystem;
 import com.rubengees.vocables.utils.Utils;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class TransferFragment extends MainFragment implements FileAdapter.OnItemClickListener, View.OnClickListener {
+public class TransferFragment extends MainFragment implements FileAdapter.OnItemClickListener, View.OnClickListener, MainActivity.OnBackPressedListener {
 
     protected OnFinishedListener listener;
     private Filesystem filesystem;
@@ -33,15 +37,6 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
 
     public TransferFragment() {
 
-    }
-
-    public static TransferFragment newInstance(String path) {
-        TransferFragment fragment = new TransferFragment();
-        Bundle bundle = new Bundle();
-
-        bundle.putString("path", path);
-        fragment.setArguments(bundle);
-        return fragment;
     }
 
     @Override
@@ -108,7 +103,10 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
     }
 
     private void refreshList() {
-        adapter.setFiles(filesystem.getList());
+        List<File> files = filesystem.getFiles();
+
+        Collections.sort(files, new FileComparator());
+        adapter.setFiles(files);
 
         if (filesystem.isRoot()) {
             up.setVisibility(View.GONE);

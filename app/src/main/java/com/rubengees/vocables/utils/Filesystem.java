@@ -58,18 +58,6 @@ public class Filesystem implements Parcelable {
         return path;
     }
 
-    public List<File> getList() {
-        List<File> result = new ArrayList<>();
-        String path = getPath();
-        File f = new File(path);
-        String[] list = f.list();
-
-        for (String name : list) {
-            result.add(new File(path + "/" + name));
-        }
-        return result;
-    }
-
     public boolean cdUp() {
         if (subDirs.size() == 0) return false;
         else subDirs.remove(subDirs.size() - 1);
@@ -88,5 +76,18 @@ public class Filesystem implements Parcelable {
 
     public boolean isRoot() {
         return subDirs.isEmpty();
+    }
+
+    public List<File> getFiles() {
+        List<File> result = new ArrayList<>();
+        String path = getPath();
+        File f = new File(path);
+        String[] list = f.list();
+
+        for (String name : list) {
+            result.add(new File(path + "/" + name));
+        }
+
+        return result;
     }
 }
