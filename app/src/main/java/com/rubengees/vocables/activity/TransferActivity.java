@@ -1,7 +1,6 @@
 package com.rubengees.vocables.activity;
 
 import android.app.ActionBar;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.melnykov.fab.FloatingActionButton;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
@@ -19,8 +17,6 @@ import com.rubengees.vocables.R;
 import com.rubengees.vocables.fragment.ExportFragment;
 import com.rubengees.vocables.fragment.ImportFragment;
 import com.rubengees.vocables.fragment.TransferFragment;
-import com.rubengees.vocables.utils.DrawableType;
-import com.rubengees.vocables.utils.Utils;
 
 import java.io.File;
 
@@ -81,7 +77,7 @@ public class TransferActivity extends AppCompatActivity implements View.OnClickL
         } else {
             if (state.equals(Environment.MEDIA_MOUNTED)) {
                 fragment = ExportFragment.newInstance(Environment.getExternalStorageDirectory().getPath());
-                enableFab((OnSaveClickedListener) fragment, Utils.generateDrawable(this, GoogleMaterial.Icon.gmd_save, DrawableType.GENERIC, android.R.color.white));
+                enableFab((OnSaveClickedListener) fragment);
             } else {
                 showSnackbar();
             }
@@ -93,10 +89,10 @@ public class TransferActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public void enableFab(OnSaveClickedListener listener, Drawable icon) {
+    public void enableFab(OnSaveClickedListener listener) {
         this.listener = listener;
 
-        fab.setImageDrawable(icon);
+        fab.setImageResource(R.drawable.ic_save);
         fab.setVisibility(View.VISIBLE);
         fab.setOnClickListener(this);
     }

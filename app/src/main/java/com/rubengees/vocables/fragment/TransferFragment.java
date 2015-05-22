@@ -9,12 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.mikepenz.iconics.typeface.FontAwesome;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.MainActivity;
 import com.rubengees.vocables.activity.TransferActivity;
 import com.rubengees.vocables.adapter.FileAdapter;
-import com.rubengees.vocables.utils.DrawableType;
 import com.rubengees.vocables.utils.FileComparator;
 import com.rubengees.vocables.utils.Filesystem;
 import com.rubengees.vocables.utils.Utils;
@@ -66,7 +64,6 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
         recycler.setAdapter(adapter);
 
         up.setOnClickListener(this);
-        up.setImageDrawable(Utils.generateDrawable(getActivity(), FontAwesome.Icon.faw_arrow_up, DrawableType.GENERIC, android.R.color.white));
         getTransferActivity().setToolbarView(header);
 
         refreshList();
