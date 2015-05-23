@@ -90,4 +90,8 @@ public class Filesystem implements Parcelable {
 
         return result;
     }
+
+    public File getCurrentDir() {
+        return new File(getPath());
+    }
 }

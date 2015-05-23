@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.melnykov.fab.FloatingActionButton;
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.activity.ExtendedToolbarActivity;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.core.testsettings.TestSettings;
@@ -65,12 +65,11 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
         View header = inflater.inflate(R.layout.fragment_test_settings_header, container, false);
         status = (TextView) header.findViewById(R.id.fragment_test_settings_header_status);
 
-        getMainActivity().setToolbarView(header);
-        FloatingActionButton fab = getMainActivity().getFAB();
-        fab.setImageResource(R.drawable.ic_next);
-        fab.setOnClickListener(new View.OnClickListener() {
+        getToolbarActivity().setToolbarView(header);
+        getToolbarActivity().expandToolbar(true);
+        getToolbarActivity().enableFab(R.drawable.ic_next, new ExtendedToolbarActivity.OnFabClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onFabClick() {
                 if (vocableAmount >= mode.getMinAmount()) {
                     //TODO show TestFragment
                 } else {
@@ -87,8 +86,6 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
             updateStatus(calculateAmount(settings));
         } else {
             this.vocableAmount = savedInstanceState.getInt("vocable_amount");
-
-            getMainActivity().managerToolbarExtension(mode.getColor(getActivity()), true, true);
             updateStatus(vocableAmount);
         }
 

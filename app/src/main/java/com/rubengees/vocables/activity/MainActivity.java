@@ -4,18 +4,14 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.crashlytics.android.Crashlytics;
-import com.daimajia.androidanimations.library.Techniques;
-import com.melnykov.fab.FloatingActionButton;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -32,7 +28,6 @@ import com.rubengees.vocables.fragment.SettingsFragment;
 import com.rubengees.vocables.fragment.StatisticsFragment;
 import com.rubengees.vocables.fragment.TestSettingsFragment;
 import com.rubengees.vocables.fragment.VocableListFragment;
-import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.PreferenceUtils;
 import com.rubengees.vocables.utils.ReminderUtils;
 import com.rubengees.vocables.utils.Utils;
@@ -43,45 +38,59 @@ import java.util.List;
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback {
+public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDrawerItemClickListener, WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback {
 
-    private Toolbar toolbar;
-    private ViewGroup toolbarExtension;
-    private View toolbarExtensionPlaceholder;
     private Drawer.Result drawer;
-    private FloatingActionButton fab;
+    private AdView adView;
 
     private Core core;
 
-    private String currentTitle;
-    private int currentColor;
-    private int currentColorDark;
-
     private OnBackPressedListener onBackPressedListener;
 
+    private void showDialog() {
+        if (PreferenceUtils.isFirstStart(this)) {
+            WelcomeDialog dialog = WelcomeDialog.newInstance();
+            dialog.setCallback(this);
+
+            dialog.show(getFragmentManager(), "dialog_welcome");
+        } else if (!PreferenceUtils.hasEvaluated(this)) {
+            EvaluationDialog dialog = EvaluationDialog.newInstance();
+            dialog.setCallback(this);
+
+            dialog.show(getFragmentManager(), "dialog_evaluation");
+        }
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        core.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        core.onSaveInstanceState(outState);
+        drawer.saveInstanceState(outState);
+    }
+
+    @Override
+    public void init(Bundle savedInstanceState) {
         Fabric.with(this, new Crashlytics());
-        setContentView(R.layout.activity_main);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbarExtension = (ViewGroup) findViewById(R.id.toolbar_extension);
-        toolbarExtensionPlaceholder = findViewById(R.id.toolbar_extension_placeholder);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
         core = Core.getInstance(this, savedInstanceState);
-
-        toolbar.bringToFront();
-        setSupportActionBar(toolbar);
         generateDrawer(savedInstanceState);
 
+        adView = (AdView) findViewById(R.id.adView);
+
         if (savedInstanceState == null) {
-            setFragment(VocableListFragment.newInstance(), "Vocablelist", false, false);
+            setFragment(VocableListFragment.newInstance(), "Vocablelist");
+
+            if (PreferenceUtils.shouldShowAds(this)) {
+                showAds();
+            }
 
             showDialog();
         } else {
             FragmentManager manager = getFragmentManager();
-            styleApplication(savedInstanceState.getString("current_title"), savedInstanceState.getInt("current_color"), savedInstanceState.getInt("current_color_dark"));
 
             WelcomeDialog welcomeDialog = (WelcomeDialog) manager.findFragmentByTag("dialog_welcome");
             EvaluationDialog evaluationDialog = (EvaluationDialog) manager.findFragmentByTag("dialog_evaluation");
@@ -107,18 +116,15 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         }
     }
 
-    private void showDialog() {
-        if (PreferenceUtils.isFirstStart(this)) {
-            WelcomeDialog dialog = WelcomeDialog.newInstance();
-            dialog.setCallback(this);
+    @Override
+    protected void inflateLayout(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        inflater.inflate(R.layout.activity_main, container, true);
+    }
 
-            dialog.show(getFragmentManager(), "dialog_welcome");
-        } else if (!PreferenceUtils.hasEvaluated(this)) {
-            EvaluationDialog dialog = EvaluationDialog.newInstance();
-            dialog.setCallback(this);
-
-            dialog.show(getFragmentManager(), "dialog_evaluation");
-        }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        core.onStart();
     }
 
     @Override
@@ -128,25 +134,21 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     }
 
     @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        core.onActivityResult(requestCode, resultCode, data);
+    public void onPause() {
+        adView.pause();
+        super.onPause();
     }
 
     @Override
-    protected void onSaveInstanceState(final Bundle outState) {
-        super.onSaveInstanceState(outState);
-        core.onSaveInstanceState(outState);
-        drawer.saveInstanceState(outState);
-
-        outState.putString("current_title", currentTitle);
-        outState.putInt("current_color", currentColor);
-        outState.putInt("current_color_dark", currentColorDark);
+    public void onResume() {
+        super.onResume();
+        adView.resume();
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        core.onStart();
+    public void onDestroy() {
+        adView.destroy();
+        super.onDestroy();
     }
 
     @Override
@@ -165,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     }
 
     private void generateDrawer(Bundle savedInstanceState) {
-        drawer = new Drawer().withActivity(this).withToolbar(toolbar)
+        drawer = new Drawer().withActivity(this).withToolbar(getToolbar())
                 .withDrawerItems(generateDrawerItems()).withSavedInstance(savedInstanceState).withStickyDrawerItems(generateStickyDrawerItems())
                 .withOnDrawerItemClickListener(this).withShowDrawerOnFirstLaunch(true).withActionBarDrawerToggleAnimated(true).build();
     }
@@ -221,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         return result;
     }
 
-    public void setFragment(Fragment fragment, String title, int color, int darkColor, boolean hasExtendedToolbar, boolean hasFab) {
+    public void setFragment(Fragment fragment, String title, int color, int darkColor) {
         if (fragment instanceof OnBackPressedListener) {
             onBackPressedListener = (OnBackPressedListener) fragment;
         } else {
@@ -231,96 +233,15 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         getFragmentManager().beginTransaction()
                 .replace(R.id.content, fragment).commit();
 
-        managerToolbarExtension(color, hasExtendedToolbar, hasFab);
-        styleApplication(title, color, darkColor);
+        setTitle(title);
+        styleApplication(color, darkColor);
     }
 
-    public void setFragment(Fragment fragment, String title, boolean hasExtendedToolbar, boolean hasFab) {
+    public void setFragment(Fragment fragment, String title) {
         int color = getResources().getColor(R.color.primary);
         int darkColor = getResources().getColor(R.color.primary_dark);
 
-        setFragment(fragment, title, color, darkColor, hasExtendedToolbar, hasFab);
-    }
-
-    public void managerToolbarExtension(@Nullable final Integer color, final boolean showToolbar, final boolean showFab) {
-        int colorToUse;
-        if (color == null) {
-            colorToUse = getResources().getColor(R.color.primary);
-        } else {
-            colorToUse = color;
-        }
-
-        toolbarExtension.setBackgroundColor(colorToUse);
-        toolbarExtensionPlaceholder.setBackgroundColor(colorToUse);
-        toolbarExtension.animate().cancel();
-        toolbarExtensionPlaceholder.animate().cancel();
-
-        if (showToolbar) {
-            if (toolbarExtension.getVisibility() == View.VISIBLE) {
-                if (showFab) {
-                    fab.setVisibility(View.VISIBLE);
-                } else {
-                    fab.setVisibility(View.GONE);
-                }
-            } else {
-
-                toolbarExtension.setVisibility(View.VISIBLE);
-                toolbarExtensionPlaceholder.setVisibility(View.VISIBLE);
-                AnimationUtils.translateY(toolbarExtension, -toolbarExtension.getHeight(), 0, 500, new LinearOutSlowInInterpolator(), null);
-                AnimationUtils.translateY(toolbarExtensionPlaceholder, -toolbarExtensionPlaceholder.getHeight(), 0, 500, new LinearOutSlowInInterpolator(), new AnimationUtils.AnimationEndListener() {
-                    @Override
-                    public void onAnimationEnd() {
-                        if (showFab) {
-                            fab.setVisibility(View.VISIBLE);
-                            AnimationUtils.animate(fab, Techniques.Landing, 500, 0, null);
-                        }
-                    }
-                });
-
-            }
-        } else {
-            if (toolbarExtension.getVisibility() == View.VISIBLE) {
-                AnimationUtils.translateY(toolbarExtension, 0, -toolbarExtension.getHeight(), 500, new LinearOutSlowInInterpolator(), null);
-                AnimationUtils.translateY(toolbarExtensionPlaceholder, 0, -toolbarExtensionPlaceholder.getHeight(), 500, new LinearOutSlowInInterpolator(), new AnimationUtils.AnimationEndListener() {
-                    @Override
-                    public void onAnimationEnd() {
-                        toolbarExtension.setVisibility(View.GONE);
-                        toolbarExtensionPlaceholder.setVisibility(View.GONE);
-                    }
-                });
-            } else {
-
-            }
-
-            fab.setVisibility(View.GONE);
-        }
-    }
-
-    public void setToolbarView(@Nullable View view) {
-        toolbarExtension.removeAllViews();
-        if (view != null) {
-            toolbarExtension.addView(view);
-        }
-    }
-
-    public FloatingActionButton getFAB() {
-        return fab;
-    }
-
-    public void styleApplication(String title, int color, int darkColor) {
-
-        currentTitle = title;
-        currentColor = color;
-        currentColorDark = darkColor;
-
-        ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setTitle(title);
-            ab.setSubtitle(null);
-        }
-
-        toolbar.setBackgroundColor(color);
-        Utils.colorWindow(this, color, darkColor);
+        setFragment(fragment, title, color, darkColor);
     }
 
     @Override
@@ -328,15 +249,15 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         switch (drawerItem.getIdentifier()) {
             case 0:
-                setFragment(VocableListFragment.newInstance(), "Vocablelist", false, false);
+                setFragment(VocableListFragment.newInstance(), "Vocablelist");
                 break;
             case 1:
                 Mode mode = (Mode) drawerItem.getTag();
 
-                setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(this), mode.getColor(this), mode.getDarkColor(this), true, true);
+                setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(this), mode.getColor(this), mode.getDarkColor(this));
                 break;
             case 2:
-                setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModes()), "Statistics", false, false);
+                setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModes()), "Statistics");
                 break;
             case 3:
                 PlayGamesDialog dialog = PlayGamesDialog.newInstance();
@@ -345,12 +266,12 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 dialog.show(getFragmentManager(), "dialog_play_games");
                 break;
             case 4:
-                setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModes()), "Help", false, false);
+                setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModes()), "Help");
                 break;
             case 5:
                 break;
             case 6:
-                setFragment(new SettingsFragment(), "Settings", false, false);
+                setFragment(new SettingsFragment(), "Settings");
                 break;
         }
     }
@@ -374,11 +295,17 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     }
 
     public void hideAds() {
-
+        PreferenceUtils.setAds(this, false);
+        adView.setVisibility(View.GONE);
+        adView.destroy();
     }
 
     public void showAds() {
+        PreferenceUtils.setAds(this, true);
+        AdRequest adRequest = new AdRequest.Builder().addKeyword("Vocable").addKeyword("Learning").addKeyword("Game").build();
 
+        adView.loadAd(adRequest);
+        adView.setVisibility(View.VISIBLE);
     }
 
     @Override

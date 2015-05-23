@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
-import android.view.Window;
 
 import com.rubengees.vocables.R;
 
@@ -70,14 +68,6 @@ public class Utils {
                 });
             }
         }).start();
-    }
-
-    public static void colorWindow(Activity activity, int color, int darkColor) {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
-            window.setNavigationBarColor(color);
-            window.setStatusBarColor(darkColor);
-        }
     }
 
     public static void showPlayStorePage(Context context) {

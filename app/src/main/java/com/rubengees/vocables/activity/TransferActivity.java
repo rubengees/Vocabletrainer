@@ -1,11 +1,11 @@
 package com.rubengees.vocables.activity;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.ActionBar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,37 +14,24 @@ import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.rubengees.vocables.R;
-import com.rubengees.vocables.fragment.ExportFragment;
-import com.rubengees.vocables.fragment.ImportFragment;
-import com.rubengees.vocables.fragment.TransferFragment;
+import com.rubengees.vocables.fragment.FileFragment;
 
 import java.io.File;
 
-public class TransferActivity extends AppCompatActivity implements View.OnClickListener, TransferFragment.OnFinishedListener {
+public class TransferActivity extends ExtendedToolbarActivity implements FileFragment.FileFragmentListener, View.OnClickListener {
 
-    private Toolbar toolbar;
     private ViewGroup toolbarExtension;
     private FloatingActionButton fab;
 
     private boolean isImport;
 
-    private OnSaveClickedListener listener;
+    private FileFragment fragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transfer);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbarExtension = (ViewGroup) findViewById(R.id.toolbar_extension);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-
-        toolbar.bringToFront();
-        setSupportActionBar(toolbar);
-
+    public void init(Bundle savedInstanceState) {
         isImport = getIntent().getBooleanExtra("isImport", true);
 
-        ActionBar ab = getActionBar();
+        ActionBar ab = getSupportActionBar();
 
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
@@ -52,7 +39,20 @@ public class TransferActivity extends AppCompatActivity implements View.OnClickL
 
         if (savedInstanceState == null) {
             tryShowContent();
+        } else {
+            FileFragment fragment = (FileFragment) getFragmentManager().findFragmentByTag("fragment_transfer");
+
+            if (fragment != null) {
+                configureFragment(fragment);
+            } else {
+                showSnackbar();
+            }
         }
+    }
+
+    @Override
+    protected void inflateLayout(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
     }
 
     private void showSnackbar() {
@@ -60,38 +60,53 @@ public class TransferActivity extends AppCompatActivity implements View.OnClickL
                 .text("Could not access SD-Card").actionLabel("Retry").actionListener(new ActionClickListener() {
                     @Override
                     public void onActionClicked(Snackbar snackbar) {
-
+                        tryShowContent();
                     }
                 }));
     }
 
-    private void tryShowContent() {
-        String state = Environment.getExternalStorageState();
-        TransferFragment fragment = null;
-        if (isImport) {
-            if (state.equals(Environment.MEDIA_MOUNTED_READ_ONLY) || state.equals(Environment.MEDIA_MOUNTED)) {
-                fragment = ImportFragment.newInstance(Environment.getExternalStorageDirectory().getPath());
-            } else {
-                showSnackbar();
+    @Override
+    public void onBackPressed() {
+        if (fragment != null) {
+            if (fragment.onBackPressed()) {
+                super.onBackPressed();
             }
         } else {
-            if (state.equals(Environment.MEDIA_MOUNTED)) {
-                fragment = ExportFragment.newInstance(Environment.getExternalStorageDirectory().getPath());
-                enableFab((OnSaveClickedListener) fragment);
-            } else {
-                showSnackbar();
-            }
+            super.onBackPressed();
+        }
+    }
+
+    private void tryShowContent() {
+        FileFragment fragment = null;
+
+        if (checkAccess()) {
+            fragment = FileFragment.newInstance(Environment.getExternalStorageDirectory().getPath());
+        } else {
+            showSnackbar();
         }
 
         if (fragment != null) {
-            fragment.setListener(this);
+            configureFragment(fragment);
             getFragmentManager().beginTransaction().add(R.id.content, fragment, "fragment_transfer").commit();
         }
     }
 
-    public void enableFab(OnSaveClickedListener listener) {
-        this.listener = listener;
+    private void configureFragment(@NonNull FileFragment fragment) {
+        fragment.setFileEventListener(this);
+        this.fragment = fragment;
 
+        if (!isImport) {
+            enableFab();
+        }
+    }
+
+    private boolean checkAccess() {
+        String state = Environment.getExternalStorageState();
+
+        return state.equals(Environment.MEDIA_MOUNTED) || state.equals(Environment.MEDIA_MOUNTED_READ_ONLY) && isImport;
+    }
+
+    private void enableFab() {
         fab.setImageResource(R.drawable.ic_save);
         fab.setVisibility(View.VISIBLE);
         fab.setOnClickListener(this);
@@ -108,22 +123,15 @@ public class TransferActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        if (listener != null) {
-            listener.onSaveClicked();
+        if (fragment != null) {
+            fragment.getCurrentDirectory();
+
+            //TODO export
         }
     }
 
     @Override
-    public void onImport(File file) {
-
-    }
-
-    @Override
-    public void onExport(File file) {
-
-    }
-
-    public interface OnSaveClickedListener {
-        void onSaveClicked();
+    public void onFileClicked(File file) {
+        //TODO import
     }
 }

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.MainActivity;
-import com.rubengees.vocables.activity.TransferActivity;
 import com.rubengees.vocables.adapter.FileAdapter;
 import com.rubengees.vocables.utils.FileComparator;
 import com.rubengees.vocables.utils.Filesystem;
@@ -21,20 +20,37 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * A placeholder fragment containing a simple view.
- */
-public class TransferFragment extends MainFragment implements FileAdapter.OnItemClickListener, View.OnClickListener, MainActivity.OnBackPressedListener {
+public class FileFragment extends MainFragment implements FileAdapter.OnItemClickListener, View.OnClickListener, MainActivity.OnBackPressedListener {
 
-    protected OnFinishedListener listener;
     private Filesystem filesystem;
     private FileAdapter adapter;
 
     private TextView status;
     private ImageButton up;
 
-    public TransferFragment() {
+    private FileFragmentListener listener;
 
+    public FileFragment() {
+
+    }
+
+    public static FileFragment newInstance(String path) {
+        FileFragment fragment = new FileFragment();
+        Bundle bundle = new Bundle();
+
+        bundle.putString("path", path);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    public FileFragment withListener(FileFragmentListener listener) {
+        this.listener = listener;
+
+        return this;
+    }
+
+    public void setFileEventListener(FileFragmentListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -52,7 +68,7 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_transfer, container, false);
-        View header = inflater.inflate(R.layout.fragmnet_transfer_header, container, false);
+        View header = inflater.inflate(R.layout.fragment_transfer_header, container, false);
         up = (ImageButton) header.findViewById(R.id.fragment_transfer_header_back);
         status = (TextView) header.findViewById(R.id.fragment_transfer_header_title);
         RecyclerView recycler = (RecyclerView) root.findViewById(R.id.fragment_transfer_recycler);
@@ -64,16 +80,11 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
         recycler.setAdapter(adapter);
 
         up.setOnClickListener(this);
-        getTransferActivity().setToolbarView(header);
+        getToolbarActivity().setToolbarView(header);
 
-        refreshList();
-        refreshStatus();
+        refresh();
 
         return root;
-    }
-
-    protected File getCurrentDir() {
-        return new File(filesystem.getPath());
     }
 
     @Override
@@ -83,20 +94,33 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
         outState.putParcelable("filesystem", filesystem);
     }
 
-    public void setListener(OnFinishedListener listener) {
-        this.listener = listener;
+    public File getCurrentDirectory() {
+        return filesystem.getCurrentDir();
     }
 
     private void cd(String name) {
         filesystem.cd(name);
-        refreshList();
-        refreshStatus();
+        refresh();
     }
 
     private void cdUp() {
         filesystem.cdUp();
+        refresh();
+    }
+
+    private void refresh() {
+        refreshToolbar();
         refreshList();
-        refreshStatus();
+    }
+
+    private void refreshToolbar() {
+        if (filesystem.isRoot()) {
+            up.setVisibility(View.GONE);
+        } else {
+            up.setVisibility(View.VISIBLE);
+        }
+
+        status.setText(filesystem.getPath());
     }
 
     private void refreshList() {
@@ -104,16 +128,6 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
 
         Collections.sort(files, new FileComparator());
         adapter.setFiles(files);
-
-        if (filesystem.isRoot()) {
-            up.setVisibility(View.GONE);
-        } else {
-            up.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void refreshStatus() {
-        status.setText(filesystem.getPath());
     }
 
     @Override
@@ -121,12 +135,10 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
         if (file.isDirectory()) {
             cd(file.getName());
         } else {
-            onFileSelected(file);
+            if (listener != null) {
+                listener.onFileClicked(file);
+            }
         }
-    }
-
-    public void onFileSelected(File file) {
-
     }
 
     @Override
@@ -139,18 +151,15 @@ public class TransferFragment extends MainFragment implements FileAdapter.OnItem
         }
     }
 
-    protected TransferActivity getTransferActivity() {
-        return (TransferActivity) getActivity();
-    }
-
     @Override
     public void onClick(View v) {
-        cdUp();
+        if (v == up) {
+            cdUp();
+        }
     }
 
-    public interface OnFinishedListener {
-        void onImport(File file);
-
-        void onExport(File file);
+    public interface FileFragmentListener {
+        void onFileClicked(File file);
     }
+
 }

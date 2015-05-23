@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.view.Display;
 
+import com.rubengees.vocables.activity.ExtendedToolbarActivity;
 import com.rubengees.vocables.activity.MainActivity;
 
 /**
@@ -27,8 +28,8 @@ public class MainFragment extends Fragment implements MainActivity.OnBackPressed
         }
     }
 
-    protected MainActivity getMainActivity() {
-        return (MainActivity) getActivity();
+    protected ExtendedToolbarActivity getToolbarActivity() {
+        return (ExtendedToolbarActivity) getActivity();
     }
 
     @Override

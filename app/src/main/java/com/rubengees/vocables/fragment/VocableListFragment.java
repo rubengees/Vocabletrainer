@@ -117,12 +117,12 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                 return true;
             case R.id.action_vocable_list_export:
                 Intent exportIntent = new Intent(getActivity(), TransferActivity.class);
-                exportIntent.putExtra("isImport", true);
+                exportIntent.putExtra("isImport", false);
                 startActivity(exportIntent);
                 return true;
             case R.id.action_vocable_list_import:
                 Intent importIntent = new Intent(getActivity(), TransferActivity.class);
-                importIntent.putExtra("isImport", false);
+                importIntent.putExtra("isImport", true);
                 startActivity(importIntent);
                 return true;
             case R.id.action_vocable_list_sort:
@@ -149,7 +149,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View root = inflater.inflate(R.layout.fragment_vocable_list, container, false);
 
         recycler = (RecyclerView) root.findViewById(R.id.fragment_vocable_list_recycler);
@@ -242,8 +242,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     private void setUnitAdapter() {
-        getMainActivity().setToolbarView(null);
-        getMainActivity().managerToolbarExtension(getResources().getColor(R.color.primary), false, false);
+        getToolbarActivity().collapseToolbar(true);
 
         adapter = new UnitAdapter(manager.getUnitList(), mode, this);
 
@@ -251,8 +250,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     private void setVocableAdapter(Unit unit) {
-        getMainActivity().setToolbarView(header);
-        getMainActivity().managerToolbarExtension(getResources().getColor(R.color.primary), true, false);
+        getToolbarActivity().expandToolbar(true);
+        getToolbarActivity().setToolbarView(header);
 
         adapter = new VocableAdapter(unit, mode, this);
 
