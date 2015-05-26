@@ -80,11 +80,15 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
             currentTitle = savedInstanceState.getCharSequence(SAVED_INSTANCE_STATE_TITLE);
             currentColor = savedInstanceState.getInt(SAVED_INSTANCE_STATE_COLOR);
             currentColorDark = savedInstanceState.getInt(SAVED_INSTANCE_STATE_COLOR_DARK);
-            isExtended = savedInstanceState.getBoolean(SAVED_INSTANCE_STATE_IS_EXTENDED);
+            isExtended = !savedInstanceState.getBoolean(SAVED_INSTANCE_STATE_IS_EXTENDED);
 
             setTitle(currentTitle);
             styleApplication(currentColor, currentColorDark);
-            expandToolbar(false);
+            toggleExtendedToolbar(false);
+        } else {
+            currentTitle = "Vocabletrainer";
+            currentColor = getResources().getColor(R.color.primary);
+            currentColorDark = getResources().getColor(R.color.primary_dark);
         }
 
         init(savedInstanceState);
@@ -94,18 +98,9 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        if (currentColor != null) {
-            outState.putInt(SAVED_INSTANCE_STATE_COLOR, currentColor);
-        }
-
-        if (currentColorDark != null) {
-            outState.putInt(SAVED_INSTANCE_STATE_COLOR_DARK, currentColorDark);
-        }
-
-        if (currentTitle != null) {
-            outState.putCharSequence(SAVED_INSTANCE_STATE_TITLE, currentTitle);
-        }
-
+        outState.putInt(SAVED_INSTANCE_STATE_COLOR, currentColor);
+        outState.putInt(SAVED_INSTANCE_STATE_COLOR_DARK, currentColorDark);
+        outState.putCharSequence(SAVED_INSTANCE_STATE_TITLE, currentTitle);
         outState.putBoolean(SAVED_INSTANCE_STATE_IS_EXTENDED, isExtended);
     }
 
@@ -302,10 +297,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         this.onFabClickListener = listener;
     }
 
-    public final void styleApplication(Integer color, Integer darkColor) {
-        if (color == null || darkColor == null) {
-            return;
-        }
+    public final void styleApplication(int color, int darkColor) {
 
         currentColor = color;
         currentColorDark = darkColor;

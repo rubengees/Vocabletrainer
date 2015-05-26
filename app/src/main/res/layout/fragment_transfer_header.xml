@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:padding="8dp">
 
     <ImageButton
         android:id="@+id/fragment_transfer_header_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_up" />
 
@@ -17,7 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
+        android:layout_toEndOf="@+id/fragment_transfer_header_back"
+        android:layout_toRightOf="@+id/fragment_transfer_header_back"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/white" />
 
-</LinearLayout>
+</RelativeLayout>
