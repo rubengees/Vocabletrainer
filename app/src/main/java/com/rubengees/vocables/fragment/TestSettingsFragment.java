@@ -65,7 +65,18 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
         View header = inflater.inflate(R.layout.fragment_test_settings_header, container, false);
         status = (TextView) header.findViewById(R.id.fragment_test_settings_header_status);
 
-        getToolbarActivity().expandToolbar(true);
+        View root = layout.inflateLayout(inflater, container, savedInstanceState);
+
+        if (savedInstanceState == null) {
+            settings = layout.generateTestSettings();
+            getToolbarActivity().expandToolbar(true);
+
+            updateStatus(calculateAmount(settings));
+        } else {
+            this.vocableAmount = savedInstanceState.getInt("vocable_amount");
+            updateStatus(vocableAmount);
+        }
+
         getToolbarActivity().setToolbarView(header);
         getToolbarActivity().enableFab(R.drawable.ic_next, new ExtendedToolbarActivity.OnFabClickListener() {
             @Override
@@ -77,17 +88,6 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
                 }
             }
         });
-
-        View root = layout.inflateLayout(inflater, container, savedInstanceState);
-
-        if (savedInstanceState == null) {
-            settings = layout.generateTestSettings();
-
-            updateStatus(calculateAmount(settings));
-        } else {
-            this.vocableAmount = savedInstanceState.getInt("vocable_amount");
-            updateStatus(vocableAmount);
-        }
 
         return root;
     }

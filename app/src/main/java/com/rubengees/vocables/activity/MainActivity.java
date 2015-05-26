@@ -69,9 +69,9 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
 
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
-        super.onSaveInstanceState(outState);
         core.onSaveInstanceState(outState);
         drawer.saveInstanceState(outState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override

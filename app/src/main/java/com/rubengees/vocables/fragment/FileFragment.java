@@ -89,9 +89,8 @@ public class FileFragment extends MainFragment implements FileAdapter.OnItemClic
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
         outState.putParcelable("filesystem", filesystem);
+        super.onSaveInstanceState(outState);
     }
 
     public File getCurrentDirectory() {

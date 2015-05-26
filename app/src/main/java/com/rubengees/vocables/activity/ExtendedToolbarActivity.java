@@ -96,12 +96,11 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
         outState.putInt(SAVED_INSTANCE_STATE_COLOR, currentColor);
         outState.putInt(SAVED_INSTANCE_STATE_COLOR_DARK, currentColorDark);
         outState.putCharSequence(SAVED_INSTANCE_STATE_TITLE, currentTitle);
         outState.putBoolean(SAVED_INSTANCE_STATE_IS_EXTENDED, isExtended);
+        super.onSaveInstanceState(outState);
     }
 
     /**

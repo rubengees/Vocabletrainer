@@ -23,8 +23,10 @@ public class MainFragment extends Fragment implements MainActivity.OnBackPressed
 
         ActionBar ab = getActivity().getActionBar();
 
-        if (ab != null) {
-            ab.setSubtitle(null);
+        if (savedInstanceState == null) {
+            if (ab != null) {
+                ab.setSubtitle(null);
+            }
         }
     }
 
