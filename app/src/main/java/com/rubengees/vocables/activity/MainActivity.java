@@ -13,6 +13,7 @@ import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
@@ -40,7 +41,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDrawerItemClickListener, WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback {
 
-    private Drawer.Result drawer;
+    private Drawer drawer;
     private AdView adView;
 
     private Core core;
@@ -167,7 +168,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     }
 
     private void generateDrawer(Bundle savedInstanceState) {
-        drawer = new Drawer().withActivity(this).withToolbar(getToolbar())
+        drawer = new DrawerBuilder().withActivity(this).withToolbar(getToolbar())
                 .withDrawerItems(generateDrawerItems()).withSavedInstance(savedInstanceState).withStickyDrawerItems(generateStickyDrawerItems())
                 .withOnDrawerItemClickListener(this).withShowDrawerOnFirstLaunch(true).withActionBarDrawerToggleAnimated(true).build();
     }
@@ -231,7 +232,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
         }
 
         getFragmentManager().beginTransaction()
-                .replace(R.id.content, fragment).commit();
+                .replace(R.id.activity_main_content, fragment).commit();
 
         setTitle(title);
         styleApplication(color, darkColor);
@@ -245,34 +246,36 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+    public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
 
         switch (drawerItem.getIdentifier()) {
             case 0:
                 setFragment(VocableListFragment.newInstance(), "Vocablelist");
-                break;
+                return false;
             case 1:
                 Mode mode = (Mode) drawerItem.getTag();
 
                 setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(this), mode.getColor(this), mode.getDarkColor(this));
-                break;
+                return false;
             case 2:
                 setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModes()), "Statistics");
-                break;
+                return false;
             case 3:
                 PlayGamesDialog dialog = PlayGamesDialog.newInstance();
 
                 dialog.setCallback(this);
                 dialog.show(getFragmentManager(), "dialog_play_games");
-                break;
+                return true;
             case 4:
                 setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModes()), "Help");
-                break;
+                return false;
             case 5:
-                break;
+                return true;
             case 6:
                 setFragment(new SettingsFragment(), "Settings");
-                break;
+                return false;
+            default:
+                return true;
         }
     }
 

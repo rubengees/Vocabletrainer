@@ -63,6 +63,8 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         content = (ViewGroup) findViewById(R.id.content);
 
+        toolbar.bringToFront();
+
         setSupportActionBar(toolbar);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +84,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
 
             setTitle(currentTitle);
             styleApplication(currentColor, currentColorDark);
+            expandToolbar(false);
         }
 
         init(savedInstanceState);
@@ -154,6 +157,42 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
     }
 
     public final void collapseToolbar(boolean withAnimation) {
+        if (isExtended) {
+            isExtended = false;
+            if (currentAnimator != null) {
+                currentAnimator.end();
+            }
+
+            if (withAnimation) {
+                animateToolbar(0, -toolbarExtension.getHeight(), false, this.content);
+            } else {
+                setToolbarExtensionVisibility(false);
+            }
+        }
+
+        if (fab != null) {
+            fab.setVisibility(View.GONE);
+        }
+    }
+
+    public final void expandToolbar(boolean withAnimation) {
+        if (!isExtended) {
+            isExtended = true;
+            if (currentAnimator != null) {
+                currentAnimator.end();
+            }
+
+            if (withAnimation) {
+                toolbarExtension.setVisibility(View.VISIBLE);
+                toolbarExtensionPlaceHolder.setVisibility(View.VISIBLE);
+                animateToolbar(-toolbarExtension.getHeight(), 0, true, this.content);
+            } else {
+                setToolbarExtensionVisibility(true);
+            }
+        }
+    }
+
+    public final void collapseToolbar(boolean withAnimation, @Nullable View content) {
         if (currentAnimator != null) {
             currentAnimator.end();
         }
@@ -162,14 +201,16 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
             isExtended = false;
 
             if (withAnimation) {
-                animateToolbar(0, -toolbarExtension.getHeight(), false);
+                animateToolbar(0, -toolbarExtension.getHeight(), false, content == null ? this.content : content);
             } else {
                 setToolbarExtensionVisibility(false);
             }
         }
+
+        fab.setVisibility(View.GONE);
     }
 
-    public final void expandToolbar(boolean withAnimation) {
+    public final void expandToolbar(boolean withAnimation, @Nullable View content) {
         if (currentAnimator != null) {
             currentAnimator.end();
         }
@@ -180,7 +221,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
             if (withAnimation) {
                 toolbarExtension.setVisibility(View.VISIBLE);
                 toolbarExtensionPlaceHolder.setVisibility(View.VISIBLE);
-                animateToolbar(-toolbarExtension.getHeight(), 0, true);
+                animateToolbar(-toolbarExtension.getHeight(), 0, true, content == null ? this.content : content);
             } else {
                 setToolbarExtensionVisibility(true);
             }
@@ -194,13 +235,10 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         } else {
             toolbarExtension.setVisibility(View.GONE);
             toolbarExtensionPlaceHolder.setVisibility(View.GONE);
-            if (fab.isVisible()) {
-                fab.setVisibility(View.GONE);
-            }
         }
     }
 
-    private void animateToolbar(int from, int to, final boolean visibleAfter) {
+    private void animateToolbar(int from, int to, final boolean visibleAfter, final View content) {
         currentAnimator = new AnimatorSet();
         List<Animator> animators = new ArrayList<>(2);
 
@@ -213,6 +251,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         animators.add(ObjectAnimator.ofFloat(content, "translationY", to));
 
         currentAnimator.setInterpolator(new LinearOutSlowInInterpolator());
+        currentAnimator.setDuration(450);
         currentAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -222,6 +261,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 setToolbarExtensionVisibility(visibleAfter);
+                content.setTranslationY(0);
                 currentAnimator = null;
             }
 
@@ -236,7 +276,9 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
             }
         });
 
+        content.bringToFront();
         currentAnimator.playTogether(animators);
+        currentAnimator.start();
     }
 
     private void setTranslationY(@NonNull View view, int translationY) {
@@ -251,6 +293,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
      */
     public final void enableFab(@DrawableRes int drawable, @Nullable OnFabClickListener listener) {
         if (isExtended) {
+            fab.setImageResource(drawable);
             fab.setVisibility(View.VISIBLE);
         } else {
             throw new RuntimeException("Extension is not visible. The FAB cannot be enabled without the Extended Toolbar.");

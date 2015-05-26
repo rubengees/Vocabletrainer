@@ -65,8 +65,8 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
         View header = inflater.inflate(R.layout.fragment_test_settings_header, container, false);
         status = (TextView) header.findViewById(R.id.fragment_test_settings_header_status);
 
-        getToolbarActivity().setToolbarView(header);
         getToolbarActivity().expandToolbar(true);
+        getToolbarActivity().setToolbarView(header);
         getToolbarActivity().enableFab(R.drawable.ic_next, new ExtendedToolbarActivity.OnFabClickListener() {
             @Override
             public void onFabClick() {

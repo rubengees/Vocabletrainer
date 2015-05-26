@@ -46,6 +46,8 @@ public class HelpFragment extends MainFragment {
         if (getArguments() != null) {
             this.modes = getArguments().getParcelableArrayList("modes");
         }
+
+        getToolbarActivity().collapseToolbar(true);
     }
 
     @Override

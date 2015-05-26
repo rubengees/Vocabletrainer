@@ -242,7 +242,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     private void setUnitAdapter() {
-        getToolbarActivity().collapseToolbar(true);
+        getToolbarActivity().collapseToolbar(true, recycler);
 
         adapter = new UnitAdapter(manager.getUnitList(), mode, this);
 
@@ -250,7 +250,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     private void setVocableAdapter(Unit unit) {
-        getToolbarActivity().expandToolbar(true);
+        getToolbarActivity().expandToolbar(true, recycler);
         getToolbarActivity().setToolbarView(header);
 
         adapter = new VocableAdapter(unit, mode, this);

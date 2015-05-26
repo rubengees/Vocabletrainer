@@ -39,6 +39,8 @@ public class StatisticsFragment extends MainFragment {
         if (getArguments() != null) {
             this.modes = getArguments().getParcelableArrayList("modes");
         }
+
+        getToolbarActivity().collapseToolbar(true);
     }
 
     @Override

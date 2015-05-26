@@ -22,7 +22,6 @@
         android:layout_toStartOf="@+id/fab"
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
-        android:padding="8dp"
         android:visibility="gone" />
 
     <View

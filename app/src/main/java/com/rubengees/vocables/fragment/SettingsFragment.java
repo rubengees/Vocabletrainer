@@ -15,7 +15,9 @@ import android.support.v7.app.ActionBar;
 import android.view.Display;
 
 import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.activity.ExtendedToolbarActivity;
 import com.rubengees.vocables.activity.MainActivity;
 import com.rubengees.vocables.utils.ReminderUtils;
 import com.rubengees.vocables.utils.Utils;
@@ -37,6 +39,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         if (ab != null) {
             ab.setSubtitle(null);
         }
+
+        getToolbarActivity().collapseToolbar(true);
 
         addPreferencesFromResource(R.xml.preferences);
         ads = this.findPreference("pref_ads");
@@ -128,9 +132,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             Utils.showPlayStorePage(getActivity());
             return true;
         } else if (preference == licences) {
-            new Libs.Builder().withAboutIconShown(true).withAboutVersionShownName(true).withAnimations(true)
+            new LibsBuilder().withAboutIconShown(true).withAboutVersionShownName(true).withAnimations(true)
                     .withAboutAppName("Vocabletrainer")
-                    .withAboutDescription("A free and Opensource App to learn Vocables").withActivityTitle("Libraries")
+                    .withAboutDescription("A free and opensource App to learn Vocables").withActivityTitle("Libraries")
                     .withFields(R.string.class.getFields()).withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR).start(getActivity());
         } else if (preference == source) {
             Uri webpage = Uri.parse("https://github.com/RubenGees/Vocabletrainer");
@@ -144,6 +148,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     private MainActivity getMainActivity() {
         return (MainActivity) getActivity();
+    }
+
+    protected ExtendedToolbarActivity getToolbarActivity() {
+        return (ExtendedToolbarActivity) getActivity();
     }
 
     @Override

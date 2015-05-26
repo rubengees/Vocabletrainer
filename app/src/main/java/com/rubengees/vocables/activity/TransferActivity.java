@@ -3,13 +3,10 @@ package com.rubengees.vocables.activity;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.melnykov.fab.FloatingActionButton;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
@@ -18,10 +15,7 @@ import com.rubengees.vocables.fragment.FileFragment;
 
 import java.io.File;
 
-public class TransferActivity extends ExtendedToolbarActivity implements FileFragment.FileFragmentListener, View.OnClickListener {
-
-    private ViewGroup toolbarExtension;
-    private FloatingActionButton fab;
+public class TransferActivity extends ExtendedToolbarActivity implements FileFragment.FileFragmentListener, ExtendedToolbarActivity.OnFabClickListener {
 
     private boolean isImport;
 
@@ -48,6 +42,8 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
                 showSnackbar();
             }
         }
+
+        styleApplicationRes(R.color.primary, R.color.primary_dark);
     }
 
     @Override
@@ -94,9 +90,10 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
     private void configureFragment(@NonNull FileFragment fragment) {
         fragment.setFileEventListener(this);
         this.fragment = fragment;
+        expandToolbar(false);
 
         if (!isImport) {
-            enableFab();
+            enableFab(R.drawable.ic_save, this);
         }
     }
 
@@ -106,32 +103,17 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
         return state.equals(Environment.MEDIA_MOUNTED) || state.equals(Environment.MEDIA_MOUNTED_READ_ONLY) && isImport;
     }
 
-    private void enableFab() {
-        fab.setImageResource(R.drawable.ic_save);
-        fab.setVisibility(View.VISIBLE);
-        fab.setOnClickListener(this);
-    }
-
-
-    public void setToolbarView(@Nullable View view) {
-        toolbarExtension.removeAllViews();
-
-        if (view != null) {
-            toolbarExtension.addView(view);
-        }
+    @Override
+    public void onFileClicked(File file) {
+        //TODO import
     }
 
     @Override
-    public void onClick(View v) {
+    public void onFabClick() {
         if (fragment != null) {
             fragment.getCurrentDirectory();
 
             //TODO export
         }
-    }
-
-    @Override
-    public void onFileClicked(File file) {
-        //TODO import
     }
 }
