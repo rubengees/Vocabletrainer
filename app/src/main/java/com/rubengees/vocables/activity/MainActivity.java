@@ -85,11 +85,9 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
         if (savedInstanceState == null) {
             setFragment(VocableListFragment.newInstance(), "Vocablelist");
 
-            if (PreferenceUtils.shouldShowAds(this)) {
-                showAds();
-            }
-
             showDialog();
+
+
         } else {
             FragmentManager manager = getFragmentManager();
 
@@ -114,6 +112,10 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
             if (current != null && current instanceof OnBackPressedListener) {
                 onBackPressedListener = (OnBackPressedListener) current;
             }
+        }
+
+        if (PreferenceUtils.shouldShowAds(this)) {
+            showAds();
         }
     }
 
@@ -305,10 +307,10 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
 
     public void showAds() {
         PreferenceUtils.setAds(this, true);
+        adView.setVisibility(View.VISIBLE);
         AdRequest adRequest = new AdRequest.Builder().addKeyword("Vocable").addKeyword("Learning").addKeyword("Game").build();
 
         adView.loadAd(adRequest);
-        adView.setVisibility(View.VISIBLE);
     }
 
     @Override
