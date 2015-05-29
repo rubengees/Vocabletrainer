@@ -35,7 +35,7 @@ public class ExportDialog extends DialogFragment implements ExportTask.OnExportF
         super.onCreate(savedInstanceState);
         file = new File(getArguments().getString("path"));
 
-        task = ExportTask.getInstance(file, this);
+        task = ExportTask.getInstance(getActivity(), file, this);
 
         task.startIfNotRunning();
     }
@@ -55,8 +55,8 @@ public class ExportDialog extends DialogFragment implements ExportTask.OnExportF
     }
 
     @Override
-    public void onExportFinished(boolean success) {
-        Toast.makeText(getActivity(), success ? "Export finished" : "Export failed", Toast.LENGTH_SHORT).show();
+    public void onExportFinished(String success) {
+        Toast.makeText(getActivity(), success == null ? "Export finished" : success, Toast.LENGTH_SHORT).show();
         dismiss();
     }
 }

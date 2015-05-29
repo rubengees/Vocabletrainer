@@ -1,10 +1,15 @@
 package com.rubengees.vocables.utils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.rubengees.vocables.core.Core;
+
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by ruben on 29.05.15.
@@ -12,18 +17,20 @@ import java.io.File;
 public class ExportTask {
 
     private static ExportTask instance;
+    private final Context context;
 
     private File file;
     private OnExportFinishedListener listener;
     private Task task;
 
-    private ExportTask(File file) {
+    private ExportTask(Context context, File file) {
+        this.context = context;
         this.file = file;
     }
 
-    public static ExportTask getInstance(@NonNull File file, @Nullable OnExportFinishedListener listener) {
+    public static ExportTask getInstance(Context context, @NonNull File file, @Nullable OnExportFinishedListener listener) {
         if (instance == null) {
-            instance = new ExportTask(file);
+            instance = new ExportTask(context, file);
         }
 
         instance.setListener(listener);
@@ -47,23 +54,24 @@ public class ExportTask {
     }
 
     public interface OnExportFinishedListener {
-        void onExportFinished(boolean success);
+        void onExportFinished(String success);
     }
 
-    private class Task extends AsyncTask<File, Void, Boolean> {
+    private class Task extends AsyncTask<File, Void, String> {
 
         @Override
-        protected Boolean doInBackground(File... params) {
+        protected String doInBackground(File... params) {
             try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                TransferUtils.export(Core.getInstance((Activity) context).getVocableManager().getUnitList(), params[0]);
+
+                return null;
+            } catch (IOException e) {
+                return "Import failed: There was a problem with the storage";
             }
-            return true;
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
+        protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
             if (listener != null) {

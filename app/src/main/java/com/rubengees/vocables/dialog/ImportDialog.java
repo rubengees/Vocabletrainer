@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.utils.ImportTask;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Created by ruben on 29.05.15.
@@ -38,7 +36,7 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
 
         file = new File(getArguments().getString("path"));
 
-        task = ImportTask.getInstance(file, this);
+        task = ImportTask.getInstance(getActivity(), file, this);
 
         task.startIfNotRunning();
     }
@@ -62,13 +60,14 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
     }
 
     @Override
-    public void onImportFinished(List<Unit> units) {
-        if (units == null) {
-            Toast.makeText(getActivity(), "Import failed", Toast.LENGTH_SHORT).show();
+    public void onImportFinished(String result) {
+        if (result != null) {
+            Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
         } else {
             if (listener != null) {
-                listener.onImportFinished(units);
+                listener.onImportFinished(null);
             }
         }
+        dismiss();
     }
 }

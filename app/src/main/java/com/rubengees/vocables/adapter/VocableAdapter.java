@@ -123,11 +123,6 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
         return list.get(pos);
     }
 
-    @Override
-    public void refresh() {
-
-    }
-
     public Unit getUnit() {
         return unit;
     }

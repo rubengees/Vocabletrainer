@@ -7,12 +7,14 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.fragment.FileFragment;
+import com.rubengees.vocables.utils.TransferUtils;
 
 import java.io.File;
 
@@ -110,11 +112,15 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
 
     @Override
     public void onFileClicked(File file) {
-        Intent in = new Intent();
-        in.putExtra("path", file.getAbsolutePath());
+        if (TransferUtils.isFileSupported(file)) {
+            Intent in = new Intent();
+            in.putExtra("path", file.getAbsolutePath());
 
-        setResult(RESULT_OK, in);
-        finish();
+            setResult(RESULT_OK, in);
+            finish();
+        } else {
+            Toast.makeText(this, "This file-type is not supported. See 'Import' in help", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

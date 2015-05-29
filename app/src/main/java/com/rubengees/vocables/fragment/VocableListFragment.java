@@ -1,6 +1,7 @@
 package com.rubengees.vocables.fragment;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,7 +46,8 @@ import java.util.List;
  * Use the {@link VocableListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VocableListFragment extends MainFragment implements UnitAdapter.OnItemClickListener, VocableAdapter.OnItemClickListener, VocableDialog.VocableDialogCallback, UnitDialog.UnitDialogCallback, SortDialog.SortDialogCallback, DeleteDialog.DeleteDialogCallback, ImportTask.OnImportFinishedListener {
+public class VocableListFragment extends MainFragment implements UnitAdapter.OnItemClickListener, VocableAdapter.OnItemClickListener,
+        VocableDialog.VocableDialogCallback, UnitDialog.UnitDialogCallback, SortDialog.SortDialogCallback, DeleteDialog.DeleteDialogCallback, ImportTask.OnImportFinishedListener {
 
     private static final String SORT_MODE = "sort_mode";
     private static final String CURRENT_UNIT = "current_unit";
@@ -382,16 +384,18 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == TransferActivity.REQUEST_EXPORT) {
-            String path = data.getStringExtra("path");
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == TransferActivity.REQUEST_EXPORT) {
+                String path = data.getStringExtra("path");
 
-            ExportDialog.newInstance(path).show(getFragmentManager(), "export_dialog");
-        } else if (requestCode == TransferActivity.REQUEST_IMPORT) {
-            String path = data.getStringExtra("path");
-            ImportDialog dialog = ImportDialog.newInstance(path);
+                ExportDialog.newInstance(path).show(getFragmentManager(), "export_dialog");
+            } else if (requestCode == TransferActivity.REQUEST_IMPORT) {
+                String path = data.getStringExtra("path");
+                ImportDialog dialog = ImportDialog.newInstance(path);
 
-            dialog.setListener(this);
-            dialog.show(getFragmentManager(), "import_dialog");
+                dialog.setListener(this);
+                dialog.show(getFragmentManager(), "import_dialog");
+            }
         }
     }
 
@@ -402,15 +406,11 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     @Override
-    public void onImportFinished(List<Unit> units) {
+    public void onImportFinished(String result) {
         if (adapter instanceof VocableAdapter) {
-            int index = units.indexOf(((VocableAdapter) adapter).getUnit());
-
-            if (index > 0) {
-                ((VocableAdapter) adapter).addAll(units.get(index).getVocables());
-            }
+            setVocableAdapter(((VocableAdapter) adapter).getUnit());
         } else if (adapter instanceof UnitAdapter) {
-
+            setUnitAdapter();
         }
     }
 }

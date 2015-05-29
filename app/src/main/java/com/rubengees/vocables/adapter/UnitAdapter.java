@@ -111,11 +111,6 @@ public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder
     }
 
     @Override
-    public void refresh() {
-
-    }
-
-    @Override
     public UnitAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(View.inflate(parent.getContext(), R.layout.list_item_unit, null));
     }

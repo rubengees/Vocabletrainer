@@ -1,12 +1,16 @@
 package com.rubengees.vocables.utils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.pojo.Unit;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -16,17 +20,20 @@ public class ImportTask {
 
     private static ImportTask instance;
 
+    private Context context;
+
     private File file;
     private OnImportFinishedListener listener;
     private Task task;
 
-    private ImportTask(File file) {
+    private ImportTask(Context context, File file) {
+        this.context = context;
         this.file = file;
     }
 
-    public static ImportTask getInstance(@NonNull File file, @Nullable OnImportFinishedListener listener) {
+    public static ImportTask getInstance(Context context, @NonNull File file, @Nullable OnImportFinishedListener listener) {
         if (instance == null) {
-            instance = new ImportTask(file);
+            instance = new ImportTask(context, file);
         }
 
         instance.setListener(listener);
@@ -50,23 +57,27 @@ public class ImportTask {
     }
 
     public interface OnImportFinishedListener {
-        void onImportFinished(List<Unit> units);
+        void onImportFinished(String result);
     }
 
-    private class Task extends AsyncTask<File, Void, List<Unit>> {
+    private class Task extends AsyncTask<File, Void, String> {
 
         @Override
-        protected List<Unit> doInBackground(File... params) {
+        protected String doInBackground(File... params) {
             try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                List<Unit> units = TransferUtils.getList(context, params[0]);
+                Core.getInstance((Activity) context).getVocableManager().addUnits(units);
+
+                return null;
+            } catch (TransferUtils.FormatException e) {
+                return e.getMessage();
+            } catch (IOException e) {
+                return "Import failed: There was a problem with the storage";
             }
-            return null;
         }
 
         @Override
-        protected void onPostExecute(List<Unit> result) {
+        protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
             if (listener != null) {
