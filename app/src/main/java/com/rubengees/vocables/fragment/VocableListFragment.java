@@ -25,6 +25,8 @@ import com.rubengees.vocables.adapter.VocableListAdapter;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.data.VocableManager;
 import com.rubengees.vocables.dialog.DeleteDialog;
+import com.rubengees.vocables.dialog.ExportDialog;
+import com.rubengees.vocables.dialog.ImportDialog;
 import com.rubengees.vocables.dialog.SortDialog;
 import com.rubengees.vocables.dialog.UnitDialog;
 import com.rubengees.vocables.dialog.VocableDialog;
@@ -32,6 +34,7 @@ import com.rubengees.vocables.enumeration.SortMode;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
 import com.rubengees.vocables.utils.AnimationUtils;
+import com.rubengees.vocables.utils.ImportTask;
 import com.rubengees.vocables.utils.SwipeToDismissTouchListener;
 import com.rubengees.vocables.utils.Utils;
 
@@ -42,7 +45,7 @@ import java.util.List;
  * Use the {@link VocableListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VocableListFragment extends MainFragment implements UnitAdapter.OnItemClickListener, VocableAdapter.OnItemClickListener, VocableDialog.VocableDialogCallback, UnitDialog.UnitDialogCallback, SortDialog.SortDialogCallback, DeleteDialog.DeleteDialogCallback {
+public class VocableListFragment extends MainFragment implements UnitAdapter.OnItemClickListener, VocableAdapter.OnItemClickListener, VocableDialog.VocableDialogCallback, UnitDialog.UnitDialogCallback, SortDialog.SortDialogCallback, DeleteDialog.DeleteDialogCallback, ImportTask.OnImportFinishedListener {
 
     private static final String SORT_MODE = "sort_mode";
     private static final String CURRENT_UNIT = "current_unit";
@@ -118,12 +121,12 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
             case R.id.action_vocable_list_export:
                 Intent exportIntent = new Intent(getActivity(), TransferActivity.class);
                 exportIntent.putExtra("isImport", false);
-                startActivity(exportIntent);
+                startActivityForResult(exportIntent, TransferActivity.REQUEST_EXPORT);
                 return true;
             case R.id.action_vocable_list_import:
                 Intent importIntent = new Intent(getActivity(), TransferActivity.class);
                 importIntent.putExtra("isImport", true);
-                startActivity(importIntent);
+                startActivityForResult(importIntent, TransferActivity.REQUEST_IMPORT);
                 return true;
             case R.id.action_vocable_list_sort:
                 SortDialog sortDialog = SortDialog.newInstance(mode);
@@ -376,8 +379,38 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == TransferActivity.REQUEST_EXPORT) {
+            String path = data.getStringExtra("path");
+
+            ExportDialog.newInstance(path).show(getFragmentManager(), "export_dialog");
+        } else if (requestCode == TransferActivity.REQUEST_IMPORT) {
+            String path = data.getStringExtra("path");
+            ImportDialog dialog = ImportDialog.newInstance(path);
+
+            dialog.setListener(this);
+            dialog.show(getFragmentManager(), "import_dialog");
+        }
+    }
+
+    @Override
     public void onDelete() {
         manager.clear();
         adapter.clear();
+    }
+
+    @Override
+    public void onImportFinished(List<Unit> units) {
+        if (adapter instanceof VocableAdapter) {
+            int index = units.indexOf(((VocableAdapter) adapter).getUnit());
+
+            if (index > 0) {
+                ((VocableAdapter) adapter).addAll(units.get(index).getVocables());
+            }
+        } else if (adapter instanceof UnitAdapter) {
+
+        }
     }
 }

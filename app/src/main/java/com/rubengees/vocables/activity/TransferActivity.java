@@ -1,5 +1,6 @@
 package com.rubengees.vocables.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -16,6 +17,9 @@ import com.rubengees.vocables.fragment.FileFragment;
 import java.io.File;
 
 public class TransferActivity extends ExtendedToolbarActivity implements FileFragment.FileFragmentListener, ExtendedToolbarActivity.OnFabClickListener {
+
+    public static final int REQUEST_IMPORT = 10010;
+    public static final int REQUEST_EXPORT = 10011;
 
     private boolean isImport;
 
@@ -93,6 +97,7 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
         expandToolbar(false);
 
         if (!isImport) {
+            //TODO add drawable ic_save
             enableFab(R.drawable.ic_save, this);
         }
     }
@@ -105,15 +110,22 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
 
     @Override
     public void onFileClicked(File file) {
-        //TODO import
+        Intent in = new Intent();
+        in.putExtra("path", file.getAbsolutePath());
+
+        setResult(RESULT_OK, in);
+        finish();
     }
 
     @Override
     public void onFabClick() {
         if (fragment != null) {
-            fragment.getCurrentDirectory();
+            File current = fragment.getCurrentDirectory();
+            Intent in = new Intent();
+            in.putExtra("path", current.getAbsolutePath());
 
-            //TODO export
+            setResult(RESULT_OK, in);
+            finish();
         }
     }
 }
