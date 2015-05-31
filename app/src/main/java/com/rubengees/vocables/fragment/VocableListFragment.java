@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +18,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
-import com.melnykov.fab.FloatingActionButton;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.TransferActivity;
 import com.rubengees.vocables.adapter.UnitAdapter;
@@ -242,12 +242,11 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
             }
         });
         fab.setImageResource(R.drawable.ic_add);
-        fab.bringToFront();
         AnimationUtils.animate(fab, Techniques.Landing, 500, 0, null);
     }
 
     private void setUnitAdapter() {
-        getToolbarActivity().collapseToolbar(true, recycler);
+        getToolbarActivity().collapseToolbar();
 
         adapter = new UnitAdapter(manager.getUnitList(), mode, this);
 
@@ -255,7 +254,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     private void setVocableAdapter(Unit unit) {
-        getToolbarActivity().expandToolbar(true, recycler);
+        getToolbarActivity().expandToolbar();
         getToolbarActivity().setToolbarView(header);
 
         adapter = new VocableAdapter(unit, mode, this);

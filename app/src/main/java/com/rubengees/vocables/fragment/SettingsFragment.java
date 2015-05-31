@@ -40,7 +40,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             ab.setSubtitle(null);
         }
 
-        getToolbarActivity().collapseToolbar(true);
+        getToolbarActivity().collapseToolbar();
 
         addPreferencesFromResource(R.xml.preferences);
         ads = this.findPreference("pref_ads");

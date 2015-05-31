@@ -234,7 +234,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
         }
 
         getFragmentManager().beginTransaction()
-                .replace(R.id.activity_main_content, fragment).commit();
+                .replace(R.id.content, fragment).commit();
 
         setTitle(title);
         styleApplication(color, darkColor);

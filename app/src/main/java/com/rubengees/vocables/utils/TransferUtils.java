@@ -33,10 +33,10 @@ public class TransferUtils {
         return filename.endsWith(".csv") || filename.endsWith(".xml");
     }
 
-    public static void export(List<Unit> units, File directory) throws IOException {
+    public static void export(List<Unit> units, File toExport) throws IOException {
         XmlSerializer serializer = Xml.newSerializer();
         serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
-        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(directory, "backup.xml")));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(toExport));
 
         serializer.setOutput(writer);
         writeXml(serializer, units);

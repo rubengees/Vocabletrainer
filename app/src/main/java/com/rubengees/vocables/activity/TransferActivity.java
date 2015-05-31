@@ -4,21 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.listeners.ActionClickListener;
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.dialog.OverrideDialog;
 import com.rubengees.vocables.fragment.FileFragment;
 import com.rubengees.vocables.utils.TransferUtils;
 
 import java.io.File;
 
-public class TransferActivity extends ExtendedToolbarActivity implements FileFragment.FileFragmentListener, ExtendedToolbarActivity.OnFabClickListener {
+public class TransferActivity extends ExtendedToolbarActivity implements FileFragment.FileFragmentListener, ExtendedToolbarActivity.OnFabClickListener, OverrideDialog.OverrideDialogCallback {
 
     public static final int REQUEST_IMPORT = 10010;
     public static final int REQUEST_EXPORT = 10011;
@@ -41,12 +41,18 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
             tryShowContent();
         } else {
             FileFragment fragment = (FileFragment) getFragmentManager().findFragmentByTag("fragment_transfer");
+            OverrideDialog overrideDialog = (OverrideDialog) getFragmentManager().findFragmentByTag("override_dialog");
 
             if (fragment != null) {
                 configureFragment(fragment);
             } else {
                 showSnackbar();
             }
+
+            if (overrideDialog != null) {
+                overrideDialog.setCallback(this);
+            }
+
         }
 
         styleApplicationRes(R.color.primary, R.color.primary_dark);
@@ -54,17 +60,16 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
 
     @Override
     protected void inflateLayout(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        inflater.inflate(R.layout.activity_transfer, container, true);
     }
 
     private void showSnackbar() {
-        SnackbarManager.show(Snackbar.with(this).duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
-                .text("Could not access SD-Card").actionLabel("Retry").actionListener(new ActionClickListener() {
-                    @Override
-                    public void onActionClicked(Snackbar snackbar) {
-                        tryShowContent();
-                    }
-                }));
+        Snackbar.make(findViewById(R.id.content), "Could not access SD-Card", Snackbar.LENGTH_LONG).setAction("Retry", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tryShowContent();
+            }
+        }).show();
     }
 
     @Override
@@ -96,10 +101,9 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
     private void configureFragment(@NonNull FileFragment fragment) {
         fragment.setFileEventListener(this);
         this.fragment = fragment;
-        expandToolbar(false);
+        expandToolbar();
 
         if (!isImport) {
-            //TODO add drawable ic_save
             enableFab(R.drawable.ic_save, this);
         }
     }
@@ -126,12 +130,28 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
     @Override
     public void onFabClick() {
         if (fragment != null) {
-            File current = fragment.getCurrentDirectory();
-            Intent in = new Intent();
-            in.putExtra("path", current.getAbsolutePath());
+            File current = new File(fragment.getCurrentDirectory() + "/" + "backup.xml");
+            if (current.exists()) {
+                OverrideDialog dialog = OverrideDialog.newInstance(current.getAbsolutePath());
+                dialog.setCallback(this);
 
-            setResult(RESULT_OK, in);
-            finish();
+                dialog.show(getFragmentManager(), "override_dialog");
+            } else {
+                Intent in = new Intent();
+                in.putExtra("path", current.getAbsolutePath());
+
+                setResult(RESULT_OK, in);
+                finish();
+            }
         }
+    }
+
+    @Override
+    public void onOverride(File file) {
+        Intent in = new Intent();
+        in.putExtra("path", file.getAbsolutePath());
+
+        setResult(RESULT_OK, in);
+        finish();
     }
 }

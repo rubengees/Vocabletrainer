@@ -39,8 +39,6 @@ public class StatisticsFragment extends MainFragment {
         if (getArguments() != null) {
             this.modes = getArguments().getParcelableArrayList("modes");
         }
-
-        getToolbarActivity().collapseToolbar(true);
     }
 
     @Override
@@ -53,6 +51,8 @@ public class StatisticsFragment extends MainFragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new ChartAdapter(modes));
+
+        getToolbarActivity().collapseToolbar();
 
         return root;
     }

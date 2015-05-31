@@ -1,58 +1,6 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <FrameLayout
-        android:id="@+id/toolbar_extension"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:layout_toLeftOf="@+id/fab"
-        android:layout_toStartOf="@+id/fab"
-        android:background="@color/primary"
-        android:elevation="4dp"
-        android:minHeight="?attr/actionBarSize" />
-
-    <View
-        android:id="@+id/toolbar_extension_placeholder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@id/toolbar_extension"
-        android:layout_below="@+id/toolbar"
-        android:layout_toEndOf="@+id/toolbar_extension"
-        android:layout_toRightOf="@+id/toolbar_extension"
-        android:background="@color/primary"
-        android:elevation="4dp" />
-
-    <include
-        android:id="@+id/fab"
-        layout="@layout/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar_extension"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="-32dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:elevation="6dp"
-        android:visibility="gone" />
-
-    <FrameLayout
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_extension"
-        tools:context=".activity.MainActivity" />
-
-</RelativeLayout>
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity" />

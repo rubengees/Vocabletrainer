@@ -69,7 +69,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
 
         if (savedInstanceState == null) {
             settings = layout.generateTestSettings();
-            getToolbarActivity().expandToolbar(true);
+            getToolbarActivity().expandToolbar();
 
             updateStatus(calculateAmount(settings));
         } else {

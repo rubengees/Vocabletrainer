@@ -46,8 +46,6 @@ public class HelpFragment extends MainFragment {
         if (getArguments() != null) {
             this.modes = getArguments().getParcelableArrayList("modes");
         }
-
-        getToolbarActivity().collapseToolbar(true);
     }
 
     @Override
@@ -62,6 +60,8 @@ public class HelpFragment extends MainFragment {
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(layoutManager);
         recycler.setAdapter(adapter);
+
+        getToolbarActivity().collapseToolbar();
 
         return root;
     }

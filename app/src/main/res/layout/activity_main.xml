@@ -6,7 +6,7 @@
     tools:context=".activity.MainActivity">
 
     <FrameLayout
-        android:id="@+id/activity_main_content"
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/adView"

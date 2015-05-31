@@ -1,16 +1,14 @@
 package com.rubengees.vocables.activity;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-import com.melnykov.fab.FloatingActionButton;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.rubengees.vocables.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ruben on 22.05.15.
@@ -61,7 +57,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         toolbarExtension = (ViewGroup) findViewById(R.id.toolbar_extension);
         toolbarExtensionPlaceHolder = findViewById(R.id.toolbar_extension_placeholder);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        content = (ViewGroup) findViewById(R.id.content);
+        content = (ViewGroup) findViewById(R.id.content_container);
 
         toolbar.bringToFront();
 
@@ -144,81 +140,33 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
      */
     public final void toggleExtendedToolbar(boolean withAnimation) {
         if (isExtended) {
-            collapseToolbar(withAnimation);
+            collapseToolbar();
         } else {
-            expandToolbar(withAnimation);
+            expandToolbar();
         }
     }
 
-    public final void collapseToolbar(boolean withAnimation) {
+    public final void collapseToolbar() {
         if (isExtended) {
-            isExtended = false;
             if (currentAnimator != null) {
                 currentAnimator.end();
             }
+            isExtended = false;
+            setToolbarExtensionVisibility(false);
 
-            if (withAnimation) {
-                animateToolbar(0, -toolbarExtension.getHeight(), false, this.content);
-            } else {
-                setToolbarExtensionVisibility(false);
+            if (fab != null) {
+                fab.setVisibility(View.GONE);
             }
-        }
-
-        if (fab != null) {
-            fab.setVisibility(View.GONE);
         }
     }
 
-    public final void expandToolbar(boolean withAnimation) {
+    public final void expandToolbar() {
         if (!isExtended) {
-            isExtended = true;
             if (currentAnimator != null) {
                 currentAnimator.end();
             }
-
-            if (withAnimation) {
-                toolbarExtension.setVisibility(View.VISIBLE);
-                toolbarExtensionPlaceHolder.setVisibility(View.VISIBLE);
-                animateToolbar(-toolbarExtension.getHeight(), 0, true, this.content);
-            } else {
-                setToolbarExtensionVisibility(true);
-            }
-        }
-    }
-
-    public final void collapseToolbar(boolean withAnimation, @Nullable View content) {
-        if (currentAnimator != null) {
-            currentAnimator.end();
-        }
-
-        if (isExtended) {
-            isExtended = false;
-
-            if (withAnimation) {
-                animateToolbar(0, -toolbarExtension.getHeight(), false, content == null ? this.content : content);
-            } else {
-                setToolbarExtensionVisibility(false);
-            }
-        }
-
-        fab.setVisibility(View.GONE);
-    }
-
-    public final void expandToolbar(boolean withAnimation, @Nullable View content) {
-        if (currentAnimator != null) {
-            currentAnimator.end();
-        }
-
-        if (!isExtended) {
             isExtended = true;
-
-            if (withAnimation) {
-                toolbarExtension.setVisibility(View.VISIBLE);
-                toolbarExtensionPlaceHolder.setVisibility(View.VISIBLE);
-                animateToolbar(-toolbarExtension.getHeight(), 0, true, content == null ? this.content : content);
-            } else {
-                setToolbarExtensionVisibility(true);
-            }
+            setToolbarExtensionVisibility(true);
         }
     }
 
@@ -232,53 +180,6 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         }
     }
 
-    private void animateToolbar(int from, int to, final boolean visibleAfter, final View content) {
-        currentAnimator = new AnimatorSet();
-        List<Animator> animators = new ArrayList<>(2);
-
-        setTranslationY(toolbarExtension, from);
-        setTranslationY(toolbarExtensionPlaceHolder, from);
-        setTranslationY(content, from);
-
-        animators.add(ObjectAnimator.ofFloat(toolbarExtension, "translationY", to));
-        animators.add(ObjectAnimator.ofFloat(toolbarExtensionPlaceHolder, "translationY", to));
-        animators.add(ObjectAnimator.ofFloat(content, "translationY", to));
-
-        currentAnimator.setInterpolator(new LinearOutSlowInInterpolator());
-        currentAnimator.setDuration(450);
-        currentAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                setToolbarExtensionVisibility(visibleAfter);
-                content.setTranslationY(0);
-                currentAnimator = null;
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-
-        content.bringToFront();
-        currentAnimator.playTogether(animators);
-        currentAnimator.start();
-    }
-
-    private void setTranslationY(@NonNull View view, int translationY) {
-        view.setTranslationY(translationY);
-    }
-
     /**
      * Enables the FAB below the Toolbar.
      *
@@ -288,7 +189,11 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
     public final void enableFab(@DrawableRes int drawable, @Nullable OnFabClickListener listener) {
         if (isExtended) {
             fab.setImageResource(drawable);
-            fab.setVisibility(View.VISIBLE);
+            if (fab.getVisibility() != View.VISIBLE) {
+                YoYo.with(Techniques.Landing).duration(500).interpolate(new LinearOutSlowInInterpolator()).playOn(fab);
+                fab.setVisibility(View.VISIBLE);
+            }
+            fab.bringToFront();
         } else {
             throw new RuntimeException("Extension is not visible. The FAB cannot be enabled without the Extended Toolbar.");
         }

@@ -106,6 +106,11 @@ public class SwipeToDismissTouchListener implements RecyclerView.OnItemTouchList
     }
 
     @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+    }
+
+    @Override
     public boolean onInterceptTouchEvent(final RecyclerView view, MotionEvent motionEvent) {
         if (mPaused) return false;
         // offset because the view is translated during swipe

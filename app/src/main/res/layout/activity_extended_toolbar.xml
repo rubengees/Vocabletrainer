@@ -35,9 +35,8 @@
         android:elevation="4dp"
         android:visibility="gone" />
 
-    <include
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        layout="@layout/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar_extension"
@@ -50,10 +49,10 @@
         android:visibility="gone" />
 
     <FrameLayout
-        android:id="@+id/content"
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_extension"
-        tools:context=".activity.MainActivity" />
+        tools:context=".activity.ExtendedToolbarActivity" />
 
 </RelativeLayout>
