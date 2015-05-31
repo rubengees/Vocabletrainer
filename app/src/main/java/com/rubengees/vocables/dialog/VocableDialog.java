@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.text.InputType;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -120,7 +122,7 @@ public class VocableDialog extends DialogFragment {
         Unit unit;
 
         for (int i = 0; i < meaningContainer1.getChildCount(); i++) {
-            EditText current = (EditText) meaningContainer1.getChildAt(i);
+            EditText current = (EditText) ((ViewGroup) meaningContainer1.getChildAt(i)).getChildAt(0);
             String currentText = current.getText().toString().trim();
 
             if (!currentText.isEmpty()) {
@@ -129,7 +131,7 @@ public class VocableDialog extends DialogFragment {
         }
 
         for (int i = 0; i < meaningContainer2.getChildCount(); i++) {
-            EditText current = (EditText) meaningContainer2.getChildAt(i);
+            EditText current = (EditText) ((ViewGroup) meaningContainer2.getChildAt(i)).getChildAt(0);
             String currentText = current.getText().toString().trim();
 
             if (!currentText.isEmpty()) {
@@ -201,8 +203,8 @@ public class VocableDialog extends DialogFragment {
             meaningContainer2.removeViewAt(i);
         }
 
-        EditText meaningInput1 = (EditText) meaningContainer1.getChildAt(0);
-        EditText meaningInput2 = (EditText) meaningContainer2.getChildAt(0);
+        EditText meaningInput1 = (EditText) ((ViewGroup) meaningContainer1.getChildAt(0)).getChildAt(0);
+        EditText meaningInput2 = (EditText) ((ViewGroup) meaningContainer2.getChildAt(0)).getChildAt(0);
 
         meaningInput1.getText().clear();
         meaningInput2.getText().clear();
@@ -332,12 +334,13 @@ public class VocableDialog extends DialogFragment {
         return content;
     }
 
-    private EditText generateInput(String text, String hint) {
-        EditText result = (EditText) View.inflate(getActivity(), R.layout.dialog_vocable_input, null);
+    private View generateInput(String text, String hint) {
+        TextInputLayout result = (TextInputLayout) View.inflate(getActivity(), R.layout.dialog_vocable_input, null);
+        EditText input = (EditText) result.getChildAt(0);
 
-        result.setText(text);
         result.setHint(hint);
-        result.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        input.setText(text);
+        input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
         return result;
     }

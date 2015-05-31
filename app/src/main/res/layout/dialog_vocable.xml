@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dialog_vocable_meanings1_container"
-        android:layout_marginTop="12dp"
         android:layout_toLeftOf="@+id/dialog_vocable_meanings2_add"
         android:layout_toStartOf="@+id/dialog_vocable_meanings2_add"
         android:orientation="vertical" />
@@ -42,21 +41,26 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/btn_add" />
 
-    <EditText
-        android:id="@+id/dialog_vocable_hint"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/dialog_vocable_hint_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog_vocable_meanings2_container"
-        android:layout_marginTop="16dp"
-        android:hint="Hint"
-        android:inputType="textNoSuggestions" />
+        android:layout_below="@+id/dialog_vocable_meanings2_container">
+
+        <EditText
+            android:id="@+id/dialog_vocable_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hint"
+            android:inputType="textNoSuggestions" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog_vocable_hint"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp">
+        android:layout_below="@+id/dialog_vocable_hint_wrapper"
+        android:layout_centerHorizontal="true">
 
         <Spinner
             android:id="@+id/dialog_vocable_units"
@@ -67,16 +71,22 @@
             android:layout_toLeftOf="@+id/dialog_vocable_toggle_unit_input"
             android:layout_toStartOf="@+id/dialog_vocable_toggle_unit_input" />
 
-        <EditText
-            android:id="@+id/dialog_vocable_unit_input"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_toLeftOf="@+id/dialog_vocable_toggle_unit_input"
-            android:layout_toStartOf="@+id/dialog_vocable_toggle_unit_input"
-            android:hint="Unit title"
-            android:inputType="textNoSuggestions" />
+            android:layout_toStartOf="@+id/dialog_vocable_toggle_unit_input">
+
+            <EditText
+                android:id="@+id/dialog_vocable_unit_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Unit title"
+                android:inputType="textNoSuggestions" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <ImageButton
             android:id="@+id/dialog_vocable_toggle_unit_input"
