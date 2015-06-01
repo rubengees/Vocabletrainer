@@ -22,6 +22,7 @@ public class TestFragment extends MainFragment {
     public static TestFragment newInstance() {
         TestFragment fragment = new TestFragment();
         Bundle args = new Bundle();
+
         fragment.setArguments(args);
         return fragment;
     }

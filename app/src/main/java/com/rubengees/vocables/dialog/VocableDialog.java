@@ -338,6 +338,7 @@ public class VocableDialog extends DialogFragment {
         TextInputLayout result = (TextInputLayout) View.inflate(getActivity(), R.layout.dialog_vocable_input, null);
         EditText input = (EditText) result.getChildAt(0);
 
+        input.setId(android.R.id.edit);
         result.setHint(hint);
         input.setText(text);
         input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);

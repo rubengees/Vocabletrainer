@@ -1,7 +1,12 @@
 package com.rubengees.vocables.core.test;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.View;
 
+import com.rubengees.vocables.activity.ExtendedToolbarActivity;
+import com.rubengees.vocables.core.test.logic.TestLogic;
 import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.pojo.Vocable;
 import com.rubengees.vocables.utils.PreferenceUtils;
@@ -19,17 +24,60 @@ public abstract class Test {
     private int color;
     private int darkColor;
     private boolean animate;
-    private boolean caseSensitive;
 
-    public Test(final OnTestFinishedListener listener, TestSettings settings, final Context context, final int color, final int darkColor) {
-        this.listener = listener;
-        this.settings = settings;
+    Test(Context context, TestSettings settings, OnTestFinishedListener listener, int color, int darkColor, Bundle savedInstanceState) {
+        this(context, settings, listener, color, darkColor);
         this.context = context;
+        this.settings = settings;
+        this.listener = listener;
+
+        restoreSavedInstanceState(savedInstanceState);
+    }
+
+    Test(Context context, TestSettings settings, OnTestFinishedListener listener, int color, int darkColor) {
+        this.context = context;
+        this.settings = settings;
+        this.listener = listener;
         this.color = color;
         this.darkColor = darkColor;
-        animate = PreferenceUtils.areAnimationsEnabled(context);
-        caseSensitive = PreferenceUtils.isCaseSensitive(context);
+        this.animate = PreferenceUtils.areAnimationsEnabled(context);
     }
+
+    protected void restoreSavedInstanceState(Bundle savedInstanceState) {
+        this.color = savedInstanceState.getInt("test_color");
+        this.darkColor = savedInstanceState.getInt("test_color_dark");
+        this.animate = savedInstanceState.getBoolean("test_should_animate");
+    }
+
+    protected abstract TestLogic getLogic();
+
+    public final void onResume() {
+        getLogic().onResume();
+    }
+
+    public final void onPause() {
+        getLogic().onPause();
+    }
+
+    protected void show() {
+        TestLogic logic = getLogic();
+
+        updateCount(logic.getPosition() + 1, logic.getAmount());
+    }
+
+    private void updateCount(int pos, int amount) {
+        ActionBar actionBar = getToolbarActivity().getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setSubtitle((pos + 1) + "/" + amount);
+        }
+    }
+
+    protected final ExtendedToolbarActivity getToolbarActivity() {
+        return (ExtendedToolbarActivity) context;
+    }
+
+    public abstract View getLayout();
 
     protected Context getContext() {
         return context;
@@ -49,10 +97,6 @@ public abstract class Test {
 
     protected boolean shouldAnimate() {
         return animate;
-    }
-
-    protected boolean isCaseSensitive() {
-        return caseSensitive;
     }
 
     protected void finishTest(TestResult result, List<Vocable> vocables) {

@@ -1,8 +1,10 @@
 package com.rubengees.vocables.core.test.logic;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.rubengees.vocables.pojo.Meaning;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,8 +12,19 @@ import java.util.List;
 /**
  * Created by Ruben on 04.04.2015.
  */
-public class MeaningField implements Iterable<MeaningCell>, Serializable {
+public class MeaningField implements Iterable<MeaningCell>, Parcelable {
 
+    public static final Creator<MeaningField> CREATOR = new Creator<MeaningField>() {
+
+        public MeaningField createFromParcel(Parcel in) {
+            return new MeaningField(in);
+        }
+
+        public MeaningField[] newArray(int size) {
+            return new MeaningField[size];
+        }
+
+    };
     private MeaningCell[][] field;
     private Position selected;
     private int elementCount = 0;
@@ -23,6 +36,10 @@ public class MeaningField implements Iterable<MeaningCell>, Serializable {
 
     public MeaningField(int sizeX, int sizeY) {
         field = new MeaningCell[sizeX][sizeY];
+    }
+
+    private MeaningField(Parcel in) {
+        readFromParcel(in);
     }
 
     public void setCells(List<MeaningCell> cells) {
@@ -50,6 +67,17 @@ public class MeaningField implements Iterable<MeaningCell>, Serializable {
 
     public void unSelect() {
         selected = null;
+    }
+
+    private void readFromParcel(Parcel in) {
+        final int sizeX = in.readInt();
+        final int sizeY = in.readInt();
+        field = new MeaningCell[sizeX][sizeY];
+        for (int i = 0; i < sizeY; i++) {
+            field[i] = in.createTypedArray(MeaningCell.CREATOR);
+        }
+        selected = in.readParcelable(Position.class.getClassLoader());
+        elementCount = in.readInt();
     }
 
     public boolean isEmpty() {
@@ -123,6 +151,22 @@ public class MeaningField implements Iterable<MeaningCell>, Serializable {
         }
 
         return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(getSizeX());
+        out.writeInt(getSizeY());
+        for (int i = 0; i < field.length; i++) {
+            out.writeParcelableArray(field[i], 0);
+        }
+        out.writeParcelable(selected, 0);
+        out.writeInt(elementCount);
     }
 
 }

@@ -152,9 +152,16 @@ public class Vocable implements TrainerItem, Parcelable {
             }
 
             return result;
-
         } else {
             return false;
+        }
+    }
+
+    public Meaning getOtherMeaning(Meaning meaning) {
+        if (meaning == firstMeaning) {
+            return firstMeaning;
+        } else {
+            return secondMeaning;
         }
     }
 }

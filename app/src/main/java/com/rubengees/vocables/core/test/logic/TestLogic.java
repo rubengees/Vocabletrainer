@@ -20,24 +20,25 @@ import java.util.Map;
  * Created by ruben on 28.04.15.
  */
 
-public class TestLogic {
+public class TestLogic<E extends TestSettings> {
 
     private Context context;
     private List<Vocable> vocables;
     private int position = -1;
     private long currentTime;
-    private TestSettings settings;
+    private E settings;
     private TestResult result;
 
-    public TestLogic(final Context context, TestSettings settings) {
+    public TestLogic(final Context context, E settings) {
         this.context = context;
         this.settings = settings;
         this.vocables = new ArrayList<>();
+        this.result = new TestResult();
 
         Map<Integer, Unit> units = Core.getInstance((android.app.Activity) context).getVocableManager().getUnitMap();
 
         for (Integer unitId : settings.getUnitIds()) {
-            vocables.addAll(units.get(unitId).getVocables());
+            vocables.addAll(units.get(unitId).getVocables(settings.getMaxRate()));
         }
 
         Collections.shuffle(vocables);
@@ -45,15 +46,23 @@ public class TestLogic {
 
     public TestLogic(Context context, Bundle savedInstanceState) {
         this.context = context;
-        restoreSavedInstance(savedInstanceState);
+        restoreSavedInstanceState(savedInstanceState);
     }
 
-    private void restoreSavedInstance(final Bundle savedInstanceState) {
+    protected void restoreSavedInstanceState(final Bundle savedInstanceState) {
         vocables = savedInstanceState.getParcelableArrayList("vocables");
         settings = savedInstanceState.getParcelable("settings");
         position = savedInstanceState.getInt("position");
         currentTime = savedInstanceState.getLong("currentTime");
         result = savedInstanceState.getParcelable("result");
+    }
+
+    public void onPause() {
+
+    }
+
+    public void onResume() {
+
     }
 
     public boolean next() {
@@ -63,7 +72,7 @@ public class TestLogic {
         return true;
     }
 
-    public Context getContext() {
+    public final Context getContext() {
         return context;
     }
 
@@ -103,7 +112,7 @@ public class TestLogic {
         return currentTime;
     }
 
-    public TestSettings getSettings() {
+    public E getSettings() {
         return settings;
     }
 
@@ -116,7 +125,7 @@ public class TestLogic {
     }
 
     public void saveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList("vocables", new ArrayList(vocables));
+        outState.putParcelableArrayList("vocables", new ArrayList<Vocable>(vocables));
         outState.putParcelable("settings", settings);
         outState.putInt("position", position);
         outState.putLong("currentTime", currentTime);

@@ -31,11 +31,11 @@ public abstract class Mode implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-
+        out.writeParcelable(data, 0);
     }
 
     private void readFromParcel(Parcel in) {
-
+        data = in.readParcelable(ModeData.class.getClassLoader());
     }
 
     public final int getId() {
@@ -70,14 +70,19 @@ public abstract class Mode implements Parcelable {
         data.setPlayed(data.getPlayed() + 1);
         data.setCorrect(data.getCorrect() + result.getCorrect());
         data.setIncorrect(data.getIncorrect() + result.getIncorrect());
+
         if (result.getCorrect() >= getMinAmount() && result.getIncorrect() <= 0) {
             data.setPerfectInRow(data.getPerfectInRow() + 1);
         }
+
         int avrgTime = result.getAverageTime();
+
         if (avrgTime < data.getBestTime()) {
             data.setBestTime(avrgTime);
         }
+
         int played = data.getPlayed();
+
         data.setAverageTime((data.getAverageTime() * (played - 1) + avrgTime) / played);
     }
 
