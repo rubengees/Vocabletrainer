@@ -25,16 +25,13 @@ public abstract class Test {
     private int darkColor;
     private boolean animate;
 
-    Test(Context context, TestSettings settings, OnTestFinishedListener listener, int color, int darkColor, Bundle savedInstanceState) {
+    public Test(Context context, TestSettings settings, OnTestFinishedListener listener, int color, int darkColor, Bundle savedInstanceState) {
         this(context, settings, listener, color, darkColor);
-        this.context = context;
-        this.settings = settings;
-        this.listener = listener;
 
         restoreSavedInstanceState(savedInstanceState);
     }
 
-    Test(Context context, TestSettings settings, OnTestFinishedListener listener, int color, int darkColor) {
+    public Test(Context context, TestSettings settings, OnTestFinishedListener listener, int color, int darkColor) {
         this.context = context;
         this.settings = settings;
         this.listener = listener;
@@ -44,9 +41,10 @@ public abstract class Test {
     }
 
     protected void restoreSavedInstanceState(Bundle savedInstanceState) {
-        this.color = savedInstanceState.getInt("test_color");
-        this.darkColor = savedInstanceState.getInt("test_color_dark");
-        this.animate = savedInstanceState.getBoolean("test_should_animate");
+    }
+
+    public void saveInstanceState(Bundle outState) {
+        getLogic().saveInstanceState(outState);
     }
 
     protected abstract TestLogic getLogic();
@@ -59,7 +57,7 @@ public abstract class Test {
         getLogic().onPause();
     }
 
-    protected void show() {
+    public void show() {
         TestLogic logic = getLogic();
 
         updateCount(logic.getPosition() + 1, logic.getAmount());

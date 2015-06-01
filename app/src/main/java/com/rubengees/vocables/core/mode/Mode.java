@@ -2,11 +2,13 @@ package com.rubengees.vocables.core.mode;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.rubengees.vocables.core.test.Test;
 import com.rubengees.vocables.core.test.TestResult;
+import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.core.testsettings.layout.TestSettingsLayout;
 
 /**
@@ -102,5 +104,7 @@ public abstract class Mode implements Parcelable {
 
     public abstract TestSettingsLayout getTestSettingsLayout(Context context, TestSettingsLayout.OnTestSettingsListener listener);
 
-    public abstract Test getTest();
+    public abstract Test getTest(Context context, TestSettings settings, Test.OnTestFinishedListener listener, Bundle savedInstanceState);
+
+    public abstract Test getTest(Context context, TestSettings settings, Test.OnTestFinishedListener listener);
 }

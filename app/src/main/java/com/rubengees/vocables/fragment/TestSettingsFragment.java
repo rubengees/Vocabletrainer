@@ -3,11 +3,11 @@ package com.rubengees.vocables.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
@@ -65,7 +65,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
         View header = inflater.inflate(R.layout.fragment_test_settings_header, container, false);
         status = (TextView) header.findViewById(R.id.fragment_test_settings_header_status);
 
-        View root = layout.inflateLayout(inflater, container, savedInstanceState);
+        final View root = layout.inflateLayout(inflater, container, savedInstanceState);
 
         if (savedInstanceState == null) {
             settings = layout.generateTestSettings();
@@ -82,9 +82,9 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
             @Override
             public void onFabClick() {
                 if (vocableAmount >= mode.getMinAmount()) {
-                    //TODO show TestFragment
+                    getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
                 } else {
-                    Toast.makeText(getActivity(), "You don't have enough Vocables selected. You need at least" + " " + mode.getMinAmount(), Toast.LENGTH_SHORT).show();
+                    Snackbar.make(root, "You don't have enough Vocables selected. You need at least" + " " + mode.getMinAmount(), Snackbar.LENGTH_LONG).show();
                 }
             }
         });

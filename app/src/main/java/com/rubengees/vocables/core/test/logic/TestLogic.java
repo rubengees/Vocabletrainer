@@ -112,6 +112,10 @@ public class TestLogic<E extends TestSettings> {
         return currentTime;
     }
 
+    public List<Vocable> getVocables() {
+        return vocables;
+    }
+
     public E getSettings() {
         return settings;
     }

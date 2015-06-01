@@ -30,7 +30,7 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
 
     public abstract T get(int pos);
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return getItemCount() <= 0;
     }
 
@@ -38,7 +38,7 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
         this.sortMode = mode;
     }
 
-    protected SortMode getSortMode(){
+    protected SortMode getSortMode() {
         return sortMode;
     }
 }

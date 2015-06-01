@@ -2,11 +2,11 @@ package com.rubengees.vocables.fragment;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+import android.support.v7.app.ActionBar;
 import android.view.Display;
 
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
@@ -21,12 +21,10 @@ public class MainFragment extends Fragment implements MainActivity.OnBackPressed
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar ab = getActivity().getActionBar();
+        ActionBar ab = getToolbarActivity().getSupportActionBar();
 
-        if (savedInstanceState == null) {
-            if (ab != null) {
-                ab.setSubtitle(null);
-            }
+        if (ab != null) {
+            ab.setSubtitle(null);
         }
     }
 
@@ -41,8 +39,9 @@ public class MainFragment extends Fragment implements MainActivity.OnBackPressed
 
     /**
      * By faizan ali (Comment-Section of http://trickyandroid.com/fragments-translate-animation/)
-     * @param transit Transit Mode
-     * @param enter If it is enter or exit Animation
+     *
+     * @param transit  Transit Mode
+     * @param enter    If it is enter or exit Animation
      * @param nextAnim The next Animation
      * @return the Animator
      */
@@ -54,11 +53,11 @@ public class MainFragment extends Fragment implements MainActivity.OnBackPressed
         float displayWidth = size.x;
         Animator animator = null;
 
-        if(enter) {
+        if (enter) {
             animator = ObjectAnimator.ofFloat(this, "translationX", displayWidth / 4, 0);
         }
 
-        if(animator != null) {
+        if (animator != null) {
             animator.setDuration(500);
             animator.setInterpolator(new LinearOutSlowInInterpolator());
         }

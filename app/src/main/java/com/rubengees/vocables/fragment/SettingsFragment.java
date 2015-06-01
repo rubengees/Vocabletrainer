@@ -162,11 +162,11 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         float displayWidth = size.x;
         Animator animator = null;
 
-        if(enter) {
+        if (enter) {
             animator = ObjectAnimator.ofFloat(this, "translationX", displayWidth / 4, 0);
         }
 
-        if(animator != null) {
+        if (animator != null) {
             animator.setDuration(500);
         }
 

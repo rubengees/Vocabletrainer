@@ -67,7 +67,7 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
         this.id = id;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
