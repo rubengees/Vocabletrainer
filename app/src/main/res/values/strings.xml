@@ -44,10 +44,13 @@
     <string name="chart_time_average">Average</string>
 
     <string name="item_stat_general_title">General</string>
-    <string name="title_activity_transfer">TransferActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_result_perfect">Perfect!</string>
+    <string name="fragment_result_very_good">Very Good</string>
+    <string name="fragment_result_good">Good</string>
+    <string name="fragment_result_okay">Okay</string>
+    <string name="fragment_result_not_so_well">Not so well</string>
+    <string name="fragment_result_bad">Bad</string>
+    <string name="fragment_result_horrible">Horrible</string>
+    <string name="fragment_result_no_answers">No Answers</string>
 </resources>

@@ -54,10 +54,10 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
     @Override
     public View getLayout() {
         View root = View.inflate(getContext(), R.layout.fragment_test_classic, null);
-        View header = View.inflate(getContext(), R.layout.fragment_test_header, null);
+        View header = View.inflate(getContext(), R.layout.header, null);
 
         input = (EditText) root.findViewById(R.id.fragment_test_classic_input);
-        status = (TextView) header.findViewById(R.id.fragment_test_header_text);
+        status = (TextView) header.findViewById(R.id.header_text);
 
         input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         input.setOnEditorActionListener(new TextView.OnEditorActionListener() {

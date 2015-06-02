@@ -3,46 +3,45 @@ package com.rubengees.vocables.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.activity.ExtendedToolbarActivity;
+import com.rubengees.vocables.adapter.ResultAdapter;
+import com.rubengees.vocables.core.Core;
+import com.rubengees.vocables.core.mode.Mode;
+import com.rubengees.vocables.core.test.TestResult;
+import com.rubengees.vocables.core.testsettings.TestSettings;
+import com.rubengees.vocables.pojo.Vocable;
+import com.rubengees.vocables.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TestResultFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TestResultFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class TestResultFragment extends MainFragment {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Mode mode;
+    private TestResult result;
+    private TestSettings settings;
 
-
-    public TestResultFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TestResultFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TestResultFragment newInstance(String param1, String param2) {
+    public static TestResultFragment newInstance(Mode mode, TestResult result, TestSettings settings, ArrayList<Vocable> vocables) {
         TestResultFragment fragment = new TestResultFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
+        args.putParcelable("mode", mode);
+        args.putParcelable("result", result);
+        args.putParcelable("settings", settings);
+        args.putParcelableArrayList("vocables", vocables);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,18 +49,72 @@ public class TestResultFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Core core = Core.getInstance(getActivity());
+        List<Vocable> vocables = new ArrayList<>();
+
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mode = getArguments().getParcelable("mode");
+            result = getArguments().getParcelable("result");
+            settings = getArguments().getParcelable("settings");
+            vocables = getArguments().getParcelableArrayList("vocables");
+        }
+
+        if (savedInstanceState == null) {
+            mode.processResult(result);
+            core.getVocableManager().updateVocablesFast(vocables);
+            core.saveMode(mode);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_test_result, container, false);
+        RecyclerView recycler = (RecyclerView) inflater.inflate(R.layout.fragment_test_result, container, false);
+        View header = inflater.inflate(R.layout.header, container, false);
+        TextView resultText = (TextView) header.findViewById(R.id.header_text);
+        ResultAdapter adapter = new ResultAdapter(result);
+
+        recycler.setHasFixedSize(true);
+        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recycler.setAdapter(adapter);
+
+        getToolbarActivity().expandToolbar();
+        getToolbarActivity().setToolbarView(header);
+        getToolbarActivity().enableFab(R.drawable.ic_again, new ExtendedToolbarActivity.OnFabClickListener() {
+            @Override
+            public void onFabClick() {
+                getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
+            }
+        });
+
+        resultText.setText(calculateResultText());
+
+        return recycler;
     }
 
+    private String calculateResultText() {
+        if (result.getCorrect() + result.getIncorrect() > 0) {
+            int rate = Utils.calculateCorrectAnswerRate(result.getCorrect(), result.getIncorrect());
+
+            if (rate == 100) {
+                return getActivity().getString(R.string.fragment_result_perfect);
+            } else if (rate >= 92) {
+                return getActivity().getString(R.string.fragment_result_very_good);
+            } else if (rate >= 81) {
+                return getActivity().getString(R.string.fragment_result_good);
+            } else if (rate >= 67) {
+                return getActivity().getString(R.string.fragment_result_okay);
+            } else if (rate >= 50) {
+                return getActivity().getString(R.string.fragment_result_not_so_well);
+            } else if (rate >= 30) {
+                return getActivity().getString(R.string.fragment_result_bad);
+            } else {
+                return getActivity().getString(R.string.fragment_result_horrible);
+            }
+        } else {
+            return getActivity().getString(R.string.fragment_result_no_answers);
+        }
+    }
 
 }

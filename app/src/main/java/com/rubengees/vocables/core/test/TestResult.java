@@ -92,4 +92,8 @@ public class TestResult implements Parcelable {
         out.writeInt(averageTime);
         out.writeInt(bestTime);
     }
+
+    public TestAnswer getAnswerAt(int position) {
+        return answers.get(position);
+    }
 }

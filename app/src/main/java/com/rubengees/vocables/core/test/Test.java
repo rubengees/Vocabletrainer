@@ -11,7 +11,7 @@ import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.pojo.Vocable;
 import com.rubengees.vocables.utils.PreferenceUtils;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by ruben on 28.04.15.
@@ -98,11 +98,11 @@ public abstract class Test {
         return animate;
     }
 
-    protected void finishTest(TestResult result, List<Vocable> vocables) {
+    protected void finishTest(TestResult result, ArrayList<Vocable> vocables) {
         listener.onTestFinished(result, settings, vocables);
     }
 
     public interface OnTestFinishedListener {
-        void onTestFinished(TestResult result, TestSettings settings, List<Vocable> vocables);
+        void onTestFinished(TestResult result, TestSettings settings, ArrayList<Vocable> vocables);
     }
 }

@@ -356,9 +356,11 @@ public class Database extends SQLiteOpenHelper {
     public void updateVocablesFast(List<Vocable> vocables) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
+
         for (Vocable vocable : vocables) {
-            updateVocableFast(vocable);
+            updateVocableFast(db, vocable);
         }
+
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();

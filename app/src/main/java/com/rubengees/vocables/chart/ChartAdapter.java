@@ -31,10 +31,9 @@ public class ChartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         switch (viewType) {
             case 0:
-
-                return new ViewHolderGeneral(inflater.inflate(R.layout.stat_item_general, parent, false));
+                return new ViewHolderGeneral(inflater.inflate(R.layout.list_item_stat_general, parent, false));
             case 1:
-                return new ViewHolderMode(inflater.inflate(R.layout.stat_item_mode, parent, false));
+                return new ViewHolderMode(inflater.inflate(R.layout.list_item_stat_mode, parent, false));
             default:
                 return null;
         }
@@ -42,7 +41,7 @@ public class ChartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position <= 0) {
+        if (holder instanceof ViewHolderGeneral) {
             ViewHolderGeneral current = (ViewHolderGeneral) holder;
             int correct = 0;
             int incorrect = 0;
@@ -54,7 +53,7 @@ public class ChartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             ChartTools.generateModeChart(current.modes, modes);
             ChartTools.generateAnswerChart(current.answers, correct, incorrect);
-        } else {
+        } else if (holder instanceof ViewHolderMode) {
             ViewHolderMode current = (ViewHolderMode) holder;
             Mode mode = modes.get(position - 1);
 
@@ -74,7 +73,7 @@ public class ChartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return modes.size() + 1;
     }
 
-    static class ViewHolderMode extends RecyclerView.ViewHolder {
+    class ViewHolderMode extends RecyclerView.ViewHolder {
 
         TextView title;
         PieChartView answers;
@@ -89,7 +88,7 @@ public class ChartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public class ViewHolderGeneral extends RecyclerView.ViewHolder {
+    class ViewHolderGeneral extends RecyclerView.ViewHolder {
 
         PieChartView modes;
         PieChartView answers;

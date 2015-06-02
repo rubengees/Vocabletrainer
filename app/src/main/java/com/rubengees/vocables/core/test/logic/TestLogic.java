@@ -23,7 +23,7 @@ import java.util.Map;
 public class TestLogic<E extends TestSettings> {
 
     private Context context;
-    private List<Vocable> vocables;
+    private ArrayList<Vocable> vocables;
     private int position = -1;
     private long currentTime;
     private E settings;
@@ -112,7 +112,7 @@ public class TestLogic<E extends TestSettings> {
         return currentTime;
     }
 
-    public List<Vocable> getVocables() {
+    public ArrayList<Vocable> getVocables() {
         return vocables;
     }
 
@@ -129,7 +129,7 @@ public class TestLogic<E extends TestSettings> {
     }
 
     public void saveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList("vocables", new ArrayList<Vocable>(vocables));
+        outState.putParcelableArrayList("vocables", vocables);
         outState.putParcelable("settings", settings);
         outState.putInt("position", position);
         outState.putLong("currentTime", currentTime);

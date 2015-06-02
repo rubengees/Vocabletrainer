@@ -7,13 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.core.test.Test;
 import com.rubengees.vocables.core.test.TestResult;
 import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.pojo.Vocable;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -87,7 +88,7 @@ public class TestFragment extends MainFragment implements Test.OnTestFinishedLis
     }
 
     @Override
-    public void onTestFinished(TestResult result, TestSettings settings, List<Vocable> vocables) {
-
+    public void onTestFinished(TestResult result, TestSettings settings, ArrayList<Vocable> vocables) {
+        getFragmentManager().beginTransaction().replace(R.id.content, TestResultFragment.newInstance(mode, result, settings, vocables)).commit();
     }
 }
