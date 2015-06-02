@@ -60,12 +60,14 @@ public class Utils {
                     e.printStackTrace();
                 }
 
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listener.onWaitFinished();
-                    }
-                });
+                if (context != null) {
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onWaitFinished();
+                        }
+                    });
+                }
             }
         }).start();
     }

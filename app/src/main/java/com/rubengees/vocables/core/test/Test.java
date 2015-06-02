@@ -41,6 +41,7 @@ public abstract class Test {
     }
 
     protected void restoreSavedInstanceState(Bundle savedInstanceState) {
+
     }
 
     public void saveInstanceState(Bundle outState) {
@@ -60,7 +61,7 @@ public abstract class Test {
     public void show() {
         TestLogic logic = getLogic();
 
-        updateCount(logic.getPosition() + 1, logic.getAmount());
+        updateCount(logic.getPosition(), logic.getAmount());
     }
 
     private void updateCount(int pos, int amount) {
