@@ -79,7 +79,7 @@ public abstract class Mode implements Parcelable {
 
         int avrgTime = result.getAverageTime();
 
-        if (avrgTime < data.getBestTime()) {
+        if (data.getBestTime() <= 0 || avrgTime < data.getBestTime()) {
             data.setBestTime(avrgTime);
         }
 
