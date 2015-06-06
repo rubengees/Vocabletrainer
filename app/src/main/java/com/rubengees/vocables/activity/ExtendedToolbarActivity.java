@@ -77,7 +77,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
 
             setTitle(currentTitle);
             styleApplication(currentColor, currentColorDark);
-            toggleExtendedToolbar(false);
+            toggleExtendedToolbar();
         } else {
             currentTitle = "Vocabletrainer";
             currentColor = getResources().getColor(R.color.primary);
@@ -132,10 +132,8 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
 
     /**
      * Expands or collapses the toolbar, depending on its state.
-     *
-     * @param withAnimation Animate the toggle
      */
-    public final void toggleExtendedToolbar(boolean withAnimation) {
+    public final void toggleExtendedToolbar() {
         if (isExtended) {
             collapseToolbar();
         } else {
