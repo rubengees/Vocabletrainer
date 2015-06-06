@@ -1,6 +1,5 @@
 package com.rubengees.vocables.activity;
 
-import android.animation.AnimatorSet;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,8 +44,6 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
     private Integer currentColorDark;
 
     private boolean isExtended = false;
-
-    private AnimatorSet currentAnimator;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -148,9 +145,6 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
 
     public final void collapseToolbar() {
         if (isExtended) {
-            if (currentAnimator != null) {
-                currentAnimator.end();
-            }
             isExtended = false;
             setToolbarExtensionVisibility(false);
 
@@ -162,9 +156,6 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
 
     public final void expandToolbar() {
         if (!isExtended) {
-            if (currentAnimator != null) {
-                currentAnimator.end();
-            }
             isExtended = true;
             setToolbarExtensionVisibility(true);
         }
