@@ -52,7 +52,7 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
         Meaning answer = getAnswer();
         boolean correct = given != null && getSettings().isCaseSensitive() ? answer.contains(given) : answer.containsIgnoreCase(given);
 
-        processAnswer(current, question, answer, new Meaning(given), correct);
+        processAnswer(current, question, answer, given == null ? null : new Meaning(given), correct);
 
         if (correct) {
             return null;

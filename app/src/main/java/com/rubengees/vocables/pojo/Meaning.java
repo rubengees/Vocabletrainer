@@ -37,7 +37,7 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
         readFromParcel(in);
     }
 
-    public Meaning(String given) {
+    public Meaning(@NonNull String given) {
         this.meanings = new ArrayList<>();
         meanings.add(given);
     }

@@ -11,6 +11,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.TwoStatePreference;
 import android.support.v4.app.ShareCompat;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.ActionBar;
 import android.view.Display;
 
@@ -164,10 +165,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         if (enter) {
             animator = ObjectAnimator.ofFloat(this, "translationX", displayWidth / 4, 0);
-        }
-
-        if (animator != null) {
             animator.setDuration(500);
+            animator.setInterpolator(new LinearOutSlowInInterpolator());
         }
 
         return animator;

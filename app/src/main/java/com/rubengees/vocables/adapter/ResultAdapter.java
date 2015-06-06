@@ -49,8 +49,7 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ChartTools.generateTimeChart(viewHolder.times, result.getBestTime(), result.getAverageTime());
         } else if (holder instanceof ViewHolderResult) {
             ViewHolderResult viewHolder = (ViewHolderResult) holder;
-            position--;
-            TestAnswer current = result.getAnswerAt(position);
+            TestAnswer current = result.getAnswerAt(position - 1);
 
             if (current.isCorrect()) {
                 viewHolder.icon.setImageResource(R.drawable.ic_correct);

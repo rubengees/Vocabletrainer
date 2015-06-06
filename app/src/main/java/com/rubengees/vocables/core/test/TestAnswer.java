@@ -2,6 +2,8 @@ package com.rubengees.vocables.core.test;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.rubengees.vocables.pojo.Meaning;
 
@@ -31,7 +33,7 @@ public class TestAnswer implements Parcelable {
         readFromParcel(in);
     }
 
-    public TestAnswer(Meaning question, Meaning answer, Meaning given, boolean correct, int time) {
+    public TestAnswer(@NonNull Meaning question, @NonNull Meaning answer, @Nullable Meaning given, boolean correct, int time) {
         this.question = question;
         this.answer = answer;
         this.given = given;

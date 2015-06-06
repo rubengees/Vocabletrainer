@@ -55,9 +55,6 @@ public class MainFragment extends Fragment implements MainActivity.OnBackPressed
 
         if (enter) {
             animator = ObjectAnimator.ofFloat(this, "translationX", displayWidth / 4, 0);
-        }
-
-        if (animator != null) {
             animator.setDuration(500);
             animator.setInterpolator(new LinearOutSlowInInterpolator());
         }
