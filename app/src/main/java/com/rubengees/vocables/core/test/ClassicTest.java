@@ -71,6 +71,8 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
             }
         });
 
+        input.requestFocus();
+
         getToolbarActivity().expandToolbar();
         getToolbarActivity().setToolbarView(header);
         getToolbarActivity().enableFab(R.drawable.ic_next, this);
@@ -153,6 +155,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
         if (logic.next()) {
             show();
         } else {
+            getToolbarActivity().hideKeyboard(input);
             finishTest(logic.getResult(), logic.getVocables());
         }
     }

@@ -86,8 +86,6 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
             setFragment(VocableListFragment.newInstance(), "Vocablelist");
 
             showDialog();
-
-
         } else {
             FragmentManager manager = getFragmentManager();
 
@@ -172,7 +170,22 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     private void generateDrawer(Bundle savedInstanceState) {
         drawer = new DrawerBuilder().withActivity(this).withToolbar(getToolbar())
                 .withDrawerItems(generateDrawerItems()).withSavedInstance(savedInstanceState).withStickyDrawerItems(generateStickyDrawerItems())
-                .withOnDrawerItemClickListener(this).withShowDrawerOnFirstLaunch(true).withActionBarDrawerToggleAnimated(true).build();
+                .withOnDrawerItemClickListener(this).withShowDrawerOnFirstLaunch(true).withActionBarDrawerToggleAnimated(true).withOnDrawerListener(new Drawer.OnDrawerListener() {
+                    @Override
+                    public void onDrawerOpened(View view) {
+                        hideKeyboard(null);
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View view) {
+
+                    }
+
+                    @Override
+                    public void onDrawerSlide(View view, float v) {
+
+                    }
+                }).build();
     }
 
     private ArrayList<IDrawerItem> generateDrawerItems() {

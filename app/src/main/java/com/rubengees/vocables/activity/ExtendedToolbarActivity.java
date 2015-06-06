@@ -1,8 +1,10 @@
 package com.rubengees.vocables.activity;
 
+import android.app.Service;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -16,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -156,6 +159,28 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         if (!isExtended) {
             isExtended = true;
             setToolbarExtensionVisibility(true);
+        }
+    }
+
+    /**
+     * Helper Method to hide the soft keyboard from the window.
+     *
+     * @param view The view that is currently focused. (e.g. a EditText)
+     */
+    public final void hideKeyboard(@Nullable View view) {
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Service.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            IBinder windowToken;
+
+            if (view == null) {
+                windowToken = getWindow().getDecorView().getRootView().getWindowToken();
+            } else {
+                view.clearFocus();
+                windowToken = view.getWindowToken();
+            }
+            if (windowToken != null) {
+                imm.hideSoftInputFromWindow(windowToken, 0);
+            }
         }
     }
 

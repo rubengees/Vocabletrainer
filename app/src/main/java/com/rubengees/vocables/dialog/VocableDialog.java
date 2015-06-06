@@ -236,6 +236,8 @@ public class VocableDialog extends DialogFragment {
 
         toggleUnit.setVisibility(View.VISIBLE);
         setShowUnitInput(false);
+
+        meaningInput1.requestFocus();
     }
 
     private void setupButtons() {
