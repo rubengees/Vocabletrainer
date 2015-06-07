@@ -10,13 +10,14 @@ import android.widget.TextView;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.enumeration.SortMode;
 import com.rubengees.vocables.pojo.Unit;
+import com.rubengees.vocables.utils.Utils;
 
 import java.util.List;
 
 /**
  * Created by ruben on 02.05.15.
  */
-public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder> {
+public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolder> {
 
     private SortedList<Unit> list;
     private OnItemClickListener listener;
@@ -111,20 +112,37 @@ public class UnitAdapter extends VocableListAdapter<Unit, UnitAdapter.ViewHolder
     }
 
     @Override
-    public UnitAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(View.inflate(parent.getContext(), R.layout.list_item_unit, null));
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case 0:
+                return new ViewHolder(View.inflate(parent.getContext(), R.layout.list_item_unit, null));
+            case 1:
+                View space = new View(parent.getContext());
+
+                space.setMinimumHeight(Utils.dpToPx(parent.getContext(), 56));
+                return new ViewHolderSpace(space);
+            default:
+                return null;
+        }
     }
 
     @Override
-    public void onBindViewHolder(UnitAdapter.ViewHolder holder, int position) {
-        Unit unit = list.get(position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ViewHolder) {
+            Unit unit = list.get(position);
 
-        holder.title.setText(unit.getTitle());
+            ((ViewHolder) holder).title.setText(unit.getTitle());
+        }
     }
 
     @Override
-    public int getItemCount() {
+    public int getCount() {
         return list.size();
+    }
+
+    @Override
+    protected boolean isLastPosition(int position) {
+        return position == list.size();
     }
 
     public interface OnItemClickListener {

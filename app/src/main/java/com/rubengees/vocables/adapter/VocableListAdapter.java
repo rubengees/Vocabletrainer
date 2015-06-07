@@ -30,12 +30,30 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
 
     public abstract T get(int pos);
 
-    public boolean isEmpty() {
-        return getItemCount() <= 0;
+    public final boolean isEmpty() {
+        return getCount() <= 0;
     }
+
+    @Override
+    public final int getItemCount() {
+        return getCount() + 1;
+    }
+
+    public abstract int getCount();
 
     public void setMode(@NonNull SortMode mode) {
         this.sortMode = mode;
+    }
+
+    protected abstract boolean isLastPosition(int position);
+
+    @Override
+    public int getItemViewType(int position) {
+        if (!isLastPosition(position)) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     protected SortMode getSortMode() {

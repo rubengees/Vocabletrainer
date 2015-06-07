@@ -11,13 +11,14 @@ import com.rubengees.vocables.R;
 import com.rubengees.vocables.enumeration.SortMode;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
+import com.rubengees.vocables.utils.Utils;
 
 import java.util.List;
 
 /**
  * Created by Ruben on 30.04.2015.
  */
-public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.ViewHolder> {
+public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.ViewHolder> {
 
     private Unit unit;
     private SortedList<Vocable> list;
@@ -128,21 +129,38 @@ public class VocableAdapter extends VocableListAdapter<Vocable, VocableAdapter.V
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        return new ViewHolder(View.inflate(viewGroup.getContext(), R.layout.list_item_vocable, null));
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case 0:
+                return new ViewHolder(View.inflate(parent.getContext(), R.layout.list_item_vocable, null));
+            case 1:
+                View space = new View(parent.getContext());
+
+                space.setMinimumHeight(Utils.dpToPx(parent.getContext(), 56));
+                return new ViewHolderSpace(space);
+            default:
+                return null;
+        }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Vocable vocable = list.get(i);
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+        if (viewHolder instanceof VocableAdapter.ViewHolder) {
+            Vocable vocable = list.get(i);
 
-        viewHolder.firstMeaning.setText(vocable.getFirstMeaning().toString());
-        viewHolder.secondMeaning.setText(vocable.getSecondMeaning().toString());
+            ((ViewHolder) viewHolder).firstMeaning.setText(vocable.getFirstMeaning().toString());
+            ((ViewHolder) viewHolder).secondMeaning.setText(vocable.getSecondMeaning().toString());
+        }
     }
 
     @Override
-    public int getItemCount() {
+    public int getCount() {
         return list.size();
+    }
+
+    @Override
+    protected boolean isLastPosition(int position) {
+        return position == list.size();
     }
 
     public interface OnItemClickListener {

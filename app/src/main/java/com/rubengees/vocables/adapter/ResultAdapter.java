@@ -11,6 +11,7 @@ import com.rubengees.vocables.R;
 import com.rubengees.vocables.chart.ChartTools;
 import com.rubengees.vocables.core.test.TestAnswer;
 import com.rubengees.vocables.core.test.TestResult;
+import com.rubengees.vocables.utils.Utils;
 
 import lecho.lib.hellocharts.view.ColumnChartView;
 import lecho.lib.hellocharts.view.PieChartView;
@@ -32,8 +33,13 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         switch (viewType) {
             case 0:
-                return new ViewHolderResultHeader(inflater.inflate(R.layout.list_item_result_header, parent, false));
+                View space = new View(parent.getContext());
+
+                space.setMinimumHeight(Utils.dpToPx(parent.getContext(), 28));
+                return new ViewHolderSpace(space);
             case 1:
+                return new ViewHolderResultHeader(inflater.inflate(R.layout.list_item_result_header, parent, false));
+            case 2:
                 return new ViewHolderResult(inflater.inflate(R.layout.list_item_result, parent, false));
             default:
                 return null;
@@ -49,7 +55,7 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ChartTools.generateTimeChart(viewHolder.times, result.getBestTime(), result.getAverageTime());
         } else if (holder instanceof ViewHolderResult) {
             ViewHolderResult viewHolder = (ViewHolderResult) holder;
-            TestAnswer current = result.getAnswerAt(position - 1);
+            TestAnswer current = result.getAnswerAt(position - 2);
 
             if (current.isCorrect()) {
                 viewHolder.icon.setImageResource(R.drawable.ic_correct);
@@ -72,8 +78,10 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemViewType(int position) {
         if (position <= 0) {
             return 0;
-        } else {
+        } else if (position == 1) {
             return 1;
+        } else {
+            return 2;
         }
     }
 

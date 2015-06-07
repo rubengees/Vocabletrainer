@@ -5,7 +5,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
+import android.util.TypedValue;
 
 import com.rubengees.vocables.R;
 
@@ -83,6 +85,12 @@ public class Utils {
         } catch (ActivityNotFoundException e) {
             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/" + "+RubenGeesistDerBoss" + "/posts")));
         }
+    }
+
+    public static int dpToPx(Context context, int dp) {
+        Resources resources = context.getResources();
+
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
     }
 
     public interface OnWaitFinishedListener {
