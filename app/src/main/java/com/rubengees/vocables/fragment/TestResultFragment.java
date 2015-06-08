@@ -14,7 +14,9 @@ import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
 import com.rubengees.vocables.adapter.ResultAdapter;
 import com.rubengees.vocables.core.Core;
+import com.rubengees.vocables.core.GoogleServiceConnection;
 import com.rubengees.vocables.core.mode.Mode;
+import com.rubengees.vocables.core.mode.TimeMode;
 import com.rubengees.vocables.core.test.TestResult;
 import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.pojo.Vocable;
@@ -30,6 +32,11 @@ import java.util.List;
  */
 public class TestResultFragment extends MainFragment {
 
+    private static final String KEY_MODE = "mode";
+    private static final String KEY_RESULT = "result";
+    private static final String KEY_SETTINGS = "settings";
+    private static final String KEY_VOCABLES = "vocables";
+
     private Mode mode;
     private TestResult result;
     private TestSettings settings;
@@ -38,10 +45,10 @@ public class TestResultFragment extends MainFragment {
         TestResultFragment fragment = new TestResultFragment();
         Bundle args = new Bundle();
 
-        args.putParcelable("mode", mode);
-        args.putParcelable("result", result);
-        args.putParcelable("settings", settings);
-        args.putParcelableArrayList("vocables", vocables);
+        args.putParcelable(KEY_MODE, mode);
+        args.putParcelable(KEY_RESULT, result);
+        args.putParcelable(KEY_SETTINGS, settings);
+        args.putParcelableArrayList(KEY_VOCABLES, vocables);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,16 +61,36 @@ public class TestResultFragment extends MainFragment {
         List<Vocable> vocables = new ArrayList<>();
 
         if (getArguments() != null) {
-            mode = getArguments().getParcelable("mode");
-            result = getArguments().getParcelable("result");
-            settings = getArguments().getParcelable("settings");
-            vocables = getArguments().getParcelableArrayList("vocables");
+            mode = getArguments().getParcelable(KEY_MODE);
+            result = getArguments().getParcelable(KEY_RESULT);
+            settings = getArguments().getParcelable(KEY_SETTINGS);
+            vocables = getArguments().getParcelableArrayList(KEY_VOCABLES);
         }
 
         if (savedInstanceState == null) {
             mode.processResult(result);
             core.getVocableManager().updateVocablesFast(vocables);
             core.saveMode(mode);
+
+            GoogleServiceConnection connection = Core.getInstance(getActivity()).getConnection();
+
+            if (result.getCorrect() >= vocables.size()) {
+                if (result.getIncorrect() <= 0) {
+                    connection.unlockAchievement(getString(R.string.achievement_perfectionist));
+                }
+
+                connection.unlockAchievement(getString(R.string.achievement_learning));
+                connection.incrementAchievement(getString(R.string.achievement_geek), 1);
+
+                if (mode instanceof TimeMode && result.getAverageTime() <= 2000
+                        && Utils.calculateCorrectAnswerRate(result.getCorrect(), result.getIncorrect()) >= 20) {
+                    connection.unlockAchievement(getString(R.string.achievement_at_the_speed_of_light));
+                }
+            }
+
+            if (mode.getPerfectInRow() == 3) {
+                connection.unlockAchievement(getString(R.string.achievement_perfectionist));
+            }
         }
     }
 

@@ -30,6 +30,7 @@ import com.rubengees.vocables.adapter.UnitAdapter;
 import com.rubengees.vocables.adapter.VocableAdapter;
 import com.rubengees.vocables.adapter.VocableListAdapter;
 import com.rubengees.vocables.core.Core;
+import com.rubengees.vocables.core.GoogleServiceConnection;
 import com.rubengees.vocables.data.UndoManager;
 import com.rubengees.vocables.data.VocableManager;
 import com.rubengees.vocables.dialog.DeleteDialog;
@@ -403,6 +404,10 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                 ((UnitAdapter) adapter).add(unit);
             }
         }
+
+        GoogleServiceConnection connection = Core.getInstance(getActivity()).getConnection();
+        connection.incrementAchievement(getString(R.string.achievement_ready_to_learn), 1);
+        connection.incrementAchievement(getString(R.string.achievement_a_lot_to_do), 1);
     }
 
     @Override
@@ -475,6 +480,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     public void onDelete() {
         vocableManager.clear();
         adapter.clear();
+
+        Core.getInstance(getActivity()).getConnection().unlockAchievement(getString(R.string.achievement_fresh_start));
     }
 
     @Override

@@ -41,6 +41,12 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDrawerItemClickListener, WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback {
 
+    private static final String DIALOG_WELCOME = "dialog_welcome";
+    private static final String DIALOG_EVALUATION = "dialog_evaluation";
+    private static final String DIALOG_PLAY_GAMES = "dialog_play_games";
+    private static final String CURRENT_DRAWER_ID = "current_drawer_id";
+    private static final String CURRENT_MODE = "current_mode";
+
     private Drawer drawer;
     private AdView adView;
 
@@ -48,17 +54,20 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
 
     private OnBackPressedListener onBackPressedListener;
 
+    private long currentDrawerId;
+    private Mode currentMode;
+
     private void showDialog() {
         if (PreferenceUtils.isFirstStart(this)) {
             WelcomeDialog dialog = WelcomeDialog.newInstance();
             dialog.setCallback(this);
 
-            dialog.show(getFragmentManager(), "dialog_welcome");
+            dialog.show(getFragmentManager(), DIALOG_WELCOME);
         } else if (!PreferenceUtils.hasEvaluated(this)) {
             EvaluationDialog dialog = EvaluationDialog.newInstance();
             dialog.setCallback(this);
 
-            dialog.show(getFragmentManager(), "dialog_evaluation");
+            dialog.show(getFragmentManager(), DIALOG_EVALUATION);
         }
     }
 
@@ -71,6 +80,8 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     protected void onSaveInstanceState(final Bundle outState) {
         core.onSaveInstanceState(outState);
         drawer.saveInstanceState(outState);
+        outState.putLong(CURRENT_DRAWER_ID, currentDrawerId);
+        outState.putParcelable(CURRENT_MODE, currentMode);
         super.onSaveInstanceState(outState);
     }
 
@@ -89,9 +100,9 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
         } else {
             FragmentManager manager = getFragmentManager();
 
-            WelcomeDialog welcomeDialog = (WelcomeDialog) manager.findFragmentByTag("dialog_welcome");
-            EvaluationDialog evaluationDialog = (EvaluationDialog) manager.findFragmentByTag("dialog_evaluation");
-            PlayGamesDialog playGamesDialog = (PlayGamesDialog) manager.findFragmentByTag("dialog_play_games");
+            WelcomeDialog welcomeDialog = (WelcomeDialog) manager.findFragmentByTag(DIALOG_WELCOME);
+            EvaluationDialog evaluationDialog = (EvaluationDialog) manager.findFragmentByTag(DIALOG_EVALUATION);
+            PlayGamesDialog playGamesDialog = (PlayGamesDialog) manager.findFragmentByTag(DIALOG_PLAY_GAMES);
 
             if (welcomeDialog != null) {
                 welcomeDialog.setCallback(this);
@@ -110,6 +121,9 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
             if (current != null && current instanceof OnBackPressedListener) {
                 onBackPressedListener = (OnBackPressedListener) current;
             }
+
+            currentDrawerId = savedInstanceState.getLong(CURRENT_DRAWER_ID);
+            currentMode = savedInstanceState.getParcelable(CURRENT_MODE);
         }
 
         if (PreferenceUtils.shouldShowAds(this)) {
@@ -213,14 +227,15 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     private ArrayList<IDrawerItem> generateStickyDrawerItems() {
         ArrayList<IDrawerItem> result = new ArrayList<>();
 
+        result.add(new PrimaryDrawerItem().withName("Help").withIcon(R.drawable.ic_help).withSelectedTextColorRes(R.color.primary)
+                .withIconTintingEnabled(true).withSelectedIconColorRes(R.color.primary).withIdentifier(4));
+
         PrimaryDrawerItem donate = new PrimaryDrawerItem().withName("Donate").withIcon(R.drawable.ic_donate)
                 .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(5);
 
         donate.setCheckable(false);
         result.add(donate);
 
-        result.add(new PrimaryDrawerItem().withName("Help").withIcon(R.drawable.ic_help).withSelectedTextColorRes(R.color.primary)
-                .withIconTintingEnabled(true).withSelectedIconColorRes(R.color.primary).withIdentifier(4));
         result.add(new PrimaryDrawerItem().withName("Settings").withIcon(R.drawable.ic_settings)
                 .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(6));
         return result;
@@ -262,36 +277,62 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
 
     @Override
     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+        boolean switchSection = false;
 
-        switch (drawerItem.getIdentifier()) {
-            case 0:
-                setFragment(VocableListFragment.newInstance(), "Vocablelist");
-                return false;
-            case 1:
-                Mode mode = (Mode) drawerItem.getTag();
-
-                setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(this), mode.getColor(this), mode.getDarkColor(this));
-                return false;
-            case 2:
-                setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModes()), "Statistics");
-                return false;
-            case 3:
-                PlayGamesDialog dialog = PlayGamesDialog.newInstance();
-
-                dialog.setCallback(this);
-                dialog.show(getFragmentManager(), "dialog_play_games");
-                return true;
-            case 4:
-                setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModes()), "Help");
-                return false;
-            case 5:
-                return true;
-            case 6:
-                setFragment(new SettingsFragment(), "Settings");
-                return false;
-            default:
-                return true;
+        if (id != currentDrawerId || drawerItem.getTag() instanceof Mode) {
+            switchSection = true;
         }
+
+        if (switchSection) {
+
+            if (drawerItem instanceof PrimaryDrawerItem) {
+                if (((PrimaryDrawerItem) drawerItem).isCheckable()) {
+                    currentDrawerId = id;
+                }
+
+                if (drawerItem.getTag() == null) {
+                    currentMode = null;
+                }
+            }
+
+            switch (drawerItem.getIdentifier()) {
+                case 0:
+                    setFragment(VocableListFragment.newInstance(), "Vocablelist");
+                    return false;
+                case 1:
+                    Mode mode = (Mode) drawerItem.getTag();
+
+                    if (currentMode == null || currentMode != mode) {
+                        currentMode = mode;
+
+                        setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(this), mode.getColor(this), mode.getDarkColor(this));
+                        return false;
+                    } else {
+                        return true;
+                    }
+                case 2:
+                    setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModes()), "Statistics");
+                    return false;
+                case 3:
+                    PlayGamesDialog dialog = PlayGamesDialog.newInstance();
+
+                    dialog.setCallback(this);
+                    dialog.show(getFragmentManager(), DIALOG_PLAY_GAMES);
+                    return true;
+                case 4:
+                    setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModes()), "Help");
+                    return false;
+                case 5:
+                    return true;
+                case 6:
+                    setFragment(new SettingsFragment(), "Settings");
+                    return false;
+                default:
+                    return true;
+            }
+        }
+
+        return true;
     }
 
     @Override
