@@ -3,12 +3,13 @@ package com.rubengees.vocables.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
 import com.rubengees.vocables.core.Core;
@@ -65,7 +66,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
         View header = inflater.inflate(R.layout.fragment_test_settings_header, container, false);
         status = (TextView) header.findViewById(R.id.fragment_test_settings_header_status);
 
-        final View root = layout.inflateLayout(inflater, container, savedInstanceState);
+        final ViewGroup root = (ViewGroup) layout.inflateLayout(inflater, container, savedInstanceState);
 
         if (savedInstanceState == null) {
             settings = layout.generateTestSettings();
@@ -84,7 +85,8 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
                 if (vocableAmount >= mode.getMinAmount()) {
                     getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
                 } else {
-                    Snackbar.make(root, "You don't have enough Vocables selected. You need at least" + " " + mode.getMinAmount(), Snackbar.LENGTH_LONG).show();
+                    SnackbarManager.show(Snackbar.with(getActivity()).text("You don't have enough Vocables selected. You need at least" + " " + mode.getMinAmount())
+                            .duration(Snackbar.SnackbarDuration.LENGTH_LONG), root);
                 }
             }
         });

@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,10 +13,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
+import com.melnykov.fab.FloatingActionButton;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
+import com.nispok.snackbar.listeners.EventListener;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.TransferActivity;
 import com.rubengees.vocables.adapter.UnitAdapter;
@@ -66,11 +71,10 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     private VocableListAdapter adapter;
     private VocableManager vocableManager;
-    private UndoManager undoManager;
 
     private SortMode mode;
 
-    private View root;
+    private ViewGroup root;
 
     public VocableListFragment() {
         // Required empty public constructor
@@ -108,16 +112,11 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
             if (deleteDialog != null) {
                 deleteDialog.setCallback(this);
             }
-
-            if (undoManager.size() > 0) {
-                showSnackbar();
-            }
         } else {
             mode = SortMode.TITLE;
         }
 
         vocableManager = Core.getInstance(getActivity()).getVocableManager();
-        undoManager = Core.getInstance(getActivity()).getUndoManager();
 
         setHasOptionsMenu(true);
     }
@@ -171,7 +170,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        root = inflater.inflate(R.layout.fragment_vocable_list, container, false);
+        root = (ViewGroup) inflater.inflate(R.layout.fragment_vocable_list, container, false);
 
         recycler = (RecyclerView) root.findViewById(R.id.fragment_vocable_list_recycler);
         fab = (FloatingActionButton) root.findViewById(R.id.fab);
@@ -189,6 +188,10 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
         setupRecycler(savedInstanceState);
         setupFAB();
+
+        if (getUndoManager().size() > 0) {
+            showSnackbar();
+        }
 
         return root;
     }
@@ -212,13 +215,13 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                         Unit unit = ((VocableAdapter) adapter).getUnit();
                         Vocable vocable = ((VocableAdapter) adapter).get(pendingDismissData.position);
 
-                        undoManager.add(unit, vocable);
+                        getUndoManager().add(unit, vocable);
                         unit.remove(vocable);
                         vocableManager.vocableRemoved(unit, vocable);
                     } else {
                         Unit unit = ((UnitAdapter) adapter).get(pendingDismissData.position);
 
-                        undoManager.add(unit);
+                        getUndoManager().add(unit);
                         vocableManager.removeUnit(unit);
                     }
 
@@ -249,16 +252,53 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     private void showSnackbar() {
-        int amount = undoManager.size();
-        Snackbar.make(root, amount + " " + (amount == 1 ? "Vocable" : "Vocables") + " " + "deleted", Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                vocableManager.addUnits(undoManager.getUnits());
-                undoManager.clear();
+        int amount = getUndoManager().size();
 
-                onImportFinished(null);
-            }
-        }).show();
+        SnackbarManager.show(Snackbar.with(getActivity()).actionColor(getResources().getColor(R.color.accent)).actionLabel("Undo")
+                .text(amount + " " + (amount == 1 ? "Vocable" : "Vocables") + " " + "deleted").actionListener(new ActionClickListener() {
+                    @Override
+                    public void onActionClicked(Snackbar snackbar) {
+                        vocableManager.addUnits(getUndoManager().getUnits());
+                        getUndoManager().clear();
+
+                        onImportFinished(null);
+                    }
+                }).eventListener(new EventListener() {
+                    private boolean replacing = false;
+
+                    @Override
+                    public void onShow(Snackbar snackbar) {
+                        AnimationUtils.translateY(fab, -snackbar.getHeight(), 300, new DecelerateInterpolator(1.5f));
+                    }
+
+                    @Override
+                    public void onShowByReplace(Snackbar snackbar) {
+
+                    }
+
+                    @Override
+                    public void onShown(Snackbar snackbar) {
+
+                    }
+
+                    @Override
+                    public void onDismiss(Snackbar snackbar) {
+                        AnimationUtils.translateY(fab, snackbar.getHeight(), 300, new AccelerateInterpolator(1.5f));
+                    }
+
+                    @Override
+                    public void onDismissByReplace(Snackbar snackbar) {
+                        replacing = true;
+                    }
+
+                    @Override
+                    public void onDismissed(Snackbar snackbar) {
+                        if (!replacing) {
+                            getUndoManager().clear();
+                        }
+                        replacing = false;
+                    }
+                }), root);
     }
 
     private void setupFAB() {
@@ -444,5 +484,9 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         } else if (adapter instanceof UnitAdapter) {
             setUnitAdapter();
         }
+    }
+
+    private UndoManager getUndoManager() {
+        return Core.getInstance(getActivity()).getUndoManager();
     }
 }
