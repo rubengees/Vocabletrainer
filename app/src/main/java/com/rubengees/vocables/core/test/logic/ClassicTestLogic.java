@@ -14,6 +14,8 @@ import com.rubengees.vocables.pojo.Vocable;
  */
 public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
 
+    private static final String STATE_RANDOM = "random";
+
     private double random;
 
     public ClassicTestLogic(Context context, ClassicTestSettings settings) {
@@ -37,13 +39,13 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
     @Override
     protected void restoreSavedInstanceState(Bundle savedInstanceState) {
         super.restoreSavedInstanceState(savedInstanceState);
-        random = savedInstanceState.getDouble("random");
+        random = savedInstanceState.getDouble(STATE_RANDOM);
     }
 
     @Override
     public void saveInstanceState(Bundle outState) {
         super.saveInstanceState(outState);
-        outState.putDouble("random", random);
+        outState.putDouble(STATE_RANDOM, random);
     }
 
     public Meaning processAnswer(String given) {

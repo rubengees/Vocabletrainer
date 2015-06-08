@@ -22,8 +22,8 @@ import com.rubengees.vocables.utils.Utils;
  */
 public class PairTest extends Test implements View.OnClickListener {
 
-    public static final int SIZE_X = 2;
-    public static final int SIZE_Y = 5;
+    private static final int SIZE_X = 2;
+    private static final int SIZE_Y = 5;
     private PairTestLogic logic;
 
     private LinearLayout layout;

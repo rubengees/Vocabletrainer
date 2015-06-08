@@ -26,8 +26,8 @@ import com.rubengees.vocables.data.VocableManager;
  */
 public class TestSettingsFragment extends MainFragment implements TestSettingsLayout.OnTestSettingsListener {
 
-    public static final String KEY_MODE = "mode";
-    public static final String KEY_TEST_SETTINGS = "test_settings";
+    private static final String KEY_MODE = "mode";
+    private static final String KEY_TEST_SETTINGS = "test_settings";
     private Mode mode;
     private TestSettings settings;
     private TestSettingsLayout layout;

@@ -56,12 +56,12 @@ import java.util.List;
 public class VocableListFragment extends MainFragment implements UnitAdapter.OnItemClickListener, VocableAdapter.OnItemClickListener,
         VocableDialog.VocableDialogCallback, UnitDialog.UnitDialogCallback, SortDialog.SortDialogCallback, DeleteDialog.DeleteDialogCallback, ImportTask.OnImportFinishedListener {
 
-    public static final String VOCABLE_DIALOG = "vocable_dialog";
-    public static final String UNIT_DIALOG = "unit_dialog";
-    public static final String DELETE_DIALOG = "delete_dialog";
-    public static final String SORT_DIALOG = "sort_dialog";
-    public static final String EXPORT_DIALOG = "export_dialog";
-    public static final String IMPORT_DIALOG = "import_dialog";
+    private static final String VOCABLE_DIALOG = "vocable_dialog";
+    private static final String UNIT_DIALOG = "unit_dialog";
+    private static final String DELETE_DIALOG = "delete_dialog";
+    private static final String SORT_DIALOG = "sort_dialog";
+    private static final String EXPORT_DIALOG = "export_dialog";
+    private static final String IMPORT_DIALOG = "import_dialog";
     private static final String SORT_MODE = "sort_mode";
     private static final String CURRENT_UNIT = "current_unit";
     private RecyclerView recycler;

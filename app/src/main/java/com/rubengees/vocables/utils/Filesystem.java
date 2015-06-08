@@ -10,7 +10,6 @@ import java.util.List;
 
 public class Filesystem implements Parcelable {
 
-
     public static final Parcelable.Creator<Filesystem> CREATOR = new Parcelable.Creator<Filesystem>() {
 
         public Filesystem createFromParcel(Parcel in) {

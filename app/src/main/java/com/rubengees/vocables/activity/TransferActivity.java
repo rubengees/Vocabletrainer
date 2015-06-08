@@ -23,8 +23,8 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
 
     public static final int REQUEST_IMPORT = 10010;
     public static final int REQUEST_EXPORT = 10011;
-    public static final String OVERRIDE_DIALOG = "override_dialog";
-    public static final String FRAGMENT_TRANSFER = "transfer_fragment";
+    private static final String OVERRIDE_DIALOG = "override_dialog";
+    private static final String FRAGMENT_TRANSFER = "transfer_fragment";
 
     private boolean isImport;
 

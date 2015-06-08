@@ -16,6 +16,8 @@ import java.util.List;
  */
 public class PairTestLogic extends TestLogic<TestSettings> {
 
+    private static final String STATE_FIELD = "field";
+
     private MeaningField field;
 
     public PairTestLogic(Context context, TestSettings settings, int sizeX, int sizeY) {
@@ -57,13 +59,13 @@ public class PairTestLogic extends TestLogic<TestSettings> {
     @Override
     protected void restoreSavedInstanceState(Bundle savedInstanceState) {
         super.restoreSavedInstanceState(savedInstanceState);
-        field = savedInstanceState.getParcelable("field");
+        field = savedInstanceState.getParcelable(STATE_FIELD);
     }
 
     @Override
     public void saveInstanceState(Bundle outState) {
         super.saveInstanceState(outState);
-        outState.putParcelable("field", field);
+        outState.putParcelable(STATE_FIELD, field);
     }
 
     private List<Vocable> getCurrentVocables() {

@@ -18,6 +18,11 @@ import java.util.Random;
  */
 public class TimeTestLogic extends TestLogic<TimeTestSettings> {
 
+    private static final String STATE_RANDOM = "random";
+    private static final String STATE_FIELD = "field";
+    private static final String STATE_MAX_TIME = "maxTime";
+    private static final String STATE_TIME_REMAINING = "timeRemaining";
+
     private double random;
     private MeaningField field;
     private long maxTime;
@@ -60,10 +65,10 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
     @Override
     protected void restoreSavedInstanceState(Bundle savedInstanceState) {
         super.restoreSavedInstanceState(savedInstanceState);
-        random = savedInstanceState.getDouble("random");
-        field = savedInstanceState.getParcelable("field");
-        maxTime = savedInstanceState.getLong("maxTime");
-        timeRemaining = savedInstanceState.getLong("timeRemaining");
+        random = savedInstanceState.getDouble(STATE_RANDOM);
+        field = savedInstanceState.getParcelable(STATE_FIELD);
+        maxTime = savedInstanceState.getLong(STATE_MAX_TIME);
+        timeRemaining = savedInstanceState.getLong(STATE_TIME_REMAINING);
 
         setTimer();
     }
@@ -83,10 +88,10 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
     @Override
     public void saveInstanceState(Bundle outState) {
         super.saveInstanceState(outState);
-        outState.putDouble("random", random);
-        outState.putParcelable("field", field);
-        outState.putLong("maxTime", maxTime);
-        outState.putLong("timeRemaining", timeRemaining);
+        outState.putDouble(STATE_RANDOM, random);
+        outState.putParcelable(STATE_FIELD, field);
+        outState.putLong(STATE_MAX_TIME, maxTime);
+        outState.putLong(STATE_TIME_REMAINING, timeRemaining);
     }
 
     private void cancelTimer() {

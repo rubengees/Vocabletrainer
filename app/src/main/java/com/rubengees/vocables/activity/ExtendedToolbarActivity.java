@@ -219,6 +219,14 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         this.onFabClickListener = listener;
     }
 
+    /**
+     * Diables the Fab and removes the listener on it
+     */
+    public final void disableFab() {
+        fab.setVisibility(View.GONE);
+        onFabClickListener = null;
+    }
+
     public final void styleApplication(int color, int darkColor) {
 
         currentColor = color;
