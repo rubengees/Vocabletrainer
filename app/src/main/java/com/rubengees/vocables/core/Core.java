@@ -67,13 +67,13 @@ public class Core {
         if (data.containsKey(1)) {
             modes.add(new PairMode(data.get(1)));
         } else {
-            modes.add(new PairMode(new ModeData(0, 0, 0, 0, 0, 0, 0)));
+            modes.add(new PairMode(new ModeData(1, 0, 0, 0, 0, 0, 0)));
         }
 
         if (data.containsKey(2)) {
             modes.add(new TimeMode(data.get(2)));
         } else {
-            modes.add(new TimeMode(new ModeData(0, 0, 0, 0, 0, 0, 0)));
+            modes.add(new TimeMode(new ModeData(2, 0, 0, 0, 0, 0, 0)));
         }
 
         db.close();
