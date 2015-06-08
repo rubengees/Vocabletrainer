@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
 import com.rubengees.vocables.core.Core;
@@ -89,7 +90,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
                     getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
                 } else {
                     SnackbarManager.show(Snackbar.with(getActivity()).text("You don't have enough Vocables selected. You need at least" + " " + mode.getMinAmount())
-                            .duration(Snackbar.SnackbarDuration.LENGTH_LONG), layoutContainer);
+                            .duration(Snackbar.SnackbarDuration.LENGTH_LONG).type(SnackbarType.MULTI_LINE), layoutContainer);
                 }
             }
         });
