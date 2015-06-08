@@ -6,6 +6,7 @@ import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,7 +112,7 @@ public class VocableManager {
         return false;
     }
 
-    public void addUnits(List<Unit> units) {
+    public void addUnits(Collection<Unit> units) {
         for (Unit unit : units) {
             addUnit(unit);
         }

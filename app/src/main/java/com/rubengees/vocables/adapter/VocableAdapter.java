@@ -136,7 +136,7 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
             case 1:
                 View space = new View(parent.getContext());
 
-                space.setMinimumHeight(Utils.dpToPx(parent.getContext(), 56));
+                space.setMinimumHeight(Utils.dpToPx(parent.getContext(), 56 + 32)); //FAB size + Margin
                 return new ViewHolderSpace(space);
             default:
                 return null;

@@ -10,6 +10,7 @@ import com.rubengees.vocables.core.mode.ModeData;
 import com.rubengees.vocables.core.mode.PairMode;
 import com.rubengees.vocables.core.mode.TimeMode;
 import com.rubengees.vocables.data.Database;
+import com.rubengees.vocables.data.UndoManager;
 import com.rubengees.vocables.data.VocableManager;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class Core {
     private static Core ourInstance;
     private GoogleServiceConnection connection;
     private VocableManager vocableManager;
+    private UndoManager undoManager;
     private List<Mode> modes;
     private Activity context;
 
@@ -31,6 +33,7 @@ public class Core {
         this.context = context;
         this.connection = new GoogleServiceConnection(context, savedInstanceState);
         this.vocableManager = new VocableManager(context);
+        this.undoManager = new UndoManager();
         modes = new ArrayList<>(3);
         generateModes();
     }
@@ -94,6 +97,10 @@ public class Core {
 
     public VocableManager getVocableManager() {
         return vocableManager;
+    }
+
+    public UndoManager getUndoManager() {
+        return undoManager;
     }
 
     public void onStart() {

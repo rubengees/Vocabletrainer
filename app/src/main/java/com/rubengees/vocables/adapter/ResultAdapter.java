@@ -35,7 +35,7 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case 0:
                 View space = new View(parent.getContext());
 
-                space.setMinimumHeight(Utils.dpToPx(parent.getContext(), 28));
+                space.setMinimumHeight(Utils.dpToPx(parent.getContext(), 28 + 4)); //Half FAB size + Margin
                 return new ViewHolderSpace(space);
             case 1:
                 return new ViewHolderResultHeader(inflater.inflate(R.layout.list_item_result_header, parent, false));

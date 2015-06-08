@@ -32,13 +32,17 @@ public class ImportTask {
     }
 
     public static ImportTask getInstance(Context context, @NonNull File file, @Nullable OnImportFinishedListener listener) {
-        if (instance == null) {
+        if (instance == null || !instance.isRunning()) {
             instance = new ImportTask(context, file);
         }
 
         instance.setListener(listener);
 
         return instance;
+    }
+
+    private boolean isRunning() {
+        return task.getStatus() == AsyncTask.Status.RUNNING;
     }
 
     public void startIfNotRunning() {

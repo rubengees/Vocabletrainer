@@ -22,6 +22,8 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
 
     public static final int REQUEST_IMPORT = 10010;
     public static final int REQUEST_EXPORT = 10011;
+    public static final String OVERRIDE_DIALOG = "override_dialog";
+    public static final String FRAGMENT_TRANSFER = "transfer_fragment";
 
     private boolean isImport;
 
@@ -40,8 +42,8 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
         if (savedInstanceState == null) {
             tryShowContent();
         } else {
-            FileFragment fragment = (FileFragment) getFragmentManager().findFragmentByTag("fragment_transfer");
-            OverrideDialog overrideDialog = (OverrideDialog) getFragmentManager().findFragmentByTag("override_dialog");
+            FileFragment fragment = (FileFragment) getFragmentManager().findFragmentByTag(FRAGMENT_TRANSFER);
+            OverrideDialog overrideDialog = (OverrideDialog) getFragmentManager().findFragmentByTag(OVERRIDE_DIALOG);
 
             if (fragment != null) {
                 configureFragment(fragment);
@@ -94,7 +96,7 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
 
         if (fragment != null) {
             configureFragment(fragment);
-            getFragmentManager().beginTransaction().add(R.id.content, fragment, "fragment_transfer").commit();
+            getFragmentManager().beginTransaction().add(R.id.content, fragment, FRAGMENT_TRANSFER).commit();
         }
     }
 
@@ -116,7 +118,7 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
 
     @Override
     public void onFileClicked(File file) {
-        if (TransferUtils.isFileSupported(file)) {
+        if (isImport && TransferUtils.isFileSupported(file)) {
             Intent in = new Intent();
             in.putExtra("path", file.getAbsolutePath());
 
@@ -135,7 +137,7 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
                 OverrideDialog dialog = OverrideDialog.newInstance(current.getAbsolutePath());
                 dialog.setCallback(this);
 
-                dialog.show(getFragmentManager(), "override_dialog");
+                dialog.show(getFragmentManager(), OVERRIDE_DIALOG);
             } else {
                 Intent in = new Intent();
                 in.putExtra("path", current.getAbsolutePath());
