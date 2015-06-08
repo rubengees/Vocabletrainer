@@ -1,7 +1,10 @@
 package com.rubengees.vocables.activity;
 
+import android.app.ActivityManager;
 import android.app.Service;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -23,6 +26,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.melnykov.fab.FloatingActionButton;
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.utils.Utils;
 
 /**
  * Created by ruben on 22.05.15.
@@ -209,7 +213,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
             }
             fab.bringToFront();
         } else {
-            throw new RuntimeException("Extension is not visible. The FAB cannot be enabled without the Extended Toolbar.");
+            throw new RuntimeException("Extension is not visible. The Fab cannot be enabled without the Extended Toolbar.");
         }
 
         this.onFabClickListener = listener;
@@ -229,6 +233,14 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
 
             window.setNavigationBarColor(color);
             window.setStatusBarColor(darkColor);
+
+            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(getString(R.string.app_name), bm, Utils.darkenColor(color));
+            setTaskDescription(taskDesc);
+        }
+
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         }
     }
 

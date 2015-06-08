@@ -159,9 +159,9 @@ public class Vocable implements TrainerItem, Parcelable {
 
     public Meaning getOtherMeaning(Meaning meaning) {
         if (meaning == firstMeaning) {
-            return firstMeaning;
-        } else {
             return secondMeaning;
+        } else {
+            return firstMeaning;
         }
     }
 }

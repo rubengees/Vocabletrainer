@@ -25,6 +25,8 @@ import com.rubengees.vocables.data.VocableManager;
  */
 public class TestSettingsFragment extends MainFragment implements TestSettingsLayout.OnTestSettingsListener {
 
+    public static final String KEY_MODE = "mode";
+    public static final String KEY_TEST_SETTINGS = "test_settings";
     private Mode mode;
     private TestSettings settings;
     private TestSettingsLayout layout;
@@ -40,7 +42,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
     public static TestSettingsFragment newInstance(Mode mode) {
         TestSettingsFragment fragment = new TestSettingsFragment();
         Bundle args = new Bundle();
-        args.putParcelable("mode", mode);
+        args.putParcelable(KEY_MODE, mode);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,12 +51,12 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mode = getArguments().getParcelable("mode");
+            mode = getArguments().getParcelable(KEY_MODE);
             layout = mode.getTestSettingsLayout(getActivity(), this);
         }
 
         if (savedInstanceState != null) {
-            settings = savedInstanceState.getParcelable("test_settings");
+            settings = savedInstanceState.getParcelable(KEY_TEST_SETTINGS);
         }
 
         manager = Core.getInstance(getActivity()).getVocableManager();
@@ -67,6 +69,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
         status = (TextView) header.findViewById(R.id.fragment_test_settings_header_status);
 
         final ViewGroup root = (ViewGroup) layout.inflateLayout(inflater, container, savedInstanceState);
+        final ViewGroup layoutContainer = (ViewGroup) root.findViewById(R.id.fragment_test_settings_container);
 
         if (savedInstanceState == null) {
             settings = layout.generateTestSettings();
@@ -86,7 +89,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
                     getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
                 } else {
                     SnackbarManager.show(Snackbar.with(getActivity()).text("You don't have enough Vocables selected. You need at least" + " " + mode.getMinAmount())
-                            .duration(Snackbar.SnackbarDuration.LENGTH_LONG), root);
+                            .duration(Snackbar.SnackbarDuration.LENGTH_LONG), layoutContainer);
                 }
             }
         });
@@ -116,7 +119,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("test_settings", settings);
+        outState.putParcelable(KEY_TEST_SETTINGS, settings);
         outState.putInt("vocable_amount", vocableAmount);
         layout.saveInstanceState(outState);
     }

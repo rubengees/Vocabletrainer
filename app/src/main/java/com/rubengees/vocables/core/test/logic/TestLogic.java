@@ -1,5 +1,6 @@
 package com.rubengees.vocables.core.test.logic;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -35,7 +36,7 @@ public class TestLogic<E extends TestSettings> {
         this.vocables = new ArrayList<>();
         this.result = new TestResult();
 
-        Map<Integer, Unit> units = Core.getInstance((android.app.Activity) context).getVocableManager().getUnitMap();
+        Map<Integer, Unit> units = Core.getInstance((Activity) context).getVocableManager().getUnitMap();
 
         for (Integer unitId : settings.getUnitIds()) {
             vocables.addAll(units.get(unitId).getVocables(settings.getMaxRate()));

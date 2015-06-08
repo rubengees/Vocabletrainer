@@ -50,7 +50,7 @@
         android:visibility="gone"
         fab:fab_colorNormal="@color/accent"
         fab:fab_colorPressed="@color/accent"
-        fab:fab_colorRipple="@color/ripple_material_light" />
+        fab:fab_colorRipple="@color/ripple_material_dark" />
 
     <FrameLayout
         android:id="@+id/content_container"

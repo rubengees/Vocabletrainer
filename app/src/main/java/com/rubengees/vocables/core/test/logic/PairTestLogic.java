@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Ruben on 04.04.2015.
  */
-public class PairTestLogic extends TestLogic {
+public class PairTestLogic extends TestLogic<TestSettings> {
 
     private MeaningField field;
 
@@ -36,6 +36,7 @@ public class PairTestLogic extends TestLogic {
         if (field.isEmpty()) {
             if (getPosition() + field.getSize() / 2 <= getAmount()) {
                 List<MeaningCell> meaningCells = new ArrayList<>(10);
+
                 for (Vocable vocable : getCurrentVocables()) {
                     meaningCells.add(new MeaningCell(vocable, vocable.getFirstMeaning()));
                     meaningCells.add(new MeaningCell(vocable, vocable.getSecondMeaning()));

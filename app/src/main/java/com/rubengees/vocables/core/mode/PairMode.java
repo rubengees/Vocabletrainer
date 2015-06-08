@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.core.test.PairTest;
 import com.rubengees.vocables.core.test.Test;
 import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.core.testsettings.layout.PairTestSettingsLayout;
@@ -81,12 +82,12 @@ public class PairMode extends Mode {
 
     @Override
     public Test getTest(Context context, TestSettings settings, Test.OnTestFinishedListener listener, Bundle savedInstanceState) {
-        return null;
+        return new PairTest(context, settings, listener, getColor(context), getDarkColor(context), savedInstanceState);
     }
 
     @Override
     public Test getTest(Context context, TestSettings settings, Test.OnTestFinishedListener listener) {
-        return null;
+        return new PairTest(context, settings, listener, getColor(context), getDarkColor(context));
     }
 
 }

@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
+import android.support.annotation.ColorRes;
+import android.support.v7.widget.AppCompatButton;
 import android.util.TypedValue;
 
 import com.rubengees.vocables.R;
@@ -91,6 +95,22 @@ public class Utils {
         Resources resources = context.getResources();
 
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
+    }
+
+    public static void setButtonColor(AppCompatButton button, int color) {
+        ColorStateList list = new ColorStateList(new int[][]{new int[]{android.R.attr.state_enabled}, new int[]{android.R.attr.state_pressed}}, new int[]{color, darkenColor(color)});
+        button.setSupportBackgroundTintList(list);
+    }
+
+    public static int darkenColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 0.9f;
+        return Color.HSVToColor(hsv);
+    }
+
+    public static int getColor(Context context, @ColorRes int color) {
+        return context.getResources().getColor(color);
     }
 
     public interface OnWaitFinishedListener {
