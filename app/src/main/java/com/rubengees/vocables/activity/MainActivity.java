@@ -279,7 +279,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
         boolean switchSection = false;
 
-        if (id != currentDrawerId || drawerItem.getTag() instanceof Mode) {
+        if (drawerItem.getIdentifier() != currentDrawerId || drawerItem.getTag() instanceof Mode) {
             switchSection = true;
         }
 
@@ -287,7 +287,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
 
             if (drawerItem instanceof PrimaryDrawerItem) {
                 if (((PrimaryDrawerItem) drawerItem).isCheckable()) {
-                    currentDrawerId = id;
+                    currentDrawerId = drawerItem.getIdentifier();
                 }
 
                 if (drawerItem.getTag() == null) {

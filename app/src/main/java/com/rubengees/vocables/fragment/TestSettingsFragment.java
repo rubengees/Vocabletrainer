@@ -94,6 +94,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
                 }
             }
         });
+        getToolbarActivity().styleApplication(mode.getColor(getActivity()), mode.getDarkColor(getActivity()));
 
         return root;
     }

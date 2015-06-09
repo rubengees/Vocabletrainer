@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.ActionBar;
 import android.view.Display;
+import android.view.View;
 
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
 import com.rubengees.vocables.activity.MainActivity;
@@ -25,6 +26,15 @@ public class MainFragment extends Fragment implements MainActivity.OnBackPressed
 
         if (ab != null) {
             ab.setSubtitle(null);
+        }
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (savedInstanceState != null) {
+            getToolbarActivity().restyleApplication();
         }
     }
 

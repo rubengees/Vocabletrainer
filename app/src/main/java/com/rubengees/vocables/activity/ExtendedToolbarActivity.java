@@ -83,7 +83,6 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
             isExtended = !savedInstanceState.getBoolean(SAVED_INSTANCE_STATE_IS_EXTENDED);
 
             setTitle(currentTitle);
-            styleApplication(currentColor, currentColorDark);
             toggleExtendedToolbar();
         } else {
             currentTitle = "Vocabletrainer";
@@ -249,6 +248,12 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
 
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        }
+    }
+
+    public final void restyleApplication() {
+        if (currentColor != null && currentColorDark != null) {
+            styleApplication(currentColor, currentColorDark);
         }
     }
 
