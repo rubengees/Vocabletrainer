@@ -36,6 +36,7 @@ import com.rubengees.vocables.data.VocableManager;
 import com.rubengees.vocables.dialog.DeleteDialog;
 import com.rubengees.vocables.dialog.ExportDialog;
 import com.rubengees.vocables.dialog.ImportDialog;
+import com.rubengees.vocables.dialog.InfoDialog;
 import com.rubengees.vocables.dialog.SortDialog;
 import com.rubengees.vocables.dialog.UnitDialog;
 import com.rubengees.vocables.dialog.VocableDialog;
@@ -65,6 +66,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     private static final String IMPORT_DIALOG = "import_dialog";
     private static final String SORT_MODE = "sort_mode";
     private static final String CURRENT_UNIT = "current_unit";
+
     private RecyclerView recycler;
     private FloatingActionButton fab;
     private View header;
@@ -372,7 +374,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     @Override
     public void onInfoClick(Unit unit) {
-
+        InfoDialog.newInstance(unit).show(getFragmentManager(), "info_dialog");
     }
 
     @Override
@@ -382,7 +384,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     @Override
     public void onInfoClick(Vocable vocable) {
-
+        InfoDialog.newInstance(vocable).show(getFragmentManager(), "info_dialog");
     }
 
     @Override
