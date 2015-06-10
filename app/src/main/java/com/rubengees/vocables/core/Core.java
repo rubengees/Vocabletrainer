@@ -16,6 +16,7 @@ import com.rubengees.vocables.data.VocableManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Ruben on 24.04.2015.
@@ -23,6 +24,7 @@ import java.util.List;
 public class Core {
 
     private static Core ourInstance;
+    private final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
     private GoogleServiceConnection connection;
     private VocableManager vocableManager;
     private UndoManager undoManager;
@@ -52,6 +54,18 @@ public class Core {
         }
 
         return ourInstance;
+    }
+
+    public int generateViewId() {
+        for (; ; ) {
+            final int result = sNextGeneratedId.get();
+            // aapt-generated IDs have the high byte nonzero; clamp to the range under that.
+            int newValue = result + 1;
+            if (newValue > 0x00FFFFFF) newValue = 1; // Roll over to 1, not 0.
+            if (sNextGeneratedId.compareAndSet(result, newValue)) {
+                return result;
+            }
+        }
     }
 
     private void generateModes() {

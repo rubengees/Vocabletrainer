@@ -76,7 +76,7 @@ public class TestResultFragment extends MainFragment {
 
             if (result.getCorrect() >= vocables.size()) {
                 if (result.getIncorrect() <= 0) {
-                    connection.unlockAchievement(getString(R.string.achievement_perfectionist));
+                    connection.unlockAchievement(getString(R.string.achievement_perfect));
                 }
 
                 connection.unlockAchievement(getString(R.string.achievement_learning));

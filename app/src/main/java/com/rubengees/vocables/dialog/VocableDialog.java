@@ -110,39 +110,28 @@ public class VocableDialog extends DialogFragment {
             }
         }).autoDismiss(false);
 
+        if (savedInstanceState == null) {
+            processVocable();
+        } else {
+            processMeanings(savedInstanceState.getStringArrayList("first_meanings"), savedInstanceState.getStringArrayList("second_meanings"));
+        }
         processUnit();
-        processVocable();
         setupButtons();
 
         return builder.build();
     }
 
     private boolean processInput() {
-        List<String> firstMeanings = new ArrayList<>();
-        List<String> secondMeanings = new ArrayList<>();
+        List<String> firstMeanings;
+        List<String> secondMeanings;
         Meaning firstMeaning;
         Meaning secondMeaning;
         String hint = null;
         String unitTitle;
         Unit unit;
 
-        for (int i = 0; i < meaningContainer1.getChildCount(); i++) {
-            EditText current = (EditText) ((ViewGroup) meaningContainer1.getChildAt(i)).getChildAt(0);
-            String currentText = current.getText().toString().trim();
-
-            if (!currentText.isEmpty()) {
-                firstMeanings.add(currentText);
-            }
-        }
-
-        for (int i = 0; i < meaningContainer2.getChildCount(); i++) {
-            EditText current = (EditText) ((ViewGroup) meaningContainer2.getChildAt(i)).getChildAt(0);
-            String currentText = current.getText().toString().trim();
-
-            if (!currentText.isEmpty()) {
-                secondMeanings.add(currentText);
-            }
-        }
+        firstMeanings = getMeanings(meaningContainer1);
+        secondMeanings = getMeanings(meaningContainer2);
 
         if (firstMeanings.isEmpty() || secondMeanings.isEmpty()) {
             Toast.makeText(getActivity(), getString(R.string.dialog_vocable_error_no_meaning), Toast.LENGTH_SHORT).show();
@@ -197,6 +186,21 @@ public class VocableDialog extends DialogFragment {
 
             return true;
         }
+    }
+
+    private ArrayList<String> getMeanings(ViewGroup layout) {
+        ArrayList<String> result = new ArrayList<>();
+
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            EditText current = (EditText) ((ViewGroup) layout.getChildAt(i)).getChildAt(0);
+            String currentText = current.getText().toString().trim();
+
+            if (!currentText.isEmpty()) {
+                result.add(currentText);
+            }
+        }
+
+        return result;
     }
 
     private void cleanUp(Unit unit) {
@@ -308,18 +312,22 @@ public class VocableDialog extends DialogFragment {
 
     private void processVocable() {
         if (vocable != null) {
-            for (String s : vocable.getFirstMeaning()) {
-                meaningContainer1.addView(generateInput(s, getString(R.string.dialog_vocable_input_hint_first_meaning)));
-            }
-
-            for (String s : vocable.getSecondMeaning()) {
-                meaningContainer2.addView(generateInput(s, getString(R.string.dialog_vocable_input_hint_second_meaning)));
-            }
+            processMeanings(vocable.getFirstMeaning().toList(), vocable.getSecondMeaning().toList());
 
             this.hint.setText(vocable.getHint());
         } else {
             meaningContainer1.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_first_meaning)));
             meaningContainer2.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_second_meaning)));
+        }
+    }
+
+    private void processMeanings(List<String> firstMeanings, List<String> secondMeanings) {
+        for (String firstMeaning : firstMeanings) {
+            meaningContainer1.addView(generateInput(firstMeaning, getString(R.string.dialog_vocable_input_hint_first_meaning)));
+        }
+
+        for (String secondMeaning : secondMeanings) {
+            meaningContainer2.addView(generateInput(secondMeaning, getString(R.string.dialog_vocable_input_hint_second_meaning)));
         }
     }
 
@@ -345,7 +353,6 @@ public class VocableDialog extends DialogFragment {
         TextInputLayout result = (TextInputLayout) View.inflate(getActivity(), R.layout.dialog_vocable_input, null);
         EditText input = (EditText) result.getChildAt(0);
 
-        input.setId(android.R.id.edit);
         result.setHint(hint);
         input.setText(text);
         input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
@@ -356,6 +363,8 @@ public class VocableDialog extends DialogFragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putStringArrayList("first_meanings", getMeanings(meaningContainer1));
+        outState.putStringArrayList("second_meanings", getMeanings(meaningContainer2));
     }
 
     public void setCallback(VocableDialogCallback callback) {

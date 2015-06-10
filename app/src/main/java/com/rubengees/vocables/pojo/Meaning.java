@@ -151,4 +151,8 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
     public Iterator<String> iterator() {
         return meanings.iterator();
     }
+
+    public List<String> toList() {
+        return new ArrayList<String>(meanings);
+    }
 }
