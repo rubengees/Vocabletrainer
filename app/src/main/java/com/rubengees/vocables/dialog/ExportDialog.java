@@ -44,8 +44,8 @@ public class ExportDialog extends DialogFragment implements ExportTask.OnExportF
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
-        dialog = builder.title(getActivity().getString(R.string.export_title)).progress(true, 100).content(getActivity().getString(R.string.dialog_export_content))
-                .negativeText(getActivity().getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
+        dialog = builder.title(getString(R.string.export_title)).progress(true, 100).content(getString(R.string.dialog_export_content))
+                .negativeText(getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onNegative(MaterialDialog dialog) {
                         super.onNegative(dialog);
@@ -58,7 +58,7 @@ public class ExportDialog extends DialogFragment implements ExportTask.OnExportF
 
     @Override
     public void onExportFinished(String success) {
-        Toast.makeText(getActivity(), success == null ? getActivity().getString(R.string.dialog_export_finish_message) : success, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), success == null ? getString(R.string.dialog_export_finish_message) : success, Toast.LENGTH_SHORT).show();
         dismiss();
     }
 }

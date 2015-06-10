@@ -53,7 +53,7 @@ public class SortDialog extends DialogFragment {
                 break;
         }
 
-        builder.title(getActivity().getString(R.string.dialog_sort_title)).items(R.array.sort_items).itemsCallbackSingleChoice(selectedItem, new MaterialDialog.ListCallbackSingleChoice() {
+        builder.title(getString(R.string.dialog_sort_title)).items(R.array.sort_items).itemsCallbackSingleChoice(selectedItem, new MaterialDialog.ListCallbackSingleChoice() {
             @Override
             public boolean onSelection(MaterialDialog materialDialog, View view, int index, CharSequence charSequence) {
                 SortMode result;

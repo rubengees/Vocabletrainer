@@ -51,8 +51,8 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
-        dialog = builder.title(getActivity().getString(R.string.import_title)).content(getActivity().getString(R.string.dialog_import_content))
-                .progress(true, 100).negativeText(getActivity().getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
+        dialog = builder.title(getString(R.string.import_title)).content(getString(R.string.dialog_import_content))
+                .progress(true, 100).negativeText(getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onNegative(MaterialDialog dialog) {
                 super.onNegative(dialog);
@@ -66,7 +66,7 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
     @Override
     public void onImportFinished(String result) {
         if (result != null) {
-            Toast.makeText(getActivity(), getActivity().getString(R.string.dialog_import_error_message) + " " + result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.dialog_import_error_message) + " " + result, Toast.LENGTH_SHORT).show();
         } else {
             if (listener != null) {
                 listener.onImportFinished(null);

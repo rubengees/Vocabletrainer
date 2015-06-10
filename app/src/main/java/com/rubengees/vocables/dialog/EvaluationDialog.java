@@ -22,9 +22,9 @@ public class EvaluationDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.title(getActivity().getString(R.string.dialog_evaluation_title))
-                .content(getActivity().getString(R.string.dialog_evaluation_content)).positiveText(getActivity().getString(R.string.dialog_evaluation_ok))
-                .negativeText(getActivity().getString(R.string.dialog_evaluation_no)).neutralText(getActivity().getString(R.string.dialog_evaluation_later)).callback(new MaterialDialog.ButtonCallback() {
+        builder.title(getString(R.string.dialog_evaluation_title))
+                .content(getString(R.string.dialog_evaluation_content)).positiveText(getString(R.string.dialog_evaluation_ok))
+                .negativeText(getString(R.string.dialog_evaluation_no)).neutralText(getString(R.string.dialog_evaluation_later)).callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
                 super.onPositive(dialog);

@@ -48,8 +48,8 @@ public class UnitDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.title(getActivity().getString(R.string.dialog_unit_title))
-                .input(getActivity().getString(R.string.dialog_unit_input_hint), unit.getTitle(), false, new MaterialDialog.InputCallback() {
+        builder.title(getString(R.string.dialog_unit_title))
+                .input(getString(R.string.dialog_unit_input_hint), unit.getTitle(), false, new MaterialDialog.InputCallback() {
             @Override
             public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
 
@@ -61,7 +61,7 @@ public class UnitDialog extends DialogFragment {
                 }
 
             }
-                }).negativeText(getActivity().getString(R.string.dialog_cancel));
+                }).negativeText(getString(R.string.dialog_cancel));
 
         return builder.build();
     }

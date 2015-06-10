@@ -123,8 +123,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
             builder.setType("message/rfc822");
             builder.addEmailTo("geesruben@yahoo.de");
-            builder.setSubject(getActivity().getString(R.string.fragment_settings_mail_subject));
-            builder.setChooserTitle(getActivity().getString(R.string.fragment_settings_mail_client));
+            builder.setSubject(getString(R.string.fragment_settings_mail_subject));
+            builder.setChooserTitle(getString(R.string.fragment_settings_mail_client));
             builder.startChooser();
 
             return true;
@@ -143,8 +143,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             return true;
         } else if (preference == licences) {
             new LibsBuilder().withAboutIconShown(true).withAboutVersionShownName(true).withAnimations(true)
-                    .withAboutAppName(getActivity().getString(R.string.app_name))
-                    .withAboutDescription(getActivity().getString(R.string.activity_about_content)).withActivityTitle(getActivity().getString(R.string.activity_about_title))
+                    .withAboutAppName(getString(R.string.app_name))
+                    .withAboutDescription(getString(R.string.activity_about_content)).withActivityTitle(getString(R.string.activity_about_title))
                     .withFields(R.string.class.getFields()).withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR).start(getActivity());
         } else if (preference == source) {
             Uri webpage = Uri.parse("https://github.com/RubenGees/Vocabletrainer");

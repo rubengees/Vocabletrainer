@@ -39,8 +39,8 @@ public class OverrideDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.title(getActivity().getString(R.string.export_title)).content(getActivity().getString(R.string.dialog_override_content))
-                .positiveText(getActivity().getString(R.string.dialog_override_ok)).callback(new MaterialDialog.ButtonCallback() {
+        builder.title(getString(R.string.export_title)).content(getString(R.string.dialog_override_content))
+                .positiveText(getString(R.string.dialog_override_ok)).negativeText(getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
                 super.onPositive(dialog);

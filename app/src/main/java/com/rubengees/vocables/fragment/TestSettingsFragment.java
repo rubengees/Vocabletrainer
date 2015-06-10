@@ -72,7 +72,6 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
         status = (TextView) header.findViewById(R.id.fragment_test_settings_header_status);
 
         final ViewGroup root = (ViewGroup) layout.inflateLayout(inflater, container, savedInstanceState);
-        final ViewGroup layoutContainer = (ViewGroup) root.findViewById(R.id.fragment_test_settings_container);
 
         if (savedInstanceState == null) {
             settings = layout.generateTestSettings();
@@ -91,8 +90,8 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
                 if (vocableAmount >= mode.getMinAmount()) {
                     getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
                 } else {
-                    SnackbarManager.show(Snackbar.with(getActivity()).text(getActivity().getString(R.string.fragment_test_settings_error_not_enough_vocables) + " " + mode.getMinAmount())
-                            .duration(Snackbar.SnackbarDuration.LENGTH_LONG).type(SnackbarType.MULTI_LINE), layoutContainer);
+                    SnackbarManager.show(Snackbar.with(getActivity()).text(getString(R.string.fragment_test_settings_error_not_enough_vocables) + " " + mode.getMinAmount())
+                            .duration(Snackbar.SnackbarDuration.LENGTH_LONG).type(SnackbarType.MULTI_LINE), (ViewGroup) getActivity().findViewById(R.id.content));
                 }
             }
         });
@@ -106,8 +105,8 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
             amount = calculateAmount(settings);
         }
 
-        this.status.setText(amount + " " + (amount == 1 ? getActivity().getString(R.string.fragment_test_settings_vocable_selected) :
-                getActivity().getString(R.string.fragment_test_settings_vocables_selected)));
+        this.status.setText(amount + " " + (amount == 1 ? getString(R.string.fragment_test_settings_vocable_selected) :
+                getString(R.string.fragment_test_settings_vocables_selected)));
     }
 
     private int calculateAmount(TestSettings settings) {

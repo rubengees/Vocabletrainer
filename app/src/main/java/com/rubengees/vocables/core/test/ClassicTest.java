@@ -104,9 +104,9 @@ public class
         animating = true;
 
         if (result == null) {
-            text = new SpannableString("Correct!");
+            text = new SpannableString(getContext().getString(R.string.test_classic_correct));
         } else {
-            String resultText = "Wrong! Correct:" + " ";
+            String resultText = getContext().getString(R.string.test_classic_wrong) + " ";
             text = new SpannableString(resultText + result.toString());
 
             text.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), resultText.length() - 1, text.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);

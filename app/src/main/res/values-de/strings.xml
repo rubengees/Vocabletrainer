@@ -44,13 +44,13 @@
     <string name="dialog_vocable_input_hint_first_meaning">Bedeutung in deiner Sprache</string>
     <string name="dialog_vocable_input_hint_second_meaning">Bedeutung in Fremdsprache</string>
     <string name="dialog_vocable_ok">Speichern</string>
-    <string name="dialog_vocable_title">Vokable bearbeiten</string>
+    <string name="dialog_vocable_title">Vokabel bearbeiten</string>
     <string name="dialog_vocable_unit_input_hint">Lektionstitel</string>
     <string name="dialog_welcome_ads_check_box">Werbung zeigen</string>
     <string name="dialog_welcome_ok">Los geht\'s!</string>
     <string name="dialog_welcome_play_games_check_box">In Play Games einloggen</string>
     <string name="dialog_welcome_reminder_check_box">Mich erinnern</string>
-    <string name="dialog_welcome_reminder_text">Diese App kann dich täglich daran erinnern Vokablen zu lernen.</string>
+    <string name="dialog_welcome_reminder_text">Diese App kann dich täglich daran erinnern Vokabeln zu lernen.</string>
     <string name="dialog_welcome_title">Willkommen!</string>
     <string name="donate_100">Spende 1€</string>
     <string name="donate_200">Spende 2€</string>
@@ -133,7 +133,7 @@
     <string name="help_add_vocables_title">Vokabeln hinzufügen</string>
     <string name="fragment_test_settings_vocable_selected">Vokabel ausgewählt</string>
     <string name="fragment_test_settings_vocables_selected">Vokabeln ausgewählt</string>
-    <string name="fragment_test_settings_error_not_enough_vocables">Du hast nicht genug Vokabln ausgewählt. Du brauchst mindestens</string>
+    <string name="fragment_test_settings_error_not_enough_vocables">Du hast nicht genug Vokabeln ausgewählt. Du brauchst mindestens</string>
     <string name="mode_classic_help">Im Klassischen Modus lernst du Vokabeln, indem du die Übersetzungen für jede angibst. Um eine Antwort zu geben tippst du einfach deine Antwort in die Textbox und klickst den \'weiter\' Knopf rechts.</string>
     <string name="mode_pair_help">Im Paar Modus musst du zwei zusammenpassende Bedeutungen einer Vokabel finden. Wenn du zwei passende gefunden hast, klicke auf die erste. Der Knopf ist nun aktiviert, was du an der dunkleren Farbe erkennen kannst. Dann klickst du auf den zweiten Knopf um deine Antwort zu geben. Wenn du den ersten Knopf abwählen möchtest klicke ihn einfach ein zweites mal.</string>
     <string name="mode_time_help">Im Zeit Modus musst du so schnell wie möglich eine Antwort geben. Um eine Antwort zu geben klicke auf den Button mit der Antwort. Der Fortschrittsbalken unter der Frage gibt an wieviel Zeit du noch hast.</string>
@@ -142,4 +142,7 @@
     <string name="help_export">Du kannst ein Backup machen um deine Vokabelliste zu teilen oder nur um sie zu speichern. Wenn du ein Backup machen möchtest gehe zur Vokabelliste und wähle \'Export\' aus dem Menü. Ein Dateimanager öffnet sich und du kannst aussuchen in welchem Ordner das Backup gespeichert werden soll. Wenn du einen Ordner gefunden hast, klicke auf den \'Speichern\' Knopf. Das Dateiformat des Backups ist xml und du kannst es mit jedem Texteditor öffnen.</string>
     <string name="help_import">Du kannst eine bereits erstellte Liste in den Vokabeltrainer importieren. Um das zu tun gehe zur Vokablliste und wähle \'Import\' aus dem Menü. Ein Dateimanager öffnet sich und du kannst die Datei aussuchen, die du importieren möchtest. Der Dateityp muss entweder xml oder csv sein. Wenn du eine Liste schnell am Computer ersstellen möchtest, erstellst du eine Textdatei und speicherst sie als csv. Beispiel:\nHello;Greetings,Hallo,English-German\nGoodbye;Tschüss,Auf Wiedersehen,English-German\nDer xml Dateityp ist für die Backups vom Vokabeltrainer; Siehe \'Export\'</string>
     <string name="dialog_welcome_ads_text">Du kannst entscheiden, ob diese App Werbung zeigen soll. Es wäre toll, wenn du sie aktivieren würdest, da so der Entwickler dieser App unterstützt wird.</string>
+    <string name="dialog_vocable_hint_input_hint">Tipp</string>
+    <string name="test_classic_correct">Richtig!</string>
+    <string name="test_classic_wrong">Falsch! Richtig:</string>
 </resources>

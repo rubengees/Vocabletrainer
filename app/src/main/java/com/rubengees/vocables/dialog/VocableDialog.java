@@ -90,9 +90,9 @@ public class VocableDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.title(getActivity().getString(R.string.dialog_vocable_title)).customView(inflateView(), true)
-                .positiveText(getActivity().getString(R.string.dialog_vocable_ok))
-                .negativeText(getActivity().getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
+        builder.title(getString(R.string.dialog_vocable_title)).customView(inflateView(), true)
+                .positiveText(getString(R.string.dialog_vocable_ok))
+                .negativeText(getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
                 super.onPositive(dialog);
@@ -145,7 +145,7 @@ public class VocableDialog extends DialogFragment {
         }
 
         if (firstMeanings.isEmpty() || secondMeanings.isEmpty()) {
-            Toast.makeText(getActivity(), getActivity().getString(R.string.dialog_vocable_error_no_meaning), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.dialog_vocable_error_no_meaning), Toast.LENGTH_SHORT).show();
 
             return false;
         } else {
@@ -167,7 +167,7 @@ public class VocableDialog extends DialogFragment {
                 unit.setTitle(unitTitle);
                 unit.setLastModificationTime(System.currentTimeMillis());
             } else {
-                Toast.makeText(getActivity(), getActivity().getString(R.string.dialog_vocable_error_no_unit), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.dialog_vocable_error_no_unit), Toast.LENGTH_SHORT).show();
 
                 return false;
             }
@@ -249,14 +249,14 @@ public class VocableDialog extends DialogFragment {
         addMeaning1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                meaningContainer1.addView(generateInput(null, getActivity().getString(R.string.dialog_vocable_input_hint_first_meaning)));
+                meaningContainer1.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_first_meaning)));
             }
         });
 
         addMeaning2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                meaningContainer2.addView(generateInput(null, getActivity().getString(R.string.dialog_vocable_input_hint_second_meaning)));
+                meaningContainer2.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_second_meaning)));
             }
         });
 
@@ -309,17 +309,17 @@ public class VocableDialog extends DialogFragment {
     private void processVocable() {
         if (vocable != null) {
             for (String s : vocable.getFirstMeaning()) {
-                meaningContainer1.addView(generateInput(s, getActivity().getString(R.string.dialog_vocable_input_hint_first_meaning)));
+                meaningContainer1.addView(generateInput(s, getString(R.string.dialog_vocable_input_hint_first_meaning)));
             }
 
             for (String s : vocable.getSecondMeaning()) {
-                meaningContainer2.addView(generateInput(s, getActivity().getString(R.string.dialog_vocable_input_hint_second_meaning)));
+                meaningContainer2.addView(generateInput(s, getString(R.string.dialog_vocable_input_hint_second_meaning)));
             }
 
             this.hint.setText(vocable.getHint());
         } else {
-            meaningContainer1.addView(generateInput(null, getActivity().getString(R.string.dialog_vocable_input_hint_first_meaning)));
-            meaningContainer2.addView(generateInput(null, getActivity().getString(R.string.dialog_vocable_input_hint_second_meaning)));
+            meaningContainer1.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_first_meaning)));
+            meaningContainer2.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_second_meaning)));
         }
     }
 

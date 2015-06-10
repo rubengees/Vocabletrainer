@@ -125,22 +125,22 @@ public class TestResultFragment extends MainFragment {
             int rate = Utils.calculateCorrectAnswerRate(result.getCorrect(), result.getIncorrect());
 
             if (rate == 100) {
-                return getActivity().getString(R.string.fragment_result_perfect);
+                return getString(R.string.fragment_result_perfect);
             } else if (rate >= 92) {
-                return getActivity().getString(R.string.fragment_result_very_good);
+                return getString(R.string.fragment_result_very_good);
             } else if (rate >= 81) {
-                return getActivity().getString(R.string.fragment_result_good);
+                return getString(R.string.fragment_result_good);
             } else if (rate >= 67) {
-                return getActivity().getString(R.string.fragment_result_okay);
+                return getString(R.string.fragment_result_okay);
             } else if (rate >= 50) {
-                return getActivity().getString(R.string.fragment_result_not_so_well);
+                return getString(R.string.fragment_result_not_so_well);
             } else if (rate >= 30) {
-                return getActivity().getString(R.string.fragment_result_bad);
+                return getString(R.string.fragment_result_bad);
             } else {
-                return getActivity().getString(R.string.fragment_result_horrible);
+                return getString(R.string.fragment_result_horrible);
             }
         } else {
-            return getActivity().getString(R.string.fragment_result_no_answers);
+            return getString(R.string.fragment_result_no_answers);
         }
     }
 

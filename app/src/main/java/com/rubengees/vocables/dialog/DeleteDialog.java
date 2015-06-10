@@ -22,8 +22,8 @@ public class DeleteDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.title(getActivity().getString(R.string.dialog_delete_title)).content(getActivity().getString(R.string.dialog_delete_content))
-                .positiveText(getActivity().getString(R.string.dialog_delete_ok)).negativeText(getActivity().getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
+        builder.title(getString(R.string.dialog_delete_title)).content(getString(R.string.dialog_delete_content))
+                .positiveText(getString(R.string.dialog_delete_ok)).negativeText(getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
                 super.onPositive(dialog);
