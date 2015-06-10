@@ -56,7 +56,6 @@
 
     <string name="fragment_vocable_list_title">Vocablelist</string>
     <string name="activity_main_divider_modes">Modes</string>
-    <string name="fragment_stats_title">Statistics</string>
     <string name="dialog_play_games_title">Play Games</string>
     <string name="fragment_help_title">Help</string>
     <string name="dialog_donate_title">Donate</string>
@@ -86,7 +85,7 @@
 
     <string name="test_question">What means</string>
 
-    <string name="google_service_connection_unknown_error">An unknown error occurred. Check your network connection. If this error occurs repeatedly please notify the developer</string>
+    <string name="google_service_connection_unknown_error">An unknown error occurred. Check your network connection. If this error occurs repeatedly please notify the developer.</string>
 
     <string name="database_uni_title_default">Default</string>
 
@@ -120,7 +119,7 @@
     <string name="dialog_play_games_content_signed_out">Do you want to sign in?</string>
 
     <string name="dialog_sort_title">Sort</string>
-    <string name="dialog_sort_modification_date">Modification date</string>
+    <string name="dialog_sort_by_modification_date">Modification date</string>
 
     <string name="dialog_unit_title">Modify Unit</string>
     <string name="dialog_unit_input_hint">Unit title</string>
@@ -139,7 +138,7 @@
     <string name="fragment_settings_mail_client">Choose Client</string>
 
     <string name="activity_about_content">A free and opensource App to learn Vocables</string>
-    <string name="activity_about_title">Libraries</string>
+    <string name="activity_about_title">About</string>
 
     <string name="fragment_vocable_list_undo">Undo</string>
     <string name="fragmnet_vocable_list_deleted_message">deleted</string>
@@ -175,4 +174,9 @@
     <string name="menu_vocable_list_sort">Sort</string>
     <string name="menu_vocable_list_import">Import</string>
     <string name="menu_vocable_list_export">Export</string>
+    <string name="preferences_source_summary">View the Source Code at GitHub.com</string>
+    <string name="preferences_source_title">Source Code</string>
+    <string name="fragment_test_settings_error_not_enough_vocables">You don\'t have enough Vocables selected. You need at least</string>
+    <string name="fragment_test_settings_vocable_selected">Vocable selected</string>
+    <string name="fragment_test_settings_vocables_selected">Vocables selected</string>
 </resources>

@@ -91,7 +91,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
                 if (vocableAmount >= mode.getMinAmount()) {
                     getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
                 } else {
-                    SnackbarManager.show(Snackbar.with(getActivity()).text("You don't have enough Vocables selected. You need at least" + " " + mode.getMinAmount())
+                    SnackbarManager.show(Snackbar.with(getActivity()).text(getActivity().getString(R.string.fragment_test_settings_error_not_enough_vocables) + " " + mode.getMinAmount())
                             .duration(Snackbar.SnackbarDuration.LENGTH_LONG).type(SnackbarType.MULTI_LINE), layoutContainer);
                 }
             }
@@ -106,7 +106,8 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
             amount = calculateAmount(settings);
         }
 
-        this.status.setText(amount + " " + (amount == 1 ? "Vocable selected" : "Vocables selected"));
+        this.status.setText(amount + " " + (amount == 1 ? getActivity().getString(R.string.fragment_test_settings_vocable_selected) :
+                getActivity().getString(R.string.fragment_test_settings_vocables_selected)));
     }
 
     private int calculateAmount(TestSettings settings) {

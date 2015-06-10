@@ -211,7 +211,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
         result.add(new SectionDrawerItem().withName(getString(R.string.activity_main_divider_modes)));
         result.addAll(generateModeItems());
         result.add(new DividerDrawerItem());
-        result.add(new PrimaryDrawerItem().withName(getString(R.string.fragment_stats_title)).withIcon(R.drawable.ic_stats)
+        result.add(new PrimaryDrawerItem().withName(getString(R.string.fragment_statistics_title)).withIcon(R.drawable.ic_stats)
                 .withSelectedTextColorRes(R.color.primary)
                 .withIconTintingEnabled(true).withSelectedIconColorRes(R.color.primary).withIdentifier(2));
 

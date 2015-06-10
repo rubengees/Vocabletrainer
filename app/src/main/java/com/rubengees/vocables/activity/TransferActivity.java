@@ -40,6 +40,12 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
+        if(isImport){
+            setTitle(getString(R.string.import_title));
+        }else{
+            setTitle(getString(R.string.export_title));
+        }
+
         if (savedInstanceState == null) {
             tryShowContent();
         } else {

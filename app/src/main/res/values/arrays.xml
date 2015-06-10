@@ -19,8 +19,8 @@
     </string-array>
 
     <string-array name="sort_items">
-        <item>@string/dialog_sort_title</item>
-        <item>@string/dialog_sort_modification_date</item>
+        <item>@string/dialog_sort_by_title</item>
+        <item>@string/dialog_sort_by_modification_date</item>
     </string-array>
 
     <string-array name="help_titles">
@@ -36,4 +36,5 @@
         <item>@string/help_import</item>
         <item>@string/help_export</item>
     </string-array>
+    <string name="dialog_sort_by_title">Title</string>
 </resources>

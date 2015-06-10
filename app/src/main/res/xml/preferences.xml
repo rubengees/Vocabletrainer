@@ -59,7 +59,7 @@
 
     <Preference
         android:key="pref_source"
-        android:summary="View the Source Code at GitHub.com"
-        android:title="Source Code" />
+        android:summary="@string/preferences_source_summary"
+        android:title="@string/preferences_source_title" />
 
 </PreferenceScreen>
