@@ -58,6 +58,7 @@ public class ChartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             Mode mode = modes.get(position - 1);
 
             current.title.setText(mode.getShortTitle(current.title.getContext()));
+            current.title.setTextColor(mode.getColor(current.title.getContext()));
             ChartTools.generateAnswerChart(current.answers, mode.getCorrect(), mode.getIncorrect());
             ChartTools.generateTimeChart(current.times, mode.getBestTime(), mode.getAverageTime());
         }
