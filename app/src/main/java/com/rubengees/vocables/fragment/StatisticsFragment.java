@@ -17,6 +17,7 @@ import java.util.List;
 
 public class StatisticsFragment extends MainFragment {
 
+    private static final String KEY_MODES = "modes";
     private List<Mode> modes;
 
     public StatisticsFragment() {
@@ -27,7 +28,7 @@ public class StatisticsFragment extends MainFragment {
         StatisticsFragment fragment = new StatisticsFragment();
         Bundle args = new Bundle();
 
-        args.putParcelableArrayList("modes", modes);
+        args.putParcelableArrayList(KEY_MODES, modes);
         fragment.setArguments(args);
         return fragment;
     }
@@ -37,7 +38,7 @@ public class StatisticsFragment extends MainFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            this.modes = getArguments().getParcelableArrayList("modes");
+            this.modes = getArguments().getParcelableArrayList(KEY_MODES);
         }
     }
 

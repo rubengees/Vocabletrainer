@@ -100,7 +100,7 @@ public class TestResultFragment extends MainFragment {
         RecyclerView recycler = (RecyclerView) inflater.inflate(R.layout.fragment_test_result, container, false);
         View header = inflater.inflate(R.layout.header, container, false);
         TextView resultText = (TextView) header.findViewById(R.id.header_text);
-        ResultAdapter adapter = new ResultAdapter(result);
+        ResultAdapter adapter = new ResultAdapter(result, getActivity());
 
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));

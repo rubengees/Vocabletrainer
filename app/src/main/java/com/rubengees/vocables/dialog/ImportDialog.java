@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.rubengees.vocables.R;
 import com.rubengees.vocables.utils.ImportTask;
 
 import java.io.File;
@@ -14,6 +15,8 @@ import java.io.File;
  * Created by ruben on 29.05.15.
  */
 public class ImportDialog extends DialogFragment implements ImportTask.OnImportFinishedListener {
+
+    private static final String KEY_PATH = "path";
 
     private ImportTask task;
     private ImportTask.OnImportFinishedListener listener;
@@ -25,7 +28,7 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
         ImportDialog dialog = new ImportDialog();
         Bundle bundle = new Bundle();
 
-        bundle.putString("path", path);
+        bundle.putString(KEY_PATH, path);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -34,7 +37,7 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        file = new File(getArguments().getString("path"));
+        file = new File(getArguments().getString(KEY_PATH));
 
         task = ImportTask.getInstance(getActivity(), file, this);
 
@@ -48,7 +51,8 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
-        dialog = builder.title("Import").content("Importing...").progress(true, 100).negativeText("Cancel").callback(new MaterialDialog.ButtonCallback() {
+        dialog = builder.title(getActivity().getString(R.string.import_title)).content(getActivity().getString(R.string.dialog_import_content))
+                .progress(true, 100).negativeText(getActivity().getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onNegative(MaterialDialog dialog) {
                 super.onNegative(dialog);
@@ -62,7 +66,7 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
     @Override
     public void onImportFinished(String result) {
         if (result != null) {
-            Toast.makeText(getActivity(), "Import failed. Error in line:" + " " + result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getActivity().getString(R.string.dialog_import_error_message) + " " + result, Toast.LENGTH_SHORT).show();
         } else {
             if (listener != null) {
                 listener.onImportFinished(null);

@@ -18,6 +18,11 @@
         <item>@string/donate_200</item>
     </string-array>
 
+    <string-array name="sort_items">
+        <item>@string/dialog_sort_title</item>
+        <item>@string/dialog_sort_modification_date</item>
+    </string-array>
+
     <string-array name="help_titles">
         <item>@string/help_add_vocables_title</item>
         <item>@string/help_delete_vocables_title</item>

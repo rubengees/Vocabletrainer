@@ -67,7 +67,7 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
     }
 
     private void showSnackbar() {
-        SnackbarManager.show(Snackbar.with(this).text("Could not access Sd-Card").actionLabel("Retry").duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE).actionListener(new ActionClickListener() {
+        SnackbarManager.show(Snackbar.with(this).text(getString(R.string.activity_transfer_error_sd)).actionLabel(getString(R.string.activity_transfer_error_retry)).duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE).actionListener(new ActionClickListener() {
             @Override
             public void onActionClicked(Snackbar snackbar) {
                 tryShowContent();
@@ -126,7 +126,7 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
             setResult(RESULT_OK, in);
             finish();
         } else {
-            Toast.makeText(this, "This file-type is not supported. See 'Import' in help", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.activity_transfer_error_file_type), Toast.LENGTH_SHORT).show();
         }
     }
 

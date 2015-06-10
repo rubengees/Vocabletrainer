@@ -32,6 +32,9 @@ import java.util.List;
  */
 public class VocableDialog extends DialogFragment {
 
+    public static final String KEY_UNIT_ID = "unit_id";
+    public static final String KEY_VOCABLE = "vocable";
+    public static final String KEY_VOCABLE_POS = "vocable_pos";
     private Vocable vocable;
     private Unit unit;
     private int vocablePos;
@@ -54,11 +57,11 @@ public class VocableDialog extends DialogFragment {
         Bundle bundle = new Bundle();
 
         if (unitId != null) {
-            bundle.putInt("unit_id", unitId);
+            bundle.putInt(KEY_UNIT_ID, unitId);
         }
-        bundle.putParcelable("vocable", vocable);
+        bundle.putParcelable(KEY_VOCABLE, vocable);
         if (vocablePos != null) {
-            bundle.putInt("vocable_pos", vocablePos);
+            bundle.putInt(KEY_VOCABLE_POS, vocablePos);
         }
         dialog.setArguments(bundle);
 
@@ -72,13 +75,13 @@ public class VocableDialog extends DialogFragment {
         manager = Core.getInstance(getActivity()).getVocableManager();
 
         if (getArguments() != null) {
-            vocable = getArguments().getParcelable("vocable");
+            vocable = getArguments().getParcelable(KEY_VOCABLE);
 
-            if (getArguments().containsKey("unit_id")) {
-                unit = manager.getUnit(getArguments().getInt("unit_id"));
+            if (getArguments().containsKey(KEY_UNIT_ID)) {
+                unit = manager.getUnit(getArguments().getInt(KEY_UNIT_ID));
             }
-            if (getArguments().containsKey("vocable_pos")) {
-                vocablePos = getArguments().getInt("vocable_pos");
+            if (getArguments().containsKey(KEY_VOCABLE_POS)) {
+                vocablePos = getArguments().getInt(KEY_VOCABLE_POS);
             }
         }
     }
@@ -87,7 +90,9 @@ public class VocableDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.title("Modify Vocable").customView(inflateView(), true).positiveText("Save").negativeText("Cancel").callback(new MaterialDialog.ButtonCallback() {
+        builder.title(getActivity().getString(R.string.dialog_vocable_title)).customView(inflateView(), true)
+                .positiveText(getActivity().getString(R.string.dialog_vocable_ok))
+                .negativeText(getActivity().getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
                 super.onPositive(dialog);
@@ -140,7 +145,7 @@ public class VocableDialog extends DialogFragment {
         }
 
         if (firstMeanings.isEmpty() || secondMeanings.isEmpty()) {
-            Toast.makeText(getActivity(), "You have to give at least one Meaning", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getActivity().getString(R.string.dialog_vocable_error_no_meaning), Toast.LENGTH_SHORT).show();
 
             return false;
         } else {
@@ -162,7 +167,7 @@ public class VocableDialog extends DialogFragment {
                 unit.setTitle(unitTitle);
                 unit.setLastModificationTime(System.currentTimeMillis());
             } else {
-                Toast.makeText(getActivity(), "You have to name a unit", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getActivity().getString(R.string.dialog_vocable_error_no_unit), Toast.LENGTH_SHORT).show();
 
                 return false;
             }
@@ -244,14 +249,14 @@ public class VocableDialog extends DialogFragment {
         addMeaning1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                meaningContainer1.addView(generateInput(null, "Meaning in your language"));
+                meaningContainer1.addView(generateInput(null, getActivity().getString(R.string.dialog_vocable_input_hint_first_meaning)));
             }
         });
 
         addMeaning2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                meaningContainer2.addView(generateInput(null, "Meaning in foreign language"));
+                meaningContainer2.addView(generateInput(null, getActivity().getString(R.string.dialog_vocable_input_hint_second_meaning)));
             }
         });
 
@@ -304,17 +309,17 @@ public class VocableDialog extends DialogFragment {
     private void processVocable() {
         if (vocable != null) {
             for (String s : vocable.getFirstMeaning()) {
-                meaningContainer1.addView(generateInput(s, "Meaning in your language"));
+                meaningContainer1.addView(generateInput(s, getActivity().getString(R.string.dialog_vocable_input_hint_first_meaning)));
             }
 
             for (String s : vocable.getSecondMeaning()) {
-                meaningContainer2.addView(generateInput(s, "Meaning in foreign language"));
+                meaningContainer2.addView(generateInput(s, getActivity().getString(R.string.dialog_vocable_input_hint_second_meaning)));
             }
 
             this.hint.setText(vocable.getHint());
         } else {
-            meaningContainer1.addView(generateInput(null, "Meaning in your language"));
-            meaningContainer2.addView(generateInput(null, "Meaning in foreign language"));
+            meaningContainer1.addView(generateInput(null, getActivity().getString(R.string.dialog_vocable_input_hint_first_meaning)));
+            meaningContainer2.addView(generateInput(null, getActivity().getString(R.string.dialog_vocable_input_hint_second_meaning)));
         }
     }
 

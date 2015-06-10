@@ -25,6 +25,8 @@ import java.util.List;
  */
 public class HelpFragment extends MainFragment {
 
+    private static final String KEY_MODES = "modes";
+
     private List<Mode> modes;
 
     public HelpFragment() {
@@ -35,7 +37,7 @@ public class HelpFragment extends MainFragment {
         HelpFragment fragment = new HelpFragment();
         Bundle args = new Bundle();
 
-        args.putParcelableArrayList("modes", modes);
+        args.putParcelableArrayList(KEY_MODES, modes);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,7 +46,7 @@ public class HelpFragment extends MainFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.modes = getArguments().getParcelableArrayList("modes");
+            this.modes = getArguments().getParcelableArrayList(KEY_MODES);
         }
     }
 

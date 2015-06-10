@@ -13,7 +13,7 @@ import com.rubengees.vocables.activity.MainActivity;
 
 public class ReminderReceiver extends BroadcastReceiver {
 
-    private static final int NOTIFICATION_ID = 001;
+    private static final int NOTIFICATION_ID = 101;
 
     public ReminderReceiver() {
     }
@@ -23,7 +23,7 @@ public class ReminderReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
         builder.setContentTitle(context.getString(R.string.app_name));
-        builder.setContentText("You have to learn Vocables!");
+        builder.setContentText(context.getString(R.string.notification_reminder_content));
         builder.setSmallIcon(R.drawable.ic_stat_reminder);
         builder.setAutoCancel(true).setDefaults(Notification.DEFAULT_ALL);
 

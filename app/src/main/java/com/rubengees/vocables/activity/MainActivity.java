@@ -94,7 +94,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
         adView = (AdView) findViewById(R.id.adView);
 
         if (savedInstanceState == null) {
-            setFragment(VocableListFragment.newInstance(), "Vocablelist");
+            setFragment(VocableListFragment.newInstance(), getString(R.string.fragment_vocable_list_title));
 
             showDialog();
         } else {
@@ -205,17 +205,17 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     private ArrayList<IDrawerItem> generateDrawerItems() {
         ArrayList<IDrawerItem> result = new ArrayList<>();
 
-        result.add(new PrimaryDrawerItem().withName("Vocablelist").withIcon(R.drawable.ic_list)
+        result.add(new PrimaryDrawerItem().withName(getString(R.string.fragment_vocable_list_title)).withIcon(R.drawable.ic_list)
                 .withSelectedTextColorRes(R.color.primary)
                 .withSelectedIconColorRes(R.color.primary).withIconTintingEnabled(true).withIdentifier(0));
-        result.add(new SectionDrawerItem().withName("Modes"));
+        result.add(new SectionDrawerItem().withName(getString(R.string.activity_main_divider_modes)));
         result.addAll(generateModeItems());
         result.add(new DividerDrawerItem());
-        result.add(new PrimaryDrawerItem().withName("Statistics").withIcon(R.drawable.ic_stats)
+        result.add(new PrimaryDrawerItem().withName(getString(R.string.fragment_stats_title)).withIcon(R.drawable.ic_stats)
                 .withSelectedTextColorRes(R.color.primary)
                 .withIconTintingEnabled(true).withSelectedIconColorRes(R.color.primary).withIdentifier(2));
 
-        PrimaryDrawerItem playGames = new PrimaryDrawerItem().withName("Play Games").withIcon(R.drawable.ic_play_games)
+        PrimaryDrawerItem playGames = new PrimaryDrawerItem().withName(getString(R.string.dialog_play_games_title)).withIcon(R.drawable.ic_play_games)
                 .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(3);
 
         playGames.setCheckable(false);
@@ -227,16 +227,16 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     private ArrayList<IDrawerItem> generateStickyDrawerItems() {
         ArrayList<IDrawerItem> result = new ArrayList<>();
 
-        result.add(new PrimaryDrawerItem().withName("Help").withIcon(R.drawable.ic_help).withSelectedTextColorRes(R.color.primary)
+        result.add(new PrimaryDrawerItem().withName(getString(R.string.fragment_help_title)).withIcon(R.drawable.ic_help).withSelectedTextColorRes(R.color.primary)
                 .withIconTintingEnabled(true).withSelectedIconColorRes(R.color.primary).withIdentifier(4));
 
-        PrimaryDrawerItem donate = new PrimaryDrawerItem().withName("Donate").withIcon(R.drawable.ic_donate)
+        PrimaryDrawerItem donate = new PrimaryDrawerItem().withName(getString(R.string.dialog_donate_title)).withIcon(R.drawable.ic_donate)
                 .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(5);
 
         donate.setCheckable(false);
         result.add(donate);
 
-        result.add(new PrimaryDrawerItem().withName("Settings").withIcon(R.drawable.ic_settings)
+        result.add(new PrimaryDrawerItem().withName(getString(R.string.fragment_settings_title)).withIcon(R.drawable.ic_settings)
                 .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(6));
         return result;
     }
@@ -297,7 +297,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
 
             switch (drawerItem.getIdentifier()) {
                 case 0:
-                    setFragment(VocableListFragment.newInstance(), "Vocablelist");
+                    setFragment(VocableListFragment.newInstance(), getString(R.string.fragment_vocable_list_title));
                     return false;
                 case 1:
                     Mode mode = (Mode) drawerItem.getTag();
@@ -311,7 +311,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
                         return true;
                     }
                 case 2:
-                    setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModes()), "Statistics");
+                    setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModes()), getString(R.string.fragment_statistics_title));
                     return false;
                 case 3:
                     PlayGamesDialog dialog = PlayGamesDialog.newInstance();
@@ -320,12 +320,12 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
                     dialog.show(getFragmentManager(), DIALOG_PLAY_GAMES);
                     return true;
                 case 4:
-                    setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModes()), "Help");
+                    setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModes()), getString(R.string.fragment_help_title));
                     return false;
                 case 5:
                     return true;
                 case 6:
-                    setFragment(new SettingsFragment(), "Settings");
+                    setFragment(new SettingsFragment(), getString(R.string.fragment_settings_title));
                     return false;
                 default:
                     return true;

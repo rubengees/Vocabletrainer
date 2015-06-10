@@ -28,6 +28,15 @@ import com.rubengees.vocables.utils.Utils;
  */
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener, MainActivity.OnBackPressedListener {
 
+    private static final String PREF_ADS = "pref_ads";
+    private static final String PREF_REMINDER = "pref_reminder";
+    private static final String PREF_REMINDER_TIME = "pref_reminder_time";
+    private static final String PREF_EMAIL = "pref_email";
+    private static final String PREF_EVALUATION = "pref_evaluation";
+    private static final String PREF_LICENCES = "pref_licences";
+    private static final String PREF_DEVELOPER = "pref_developer";
+    private static final String PREF_SOURCE = "pref_source";
+
     private Preference ads, reminder, email, evaluation, developer, licences, source;
     private ListPreference reminderTime;
 
@@ -44,14 +53,14 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         getToolbarActivity().collapseToolbar();
 
         addPreferencesFromResource(R.xml.preferences);
-        ads = this.findPreference("pref_ads");
-        reminder = this.findPreference("pref_reminder");
-        reminderTime = (ListPreference) this.findPreference("pref_reminder_time");
-        email = this.findPreference("pref_email");
-        evaluation = this.findPreference("pref_evaluation");
-        developer = this.findPreference("pref_developer");
-        licences = this.findPreference("pref_licences");
-        source = this.findPreference("pref_source");
+        ads = this.findPreference(PREF_ADS);
+        reminder = this.findPreference(PREF_REMINDER);
+        reminderTime = (ListPreference) this.findPreference(PREF_REMINDER_TIME);
+        email = this.findPreference(PREF_EMAIL);
+        evaluation = this.findPreference(PREF_EVALUATION);
+        developer = this.findPreference(PREF_DEVELOPER);
+        licences = this.findPreference(PREF_LICENCES);
+        source = this.findPreference(PREF_SOURCE);
 
         ads.setOnPreferenceChangeListener(this);
         reminder.setOnPreferenceChangeListener(this);
@@ -114,8 +123,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
             builder.setType("message/rfc822");
             builder.addEmailTo("geesruben@yahoo.de");
-            builder.setSubject("Vocabletrainer Feedback");
-            builder.setChooserTitle("Choose Client");
+            builder.setSubject(getActivity().getString(R.string.fragment_settings_mail_subject));
+            builder.setChooserTitle(getActivity().getString(R.string.fragment_settings_mail_client));
             builder.startChooser();
 
             return true;
@@ -134,8 +143,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             return true;
         } else if (preference == licences) {
             new LibsBuilder().withAboutIconShown(true).withAboutVersionShownName(true).withAnimations(true)
-                    .withAboutAppName("Vocabletrainer")
-                    .withAboutDescription("A free and opensource App to learn Vocables").withActivityTitle("Libraries")
+                    .withAboutAppName(getActivity().getString(R.string.app_name))
+                    .withAboutDescription(getActivity().getString(R.string.activity_about_content)).withActivityTitle(getActivity().getString(R.string.activity_about_title))
                     .withFields(R.string.class.getFields()).withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR).start(getActivity());
         } else if (preference == source) {
             Uri webpage = Uri.parse("https://github.com/RubenGees/Vocabletrainer");

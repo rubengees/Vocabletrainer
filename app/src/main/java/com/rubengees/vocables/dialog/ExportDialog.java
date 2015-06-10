@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.rubengees.vocables.R;
 import com.rubengees.vocables.utils.ExportTask;
 
 import java.io.File;
@@ -43,20 +44,21 @@ public class ExportDialog extends DialogFragment implements ExportTask.OnExportF
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
-        dialog = builder.title("Export").progress(true, 100).content("Exporting...").negativeText("Cancel").callback(new MaterialDialog.ButtonCallback() {
-            @Override
-            public void onNegative(MaterialDialog dialog) {
-                super.onNegative(dialog);
-                task.cancel();
-            }
-        }).build();
+        dialog = builder.title(getActivity().getString(R.string.export_title)).progress(true, 100).content(getActivity().getString(R.string.dialog_export_content))
+                .negativeText(getActivity().getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                        task.cancel();
+                    }
+                }).build();
 
         return dialog;
     }
 
     @Override
     public void onExportFinished(String success) {
-        Toast.makeText(getActivity(), success == null ? "Export finished" : success, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), success == null ? getActivity().getString(R.string.dialog_export_finish_message) : success, Toast.LENGTH_SHORT).show();
         dismiss();
     }
 }

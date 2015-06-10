@@ -66,6 +66,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     private static final String IMPORT_DIALOG = "import_dialog";
     private static final String SORT_MODE = "sort_mode";
     private static final String CURRENT_UNIT = "current_unit";
+    private static final String INFO_DIALOG = "info_dialog";
 
     private RecyclerView recycler;
     private FloatingActionButton fab;
@@ -257,8 +258,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     private void showSnackbar() {
         int amount = getUndoManager().size();
 
-        SnackbarManager.show(Snackbar.with(getActivity()).actionColor(getResources().getColor(R.color.accent)).actionLabel("Undo")
-                .text(amount + " " + (amount == 1 ? "Vocable" : "Vocables") + " " + "deleted").actionListener(new ActionClickListener() {
+        SnackbarManager.show(Snackbar.with(getActivity()).actionColor(getResources().getColor(R.color.accent)).actionLabel(getActivity().getString(R.string.fragment_vocable_list_undo))
+                .text(amount + " " + (amount == 1 ? getActivity().getString(R.string.vocable) : getActivity().getString(R.string.vocables)) + " " + getActivity().getString(R.string.fragmnet_vocable_list_deleted_message)).actionListener(new ActionClickListener() {
                     @Override
                     public void onActionClicked(Snackbar snackbar) {
                         vocableManager.addUnits(getUndoManager().getUnits());
@@ -374,7 +375,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     @Override
     public void onInfoClick(Unit unit) {
-        InfoDialog.newInstance(unit).show(getFragmentManager(), "info_dialog");
+        InfoDialog.newInstance(unit).show(getFragmentManager(), INFO_DIALOG);
     }
 
     @Override
@@ -384,7 +385,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     @Override
     public void onInfoClick(Vocable vocable) {
-        InfoDialog.newInstance(vocable).show(getFragmentManager(), "info_dialog");
+        InfoDialog.newInstance(vocable).show(getFragmentManager(), INFO_DIALOG);
     }
 
     @Override
@@ -448,9 +449,6 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     @Override
     public void onSort(SortMode mode) {
         this.mode = mode;
-
-        /* adapter.setMode(mode);
-        adapter.refresh(); */
 
         if (adapter instanceof UnitAdapter) {
             setUnitAdapter();

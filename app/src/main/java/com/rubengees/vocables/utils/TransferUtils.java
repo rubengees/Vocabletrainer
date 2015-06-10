@@ -3,6 +3,7 @@ package com.rubengees.vocables.utils;
 import android.content.Context;
 import android.util.Xml;
 
+import com.rubengees.vocables.R;
 import com.rubengees.vocables.pojo.Meaning;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
@@ -28,6 +29,15 @@ import java.util.List;
  */
 public class TransferUtils {
 
+    public static final String TAG_UNITS = "units";
+    public static final String TAG_UNIT = "unit";
+    public static final String TAG_TITLE = "title";
+    public static final String TAG_VOCABLES = "vocables";
+    public static final String TAG_VOCABLE = "vocable";
+    public static final String TAG_FIRST_MEANING = "first_meaning";
+    public static final String TAG_SECOND_MEANING = "second_meaning";
+    public static final String TAG_VALUE = "value";
+
     public static boolean isFileSupported(File file) {
         String filename = file.getName();
         return filename.endsWith(".csv") || filename.endsWith(".xml");
@@ -44,37 +54,37 @@ public class TransferUtils {
 
     private static void writeXml(XmlSerializer serializer, List<Unit> units) throws IOException {
         serializer.startDocument("UTF-16", true);
-        serializer.startTag(null, "units");
+        serializer.startTag(null, TAG_UNITS);
         for (Unit unit : units) {
-            serializer.startTag(null, "unit");
-            serializer.startTag(null, "title");
+            serializer.startTag(null, TAG_UNIT);
+            serializer.startTag(null, TAG_TITLE);
             serializer.text(unit.getTitle());
-            serializer.endTag(null, "title");
-            serializer.startTag(null, "vocables");
+            serializer.endTag(null, TAG_TITLE);
+            serializer.startTag(null, TAG_VOCABLES);
             for (Vocable vocable : unit.getVocables()) {
-                serializer.startTag(null, "vocable");
+                serializer.startTag(null, TAG_VOCABLE);
 
-                serializer.startTag(null, "first_meaning");
+                serializer.startTag(null, TAG_FIRST_MEANING);
                 insertMeaning(serializer, vocable.getFirstMeaning());
-                serializer.endTag(null, "first_meaning");
+                serializer.endTag(null, TAG_FIRST_MEANING);
 
-                serializer.startTag(null, "second_meaning");
+                serializer.startTag(null, TAG_SECOND_MEANING);
                 insertMeaning(serializer, vocable.getSecondMeaning());
-                serializer.endTag(null, "second_meaning");
-                serializer.endTag(null, "vocable");
+                serializer.endTag(null, TAG_SECOND_MEANING);
+                serializer.endTag(null, TAG_VOCABLE);
             }
-            serializer.endTag(null, "vocables");
-            serializer.endTag(null, "unit");
+            serializer.endTag(null, TAG_VOCABLES);
+            serializer.endTag(null, TAG_UNIT);
         }
-        serializer.endTag(null, "units");
+        serializer.endTag(null, TAG_UNITS);
         serializer.endDocument();
     }
 
     private static void insertMeaning(XmlSerializer serializer, Meaning meaning) throws IOException {
         for (String word : meaning.getMeanings()) {
-            serializer.startTag(null, "value");
+            serializer.startTag(null, TAG_VALUE);
             serializer.text(word);
-            serializer.endTag(null, "value");
+            serializer.endTag(null, TAG_VALUE);
         }
     }
 
@@ -100,7 +110,7 @@ public class TransferUtils {
             String[] split = line.split(",");
 
             if (split.length == 2) {
-                unitTitle = "Default";
+                unitTitle = context.getString(R.string.database_uni_title_default);
             } else if (split.length == 3) {
                 unitTitle = split[2];
             } else {
@@ -150,22 +160,22 @@ public class TransferUtils {
             parser.setInput(new BufferedReader(new FileReader(file)));
 
             parser.nextTag();
-            parser.require(XmlPullParser.START_TAG, null, "units");
+            parser.require(XmlPullParser.START_TAG, null, TAG_UNITS);
             while (parser.nextTag() == XmlPullParser.START_TAG) {
                 Unit unit = new Unit();
 
-                parser.require(XmlPullParser.START_TAG, null, "unit");
+                parser.require(XmlPullParser.START_TAG, null, TAG_UNIT);
                 parser.nextTag();
-                parser.require(XmlPullParser.START_TAG, null, "title");
+                parser.require(XmlPullParser.START_TAG, null, TAG_TITLE);
                 unit.setTitle(parser.nextText());
-                parser.require(XmlPullParser.END_TAG, null, "title");
+                parser.require(XmlPullParser.END_TAG, null, TAG_TITLE);
                 parser.nextTag();
                 unit.addAll(getVocablesFromXml(parser, creationTime));
-                parser.require(XmlPullParser.END_TAG, null, "unit");
+                parser.require(XmlPullParser.END_TAG, null, TAG_UNIT);
 
                 result.add(unit);
             }
-            parser.require(XmlPullParser.END_TAG, null, "units");
+            parser.require(XmlPullParser.END_TAG, null, TAG_UNITS);
         } catch (XmlPullParserException e) {
             if (parser != null) {
                 throw new FormatException(String.valueOf(parser.getLineNumber()));
@@ -178,24 +188,24 @@ public class TransferUtils {
     private static List<Vocable> getVocablesFromXml(XmlPullParser parser, long creationTime) throws IOException, XmlPullParserException {
         List<Vocable> result = new ArrayList<>();
 
-        parser.require(XmlPullParser.START_TAG, null, "vocables");
+        parser.require(XmlPullParser.START_TAG, null, TAG_VOCABLES);
         while (parser.nextTag() != XmlPullParser.END_TAG) {
-            parser.require(XmlPullParser.START_TAG, null, "vocable");
+            parser.require(XmlPullParser.START_TAG, null, TAG_VOCABLE);
             while (parser.nextTag() != XmlPullParser.END_TAG) {
                 Meaning first;
                 Meaning second;
 
-                parser.require(XmlPullParser.START_TAG, null, "first_meaning");
+                parser.require(XmlPullParser.START_TAG, null, TAG_FIRST_MEANING);
                 first = getMeaningFromXml(parser);
-                parser.require(XmlPullParser.END_TAG, null, "first_meaning");
+                parser.require(XmlPullParser.END_TAG, null, TAG_FIRST_MEANING);
                 parser.nextTag();
-                parser.require(XmlPullParser.START_TAG, null, "second_meaning");
+                parser.require(XmlPullParser.START_TAG, null, TAG_SECOND_MEANING);
                 second = getMeaningFromXml(parser);
-                parser.require(XmlPullParser.END_TAG, null, "second_meaning");
+                parser.require(XmlPullParser.END_TAG, null, TAG_SECOND_MEANING);
                 result.add(new Vocable(first, second, null, creationTime));
             }
         }
-        parser.require(XmlPullParser.END_TAG, null, "vocables");
+        parser.require(XmlPullParser.END_TAG, null, TAG_VOCABLES);
         parser.nextTag();
 
         return result;
@@ -206,9 +216,9 @@ public class TransferUtils {
 
         parser.nextTag();
         do {
-            parser.require(XmlPullParser.START_TAG, null, "value");
+            parser.require(XmlPullParser.START_TAG, null, TAG_VALUE);
             words.add(parser.nextText());
-            parser.require(XmlPullParser.END_TAG, null, "value");
+            parser.require(XmlPullParser.END_TAG, null, TAG_VALUE);
         } while (parser.nextTag() != XmlPullParser.END_TAG);
 
         return new Meaning(words);

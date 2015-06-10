@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.pojo.Unit;
 
@@ -12,6 +13,9 @@ import com.rubengees.vocables.pojo.Unit;
  * Created by ruben on 05.05.15.
  */
 public class UnitDialog extends DialogFragment {
+
+    private static final String KEY_UNIT_ID = "unit_id";
+    private static final String KEY_UNIT_POS = "unit_pos";
 
     private Unit unit;
     private Integer unitPos;
@@ -21,9 +25,9 @@ public class UnitDialog extends DialogFragment {
         UnitDialog dialog = new UnitDialog();
 
         Bundle bundle = new Bundle();
-        bundle.putInt("unit_id", unitId);
+        bundle.putInt(KEY_UNIT_ID, unitId);
         if (pos != null) {
-            bundle.putInt("unit_pos", pos);
+            bundle.putInt(KEY_UNIT_POS, pos);
         }
         dialog.setArguments(bundle);
 
@@ -34,9 +38,9 @@ public class UnitDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        unit = Core.getInstance(getActivity()).getVocableManager().getUnit(getArguments().getInt("unit_id"));
-        if (getArguments().containsKey("unit_pos")) {
-            unitPos = getArguments().getInt("unit_pos");
+        unit = Core.getInstance(getActivity()).getVocableManager().getUnit(getArguments().getInt(KEY_UNIT_ID));
+        if (getArguments().containsKey(KEY_UNIT_POS)) {
+            unitPos = getArguments().getInt(KEY_UNIT_POS);
         }
     }
 
@@ -44,7 +48,8 @@ public class UnitDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.title("Modify Unit").input("Unit title", unit.getTitle(), false, new MaterialDialog.InputCallback() {
+        builder.title(getActivity().getString(R.string.dialog_unit_title))
+                .input(getActivity().getString(R.string.dialog_unit_input_hint), unit.getTitle(), false, new MaterialDialog.InputCallback() {
             @Override
             public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
 
@@ -56,7 +61,7 @@ public class UnitDialog extends DialogFragment {
                 }
 
             }
-        }).negativeText("Cancel");
+                }).negativeText(getActivity().getString(R.string.dialog_cancel));
 
         return builder.build();
     }

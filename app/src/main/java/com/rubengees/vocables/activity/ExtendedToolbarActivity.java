@@ -85,7 +85,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
             setTitle(currentTitle);
             toggleExtendedToolbar();
         } else {
-            currentTitle = "Vocabletrainer";
+            currentTitle = getString(R.string.app_name);
             currentColor = getResources().getColor(R.color.primary);
             currentColorDark = getResources().getColor(R.color.primary_dark);
         }

@@ -56,17 +56,17 @@ public class ClassicMode extends Mode {
 
     @Override
     public String getHelpText(final Context context) {
-        return "Test";
+        return context.getString(R.string.mode_classic_help);
     }
 
     @Override
     public String getTitle(final Context context) {
-        return "Classic Mode";
+        return context.getString(R.string.mode_classic_title);
     }
 
     @Override
     public String getShortTitle(final Context context) {
-        return "Classic";
+        return context.getString(R.string.mode_classic_title_short);
     }
 
     @Override

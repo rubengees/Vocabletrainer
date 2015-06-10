@@ -69,8 +69,6 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
         field = savedInstanceState.getParcelable(STATE_FIELD);
         maxTime = savedInstanceState.getLong(STATE_MAX_TIME);
         timeRemaining = savedInstanceState.getLong(STATE_TIME_REMAINING);
-
-        setTimer();
     }
 
     @Override

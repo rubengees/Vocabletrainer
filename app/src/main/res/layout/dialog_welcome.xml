@@ -12,7 +12,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="You can choose if this App should show Ads. It would be appreciated if you do so, because it supports the developer of this App."
+        android:text="@string/dialog_welcome_ads_text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <CheckBox
@@ -26,7 +26,7 @@
         android:layout_below="@+id/dialog_welcome_ads_text"
         android:layout_marginTop="16dp"
         android:checked="true"
-        android:text="Show Ads" />
+        android:text="@string/dialog_welcome_ads_check_box" />
 
     <TextView
         android:id="@+id/dialog_welcome_reminder_text"
@@ -38,7 +38,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/dialog_welcome_ads"
         android:layout_marginTop="16dp"
-        android:text="This App can remind you to learn Vocables every day."
+        android:text="@string/dialog_welcome_reminder_text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <CheckBox
@@ -51,7 +51,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/dialog_welcome_reminder_text"
         android:layout_marginTop="16dp"
-        android:text="Remind me" />
+        android:text="@string/dialog_welcome_reminder_check_box" />
 
     <CheckBox
         android:id="@+id/dialog_welcome_play_games"
@@ -64,5 +64,5 @@
         android:layout_below="@+id/dialog_welcome_reminder"
         android:layout_marginTop="16dp"
         android:checked="true"
-        android:text="Sign into Play Games" />
+        android:text="@string/dialog_welcome_play_games_check_box" />
 </RelativeLayout>

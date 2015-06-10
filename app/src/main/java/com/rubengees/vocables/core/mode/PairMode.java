@@ -57,17 +57,17 @@ public class PairMode extends Mode {
 
     @Override
     public String getHelpText(final Context context) {
-        return "Test";
+        return context.getString(R.string.mode_pair_help);
     }
 
     @Override
     public String getTitle(final Context context) {
-        return "Pair Mode";
+        return context.getString(R.string.mode_pair_title);
     }
 
     @Override
     public String getShortTitle(final Context context) {
-        return "Pair";
+        return context.getString(R.string.mode_pair_title_short);
     }
 
     @Override

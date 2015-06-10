@@ -13,6 +13,10 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
  */
 public class GoogleServiceErrorDialog extends DialogFragment {
 
+    private static final String KEY_ERROR_CODE = "error_code";
+    private static final String KEY_REQUEST_CODE = "request_code";
+    private static final String KEY_ERROR_TEXT = "error_text";
+
     private Integer errorCode;
     private Integer requestCode;
     private String errorText;
@@ -23,8 +27,8 @@ public class GoogleServiceErrorDialog extends DialogFragment {
         GoogleServiceErrorDialog dialog = new GoogleServiceErrorDialog();
         Bundle bundle = new Bundle();
 
-        bundle.putInt("error_code", errorCode);
-        bundle.putInt("request_code", requestCode);
+        bundle.putInt(KEY_ERROR_CODE, errorCode);
+        bundle.putInt(KEY_REQUEST_CODE, requestCode);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -33,7 +37,7 @@ public class GoogleServiceErrorDialog extends DialogFragment {
         GoogleServiceErrorDialog dialog = new GoogleServiceErrorDialog();
         Bundle bundle = new Bundle();
 
-        bundle.putString("error_text", errorText);
+        bundle.putString(KEY_ERROR_TEXT, errorText);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -42,15 +46,15 @@ public class GoogleServiceErrorDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey("error_code")) {
-            errorCode = getArguments().getInt("error_code");
+        if (getArguments().containsKey(KEY_ERROR_CODE)) {
+            errorCode = getArguments().getInt(KEY_ERROR_CODE);
         }
 
-        if (getArguments().containsKey("request_code")) {
-            requestCode = getArguments().getInt("request_code");
+        if (getArguments().containsKey(KEY_REQUEST_CODE)) {
+            requestCode = getArguments().getInt(KEY_REQUEST_CODE);
         }
 
-        errorText = getArguments().getString("error_text");
+        errorText = getArguments().getString(KEY_ERROR_TEXT);
     }
 
     @Override

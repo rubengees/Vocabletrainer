@@ -18,13 +18,14 @@ import lecho.lib.hellocharts.view.PieChartView;
  */
 public class InfoDialog extends DialogFragment {
 
-    private static TrainerItem item;
+    private static final String KEY_ITEM = "item";
+    private TrainerItem item;
 
     public static InfoDialog newInstance(TrainerItem item) {
         InfoDialog dialog = new InfoDialog();
         Bundle bundle = new Bundle();
 
-        bundle.putParcelable("item", (Parcelable) item);
+        bundle.putParcelable(KEY_ITEM, (Parcelable) item);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -33,7 +34,7 @@ public class InfoDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        item = getArguments().getParcelable("item");
+        item = getArguments().getParcelable(KEY_ITEM);
     }
 
     @Override
@@ -44,6 +45,6 @@ public class InfoDialog extends DialogFragment {
 
         ChartTools.generateAnswerChart(chart, item.getCorrect(), item.getIncorrect());
 
-        return builder.title("Info").customView(view, false).build();
+        return builder.title(getActivity().getString(R.string.dialog_info_title)).customView(view, false).build();
     }
 }

@@ -28,6 +28,8 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
 
     private static final String KEY_MODE = "mode";
     private static final String KEY_TEST_SETTINGS = "test_settings";
+    private static final String STATE_VOCABLE_AMOUNT = "vocable_amount";
+
     private Mode mode;
     private TestSettings settings;
     private TestSettingsLayout layout;
@@ -78,7 +80,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
 
             updateStatus(calculateAmount(settings));
         } else {
-            this.vocableAmount = savedInstanceState.getInt("vocable_amount");
+            this.vocableAmount = savedInstanceState.getInt(STATE_VOCABLE_AMOUNT);
             updateStatus(vocableAmount);
         }
 
@@ -122,7 +124,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(KEY_TEST_SETTINGS, settings);
-        outState.putInt("vocable_amount", vocableAmount);
+        outState.putInt(STATE_VOCABLE_AMOUNT, vocableAmount);
         layout.saveInstanceState(outState);
     }
 

@@ -22,6 +22,9 @@ import java.util.List;
 
 public class FileFragment extends MainFragment implements FileAdapter.OnItemClickListener, View.OnClickListener, MainActivity.OnBackPressedListener {
 
+    private static final String KEY_PATH = "path";
+    private static final String KEY_FILESYSTEM = "filesystem";
+
     private Filesystem filesystem;
     private FileAdapter adapter;
 
@@ -38,7 +41,7 @@ public class FileFragment extends MainFragment implements FileAdapter.OnItemClic
         FileFragment fragment = new FileFragment();
         Bundle bundle = new Bundle();
 
-        bundle.putString("path", path);
+        bundle.putString(KEY_PATH, path);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -58,9 +61,9 @@ public class FileFragment extends MainFragment implements FileAdapter.OnItemClic
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            filesystem = savedInstanceState.getParcelable("filesystem");
+            filesystem = savedInstanceState.getParcelable(KEY_FILESYSTEM);
         } else if (getArguments() != null) {
-            filesystem = new Filesystem(getArguments().getString("path"));
+            filesystem = new Filesystem(getArguments().getString(KEY_PATH));
         }
     }
 
@@ -89,7 +92,7 @@ public class FileFragment extends MainFragment implements FileAdapter.OnItemClic
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable("filesystem", filesystem);
+        outState.putParcelable(KEY_FILESYSTEM, filesystem);
         super.onSaveInstanceState(outState);
     }
 

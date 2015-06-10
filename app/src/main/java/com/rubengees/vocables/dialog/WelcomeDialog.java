@@ -29,7 +29,8 @@ public class WelcomeDialog extends DialogFragment {
         final CheckBox reminder = (CheckBox) view.findViewById(R.id.dialog_welcome_reminder);
         final CheckBox playGames = (CheckBox) view.findViewById(R.id.dialog_welcome_play_games);
 
-        builder.title("Welcome!").customView(view, true).positiveText("Let's go!").callback(new MaterialDialog.ButtonCallback() {
+        builder.title(getActivity().getString(R.string.dialog_welcome_title)).customView(view, true)
+                .positiveText(getActivity().getString(R.string.dialog_welcome_ok)).callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
                 super.onPositive(dialog);

@@ -18,6 +18,6 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:checked="false"
-        android:text="Case-sensitive" />
+        android:text="@string/fragment_test_settings_classic_case_sensitive_check_box" />
 
 </LinearLayout>

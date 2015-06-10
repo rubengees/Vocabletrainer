@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.rubengees.vocables.R;
 import com.rubengees.vocables.enumeration.SortMode;
 
 /**
  * Created by Ruben on 07.05.2015.
  */
 public class SortDialog extends DialogFragment {
+
+    private static final String KEY_SORT_MODE = "sort_mode";
 
     private SortMode mode;
     private SortDialogCallback callback;
@@ -20,7 +23,7 @@ public class SortDialog extends DialogFragment {
         SortDialog dialog = new SortDialog();
         Bundle bundle = new Bundle();
 
-        bundle.putSerializable("sort_mode", mode);
+        bundle.putSerializable(KEY_SORT_MODE, mode);
         dialog.setArguments(bundle);
 
         return dialog;
@@ -30,7 +33,7 @@ public class SortDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mode = (SortMode) getArguments().getSerializable("sort_mode");
+        mode = (SortMode) getArguments().getSerializable(KEY_SORT_MODE);
     }
 
     @Override
@@ -50,7 +53,7 @@ public class SortDialog extends DialogFragment {
                 break;
         }
 
-        builder.title("Sort").items(new CharSequence[]{"Title", "Last modification time"}).itemsCallbackSingleChoice(selectedItem, new MaterialDialog.ListCallbackSingleChoice() {
+        builder.title(getActivity().getString(R.string.dialog_sort_title)).items(R.array.sort_items).itemsCallbackSingleChoice(selectedItem, new MaterialDialog.ListCallbackSingleChoice() {
             @Override
             public boolean onSelection(MaterialDialog materialDialog, View view, int index, CharSequence charSequence) {
                 SortMode result;

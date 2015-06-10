@@ -27,7 +27,8 @@ import com.rubengees.vocables.utils.Utils;
 /**
  * Created by Ruben on 01.06.2015.
  */
-public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabClickListener {
+public class
+        ClassicTest extends Test implements ExtendedToolbarActivity.OnFabClickListener {
 
     private ClassicTestLogic logic;
 
@@ -142,7 +143,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
     @Override
     public void show() {
         super.show();
-        status.setText("What means" + " '" + logic.getQuestion().toString() + "'?");
+        status.setText(getContext().getString(R.string.test_question) + " '" + logic.getQuestion().toString() + "'?");
         input.getText().clear();
     }
 

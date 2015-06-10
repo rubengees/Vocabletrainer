@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.rubengees.vocables.R;
 
 import java.io.File;
 
@@ -13,6 +14,7 @@ import java.io.File;
  */
 public class OverrideDialog extends DialogFragment {
 
+    private static final String KEY_PATH = "path";
     private OverrideDialogCallback callback;
 
     private String path;
@@ -21,7 +23,7 @@ public class OverrideDialog extends DialogFragment {
         OverrideDialog dialog = new OverrideDialog();
         Bundle bundle = new Bundle();
 
-        bundle.putString("path", path);
+        bundle.putString(KEY_PATH, path);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -30,14 +32,15 @@ public class OverrideDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        path = getArguments().getString("path");
+        path = getArguments().getString(KEY_PATH);
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.title("Export").content("The file already exists. Do you want to override it?").positiveText("Override").callback(new MaterialDialog.ButtonCallback() {
+        builder.title(getActivity().getString(R.string.export_title)).content(getActivity().getString(R.string.dialog_override_content))
+                .positiveText(getActivity().getString(R.string.dialog_override_ok)).callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
                 super.onPositive(dialog);

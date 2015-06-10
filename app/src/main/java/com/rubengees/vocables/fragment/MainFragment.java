@@ -42,6 +42,9 @@ public class MainFragment extends Fragment implements MainActivity.OnBackPressed
         return (ExtendedToolbarActivity) getActivity();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onBackPressed() {
         return true;

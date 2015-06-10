@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 
 import java.io.File;
@@ -66,7 +67,7 @@ public class ExportTask {
 
                 return null;
             } catch (IOException e) {
-                return "Import failed: There was a problem with the storage";
+                return context.getString(R.string.export_error_storage);
             }
         }
 

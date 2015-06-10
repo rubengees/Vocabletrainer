@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.pojo.Unit;
 
@@ -76,7 +77,7 @@ public class ImportTask {
             } catch (TransferUtils.FormatException e) {
                 return e.getMessage();
             } catch (IOException e) {
-                return "Import failed: There was a problem with the storage";
+                return context.getString(R.string.import_error_storage);
             }
         }
 

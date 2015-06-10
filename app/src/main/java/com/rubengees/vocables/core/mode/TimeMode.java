@@ -56,17 +56,17 @@ public class TimeMode extends Mode {
 
     @Override
     public String getHelpText(final Context context) {
-        return "Test";
+        return context.getString(R.string.mode_time_help);
     }
 
     @Override
     public String getTitle(final Context context) {
-        return "Time Mode";
+        return context.getString(R.string.mode_time_title);
     }
 
     @Override
     public String getShortTitle(final Context context) {
-        return "Time";
+        return context.getString(R.string.mode_time_title_short);
     }
 
     @Override

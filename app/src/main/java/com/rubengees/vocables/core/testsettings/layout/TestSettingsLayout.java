@@ -27,6 +27,8 @@ import java.util.List;
  */
 public abstract class TestSettingsLayout {
 
+    private static final String STATE_CHECKED_UNIT_AMOUNT = "checked_unit_amount";
+
     protected OnTestSettingsListener listener;
     private Context context;
     private RadioGroup rate;
@@ -155,7 +157,7 @@ public abstract class TestSettingsLayout {
             checkedUnitAmount = units.getChildCount();
 
         } else {
-            checkedUnitAmount = savedInstanceState.getInt("checked_unit_amount");
+            checkedUnitAmount = savedInstanceState.getInt(STATE_CHECKED_UNIT_AMOUNT);
         }
 
         setupUnits();
@@ -197,7 +199,7 @@ public abstract class TestSettingsLayout {
     }
 
     public void saveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putInt("checked_unit_amount", checkedUnitAmount);
+        savedInstanceState.putInt(STATE_CHECKED_UNIT_AMOUNT, checkedUnitAmount);
     }
 
     public abstract View inflateSpecificLayout(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState);

@@ -1,5 +1,6 @@
 package com.rubengees.vocables.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +22,12 @@ import lecho.lib.hellocharts.view.PieChartView;
  */
 public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final Context context;
     private TestResult result;
 
-    public ResultAdapter(TestResult result) {
+    public ResultAdapter(TestResult result, Context context) {
         this.result = result;
+        this.context = context;
     }
 
     @Override
@@ -62,10 +65,10 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 viewHolder.correction.setText(null);
             } else {
                 viewHolder.icon.setImageResource(R.drawable.ic_incorrect);
-                viewHolder.correction.setText("Correct:" + " " + current.getAnswer());
+                viewHolder.correction.setText(context.getString(R.string.fragment_result_list_item_correct) + " " + current.getAnswer());
             }
 
-            viewHolder.answer.setText(current.getQuestion() + " - " + (current.getGiven() == null ? "No Answer" : current.getGiven()));
+            viewHolder.answer.setText(current.getQuestion() + " - " + (current.getGiven() == null ? context.getString(R.string.fragment_result_list_item_no_answer) : current.getGiven()));
         }
     }
 

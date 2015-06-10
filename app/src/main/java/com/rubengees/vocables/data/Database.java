@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.core.mode.ModeData;
 import com.rubengees.vocables.pojo.Meaning;
@@ -61,9 +62,12 @@ public class Database extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_MODES = "create table " + TABLE_MODES + " ( " + COLUMN_MODE_ID + " integer, " + COLUMN_MODE_PLAYED + " integer, " + COLUMN_MODE_CORRECT + " integer, " +
             COLUMN_MODE_INCORRECT + " integer, " + COLUMN_MODE_PERFECT_IN_ROW + " integer, " + COLUMN_MODE_BEST_TIME + " integer, " + COLUMN_MODE_AVERAGE_TIME + " integer);";
 
+    private Context context;
 
     public Database(Context context) {
         super(context, DATABASE, null, VERSION);
+
+        this.context = context;
     }
 
     @Override
@@ -126,7 +130,7 @@ public class Database extends SQLiteOpenHelper {
                     }
 
                     if (oldVersion <= 1) {
-                        unitTitle = "Default";
+                        unitTitle = context.getString(R.string.database_uni_title_default);
                     } else {
                         unitTitle = cursor.getString(3);
                     }

@@ -30,19 +30,19 @@
                 android:id="@+id/fragment_test_settings_rate_all"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="All Vocables" />
+                android:text="@string/fragment_test_settings_rate_all" />
 
             <RadioButton
                 android:id="@+id/fragment_test_settings_rate_okay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Acceptable Vocables and worse" />
+                android:text="@string/fragment_test_settings_rate_okay" />
 
             <RadioButton
                 android:id="@+id/fragment_test_settings_rate_bad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Only error-prone Vocables" />
+                android:text="@string/fragment_test_settings_rate_bad" />
         </RadioGroup>
 
         <CheckBox
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/fragment_test_settings_rate"
             android:layout_marginTop="8dp"
-            android:text="All Units" />
+            android:text="@string/fragment_test_settings_all_units_check_box" />
 
         <org.apmem.tools.layouts.FlowLayout
             android:id="@+id/fragment_test_settings_units"

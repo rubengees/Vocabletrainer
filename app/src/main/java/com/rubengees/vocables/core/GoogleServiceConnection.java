@@ -21,6 +21,8 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
     private static final int REQUEST_ACHIEVEMENTS = 1002;
     private static final String STATE_RESOLVING_ERROR = "resolving_error";
     private static final String STATE_SHOULD_CONNECT = "should_connect";
+    private static final String GOOGLE_SERVICE_ERROR_DIALOG = "google_service_error_dialog";
+
     private GoogleApiClient mGoogleApiClient;
     private boolean mResolvingError;
     private Activity context;
@@ -46,7 +48,7 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
             shouldConnect = PreferenceUtils.shouldSignIn(context);
         }
 
-        GoogleServiceErrorDialog dialog = (GoogleServiceErrorDialog) context.getFragmentManager().findFragmentByTag("google_service_error_dialog");
+        GoogleServiceErrorDialog dialog = (GoogleServiceErrorDialog) context.getFragmentManager().findFragmentByTag(GOOGLE_SERVICE_ERROR_DIALOG);
 
         if (dialog != null) {
             dialog.setCallback(this);
@@ -125,7 +127,7 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
                 GoogleServiceErrorDialog dialog = GoogleServiceErrorDialog.newInstance(result.getErrorCode(), REQUEST_RESOLVE_ERROR);
                 dialog.setCallback(this);
 
-                dialog.show(context.getFragmentManager(), "google_service_error_dialog");
+                dialog.show(context.getFragmentManager(), GOOGLE_SERVICE_ERROR_DIALOG);
                 mResolvingError = true;
                 shouldConnect = false;
                 PreferenceUtils.setSignIn(context, false);
@@ -143,8 +145,8 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
                     mGoogleApiClient.connect();
                 }
             } else {
-                GoogleServiceErrorDialog.newInstance("An unknown error occurred. Check your network connection. If this error occurs repeatedly please notify the developer")
-                        .show(context.getFragmentManager(), "google_service_error_dialog");
+                GoogleServiceErrorDialog.newInstance(context.getString(R.string.google_service_connection_unknown_error))
+                        .show(context.getFragmentManager(), GOOGLE_SERVICE_ERROR_DIALOG);
 
                 disconnect();
             }

@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.rubengees.vocables.R;
 
 /**
  * Created by ruben on 05.05.15.
@@ -21,7 +22,9 @@ public class EvaluationDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.title("Evaluation").content("Do you like this App? Then rate it in the Play Store!").positiveText(android.R.string.ok).negativeText("No").neutralText("Later").callback(new MaterialDialog.ButtonCallback() {
+        builder.title(getActivity().getString(R.string.dialog_evaluation_title))
+                .content(getActivity().getString(R.string.dialog_evaluation_content)).positiveText(getActivity().getString(R.string.dialog_evaluation_ok))
+                .negativeText(getActivity().getString(R.string.dialog_evaluation_no)).neutralText(getActivity().getString(R.string.dialog_evaluation_later)).callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
                 super.onPositive(dialog);

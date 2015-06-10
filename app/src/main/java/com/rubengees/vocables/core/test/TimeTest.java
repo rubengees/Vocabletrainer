@@ -53,7 +53,7 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
         super.show();
 
         ButtonContainerTools.refreshButtons(layout, logic.getField(), getColor(), getDarkColor(), false);
-        question.setText("What means" + " " + "'" + logic.getQuestion() + "'?");
+        question.setText(getContext().getString(R.string.test_question) + " " + "'" + logic.getQuestion() + "'?");
     }
 
     @Override
