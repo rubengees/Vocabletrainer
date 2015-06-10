@@ -2,13 +2,23 @@ package com.rubengees.vocables.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
+import com.android.vending.billing.IInAppBillingService;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -21,6 +31,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.mode.Mode;
+import com.rubengees.vocables.dialog.DonateDialog;
 import com.rubengees.vocables.dialog.EvaluationDialog;
 import com.rubengees.vocables.dialog.PlayGamesDialog;
 import com.rubengees.vocables.dialog.WelcomeDialog;
@@ -33,27 +44,41 @@ import com.rubengees.vocables.utils.PreferenceUtils;
 import com.rubengees.vocables.utils.ReminderUtils;
 import com.rubengees.vocables.utils.Utils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDrawerItemClickListener, WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback {
+public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDrawerItemClickListener, WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback, DonateDialog.DonateDialogCallback {
 
     private static final String DIALOG_WELCOME = "dialog_welcome";
     private static final String DIALOG_EVALUATION = "dialog_evaluation";
     private static final String DIALOG_PLAY_GAMES = "dialog_play_games";
     private static final String CURRENT_DRAWER_ID = "current_drawer_id";
     private static final String CURRENT_MODE = "current_mode";
+    private static final int REQUEST_PURCHASE = 10513;
+    private static final String DONATE_DIALOG = "donate_dialog";
+    IInAppBillingService billingService;
+    ServiceConnection billingServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            billingService = null;
+        }
 
+        @Override
+        public void onServiceConnected(ComponentName name,
+                                       IBinder service) {
+            billingService = IInAppBillingService.Stub.asInterface(service);
+        }
+    };
     private Drawer drawer;
     private AdView adView;
-
     private Core core;
-
     private OnBackPressedListener onBackPressedListener;
-
     private long currentDrawerId;
     private Mode currentMode;
 
@@ -73,7 +98,33 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        core.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_PURCHASE) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, getString(R.string.activity_main_donation_message), Toast.LENGTH_SHORT).show();
+
+                try {
+                    JSONObject object = new JSONObject(data.getStringExtra("INAPP_PURCHASE_DATA"));
+
+                    new AsyncTask<String, Void, Void>() {
+
+                        @Override
+                        protected Void doInBackground(String... params) {
+                            try {
+                                billingService.consumePurchase(3, getPackageName(), params[0]);
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                            return null;
+                        }
+
+                    }.execute(object.getString("purchaseToken"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            core.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override
@@ -103,6 +154,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
             WelcomeDialog welcomeDialog = (WelcomeDialog) manager.findFragmentByTag(DIALOG_WELCOME);
             EvaluationDialog evaluationDialog = (EvaluationDialog) manager.findFragmentByTag(DIALOG_EVALUATION);
             PlayGamesDialog playGamesDialog = (PlayGamesDialog) manager.findFragmentByTag(DIALOG_PLAY_GAMES);
+            DonateDialog donateDialog = (DonateDialog) manager.findFragmentByTag(DONATE_DIALOG);
 
             if (welcomeDialog != null) {
                 welcomeDialog.setCallback(this);
@@ -114,6 +166,10 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
 
             if (playGamesDialog != null) {
                 playGamesDialog.setCallback(this);
+            }
+
+            if (donateDialog != null) {
+                donateDialog.setCallback(this);
             }
 
             Fragment current = manager.findFragmentById(R.id.content);
@@ -129,6 +185,14 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
         if (PreferenceUtils.shouldShowAds(this)) {
             showAds();
         }
+
+        connectBillingService();
+    }
+
+    private void connectBillingService() {
+        Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+        serviceIntent.setPackage("com.android.vending");
+        bindService(serviceIntent, billingServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -163,6 +227,9 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     @Override
     public void onDestroy() {
         adView.destroy();
+        if (billingService != null) {
+            unbindService(billingServiceConnection);
+        }
         super.onDestroy();
     }
 
@@ -314,15 +381,19 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
                     setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModes()), getString(R.string.fragment_statistics_title));
                     return false;
                 case 3:
-                    PlayGamesDialog dialog = PlayGamesDialog.newInstance();
+                    PlayGamesDialog playGamesDialog = PlayGamesDialog.newInstance();
 
-                    dialog.setCallback(this);
-                    dialog.show(getFragmentManager(), DIALOG_PLAY_GAMES);
+                    playGamesDialog.setCallback(this);
+                    playGamesDialog.show(getFragmentManager(), DIALOG_PLAY_GAMES);
                     return true;
                 case 4:
                     setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModes()), getString(R.string.fragment_help_title));
                     return false;
                 case 5:
+                    DonateDialog donateDialog = DonateDialog.newInstance();
+
+                    donateDialog.setCallback(this);
+                    donateDialog.show(getFragmentManager(), DONATE_DIALOG);
                     return true;
                 case 6:
                     setFragment(new SettingsFragment(), getString(R.string.fragment_settings_title));
@@ -367,6 +438,20 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
         adView.loadAd(adRequest);
     }
 
+    public void purchase(String item) {
+        try {
+            Bundle buyIntentBundle = billingService.getBuyIntent(3, getPackageName(),
+                    item, "inapp", null);
+            PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
+            startIntentSenderForResult(pendingIntent.getIntentSender(),
+                    REQUEST_PURCHASE, new Intent(), 0, 0,
+                    0);
+        } catch (RemoteException | IntentSender.SendIntentException e) {
+            e.printStackTrace();
+            Toast.makeText(this, getString(R.string.activity_main_donation_error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void onEvaluate() {
         Utils.showPlayStorePage(this);
@@ -391,6 +476,11 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     @Override
     public void onShowAchievements() {
         core.getConnection().showAchievements();
+    }
+
+    @Override
+    public void onDonate(String item) {
+        purchase(item);
     }
 
     public interface OnBackPressedListener {

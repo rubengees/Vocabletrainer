@@ -245,10 +245,6 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
             ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(getString(R.string.app_name), bm, Utils.darkenColor(color));
             setTaskDescription(taskDesc);
         }
-
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        }
     }
 
     public final void restyleApplication() {

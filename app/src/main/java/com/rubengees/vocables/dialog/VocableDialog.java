@@ -35,6 +35,8 @@ public class VocableDialog extends DialogFragment {
     public static final String KEY_UNIT_ID = "unit_id";
     public static final String KEY_VOCABLE = "vocable";
     public static final String KEY_VOCABLE_POS = "vocable_pos";
+    public static final String STATE_FIRST_MEANINGS = "first_meanings";
+    private static final String STATE_SECOND_MEANINGS = "second_meanings";
     private Vocable vocable;
     private Unit unit;
     private int vocablePos;
@@ -112,10 +114,10 @@ public class VocableDialog extends DialogFragment {
 
         if (savedInstanceState == null) {
             processVocable();
+            processUnit();
         } else {
-            processMeanings(savedInstanceState.getStringArrayList("first_meanings"), savedInstanceState.getStringArrayList("second_meanings"));
+            processMeanings(savedInstanceState.getStringArrayList(STATE_FIRST_MEANINGS), savedInstanceState.getStringArrayList(STATE_SECOND_MEANINGS));
         }
-        processUnit();
         setupButtons();
 
         return builder.build();
@@ -363,8 +365,8 @@ public class VocableDialog extends DialogFragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putStringArrayList("first_meanings", getMeanings(meaningContainer1));
-        outState.putStringArrayList("second_meanings", getMeanings(meaningContainer2));
+        outState.putStringArrayList(STATE_FIRST_MEANINGS, getMeanings(meaningContainer1));
+        outState.putStringArrayList(STATE_SECOND_MEANINGS, getMeanings(meaningContainer2));
     }
 
     public void setCallback(VocableDialogCallback callback) {

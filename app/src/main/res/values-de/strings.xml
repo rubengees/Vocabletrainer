@@ -146,4 +146,7 @@
     <string name="test_classic_correct">Richtig!</string>
     <string name="test_classic_wrong">Falsch! Richtig:</string>
     <string name="dialog_info_close">Schließen</string>
+    <string name="activity_main_donation_error">Ein unbekannter Fehler ist aufgetreten</string>
+    <string name="activity_main_donation_message">Vielen Dank für deine Spende!</string>
+    <string name="dialog_donate_content">Spende um diese App und den Entwickler zu unterstützen</string>
 </resources>
