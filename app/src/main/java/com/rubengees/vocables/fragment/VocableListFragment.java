@@ -80,6 +80,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     private ViewGroup root;
 
+    private boolean replacing = false;
+
     public VocableListFragment() {
         // Required empty public constructor
     }
@@ -268,8 +270,6 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                         onImportFinished(null);
                     }
                 }).eventListener(new EventListener() {
-                    private boolean replacing = false;
-
                     @Override
                     public void onShow(Snackbar snackbar) {
                         AnimationUtils.translateY(fab, -snackbar.getHeight(), 300, new DecelerateInterpolator(1.5f));
@@ -288,6 +288,10 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                     @Override
                     public void onDismiss(Snackbar snackbar) {
                         AnimationUtils.translateY(fab, snackbar.getHeight(), 300, new AccelerateInterpolator(1.5f));
+                        if (!replacing) {
+                            getUndoManager().clear();
+                        }
+                        replacing = false;
                     }
 
                     @Override
@@ -297,10 +301,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
                     @Override
                     public void onDismissed(Snackbar snackbar) {
-                        if (!replacing) {
-                            getUndoManager().clear();
-                        }
-                        replacing = false;
+
                     }
                 }), root);
     }

@@ -141,18 +141,18 @@ public class VocableDialog extends DialogFragment {
         if (firstMeanings.isEmpty()) {
             TextInputLayout input = (TextInputLayout) meaningContainer1.getChildAt(0);
 
-            input.setError("Cannot be empty");
+            input.setError(getString(R.string.input_error_empty));
             error = true;
         }
 
         if (secondMeanings.isEmpty()) {
             TextInputLayout input = (TextInputLayout) meaningContainer2.getChildAt(0);
 
-            input.setError("Cannot be empty");
+            input.setError(getString(R.string.input_error_empty));
             error = true;
         }
 
-        if (inputUnit.getVisibility() == View.VISIBLE) {
+        if (((View) inputUnit.getParent()).getVisibility() == View.VISIBLE) {
             unitTitle = inputUnit.getText().toString().trim();
 
             if (!unitTitle.isEmpty()) {
@@ -160,7 +160,7 @@ public class VocableDialog extends DialogFragment {
                 unit.setTitle(unitTitle);
                 unit.setLastModificationTime(System.currentTimeMillis());
             } else {
-                ((TextInputLayout) inputUnit.getParent()).setError("Cannot be empty");
+                ((TextInputLayout) inputUnit.getParent()).setError(getString(R.string.input_error_empty));
 
                 error = true;
             }
@@ -169,8 +169,6 @@ public class VocableDialog extends DialogFragment {
         }
 
         if (error) {
-
-
             return false;
         }
 

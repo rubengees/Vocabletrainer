@@ -94,7 +94,8 @@ public class UnitDialog extends DialogFragment {
             }
         });
 
-        builder.title(getString(R.string.dialog_unit_title)).customView(inputLayout, true).positiveText("Save").callback(new MaterialDialog.ButtonCallback() {
+        builder.title(getString(R.string.dialog_unit_title)).customView(inputLayout, true).positiveText(getString(R.string.dialog_unit_ok)).negativeText(getString(R.string.dialog_cancel))
+                .callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
                 super.onPositive(dialog);
@@ -117,7 +118,7 @@ public class UnitDialog extends DialogFragment {
 
     private void processInput() {
         if (input.getText().toString().isEmpty()) {
-            inputLayout.setError("Cannot be empty");
+            inputLayout.setError(getString(R.string.input_error_empty));
         } else {
             unit.setTitle(input.getText().toString());
             unit.setLastModificationTime(System.currentTimeMillis());

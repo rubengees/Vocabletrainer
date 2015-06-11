@@ -2,7 +2,6 @@ package com.rubengees.vocables.core.test;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
@@ -65,11 +64,7 @@ public abstract class Test {
     }
 
     private void updateCount(int pos, int amount) {
-        ActionBar actionBar = getToolbarActivity().getSupportActionBar();
-
-        if (actionBar != null) {
-            actionBar.setSubtitle((pos + 1) + "/" + amount);
-        }
+        getToolbarActivity().setSubtitle((pos + 1) + "/" + amount);
     }
 
     protected final ExtendedToolbarActivity getToolbarActivity() {

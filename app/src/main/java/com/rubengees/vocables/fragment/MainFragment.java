@@ -6,7 +6,6 @@ import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
-import android.support.v7.app.ActionBar;
 import android.view.Display;
 import android.view.View;
 
@@ -22,11 +21,7 @@ public class MainFragment extends Fragment implements MainActivity.OnBackPressed
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar ab = getToolbarActivity().getSupportActionBar();
-
-        if (ab != null) {
-            ab.setSubtitle(null);
-        }
+        getToolbarActivity().setSubtitle(null);
     }
 
     @Override

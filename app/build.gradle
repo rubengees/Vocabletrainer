@@ -24,8 +24,8 @@ android {
         applicationId "com.rubengees.vocables"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 23
-        versionName "4.0"
+        versionCode 24
+        versionName "4.0.1"
     }
 
     buildTypes {

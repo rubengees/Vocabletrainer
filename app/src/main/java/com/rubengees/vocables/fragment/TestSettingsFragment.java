@@ -109,6 +109,12 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
                 getString(R.string.fragment_test_settings_vocables_selected)));
     }
 
+    @Override
+    public void onStop() {
+        SnackbarManager.dismiss();
+        super.onStop();
+    }
+
     private int calculateAmount(TestSettings settings) {
         int result = 0;
         for (Integer integer : settings.getUnitIds()) {

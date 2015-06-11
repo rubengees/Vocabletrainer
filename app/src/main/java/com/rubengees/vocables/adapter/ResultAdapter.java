@@ -63,9 +63,11 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (current.isCorrect()) {
                 viewHolder.icon.setImageResource(R.drawable.ic_correct);
                 viewHolder.correction.setText(null);
+                viewHolder.correction.setVisibility(View.GONE);
             } else {
                 viewHolder.icon.setImageResource(R.drawable.ic_incorrect);
                 viewHolder.correction.setText(context.getString(R.string.fragment_result_list_item_correct) + " " + current.getAnswer());
+                viewHolder.correction.setVisibility(View.VISIBLE);
             }
 
             viewHolder.answer.setText(current.getQuestion() + " - " + (current.getGiven() == null ? context.getString(R.string.fragment_result_list_item_no_answer) : current.getGiven()));

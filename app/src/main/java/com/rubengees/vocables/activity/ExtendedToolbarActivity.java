@@ -231,9 +231,15 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         currentColor = color;
         currentColorDark = darkColor;
 
-        toolbar.setBackgroundColor(color);
-        toolbarExtension.setBackgroundColor(color);
-        toolbarExtensionPlaceHolder.setBackgroundColor(color);
+        if (toolbar != null) {
+            toolbar.setBackgroundColor(color);
+        }
+        if (toolbarExtension != null) {
+            toolbarExtension.setBackgroundColor(color);
+        }
+        if (toolbarExtensionPlaceHolder != null) {
+            toolbarExtensionPlaceHolder.setBackgroundColor(color);
+        }
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -295,6 +301,14 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
 
     protected final Toolbar getToolbar() {
         return toolbar;
+    }
+
+    public void setSubtitle(String subtitle) {
+        ActionBar ab = getSupportActionBar();
+
+        if (ab != null) {
+            ab.setSubtitle(subtitle);
+        }
     }
 
     public interface OnFabClickListener {
