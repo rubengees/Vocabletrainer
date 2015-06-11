@@ -440,12 +440,16 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
 
     public void purchase(String item) {
         try {
-            Bundle buyIntentBundle = billingService.getBuyIntent(3, getPackageName(),
-                    item, "inapp", null);
-            PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
-            startIntentSenderForResult(pendingIntent.getIntentSender(),
-                    REQUEST_PURCHASE, new Intent(), 0, 0,
-                    0);
+            if (billingService != null) {
+                Bundle buyIntentBundle = billingService.getBuyIntent(3, getPackageName(),
+                        item, "inapp", null);
+                PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
+                startIntentSenderForResult(pendingIntent.getIntentSender(),
+                        REQUEST_PURCHASE, new Intent(), 0, 0,
+                        0);
+            } else {
+                Toast.makeText(this, getString(R.string.activity_main_donation_error), Toast.LENGTH_SHORT).show();
+            }
         } catch (RemoteException | IntentSender.SendIntentException e) {
             e.printStackTrace();
             Toast.makeText(this, getString(R.string.activity_main_donation_error), Toast.LENGTH_SHORT).show();

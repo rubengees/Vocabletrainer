@@ -185,7 +185,7 @@
     <string name="dialog_info_close">Close</string>
     <string name="dialog_donate_content">Donate to support the Developer and this App</string>
     <string name="activity_main_donation_message">Thank you for your donation!</string>
-    <string name="activity_main_donation_error">An unknown Error occured</string>
+    <string name="activity_main_donation_error">An unknown Error occurred</string>
     <string name="dialog_unit_ok">Save</string>
     <string name="input_error_empty">Cannot be empty</string>
     <string name="unit">Unit</string>
