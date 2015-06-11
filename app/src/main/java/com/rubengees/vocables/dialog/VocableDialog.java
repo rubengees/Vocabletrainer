@@ -5,7 +5,9 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rubengees.vocables.R;
@@ -130,24 +131,25 @@ public class VocableDialog extends DialogFragment {
         Meaning secondMeaning;
         String hint = null;
         String unitTitle;
-        Unit unit;
+        Unit unit = null;
 
         firstMeanings = getMeanings(meaningContainer1);
         secondMeanings = getMeanings(meaningContainer2);
 
-        if (firstMeanings.isEmpty() || secondMeanings.isEmpty()) {
-            Toast.makeText(getActivity(), getString(R.string.dialog_vocable_error_no_meaning), Toast.LENGTH_SHORT).show();
+        boolean error = false;
 
-            return false;
-        } else {
-            firstMeaning = new Meaning(firstMeanings);
-            secondMeaning = new Meaning(secondMeanings);
+        if (firstMeanings.isEmpty()) {
+            TextInputLayout input = (TextInputLayout) meaningContainer1.getChildAt(0);
+
+            input.setError("Cannot be empty");
+            error = true;
         }
 
-        String hintText = this.hint.getText().toString().trim();
+        if (secondMeanings.isEmpty()) {
+            TextInputLayout input = (TextInputLayout) meaningContainer2.getChildAt(0);
 
-        if (!hintText.isEmpty()) {
-            hint = hintText;
+            input.setError("Cannot be empty");
+            error = true;
         }
 
         if (inputUnit.getVisibility() == View.VISIBLE) {
@@ -158,12 +160,27 @@ public class VocableDialog extends DialogFragment {
                 unit.setTitle(unitTitle);
                 unit.setLastModificationTime(System.currentTimeMillis());
             } else {
-                Toast.makeText(getActivity(), getString(R.string.dialog_vocable_error_no_unit), Toast.LENGTH_SHORT).show();
+                ((TextInputLayout) inputUnit.getParent()).setError("Cannot be empty");
 
-                return false;
+                error = true;
             }
         } else {
             unit = adapter.getItem(units.getSelectedItemPosition());
+        }
+
+        if (error) {
+
+
+            return false;
+        }
+
+        firstMeaning = new Meaning(firstMeanings);
+        secondMeaning = new Meaning(secondMeanings);
+
+        String hintText = this.hint.getText().toString().trim();
+
+        if (!hintText.isEmpty()) {
+            hint = hintText;
         }
 
         if (vocable == null) {
@@ -281,11 +298,11 @@ public class VocableDialog extends DialogFragment {
     private void setShowUnitInput(boolean show) {
         if (show) {
             units.setVisibility(View.GONE);
-            inputUnit.setVisibility(View.VISIBLE);
+            ((View) inputUnit.getParent()).setVisibility(View.VISIBLE);
             toggleUnit.setImageResource(R.drawable.btn_hide);
         } else {
             units.setVisibility(View.VISIBLE);
-            inputUnit.setVisibility(View.GONE);
+            ((View) inputUnit.getParent()).setVisibility(View.GONE);
             toggleUnit.setImageResource(R.drawable.btn_expand);
         }
     }
@@ -348,14 +365,47 @@ public class VocableDialog extends DialogFragment {
         hint.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         inputUnit.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
+        inputUnit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ((TextInputLayout) inputUnit.getParent()).setError(null);
+            }
+        });
+
         return content;
     }
 
     private View generateInput(String text, String hint) {
-        TextInputLayout result = (TextInputLayout) View.inflate(getActivity(), R.layout.dialog_vocable_input, null);
+        final TextInputLayout result = (TextInputLayout) View.inflate(getActivity(), R.layout.input, null);
         EditText input = (EditText) result.getChildAt(0);
 
         result.setHint(hint);
+        input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                result.setError(null);
+            }
+        });
         input.setText(text);
         input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
