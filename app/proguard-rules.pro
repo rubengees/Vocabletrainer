@@ -17,3 +17,5 @@
 #}
 
 -keep class com.daimajia.** { *; }
+
+-keepattributes SourceFile,LineNumberTable
