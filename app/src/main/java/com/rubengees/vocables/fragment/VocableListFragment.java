@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,10 +46,7 @@ import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
 import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.ImportTask;
-import com.rubengees.vocables.utils.SwipeToDismissTouchListener;
 import com.rubengees.vocables.utils.Utils;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -208,39 +206,40 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         recycler.setLayoutManager(layoutManager);
         recycler.setHasFixedSize(true);
 
-        SwipeToDismissTouchListener listener = new SwipeToDismissTouchListener(recycler, new SwipeToDismissTouchListener.DismissCallbacks() {
+        ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public SwipeToDismissTouchListener.SwipeDirection canDismiss(int position) {
-                return SwipeToDismissTouchListener.SwipeDirection.BOTH;
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                // callback for drag-n-drop, false to skip this feature
+                return false;
             }
 
             @Override
-            public void onDismiss(RecyclerView view, List<SwipeToDismissTouchListener.PendingDismissData> dismissData) {
-                for (SwipeToDismissTouchListener.PendingDismissData pendingDismissData : dismissData) {
-                    if (adapter instanceof VocableAdapter) {
-                        Unit unit = ((VocableAdapter) adapter).getUnit();
-                        Vocable vocable = ((VocableAdapter) adapter).get(pendingDismissData.position);
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                if (adapter instanceof VocableAdapter) {
+                    Unit unit = ((VocableAdapter) adapter).getUnit();
+                    Vocable vocable = ((VocableAdapter) adapter).get(viewHolder.getAdapterPosition());
 
-                        getUndoManager().add(unit, vocable);
-                        unit.remove(vocable);
-                        vocableManager.vocableRemoved(unit, vocable);
-                    } else {
-                        Unit unit = ((UnitAdapter) adapter).get(pendingDismissData.position);
+                    getUndoManager().add(unit, vocable);
+                    unit.remove(vocable);
+                    vocableManager.vocableRemoved(unit, vocable);
+                } else {
+                    Unit unit = ((UnitAdapter) adapter).get(viewHolder.getAdapterPosition());
 
-                        getUndoManager().add(unit);
-                        vocableManager.removeUnit(unit);
-                    }
-
-                    adapter.remove(pendingDismissData.position);
-
-                    showSnackbar();
+                    getUndoManager().add(unit);
+                    vocableManager.removeUnit(unit);
                 }
+
+                adapter.remove(viewHolder.getAdapterPosition());
+                updateCount();
+
+                showSnackbar();
 
                 checkAdapter();
             }
         });
 
-        recycler.addOnItemTouchListener(listener);
+        swipeToDismissTouchHelper.attachToRecyclerView(recycler);
 
         if (savedInstanceState != null) {
             Unit current = savedInstanceState.getParcelable(CURRENT_UNIT);
@@ -329,6 +328,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         adapter = new UnitAdapter(vocableManager.getUnitList(), mode, this);
 
         recycler.setAdapter(adapter);
+        updateCount();
     }
 
     private void setVocableAdapter(Unit unit) {
@@ -339,6 +339,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
         recycler.setAdapter(adapter);
         unitTitle.setText(unit.getTitle());
+        updateCount();
     }
 
     private void checkAdapter() {
@@ -349,6 +350,18 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                 //TODO Show Empty-View
             }
         }
+    }
+
+    private void updateCount() {
+        int amount = adapter.getCount();
+        String subTitle = amount + " ";
+        if (adapter instanceof UnitAdapter) {
+            subTitle += amount == 1 ? getString(R.string.unit) : getString(R.string.units);
+        } else if (adapter instanceof VocableAdapter) {
+            subTitle += amount == 1 ? getString(R.string.vocable) : getString(R.string.vocables);
+        }
+
+        getToolbarActivity().setSubtitle(subTitle);
     }
 
     @Override
@@ -408,6 +421,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                 ((UnitAdapter) adapter).add(unit);
             }
         }
+
+        updateCount();
 
         GoogleServiceConnection connection = Core.getInstance(getActivity()).getConnection();
         connection.incrementAchievement(getString(R.string.achievement_ready_to_learn), 1);
@@ -481,6 +496,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     public void onDelete() {
         vocableManager.clear();
         adapter.clear();
+        updateCount();
 
         Core.getInstance(getActivity()).getConnection().unlockAchievement(getString(R.string.achievement_fresh_start));
     }

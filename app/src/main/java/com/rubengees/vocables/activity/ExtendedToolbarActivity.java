@@ -291,6 +291,14 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         }
     }
 
+    public void setSubtitle(String subtitle) {
+        ActionBar ab = getSupportActionBar();
+
+        if (ab != null) {
+            ab.setSubtitle(subtitle);
+        }
+    }
+
     public final Integer getCurrentColor() {
         return currentColor;
     }
@@ -301,14 +309,6 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
 
     protected final Toolbar getToolbar() {
         return toolbar;
-    }
-
-    public void setSubtitle(String subtitle) {
-        ActionBar ab = getSupportActionBar();
-
-        if (ab != null) {
-            ab.setSubtitle(subtitle);
-        }
     }
 
     public interface OnFabClickListener {

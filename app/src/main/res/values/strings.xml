@@ -188,4 +188,6 @@
     <string name="activity_main_donation_error">An unknown Error occured</string>
     <string name="dialog_unit_ok">Save</string>
     <string name="input_error_empty">Cannot be empty</string>
+    <string name="unit">Unit</string>
+    <string name="units">Units</string>
 </resources>
