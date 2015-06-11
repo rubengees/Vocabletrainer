@@ -115,10 +115,11 @@ public class VocableDialog extends DialogFragment {
 
         if (savedInstanceState == null) {
             processVocable();
-            processUnit();
         } else {
             processMeanings(savedInstanceState.getStringArrayList(STATE_FIRST_MEANINGS), savedInstanceState.getStringArrayList(STATE_SECOND_MEANINGS));
         }
+
+        processUnit();
         setupButtons();
 
         return builder.build();
@@ -339,12 +340,20 @@ public class VocableDialog extends DialogFragment {
     }
 
     private void processMeanings(List<String> firstMeanings, List<String> secondMeanings) {
-        for (String firstMeaning : firstMeanings) {
-            meaningContainer1.addView(generateInput(firstMeaning, getString(R.string.dialog_vocable_input_hint_first_meaning)));
+        if (firstMeanings.isEmpty()) {
+            meaningContainer1.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_first_meaning)));
+        } else {
+            for (String firstMeaning : firstMeanings) {
+                meaningContainer1.addView(generateInput(firstMeaning, getString(R.string.dialog_vocable_input_hint_first_meaning)));
+            }
         }
 
-        for (String secondMeaning : secondMeanings) {
-            meaningContainer2.addView(generateInput(secondMeaning, getString(R.string.dialog_vocable_input_hint_second_meaning)));
+        if (secondMeanings.isEmpty()) {
+            meaningContainer2.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_second_meaning)));
+        } else {
+            for (String secondMeaning : secondMeanings) {
+                meaningContainer2.addView(generateInput(secondMeaning, getString(R.string.dialog_vocable_input_hint_second_meaning)));
+            }
         }
     }
 

@@ -2,23 +2,14 @@ package com.rubengees.vocables.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.PendingIntent;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.ServiceConnection;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.android.vending.billing.IInAppBillingService;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -29,6 +20,9 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.billing.IabHelper;
+import com.rubengees.vocables.billing.IabResult;
+import com.rubengees.vocables.billing.Purchase;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.dialog.DonateDialog;
@@ -43,9 +37,6 @@ import com.rubengees.vocables.fragment.VocableListFragment;
 import com.rubengees.vocables.utils.PreferenceUtils;
 import com.rubengees.vocables.utils.ReminderUtils;
 import com.rubengees.vocables.utils.Utils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,25 +53,15 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     private static final String CURRENT_MODE = "current_mode";
     private static final int REQUEST_PURCHASE = 10513;
     private static final String DONATE_DIALOG = "donate_dialog";
-    IInAppBillingService billingService;
-    ServiceConnection billingServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            billingService = null;
-        }
 
-        @Override
-        public void onServiceConnected(ComponentName name,
-                                       IBinder service) {
-            billingService = IInAppBillingService.Stub.asInterface(service);
-        }
-    };
     private Drawer drawer;
     private AdView adView;
     private Core core;
     private OnBackPressedListener onBackPressedListener;
     private long currentDrawerId;
     private Mode currentMode;
+
+    private IabHelper billingHelper;
 
     private void showDialog() {
         if (PreferenceUtils.isFirstStart(this)) {
@@ -98,31 +79,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (requestCode == REQUEST_PURCHASE) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(this, getString(R.string.activity_main_donation_message), Toast.LENGTH_SHORT).show();
-
-                try {
-                    JSONObject object = new JSONObject(data.getStringExtra("INAPP_PURCHASE_DATA"));
-
-                    new AsyncTask<String, Void, Void>() {
-
-                        @Override
-                        protected Void doInBackground(String... params) {
-                            try {
-                                billingService.consumePurchase(3, getPackageName(), params[0]);
-                            } catch (RemoteException e) {
-                                e.printStackTrace();
-                            }
-                            return null;
-                        }
-
-                    }.execute(object.getString("purchaseToken"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else {
+        if (!billingHelper.handleActivityResult(requestCode, resultCode, data)) {
             core.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -186,13 +143,16 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
             showAds();
         }
 
-        connectBillingService();
-    }
+        billingHelper = new IabHelper(this, "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApdRQ/21yH5x2NeNC/9SwT1k+MJxXsahs9xlMBRv+ExkruoyAtjEqj9tQr2FHTl/AcEah0V+8OwJP20dhQm0j7zrZx7PNB/s39zJypUlv4" +
+                "h1DyFC0LvMRnLoyfVfPNZN5eK9Z9Bbd1poLRob0ncRbYLBRkAtwW27Js4I6pI9v7CO5xdra6skK62soZNXyD/r0KsGbHJdCrWDj8CDh4K94LgRIXH8bUwwggMUR0ANZQ80bi" +
+                "WfTLRMN1XsWz5X7nMD2pKo6LJZ48uyCTYAdc4lemhAsXLh3rbR9l4/rWKxettAtd/zNR2N/iZTQhs6XqBXuY1Eo6VRKn7ISoqA571iH9wIDAQAB");
+        billingHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+                if (!result.isSuccess()) {
 
-    private void connectBillingService() {
-        Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
-        serviceIntent.setPackage("com.android.vending");
-        bindService(serviceIntent, billingServiceConnection, Context.BIND_AUTO_CREATE);
+                }
+            }
+        });
     }
 
     @Override
@@ -226,11 +186,12 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
 
     @Override
     public void onDestroy() {
-        adView.destroy();
-        if (billingService != null) {
-            unbindService(billingServiceConnection);
-        }
         super.onDestroy();
+        adView.destroy();
+        if (billingHelper != null) {
+            billingHelper.dispose();
+        }
+        billingHelper = null;
     }
 
     @Override
@@ -439,21 +400,16 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     }
 
     public void purchase(String item) {
-        try {
-            if (billingService != null) {
-                Bundle buyIntentBundle = billingService.getBuyIntent(3, getPackageName(),
-                        item, "inapp", null);
-                PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
-                startIntentSenderForResult(pendingIntent.getIntentSender(),
-                        REQUEST_PURCHASE, new Intent(), 0, 0,
-                        0);
-            } else {
-                Toast.makeText(this, getString(R.string.activity_main_donation_error), Toast.LENGTH_SHORT).show();
+        billingHelper.launchPurchaseFlow(this, item, REQUEST_PURCHASE, new IabHelper.OnIabPurchaseFinishedListener() {
+            @Override
+            public void onIabPurchaseFinished(IabResult result, Purchase info) {
+                if (result.isSuccess()) {
+                    Toast.makeText(MainActivity.this, getString(R.string.activity_main_donation_message), Toast.LENGTH_SHORT).show();
+
+                    billingHelper.consumeAsync(info, null);
+                }
             }
-        } catch (RemoteException | IntentSender.SendIntentException e) {
-            e.printStackTrace();
-            Toast.makeText(this, getString(R.string.activity_main_donation_error), Toast.LENGTH_SHORT).show();
-        }
+        });
     }
 
     @Override

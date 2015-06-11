@@ -36,7 +36,7 @@ public class PairTestLogic extends TestLogic<TestSettings> {
         super.next();
 
         if (field.isEmpty()) {
-            if (getPosition() + field.getSize() / 2 <= getAmount()) {
+            if (getPosition() + (field.getSize() / 2) <= getAmount()) {
                 List<MeaningCell> meaningCells = new ArrayList<>(10);
 
                 for (Vocable vocable : getCurrentVocables()) {

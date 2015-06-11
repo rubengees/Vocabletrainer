@@ -29,6 +29,9 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     private Position selected;
     private int elementCount = 0;
 
+    private int sizeX;
+    private int sizeY;
+
     public MeaningField(int sizeX, int sizeY, List<MeaningCell> cells) {
         this(sizeX, sizeY);
         setCells(cells);
@@ -36,6 +39,8 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
 
     public MeaningField(int sizeX, int sizeY) {
         field = new MeaningCell[sizeX][sizeY];
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
     }
 
     private MeaningField(Parcel in) {
@@ -45,7 +50,7 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     public void setCells(List<MeaningCell> cells) {
         for (int i = 0; i < getSizeX(); i++) {
             for (int ii = 0; ii < getSizeY(); ii++) {
-                field[i][ii] = cells.get(i * field[i].length + ii);
+                field[i][ii] = cells.get(i * getSizeY() + ii);
             }
         }
 
@@ -54,11 +59,11 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     }
 
     public int getSizeX() {
-        return field.length;
+        return sizeX;
     }
 
     public int getSizeY() {
-        return field[0].length;
+        return sizeY;
     }
 
     public int getSize() {
@@ -70,8 +75,8 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     }
 
     private void readFromParcel(Parcel in) {
-        final int sizeX = in.readInt();
-        final int sizeY = in.readInt();
+        sizeX = in.readInt();
+        sizeY = in.readInt();
         field = new MeaningCell[sizeX][sizeY];
         for (int i = 0; i < sizeY; i++) {
             field[i] = in.createTypedArray(MeaningCell.CREATOR);

@@ -218,19 +218,19 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 if (adapter instanceof VocableAdapter) {
                     Unit unit = ((VocableAdapter) adapter).getUnit();
-                    Vocable vocable = ((VocableAdapter) adapter).get(viewHolder.getAdapterPosition());
+                    Vocable vocable = ((VocableAdapter) adapter).get(viewHolder.getLayoutPosition());
 
                     getUndoManager().add(unit, vocable);
                     unit.remove(vocable);
                     vocableManager.vocableRemoved(unit, vocable);
                 } else {
-                    Unit unit = ((UnitAdapter) adapter).get(viewHolder.getAdapterPosition());
+                    Unit unit = ((UnitAdapter) adapter).get(viewHolder.getLayoutPosition());
 
                     getUndoManager().add(unit);
                     vocableManager.removeUnit(unit);
                 }
 
-                adapter.remove(viewHolder.getAdapterPosition());
+                adapter.remove(viewHolder.getLayoutPosition());
                 updateCount();
 
                 showSnackbar();

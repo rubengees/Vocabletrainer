@@ -83,6 +83,7 @@ public class FileFragment extends MainFragment implements FileAdapter.OnItemClic
         recycler.setAdapter(adapter);
 
         up.setOnClickListener(this);
+        getToolbarActivity().expandToolbar();
         getToolbarActivity().setToolbarView(header);
 
         refresh();

@@ -11,7 +11,6 @@ import com.rubengees.vocables.pojo.Vocable;
  */
 public class MeaningCell implements Parcelable {
 
-
     public static final Creator<MeaningCell> CREATOR = new Creator<MeaningCell>() {
 
         public MeaningCell createFromParcel(Parcel in) {
@@ -21,8 +20,8 @@ public class MeaningCell implements Parcelable {
         public MeaningCell[] newArray(int size) {
             return new MeaningCell[size];
         }
-
     };
+
     private Vocable vocable;
     private Meaning meaning;
 
