@@ -61,7 +61,6 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
         logic.saveInstanceState(outState);
     }
 
-
     @Override
     protected void restoreSavedInstanceState(Bundle savedInstanceState) {
         super.restoreSavedInstanceState(savedInstanceState);
@@ -137,6 +136,7 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
     private void next() {
         logic.next();
         show();
+        changeHintVisibility(logic.getHint() != null);
     }
 
     @Override

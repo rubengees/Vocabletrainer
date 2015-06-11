@@ -190,4 +190,6 @@
     <string name="input_error_empty">Cannot be empty</string>
     <string name="unit">Unit</string>
     <string name="units">Units</string>
+    <string name="menut_test_hint">Show Hint</string>
+    <string name="dialog_hint_title">Hint</string>
 </resources>

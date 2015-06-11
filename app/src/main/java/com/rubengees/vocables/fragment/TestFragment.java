@@ -4,6 +4,9 @@ package com.rubengees.vocables.fragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,6 +15,7 @@ import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.core.test.Test;
 import com.rubengees.vocables.core.test.TestResult;
 import com.rubengees.vocables.core.testsettings.TestSettings;
+import com.rubengees.vocables.dialog.HintDialog;
 import com.rubengees.vocables.pojo.Vocable;
 
 import java.util.ArrayList;
@@ -23,12 +27,14 @@ import java.util.ArrayList;
  */
 public class TestFragment extends MainFragment implements Test.OnTestFinishedListener {
 
+    public static final String HINT_DIALOG = "hint_dialog";
     private static final String MODE_KEY = "mode";
     private static final String SETTINGS_KEY = "settings";
-
     private Mode mode;
     private Test test;
     private TestSettings settings;
+
+    private MenuItem hint;
 
     public TestFragment() {
         // Required empty public constructor
@@ -57,6 +63,8 @@ public class TestFragment extends MainFragment implements Test.OnTestFinishedLis
         } else {
             test = mode.getTest(getActivity(), settings, this, savedInstanceState);
         }
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -66,6 +74,30 @@ public class TestFragment extends MainFragment implements Test.OnTestFinishedLis
 
         test.show();
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_test, menu);
+
+        hint = menu.findItem(R.id.action_test_hint);
+        hint.setVisible(test.setHintVisibilityListener(new Test.OnHintVisibilityListener() {
+            @Override
+            public void onHintVisibilityChanged(boolean visible) {
+                hint.setVisible(visible);
+            }
+        }));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item == hint) {
+            String hint = test.getHint();
+
+            HintDialog.newInstance(hint).show(getFragmentManager(), HINT_DIALOG);
+        }
+
+        return false;
     }
 
     @Override

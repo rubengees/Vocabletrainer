@@ -21,7 +21,7 @@ import java.util.Map;
  * Created by ruben on 28.04.15.
  */
 
-public class TestLogic<E extends TestSettings> {
+public abstract class TestLogic<E extends TestSettings> {
 
     private Context context;
     private ArrayList<Vocable> vocables;
@@ -140,4 +140,6 @@ public class TestLogic<E extends TestSettings> {
     public final TestResult getResult() {
         return result;
     }
+
+    public abstract String getHint();
 }

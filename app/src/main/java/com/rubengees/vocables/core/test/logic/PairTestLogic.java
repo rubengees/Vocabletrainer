@@ -68,6 +68,17 @@ public class PairTestLogic extends TestLogic<TestSettings> {
         outState.putParcelable(STATE_FIELD, field);
     }
 
+    @Override
+    public String getHint() {
+        MeaningCell selected = field.getSelected();
+
+        if (selected == null) {
+            return null;
+        } else {
+            return selected.getVocable().getHint();
+        }
+    }
+
     private List<Vocable> getCurrentVocables() {
         return getSubList(getPosition(), getPosition() + field.getSize() / 2);
     }

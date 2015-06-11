@@ -48,6 +48,11 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
         outState.putDouble(STATE_RANDOM, random);
     }
 
+    @Override
+    public String getHint() {
+        return getCurrentVocable().getHint();
+    }
+
     public Meaning processAnswer(String given) {
         Vocable current = getCurrentVocable();
         Meaning question = getQuestion();

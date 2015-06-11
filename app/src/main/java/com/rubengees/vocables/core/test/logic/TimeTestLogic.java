@@ -92,6 +92,11 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
         outState.putLong(STATE_TIME_REMAINING, timeRemaining);
     }
 
+    @Override
+    public String getHint() {
+        return getCurrentVocable().getHint();
+    }
+
     private void cancelTimer() {
         timer.cancel();
     }

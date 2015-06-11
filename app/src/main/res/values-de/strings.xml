@@ -153,4 +153,5 @@
     <string name="input_error_empty">Darf nicht leer sein</string>
     <string name="unit">Lektion</string>
     <string name="units">Lektionen</string>
+    <string name="dialog_hint_title">Tipp</string>
 </resources>

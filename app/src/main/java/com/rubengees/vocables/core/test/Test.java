@@ -17,23 +17,24 @@ import java.util.ArrayList;
  */
 public abstract class Test {
 
-    private OnTestFinishedListener listener;
+    private OnTestFinishedListener testFinishedListener;
+    private OnHintVisibilityListener hintVisibilityListener;
     private Context context;
     private TestSettings settings;
     private int color;
     private int darkColor;
     private boolean animate;
 
-    public Test(Context context, TestSettings settings, OnTestFinishedListener listener, int color, int darkColor, Bundle savedInstanceState) {
-        this(context, settings, listener, color, darkColor);
+    public Test(Context context, TestSettings settings, OnTestFinishedListener testFinishedListener, int color, int darkColor, Bundle savedInstanceState) {
+        this(context, settings, testFinishedListener, color, darkColor);
 
         restoreSavedInstanceState(savedInstanceState);
     }
 
-    public Test(Context context, TestSettings settings, OnTestFinishedListener listener, int color, int darkColor) {
+    public Test(Context context, TestSettings settings, OnTestFinishedListener testFinishedListener, int color, int darkColor) {
         this.context = context;
         this.settings = settings;
-        this.listener = listener;
+        this.testFinishedListener = testFinishedListener;
         this.color = color;
         this.darkColor = darkColor;
         this.animate = PreferenceUtils.areAnimationsEnabled(context);
@@ -93,11 +94,31 @@ public abstract class Test {
         return animate;
     }
 
+    public boolean setHintVisibilityListener(OnHintVisibilityListener hintVisibilityListener) {
+        this.hintVisibilityListener = hintVisibilityListener;
+
+        return getLogic().getHint() != null;
+    }
+
+    protected void changeHintVisibility(boolean visible) {
+        if (hintVisibilityListener != null) {
+            hintVisibilityListener.onHintVisibilityChanged(visible);
+        }
+    }
+
     protected void finishTest(TestResult result, ArrayList<Vocable> vocables) {
-        listener.onTestFinished(result, settings, vocables);
+        testFinishedListener.onTestFinished(result, settings, vocables);
+    }
+
+    public String getHint() {
+        return getLogic().getHint();
     }
 
     public interface OnTestFinishedListener {
         void onTestFinished(TestResult result, TestSettings settings, ArrayList<Vocable> vocables);
+    }
+
+    public interface OnHintVisibilityListener {
+        void onHintVisibilityChanged(boolean visible);
     }
 }

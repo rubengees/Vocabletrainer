@@ -155,6 +155,7 @@ public class
     private void next() {
         if (logic.next()) {
             show();
+            changeHintVisibility(logic.getHint() != null);
         } else {
             getToolbarActivity().hideKeyboard(input);
             finishTest(logic.getResult(), logic.getVocables());
