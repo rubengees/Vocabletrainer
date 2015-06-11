@@ -154,4 +154,5 @@
     <string name="unit">Lektion</string>
     <string name="units">Lektionen</string>
     <string name="dialog_hint_title">Tipp</string>
+    <string name="menut_test_hint">Tipp anzeigen</string>
 </resources>
