@@ -95,11 +95,11 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         if (savedInstanceState != null) {
             mode = (SortMode) savedInstanceState.getSerializable(SORT_MODE);
 
-            VocableDialog vocableDialog = (VocableDialog) getFragmentManager().findFragmentByTag(
+            VocableDialog vocableDialog = (VocableDialog) getActivity().getFragmentManager().findFragmentByTag(
                     VOCABLE_DIALOG);
-            UnitDialog unitDialog = (UnitDialog) getFragmentManager().findFragmentByTag(UNIT_DIALOG);
-            SortDialog sortDialog = (SortDialog) getFragmentManager().findFragmentByTag(SORT_DIALOG);
-            DeleteDialog deleteDialog = (DeleteDialog) getFragmentManager().findFragmentByTag(DELETE_DIALOG);
+            UnitDialog unitDialog = (UnitDialog) getActivity().getFragmentManager().findFragmentByTag(UNIT_DIALOG);
+            SortDialog sortDialog = (SortDialog) getActivity().getFragmentManager().findFragmentByTag(SORT_DIALOG);
+            DeleteDialog deleteDialog = (DeleteDialog) getActivity().getFragmentManager().findFragmentByTag(DELETE_DIALOG);
 
             if (vocableDialog != null) {
                 vocableDialog.setCallback(this);

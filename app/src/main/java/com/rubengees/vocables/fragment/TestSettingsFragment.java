@@ -88,7 +88,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
             @Override
             public void onFabClick() {
                 if (vocableAmount >= mode.getMinAmount()) {
-                    getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
+                    getActivity().getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
                 } else {
                     SnackbarManager.show(Snackbar.with(getActivity()).text(getString(R.string.fragment_test_settings_error_not_enough_vocables) + " " + mode.getMinAmount())
                             .duration(Snackbar.SnackbarDuration.LENGTH_LONG).type(SnackbarType.MULTI_LINE), (ViewGroup) getActivity().findViewById(R.id.content));

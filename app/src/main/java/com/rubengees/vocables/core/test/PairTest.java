@@ -130,9 +130,9 @@ public class PairTest extends Test implements View.OnClickListener {
                 Utils.setButtonColor(correctButton, Utils.getColor(getContext(), R.color.red));
             }
 
-            AnimationUtils.animate(firstButton, Techniques.FadeOut, 300, 500, null);
+            AnimationUtils.animate(firstButton, Techniques.FadeOut, 300, 1000, null);
             if (correctButton == null) {
-                AnimationUtils.animate(secondButton, Techniques.FadeOut, 300, 500, new AnimationUtils.AnimationEndListener() {
+                AnimationUtils.animate(secondButton, Techniques.FadeOut, 300, 1000, new AnimationUtils.AnimationEndListener() {
                     @Override
                     public void onAnimationEnd() {
                         animating = false;
@@ -140,7 +140,7 @@ public class PairTest extends Test implements View.OnClickListener {
                     }
                 });
             } else {
-                AnimationUtils.animate(correctButton, Techniques.FadeOut, 300, 500, new AnimationUtils.AnimationEndListener() {
+                AnimationUtils.animate(correctButton, Techniques.FadeOut, 300, 1000, new AnimationUtils.AnimationEndListener() {
                     @Override
                     public void onAnimationEnd() {
                         animating = false;

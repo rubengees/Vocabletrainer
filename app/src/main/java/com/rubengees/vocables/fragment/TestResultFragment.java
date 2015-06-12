@@ -111,7 +111,7 @@ public class TestResultFragment extends MainFragment {
         getToolbarActivity().enableFab(R.drawable.ic_again, new ExtendedToolbarActivity.OnFabClickListener() {
             @Override
             public void onFabClick() {
-                getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
+                getActivity().getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
             }
         });
 

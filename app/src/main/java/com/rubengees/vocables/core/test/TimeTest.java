@@ -120,7 +120,7 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
 
             waiting = true;
             logic.onPause();
-            Utils.wait((Activity) getContext(), 500, new Utils.OnWaitFinishedListener() {
+            Utils.wait((Activity) getContext(), 1000, new Utils.OnWaitFinishedListener() {
                 @Override
                 public void onWaitFinished() {
                     waiting = false;

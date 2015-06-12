@@ -116,7 +116,7 @@ public class
         AnimationUtils.animate(status, Techniques.FlipInX, 300, 0, new AnimationUtils.AnimationEndListener() {
             @Override
             public void onAnimationEnd() {
-                Utils.wait(getToolbarActivity(), 800, new Utils.OnWaitFinishedListener() {
+                Utils.wait(getToolbarActivity(), 1000, new Utils.OnWaitFinishedListener() {
                     @Override
                     public void onWaitFinished() {
                         next();

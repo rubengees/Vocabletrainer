@@ -121,6 +121,6 @@ public class TestFragment extends MainFragment implements Test.OnTestFinishedLis
 
     @Override
     public void onTestFinished(TestResult result, TestSettings settings, ArrayList<Vocable> vocables) {
-        getFragmentManager().beginTransaction().replace(R.id.content, TestResultFragment.newInstance(mode, result, settings, vocables)).commit();
+        getActivity().getFragmentManager().beginTransaction().replace(R.id.content, TestResultFragment.newInstance(mode, result, settings, vocables)).commit();
     }
 }
