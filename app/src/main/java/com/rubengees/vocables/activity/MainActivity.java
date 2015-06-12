@@ -146,6 +146,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
         billingHelper = new IabHelper(this, "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApdRQ/21yH5x2NeNC/9SwT1k+MJxXsahs9xlMBRv+ExkruoyAtjEqj9tQr2FHTl/AcEah0V+8OwJP20dhQm0j7zrZx7PNB/s39zJypUlv4" +
                 "h1DyFC0LvMRnLoyfVfPNZN5eK9Z9Bbd1poLRob0ncRbYLBRkAtwW27Js4I6pI9v7CO5xdra6skK62soZNXyD/r0KsGbHJdCrWDj8CDh4K94LgRIXH8bUwwggMUR0ANZQ80bi" +
                 "WfTLRMN1XsWz5X7nMD2pKo6LJZ48uyCTYAdc4lemhAsXLh3rbR9l4/rWKxettAtd/zNR2N/iZTQhs6XqBXuY1Eo6VRKn7ISoqA571iH9wIDAQAB");
+        billingHelper.enableDebugLogging(true, "billing");
         billingHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             public void onIabSetupFinished(IabResult result) {
                 if (!result.isSuccess()) {

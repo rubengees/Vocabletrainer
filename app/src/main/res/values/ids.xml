@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_id" translatable="false">15289982266</string>
+    <string name="donate_50_id">donate_50_cent</string>
+    <string name="donate_100_id">donate_100_cent</string>
+    <string name="donate_200_id">donate_200_cent</string>
     <string name="achievement_ready_to_learn" translatable="false">CggIurrq-jgQAhAB</string>
     <string name="achievement_a_lot_to_do" translatable="false">CggIurrq-jgQAhAC</string>
     <string name="achievement_learning" translatable="false">CggIurrq-jgQAhAE</string>

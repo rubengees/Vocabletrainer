@@ -28,13 +28,13 @@ public class DonateDialog extends DialogFragment {
                 if (callback != null) {
                     switch (i) {
                         case 0:
-                            callback.onDonate(getString(R.string.donate_50));
+                            callback.onDonate(getString(R.string.donate_50_id));
                             break;
                         case 1:
-                            callback.onDonate(getString(R.string.donate_100));
+                            callback.onDonate(getString(R.string.donate_100_id));
                             break;
                         case 2:
-                            callback.onDonate(getString(R.string.donate_200));
+                            callback.onDonate(getString(R.string.donate_200_id));
                             break;
                     }
                 }
