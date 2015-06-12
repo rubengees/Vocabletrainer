@@ -216,26 +216,30 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                if (adapter instanceof VocableAdapter) {
-                    Unit unit = ((VocableAdapter) adapter).getUnit();
-                    Vocable vocable = ((VocableAdapter) adapter).get(viewHolder.getLayoutPosition());
+                int position = viewHolder.getAdapterPosition();
 
-                    getUndoManager().add(unit, vocable);
-                    unit.remove(vocable);
-                    vocableManager.vocableRemoved(unit, vocable);
-                } else {
-                    Unit unit = ((UnitAdapter) adapter).get(viewHolder.getLayoutPosition());
+                if (position < adapter.getItemCount() - 1) {
+                    if (adapter instanceof VocableAdapter) {
+                        Unit unit = ((VocableAdapter) adapter).getUnit();
+                        Vocable vocable = ((VocableAdapter) adapter).get(position);
 
-                    getUndoManager().add(unit);
-                    vocableManager.removeUnit(unit);
+                        getUndoManager().add(unit, vocable);
+                        unit.remove(vocable);
+                        vocableManager.vocableRemoved(unit, vocable);
+                    } else {
+                        Unit unit = ((UnitAdapter) adapter).get(position);
+
+                        getUndoManager().add(unit);
+                        vocableManager.removeUnit(unit);
+                    }
+
+                    adapter.remove(position);
+                    updateCount();
+
+                    showSnackbar();
+
+                    checkAdapter();
                 }
-
-                adapter.remove(viewHolder.getLayoutPosition());
-                updateCount();
-
-                showSnackbar();
-
-                checkAdapter();
             }
         });
 
@@ -415,7 +419,9 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         }
 
         if (adapter instanceof VocableAdapter) {
-            ((VocableAdapter) adapter).add(vocable);
+            if (((VocableAdapter) adapter).getUnit() == unit) {
+                ((VocableAdapter) adapter).add(vocable);
+            }
         } else if (adapter instanceof UnitAdapter) {
             if (!unitFound) {
                 ((UnitAdapter) adapter).add(unit);
@@ -444,6 +450,9 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                 ((UnitAdapter) adapter).add(newUnit);
             }
         }
+
+        updateCount();
+        checkAdapter();
     }
 
     private void showVocableDialog(Integer unitId, Vocable vocable, Integer pos) {

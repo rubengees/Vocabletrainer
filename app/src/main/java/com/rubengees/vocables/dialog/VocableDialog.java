@@ -237,7 +237,15 @@ public class VocableDialog extends DialogFragment {
         meaningInput2.getText().clear();
         hint.getText().clear();
 
-        int index = adapter.getPosition(unit);
+        int index = -1;
+
+        for (int i = 0; i < adapter.getCount(); i++) {
+            if (unit.getTitle().equals(adapter.getItem(i).getTitle())) {
+                index = i;
+
+                break;
+            }
+        }
 
         if (index > -1) {
             units.setSelection(index);

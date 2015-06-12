@@ -59,17 +59,46 @@ public class VocableManager {
         if (oldUnit != newUnit) {
             oldUnit.remove(vocable);
             newUnit.add(vocable);
-            if (!units.containsKey(newUnit.getId())) {
-                units.put(newUnit.getId(), newUnit);
-                db.addUnit(newUnit);
+            Unit found = getUnitFromRAM(newUnit);
+
+            if (found != newUnit) {
+                found.addAll(newUnit.getVocables());
+                newUnit.clear();
             }
+
             if (oldUnit.isEmpty()) {
                 units.remove(oldUnit.getId());
                 db.removeUnit(oldUnit);
             }
-        }
 
-        db.updateVocable(newUnit, vocable);
+            db.updateVocable(found, vocable);
+        } else {
+            db.updateVocable(newUnit, vocable);
+        }
+    }
+
+    private Unit getUnitFromRAM(Unit toFind) {
+        if (toFind.getId() == null) {
+            Unit sameTitle = null;
+
+            for (Unit unit1 : units.values()) {
+                if (unit1.getTitle().equals(toFind.getTitle())) {
+                    sameTitle = unit1;
+                    break;
+                }
+            }
+
+            if (sameTitle == null) {
+                db.addUnit(toFind);
+                units.put(toFind.getId(), toFind);
+
+                return toFind;
+            } else {
+                return sameTitle;
+            }
+        } else {
+            return units.get(toFind.getId());
+        }
     }
 
     public void updateVocablesFast(List<Vocable> vocables) {
@@ -81,35 +110,18 @@ public class VocableManager {
             throw new RuntimeException("A unit cannot be empty!");
         }
 
-        if (unit.getId() == null) {
-            Unit sameTitle = null;
+        Unit found = getUnitFromRAM(unit);
 
-            for (Unit unit1 : units.values()) {
-                if (unit1.getTitle().equals(unit.getTitle())) {
-                    sameTitle = unit1;
-                }
-            }
-
-            if (sameTitle == null) {
-                db.addUnit(unit);
-                units.put(unit.getId(), unit);
-                vocablesAdded(unit, unit.getVocables());
-            } else {
-                sameTitle.addAll(unit.getVocables());
-                vocablesAdded(sameTitle, unit.getVocables());
-
-                return true;
-            }
-        } else {
-            Unit existing = units.get(unit.getId());
-
-            existing.addAll(unit.getVocables());
-            vocablesAdded(existing, unit.getVocables());
+        if (found != unit) {
+            found.addAll(unit.getVocables());
+            vocablesAdded(found, unit.getVocables());
+            unit.clear();
 
             return true;
+        } else {
+            vocablesAdded(found, unit.getVocables());
+            return false;
         }
-
-        return false;
     }
 
     public void addUnits(Collection<Unit> units) {
