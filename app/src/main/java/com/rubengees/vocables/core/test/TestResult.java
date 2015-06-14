@@ -72,6 +72,7 @@ public class TestResult implements Parcelable {
     }
 
     private void readFromParcel(Parcel in) {
+        answers = new ArrayList<>();
         in.readTypedList(answers, TestAnswer.CREATOR);
         correct = in.readInt();
         incorrect = in.readInt();

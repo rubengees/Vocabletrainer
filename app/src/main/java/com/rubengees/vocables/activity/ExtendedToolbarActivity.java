@@ -29,7 +29,8 @@ import com.rubengees.vocables.R;
 import com.rubengees.vocables.utils.Utils;
 
 /**
- * Created by ruben on 22.05.15.
+ * Class wjich gives additional Methods to inheritors.
+ * Every Activity should inherit from it.
  */
 public abstract class ExtendedToolbarActivity extends AppCompatActivity {
 
@@ -147,6 +148,9 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Collapses the toolbar if it is extended. If not, nothing happens.
+     */
     public final void collapseToolbar() {
         if (isExtended) {
             isExtended = false;
@@ -158,6 +162,9 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Expands the toolbar if is collapsed. If not, nothing happens.
+     */
     public final void expandToolbar() {
         if (!isExtended) {
             isExtended = true;
@@ -202,6 +209,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
      *
      * @param drawable The drawable which should be displayed on the fab
      * @param listener An optional listener to monitor clicks on the fab
+     * @throws RuntimeException Is thrown if the Toolbar is not extended
      */
     public final void enableFab(@DrawableRes int drawable, @Nullable OnFabClickListener listener) {
         if (isExtended) {
@@ -226,6 +234,14 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         onFabClickListener = null;
     }
 
+    /**
+     * Styles the Window of the Application according to the colors.
+     * This contains the Toolbar, NavigationBar and the Statusbar.
+     * {@link #restyleApplication()}
+     *
+     * @param color     The color
+     * @param darkColor A darker Version of the color
+     */
     public final void styleApplication(int color, int darkColor) {
 
         currentColor = color;
@@ -253,12 +269,24 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Used to restyle the Application after an Orientation Change.
+     * Call in onCreateView Methods.
+     * {@link #styleApplication(int, int)}
+     */
     public final void restyleApplication() {
         if (currentColor != null && currentColorDark != null) {
             styleApplication(currentColor, currentColorDark);
         }
     }
 
+    /**
+     * Styles the Window of the Application according to the colors.
+     * This contains the Toolbar, NavigationBar and the Statusbar.
+     * {@link #restyleApplication()}
+     * @param colorRes The color as Resource-reference
+     * @param darkColorRes The color as Resource-reference
+     */
     public final void styleApplicationRes(@ColorRes int colorRes, @ColorRes int darkColorRes) {
         Resources resources = getResources();
         int color = resources.getColor(colorRes);
@@ -267,6 +295,10 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         styleApplication(color, darkColor);
     }
 
+    /**
+     * Sets the Title of the Application
+     * @param title the Title
+     */
     @Override
     public final void setTitle(CharSequence title) {
         if (title == null) {
@@ -281,6 +313,10 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets the Title of the Application
+     * @param titleId the Title as Resource-reference
+     */
     @Override
     public final void setTitle(@StringRes int titleId) {
         ActionBar ab = getSupportActionBar();
@@ -291,6 +327,10 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets the Subtitle of the Application
+     * @param subtitle The Subtitle
+     */
     public void setSubtitle(String subtitle) {
         ActionBar ab = getSupportActionBar();
 
@@ -299,14 +339,26 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Returns the current Color of the Application Window
+     * @return The color
+     */
     public final Integer getCurrentColor() {
         return currentColor;
     }
 
+    /**
+     * Returns the current dark Color of the Application Window
+     * @return The color
+     */
     public final Integer getCurrentColorDark() {
         return currentColorDark;
     }
 
+    /**
+     * Returns the Toolbar
+     * @return The Toolbar
+     */
     protected final Toolbar getToolbar() {
         return toolbar;
     }

@@ -45,6 +45,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
     public static TestSettingsFragment newInstance(Mode mode) {
         TestSettingsFragment fragment = new TestSettingsFragment();
         Bundle args = new Bundle();
+
         args.putParcelable(KEY_MODE, mode);
         fragment.setArguments(args);
         return fragment;

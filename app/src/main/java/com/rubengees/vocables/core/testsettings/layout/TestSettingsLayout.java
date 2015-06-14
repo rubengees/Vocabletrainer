@@ -28,6 +28,9 @@ import java.util.List;
 public abstract class TestSettingsLayout {
 
     private static final String STATE_CHECKED_UNIT_AMOUNT = "checked_unit_amount";
+    private static final int RATE_ALL = 100;
+    private static final int RATE_OKAY = 60;
+    private static final int RATE_BAD = 40;
 
     protected OnTestSettingsListener listener;
     private Context context;
@@ -60,13 +63,13 @@ public abstract class TestSettingsLayout {
     private int getRate() {
         switch (rate.getCheckedRadioButtonId()) {
             case R.id.fragment_test_settings_rate_all:
-                return 100;
+                return RATE_ALL;
             case R.id.fragment_test_settings_rate_okay:
-                return 60;
+                return RATE_OKAY;
             case R.id.fragment_test_settings_rate_bad:
-                return 60;
+                return RATE_BAD;
             default:
-                return 100;
+                return RATE_ALL;
         }
     }
 

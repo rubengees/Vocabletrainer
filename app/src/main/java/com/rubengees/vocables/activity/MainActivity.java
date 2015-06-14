@@ -79,8 +79,10 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (!billingHelper.handleActivityResult(requestCode, resultCode, data)) {
-            core.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_CANCELED) {
+            if (!billingHelper.handleActivityResult(requestCode, resultCode, data)) {
+                core.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 

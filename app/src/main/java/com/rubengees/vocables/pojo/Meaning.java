@@ -28,7 +28,7 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
 
     public Meaning(List<String> meanings) {
         if (meanings.isEmpty()) {
-            throw new RuntimeException("The list with the meanings can not be empty");
+            throw new RuntimeException("The list with the meanings cannot be empty");
         }
         this.meanings = meanings;
     }

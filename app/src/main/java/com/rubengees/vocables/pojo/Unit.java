@@ -144,6 +144,7 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
     }
 
     private void readFromParcel(Parcel in) {
+        vocables = new ArrayList<>();
         id = in.readInt();
         title = in.readString();
         lastModificationTime = in.readLong();

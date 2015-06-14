@@ -24,8 +24,8 @@ android {
         applicationId "com.rubengees.vocables"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 32
-        versionName "4.0.9"
+        versionCode 33
+        versionName "4.0.10"
     }
 
     buildTypes {
@@ -48,7 +48,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.google.android.gms:play-services-games:7.5.0'
     compile 'com.google.android.gms:play-services-ads:7.5.0'
-    compile 'com.afollestad:material-dialogs:0.7.5.5'
+    compile 'com.afollestad:material-dialogs:0.7.6.0'
     compile('com.mikepenz:materialdrawer:3.0.7@aar') {
         transitive = true
     }

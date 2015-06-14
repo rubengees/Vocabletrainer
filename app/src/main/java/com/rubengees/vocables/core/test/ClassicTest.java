@@ -27,8 +27,7 @@ import com.rubengees.vocables.utils.Utils;
 /**
  * Created by Ruben on 01.06.2015.
  */
-public class
-        ClassicTest extends Test implements ExtendedToolbarActivity.OnFabClickListener {
+public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabClickListener {
 
     private ClassicTestLogic logic;
 

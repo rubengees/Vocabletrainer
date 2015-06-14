@@ -23,6 +23,12 @@ import java.util.Map;
 
 public abstract class TestLogic<E extends TestSettings> {
 
+    private static final String STATE_VOCABLES = "vocables";
+    private static final String STATE_SETTINGS = "settings";
+    private static final String STATE_POSITION = "position";
+    private static final String STATE_CURRENT_TIME = "currentTime";
+    private static final String STATE_RESULT = "result";
+
     private Context context;
     private ArrayList<Vocable> vocables;
     private int position = -1;
@@ -51,11 +57,11 @@ public abstract class TestLogic<E extends TestSettings> {
     }
 
     protected void restoreSavedInstanceState(final Bundle savedInstanceState) {
-        vocables = savedInstanceState.getParcelableArrayList("vocables");
-        settings = savedInstanceState.getParcelable("settings");
-        position = savedInstanceState.getInt("position");
-        currentTime = savedInstanceState.getLong("currentTime");
-        result = savedInstanceState.getParcelable("result");
+        vocables = savedInstanceState.getParcelableArrayList(STATE_VOCABLES);
+        settings = savedInstanceState.getParcelable(STATE_SETTINGS);
+        position = savedInstanceState.getInt(STATE_POSITION);
+        currentTime = savedInstanceState.getLong(STATE_CURRENT_TIME);
+        result = savedInstanceState.getParcelable(STATE_RESULT);
     }
 
     public void onPause() {
@@ -130,11 +136,11 @@ public abstract class TestLogic<E extends TestSettings> {
     }
 
     public void saveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList("vocables", vocables);
-        outState.putParcelable("settings", settings);
-        outState.putInt("position", position);
-        outState.putLong("currentTime", currentTime);
-        outState.putParcelable("result", result);
+        outState.putParcelableArrayList(STATE_VOCABLES, vocables);
+        outState.putParcelable(STATE_SETTINGS, settings);
+        outState.putInt(STATE_POSITION, position);
+        outState.putLong(STATE_CURRENT_TIME, currentTime);
+        outState.putParcelable(STATE_RESULT, result);
     }
 
     public final TestResult getResult() {
