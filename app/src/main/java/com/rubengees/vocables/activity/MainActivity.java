@@ -44,7 +44,7 @@ import java.util.List;
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDrawerItemClickListener, WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback, DonateDialog.DonateDialogCallback {
+public class MainActivity extends ExtendedToolbarActivity implements WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback, DonateDialog.DonateDialogCallback {
 
     private static final String DIALOG_WELCOME = "dialog_welcome";
     private static final String DIALOG_EVALUATION = "dialog_evaluation";
@@ -62,6 +62,71 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     private Mode currentMode;
 
     private IabHelper billingHelper;
+    private Drawer.OnDrawerItemClickListener onDrawerItemClickListener = new Drawer.OnDrawerItemClickListener() {
+        @Override
+        public boolean onItemClick(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem drawerItem) {
+            boolean switchSection = false;
+
+            if (drawerItem.getIdentifier() != currentDrawerId || drawerItem.getTag() instanceof Mode) {
+                switchSection = true;
+            }
+
+            if (switchSection) {
+
+                if (drawerItem instanceof PrimaryDrawerItem) {
+                    if (((PrimaryDrawerItem) drawerItem).isCheckable()) {
+                        currentDrawerId = drawerItem.getIdentifier();
+                    }
+
+                    if (drawerItem.getTag() == null) {
+                        currentMode = null;
+                    }
+                }
+
+                switch (drawerItem.getIdentifier()) {
+                    case 0:
+                        setFragment(VocableListFragment.newInstance(), getString(R.string.fragment_vocable_list_title));
+                        return false;
+                    case 1:
+                        Mode mode = (Mode) drawerItem.getTag();
+
+                        if (currentMode == null || currentMode != mode) {
+                            currentMode = mode;
+
+                            setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(MainActivity.this), mode.getColor(MainActivity.this), mode.getDarkColor(MainActivity.this));
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    case 2:
+                        setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModes()), getString(R.string.fragment_statistics_title));
+                        return false;
+                    case 3:
+                        PlayGamesDialog playGamesDialog = PlayGamesDialog.newInstance();
+
+                        playGamesDialog.setCallback(MainActivity.this);
+                        playGamesDialog.show(getFragmentManager(), DIALOG_PLAY_GAMES);
+                        return true;
+                    case 4:
+                        setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModes()), getString(R.string.fragment_help_title));
+                        return false;
+                    case 5:
+                        DonateDialog donateDialog = DonateDialog.newInstance();
+
+                        donateDialog.setCallback(MainActivity.this);
+                        donateDialog.show(getFragmentManager(), DONATE_DIALOG);
+                        return true;
+                    case 6:
+                        setFragment(new SettingsFragment(), getString(R.string.fragment_settings_title));
+                        return false;
+                    default:
+                        return true;
+                }
+            }
+
+            return true;
+        }
+    };
 
     private void showDialog() {
         if (PreferenceUtils.isFirstStart(this)) {
@@ -95,6 +160,9 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
         super.onSaveInstanceState(outState);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init(Bundle savedInstanceState) {
         Fabric.with(this, new Crashlytics());
@@ -215,7 +283,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     private void generateDrawer(Bundle savedInstanceState) {
         drawer = new DrawerBuilder().withActivity(this).withToolbar(getToolbar())
                 .withDrawerItems(generateDrawerItems()).withSavedInstance(savedInstanceState).withStickyDrawerItems(generateStickyDrawerItems())
-                .withOnDrawerItemClickListener(this).withShowDrawerOnFirstLaunch(true).withActionBarDrawerToggleAnimated(true).withOnDrawerListener(new Drawer.OnDrawerListener() {
+                .withOnDrawerItemClickListener(onDrawerItemClickListener).withShowDrawerOnFirstLaunch(true).withActionBarDrawerToggleAnimated(true).withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
                     public void onDrawerOpened(View view) {
                         hideKeyboard(null);
@@ -285,6 +353,14 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
         return result;
     }
 
+    /**
+     * Sets the current visible Fragment
+     *
+     * @param fragment  The new Fragment
+     * @param title     The Title of the Fragment
+     * @param color     The color to style the Application with
+     * @param darkColor A darker Version fo the color
+     */
     public void setFragment(Fragment fragment, String title, int color, int darkColor) {
         if (fragment instanceof OnBackPressedListener) {
             onBackPressedListener = (OnBackPressedListener) fragment;
@@ -299,75 +375,16 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
         styleApplication(color, darkColor);
     }
 
+    /**
+     * Sets the current visible Fragment
+     * @param fragment The new Fragment
+     * @param title The Title of the Fragment
+     */
     public void setFragment(Fragment fragment, String title) {
         int color = getResources().getColor(R.color.primary);
         int darkColor = getResources().getColor(R.color.primary_dark);
 
         setFragment(fragment, title, color, darkColor);
-    }
-
-    @Override
-    public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
-        boolean switchSection = false;
-
-        if (drawerItem.getIdentifier() != currentDrawerId || drawerItem.getTag() instanceof Mode) {
-            switchSection = true;
-        }
-
-        if (switchSection) {
-
-            if (drawerItem instanceof PrimaryDrawerItem) {
-                if (((PrimaryDrawerItem) drawerItem).isCheckable()) {
-                    currentDrawerId = drawerItem.getIdentifier();
-                }
-
-                if (drawerItem.getTag() == null) {
-                    currentMode = null;
-                }
-            }
-
-            switch (drawerItem.getIdentifier()) {
-                case 0:
-                    setFragment(VocableListFragment.newInstance(), getString(R.string.fragment_vocable_list_title));
-                    return false;
-                case 1:
-                    Mode mode = (Mode) drawerItem.getTag();
-
-                    if (currentMode == null || currentMode != mode) {
-                        currentMode = mode;
-
-                        setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(this), mode.getColor(this), mode.getDarkColor(this));
-                        return false;
-                    } else {
-                        return true;
-                    }
-                case 2:
-                    setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModes()), getString(R.string.fragment_statistics_title));
-                    return false;
-                case 3:
-                    PlayGamesDialog playGamesDialog = PlayGamesDialog.newInstance();
-
-                    playGamesDialog.setCallback(this);
-                    playGamesDialog.show(getFragmentManager(), DIALOG_PLAY_GAMES);
-                    return true;
-                case 4:
-                    setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModes()), getString(R.string.fragment_help_title));
-                    return false;
-                case 5:
-                    DonateDialog donateDialog = DonateDialog.newInstance();
-
-                    donateDialog.setCallback(this);
-                    donateDialog.show(getFragmentManager(), DONATE_DIALOG);
-                    return true;
-                case 6:
-                    setFragment(new SettingsFragment(), getString(R.string.fragment_settings_title));
-                    return false;
-                default:
-                    return true;
-            }
-        }
-
-        return true;
     }
 
     @Override
@@ -449,7 +466,7 @@ public class MainActivity extends ExtendedToolbarActivity implements Drawer.OnDr
     public interface OnBackPressedListener {
 
         /**
-         * Callback called if the Back Button is pressed.
+         * Callback, which is called if the Back Button is pressed.
          * Fragments that extend MainFragment can/should override this Method.
          *
          * @return true if the App can be closed, false otherwise

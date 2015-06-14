@@ -43,7 +43,6 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
     private View toolbarExtensionPlaceHolder;
     private ViewGroup toolbarExtension;
     private FloatingActionButton fab;
-    private ViewGroup content;
 
     private OnFabClickListener onFabClickListener;
 
@@ -62,7 +61,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         toolbarExtension = (ViewGroup) findViewById(R.id.toolbar_extension);
         toolbarExtensionPlaceHolder = findViewById(R.id.toolbar_extension_placeholder);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        content = (ViewGroup) findViewById(R.id.content_container);
+        ViewGroup content = (ViewGroup) findViewById(R.id.content_container);
 
         toolbar.bringToFront();
 
@@ -104,7 +103,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
     }
 
     /**
-     * A Method as an equivalent to onCreate which can not be overridden.
+     * A Method as an equivalent to onCreate, which can not be overridden.
      */
     public void init(Bundle savedInstanceState) {
 
