@@ -29,7 +29,7 @@ import com.rubengees.vocables.R;
 import com.rubengees.vocables.utils.Utils;
 
 /**
- * Class wjich gives additional Methods to inheritors.
+ * Class which gives additional Methods to inheritors.
  * Every Activity should inherit from it.
  */
 public abstract class ExtendedToolbarActivity extends AppCompatActivity {
@@ -227,7 +227,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
     }
 
     /**
-     * Diables the Fab and removes the listener on it
+     * Disables the Fab and removes the listener on it
      */
     public final void disableFab() {
         fab.setVisibility(View.GONE);

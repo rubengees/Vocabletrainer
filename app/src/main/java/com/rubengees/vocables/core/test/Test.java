@@ -25,10 +25,12 @@ public abstract class Test {
     private int darkColor;
     private boolean animate;
 
+    private Bundle savedInstanceState;
+
     public Test(Context context, TestSettings settings, OnTestFinishedListener testFinishedListener, int color, int darkColor, Bundle savedInstanceState) {
         this(context, settings, testFinishedListener, color, darkColor);
 
-        restoreSavedInstanceState(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
     }
 
     public Test(Context context, TestSettings settings, OnTestFinishedListener testFinishedListener, int color, int darkColor) {
@@ -45,7 +47,7 @@ public abstract class Test {
     }
 
     public void saveInstanceState(Bundle outState) {
-        getLogic().saveInstanceState(outState);
+
     }
 
     protected abstract TestLogic getLogic();
@@ -72,7 +74,18 @@ public abstract class Test {
         return (ExtendedToolbarActivity) context;
     }
 
-    public abstract View getLayout();
+    public final View getLayout() {
+        View result = getSpecificLayout();
+
+        if (savedInstanceState != null) {
+            restoreSavedInstanceState(savedInstanceState);
+            savedInstanceState = null;
+        }
+
+        return result;
+    }
+
+    public abstract View getSpecificLayout();
 
     protected Context getContext() {
         return context;

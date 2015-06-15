@@ -57,19 +57,7 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
     }
 
     @Override
-    public void saveInstanceState(Bundle outState) {
-        logic.saveInstanceState(outState);
-    }
-
-    @Override
-    protected void restoreSavedInstanceState(Bundle savedInstanceState) {
-        super.restoreSavedInstanceState(savedInstanceState);
-
-        logic = new TimeTestLogic(getContext(), savedInstanceState, this);
-    }
-
-    @Override
-    public View getLayout() {
+    public View getSpecificLayout() {
         View view = View.inflate(getContext(), R.layout.layout_test_time, null);
         layout = (LinearLayout) view.findViewById(R.id.layout_test_time_button_layout);
         progress = (ProgressBar) view.findViewById(R.id.layout_test_time_progress);
@@ -84,6 +72,29 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
         getToolbarActivity().setToolbarView(header);
 
         return view;
+    }
+
+    @Override
+    public void saveInstanceState(Bundle outState) {
+        super.saveInstanceState(outState);
+
+        logic.saveInstanceState(outState);
+
+        if (waiting) {
+            waiting = false;
+            outState.putBoolean("wasWaiting", true);
+        }
+    }
+
+    @Override
+    protected void restoreSavedInstanceState(Bundle savedInstanceState) {
+        super.restoreSavedInstanceState(savedInstanceState);
+
+        logic = new TimeTestLogic(getContext(), savedInstanceState, this);
+
+        if (savedInstanceState.getBoolean("wasWaiting", false)) {
+            next();
+        }
     }
 
     @Override
@@ -123,9 +134,11 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
             Utils.wait((Activity) getContext(), 1000, new Utils.OnWaitFinishedListener() {
                 @Override
                 public void onWaitFinished() {
-                    waiting = false;
-                    logic.onResume();
-                    next();
+                    if (waiting) {
+                        waiting = false;
+                        logic.onResume();
+                        next();
+                    }
                 }
             });
         } else {

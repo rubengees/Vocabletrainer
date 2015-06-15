@@ -77,15 +77,15 @@ public abstract class Mode implements Parcelable {
             data.setPerfectInRow(data.getPerfectInRow() + 1);
         }
 
-        int avrgTime = result.getAverageTime();
+        int averageTime = result.getAverageTime();
 
-        if (data.getBestTime() <= 0 || avrgTime < data.getBestTime()) {
-            data.setBestTime(avrgTime);
+        if (data.getBestTime() <= 0 || averageTime < data.getBestTime()) {
+            data.setBestTime(averageTime);
         }
 
         int played = data.getPlayed();
 
-        data.setAverageTime((data.getAverageTime() * (played - 1) + avrgTime) / played);
+        data.setAverageTime((data.getAverageTime() * (played - 1) + averageTime) / played);
     }
 
     public abstract int getColor(Context context);

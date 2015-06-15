@@ -21,9 +21,6 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
     private ImportTask task;
     private ImportTask.OnImportFinishedListener listener;
 
-    private File file;
-    private MaterialDialog dialog;
-
     public static ImportDialog newInstance(String path) {
         ImportDialog dialog = new ImportDialog();
         Bundle bundle = new Bundle();
@@ -37,7 +34,7 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        file = new File(getArguments().getString(KEY_PATH));
+        File file = new File(getArguments().getString(KEY_PATH));
 
         task = ImportTask.getInstance(getActivity(), file, this);
 
@@ -51,16 +48,15 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
-        dialog = builder.title(getString(R.string.import_title)).content(getString(R.string.dialog_import_content))
-                .progress(true, 100).negativeText(getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
-            @Override
-            public void onNegative(MaterialDialog dialog) {
-                super.onNegative(dialog);
-                task.cancel();
-            }
-        }).build();
 
-        return dialog;
+        return builder.title(getString(R.string.import_title)).content(getString(R.string.dialog_import_content))
+                .progress(true, 100).negativeText(getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                        task.cancel();
+                    }
+                }).build();
     }
 
     @Override

@@ -18,9 +18,6 @@ public class ExportDialog extends DialogFragment implements ExportTask.OnExportF
 
     private ExportTask task;
 
-    private MaterialDialog dialog;
-    private File file;
-
     public static ExportDialog newInstance(String path) {
         ExportDialog dialog = new ExportDialog();
         Bundle bundle = new Bundle();
@@ -34,7 +31,7 @@ public class ExportDialog extends DialogFragment implements ExportTask.OnExportF
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        file = new File(getArguments().getString("path"));
+        File file = new File(getArguments().getString("path"));
 
         task = ExportTask.getInstance(getActivity(), file, this);
 
@@ -44,7 +41,8 @@ public class ExportDialog extends DialogFragment implements ExportTask.OnExportF
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
-        dialog = builder.title(getString(R.string.export_title)).progress(true, 100).content(getString(R.string.dialog_export_content))
+
+        return builder.title(getString(R.string.export_title)).progress(true, 100).content(getString(R.string.dialog_export_content))
                 .negativeText(getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onNegative(MaterialDialog dialog) {
@@ -52,8 +50,6 @@ public class ExportDialog extends DialogFragment implements ExportTask.OnExportF
                         task.cancel();
                     }
                 }).build();
-
-        return dialog;
     }
 
     @Override

@@ -80,7 +80,7 @@ public class TestResultFragment extends MainFragment {
                 }
 
                 connection.unlockAchievement(getString(R.string.achievement_learning));
-                connection.incrementAchievement(getString(R.string.achievement_geek), 1);
+                connection.incrementAchievement(getString(R.string.achievement_geek));
 
                 if (mode instanceof TimeMode && result.getAverageTime() <= 2000
                         && Utils.calculateCorrectAnswerRate(result.getCorrect(), result.getIncorrect()) >= 20) {

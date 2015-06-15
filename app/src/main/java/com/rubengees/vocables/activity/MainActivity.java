@@ -47,7 +47,6 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
     private static final String DIALOG_PLAY_GAMES = "dialog_play_games";
     private static final String CURRENT_DRAWER_ID = "current_drawer_id";
     private static final String CURRENT_MODE = "current_mode";
-    private static final int REQUEST_PURCHASE = 10513;
     private static final String DONATE_DIALOG = "donate_dialog";
 
     private Drawer drawer;

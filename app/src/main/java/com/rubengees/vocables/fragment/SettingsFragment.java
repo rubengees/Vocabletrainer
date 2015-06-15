@@ -147,8 +147,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                     .withAboutDescription(getString(R.string.activity_about_content)).withActivityTitle(getString(R.string.activity_about_title))
                     .withFields(R.string.class.getFields()).withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR).start(getActivity());
         } else if (preference == source) {
-            Uri webpage = Uri.parse("https://github.com/RubenGees/Vocabletrainer");
-            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+            Uri uri = Uri.parse("https://github.com/RubenGees/Vocabletrainer");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                 startActivity(intent);
             }

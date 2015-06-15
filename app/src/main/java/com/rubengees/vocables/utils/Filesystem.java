@@ -59,7 +59,9 @@ public class Filesystem implements Parcelable {
     }
 
     public boolean cdUp() {
-        if (subDirs.size() == 0) return false;
+        if (subDirs.size() == 0) {
+            return false;
+        }
         else subDirs.remove(subDirs.size() - 1);
         return true;
     }

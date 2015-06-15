@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/fragment_vocable_list_icon_header_back_description"
+        android:contentDescription="@string/icon_back_description"
         android:src="@drawable/ic_back" />
 
     <TextView

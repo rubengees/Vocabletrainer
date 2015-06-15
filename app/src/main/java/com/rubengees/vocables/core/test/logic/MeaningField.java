@@ -167,9 +167,11 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(getSizeX());
         out.writeInt(getSizeY());
-        for (int i = 0; i < field.length; i++) {
-            out.writeParcelableArray(field[i], 0);
+
+        for (MeaningCell[] cell : field) {
+            out.writeParcelableArray(cell, 0);
         }
+
         out.writeParcelable(selected, 0);
         out.writeInt(elementCount);
     }

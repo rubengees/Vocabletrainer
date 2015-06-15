@@ -68,7 +68,7 @@ public class PairTest extends Test implements View.OnClickListener {
     }
 
     @Override
-    public View getLayout() {
+    public View getSpecificLayout() {
         View view = View.inflate(getContext(), R.layout.layout_test_pair, null);
         layout = (LinearLayout) view.findViewById(R.id.layout_test_pair_button_layout);
 

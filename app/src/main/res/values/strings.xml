@@ -29,10 +29,10 @@
     <string name="help_delete_vocables_title">Delete Vocables</string>
     <string name="help_import_title">Import</string>
     <string name="help_export_title">Export</string>
-    <string name="help_add_vocables">To add a Vocable go to the Vocablelist and click on the \'+\' button. A dialog will open and you can type in your vocable. If you click on the \'+\' icons on the right of the textboxes another textbox will appear in which you can insert more meanings for your vocable. You can provide a Hint that you can view in the test. In the last step you must select a unit or create a new one. The small arrow on the right allows you to toggle between creating a new one and selecting an existing one.</string>
-    <string name="help_delete_vocables">To delete Vocables you go to the Vocablelist and swipe them away. This is evan possible with whole units. If you made a mistake you can undo the deletion by clicking the undo button at the bottom of the screen. If you want to delete all of your Vocables click the bin icon.</string>
-    <string name="help_import">You can import already prepared lists into Vocabletrainer. To do so go to the vocablelist and select \'import\' from the menu. A filebrowser will open in which you can select your file to import. The file-type must be either xml or csv. If you want to create a list fast at your computer create a text file and save it as csv. Example:\nHello,Greetings;Hallo;English-German\nGoodbye;Tschüss,Auf Wiedersehen;English-German\nThe xml file-type is for the backups of Vocabletrainer; see \'Export\'</string>
-    <string name="help_export">You can make a backup of your vocablelist to share it to other devices or just to save your list. If you want to create a backup go to the vocablelist and select \'export\' from the menu. A filexplorer opens and you can select in which directory the backup file should be saved. if you found a directory click on the save button. The file-type of the backup is xml and you can open it with any text editor.</string>
+    <string name="help_add_vocables">To add a Vocable go to the vocablelist and click on the "+"-button. A dialog will open and you can type in your vocable. If you click on the "+"-icons on the right of the textboxes another textbox will appear in which you can insert more meanings for your vocable. You can provide a hint that you can view in the test. In the last step you must select a unit or create a new one. The small arrow on the right allows you to toggle between creating a new one and selecting an existing one.</string>
+    <string name="help_delete_vocables">To delete Vocables you go to the vocablelist and swipe them away. This is evan possible with whole units. If you made a mistake you can undo the deletion by clicking the undo button at the bottom of the screen. If you want to delete all of your Vocables click the bin icon.</string>
+    <string name="help_import">You can import already prepared lists into Vocabletrainer. To do so go to the vocablelist and select \'import\' from the menu. A filebrowser will open in which you can select your file to import. The file-type must be either xml or csv. If you want to create a list fast at your computer create a text file and save it as csv. Example:\nHello,Greetings;Hallo;English-German\nGoodbye;Tschüss,Auf Wiedersehen;English-German\nThe xml file-type is for the backups of Vocabletrainer; see "Export"</string>
+    <string name="help_export">You can make a backup of your vocablelist to share it to other devices or just to save your list. If you want to create a backup go to the vocablelist and select "export" from the menu. A filexplorer opens and you can select in which directory the backup file should be saved. if you found a directory click on the save button. The file-type of the backup is xml and you can open it with any text editor.</string>
 
     <string name="donate_50">Donate 50 Cent</string>
     <string name="donate_100">Donate 1€</string>
@@ -190,11 +190,11 @@
     <string name="units">Units</string>
     <string name="menut_test_hint">Show Hint</string>
     <string name="dialog_hint_title">Hint</string>
-    <string name="icon_back_description">Back Icon</string>
-    <string name="icon_result_description">Result Icon</string>
-    <string name="icon_file_description">File Icon</string>
-    <string name="icon_add_description">Add Icon</string>
-    <string name="icon_edit_description">Edit Icon</string>
-    <string name="icon_info_description">Info Icon</string>
-    <string name="icon_toggle_description">Toggle Icon</string>
+    <string name="icon_back_description">Back</string>
+    <string name="icon_result_description">Result</string>
+    <string name="icon_file_description">File</string>
+    <string name="icon_add_description">Add</string>
+    <string name="icon_edit_description">Edit</string>
+    <string name="icon_info_description">Info</string>
+    <string name="icon_toggle_description">Toggle</string>
 </resources>

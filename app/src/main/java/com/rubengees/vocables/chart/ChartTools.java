@@ -100,12 +100,12 @@ public class ChartTools {
                 Column column = new Column();
                 column.setHasLabels(true);
 
-                List<SubcolumnValue> subcolumnValues = new ArrayList<>(1);
+                List<SubcolumnValue> subColumnValues = new ArrayList<>(1);
                 SubcolumnValue subcolumnValue = new SubcolumnValue(value, colors.get(i));
                 subcolumnValue.setLabel(titles.get(i));
-                subcolumnValues.add(subcolumnValue);
+                subColumnValues.add(subcolumnValue);
 
-                column.setValues(subcolumnValues);
+                column.setValues(subColumnValues);
                 columns.add(column);
             }
         }

@@ -84,9 +84,9 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
         }
     }
 
-    public void incrementAchievement(String id, int amount) {
+    public void incrementAchievement(String id) {
         if (isConnected()) {
-            Games.Achievements.increment(mGoogleApiClient, id, amount);
+            Games.Achievements.increment(mGoogleApiClient, id, 1);
         }
     }
 

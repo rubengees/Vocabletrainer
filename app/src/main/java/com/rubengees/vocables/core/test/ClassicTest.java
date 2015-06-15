@@ -34,7 +34,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
     private EditText input;
     private TextView status;
 
-    private boolean animating = false;
+    private boolean waiting = false;
 
     public ClassicTest(Context context, TestSettings settings, OnTestFinishedListener listener, int color, int darkColor, Bundle savedInstanceState) {
         super(context, settings, listener, color, darkColor, savedInstanceState);
@@ -52,7 +52,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
     }
 
     @Override
-    public View getLayout() {
+    public View getSpecificLayout() {
         View root = View.inflate(getContext(), R.layout.fragment_test_classic, null);
         View header = View.inflate(getContext(), R.layout.header, null);
 
@@ -81,7 +81,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
     }
 
     private void processInput() {
-        if (!animating) {
+        if (!waiting) {
             String text = input.getText().toString().trim();
 
             if (text.length() <= 0) {
@@ -100,7 +100,6 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
 
     private void showResult(Meaning result) {
         Spannable text;
-        animating = true;
 
         if (result == null) {
             text = new SpannableString(getContext().getString(R.string.test_classic_correct));
@@ -112,19 +111,23 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
         }
 
         status.setText(text);
+
+        waiting = true;
         AnimationUtils.animate(status, Techniques.FlipInX, 300, 0, new AnimationUtils.AnimationEndListener() {
             @Override
             public void onAnimationEnd() {
                 Utils.wait(getToolbarActivity(), 1000, new Utils.OnWaitFinishedListener() {
                     @Override
                     public void onWaitFinished() {
-                        next();
-                        AnimationUtils.animate(status, Techniques.FlipInX, 300, 0, new AnimationUtils.AnimationEndListener() {
-                            @Override
-                            public void onAnimationEnd() {
-                                animating = false;
-                            }
-                        });
+                        if (waiting) {
+                            next();
+                            AnimationUtils.animate(status, Techniques.FlipInX, 300, 0, new AnimationUtils.AnimationEndListener() {
+                                @Override
+                                public void onAnimationEnd() {
+                                    waiting = false;
+                                }
+                            });
+                        }
                     }
                 });
             }
@@ -137,6 +140,22 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
         super.restoreSavedInstanceState(savedInstanceState);
 
         logic = new ClassicTestLogic(getContext(), savedInstanceState);
+
+        if (savedInstanceState.getBoolean("wasWaiting", false)) {
+            next();
+        }
+    }
+
+    @Override
+    public void saveInstanceState(Bundle outState) {
+        super.saveInstanceState(outState);
+
+        logic.saveInstanceState(outState);
+
+        if (waiting) {
+            waiting = false;
+            outState.putBoolean("wasWaiting", true);
+        }
     }
 
     @Override

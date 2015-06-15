@@ -156,6 +156,6 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
     }
 
     public List<String> toList() {
-        return new ArrayList<String>(meanings);
+        return new ArrayList<>(meanings);
     }
 }

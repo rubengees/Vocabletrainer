@@ -431,8 +431,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         updateCount();
 
         GoogleServiceConnection connection = Core.getInstance(getActivity()).getConnection();
-        connection.incrementAchievement(getString(R.string.achievement_ready_to_learn), 1);
-        connection.incrementAchievement(getString(R.string.achievement_a_lot_to_do), 1);
+        connection.incrementAchievement(getString(R.string.achievement_ready_to_learn));
+        connection.incrementAchievement(getString(R.string.achievement_a_lot_to_do));
     }
 
     @Override
