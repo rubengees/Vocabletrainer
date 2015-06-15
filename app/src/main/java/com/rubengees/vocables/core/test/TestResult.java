@@ -73,7 +73,7 @@ public class TestResult implements Parcelable {
 
     private void readFromParcel(Parcel in) {
         answers = new ArrayList<>();
-        in.readTypedList(answers, TestAnswer.CREATOR);
+        in.readList(answers, TestAnswer.class.getClassLoader());
         correct = in.readInt();
         incorrect = in.readInt();
         averageTime = in.readInt();
@@ -87,7 +87,7 @@ public class TestResult implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeTypedList(answers);
+        out.writeList(answers);
         out.writeInt(correct);
         out.writeInt(incorrect);
         out.writeInt(averageTime);

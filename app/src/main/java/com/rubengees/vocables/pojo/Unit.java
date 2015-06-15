@@ -148,7 +148,7 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
         id = in.readInt();
         title = in.readString();
         lastModificationTime = in.readLong();
-        in.readTypedList(vocables, Vocable.CREATOR);
+        in.readList(vocables, Vocable.class.getClassLoader());
     }
 
     @Override
@@ -161,7 +161,7 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
         out.writeInt(id);
         out.writeString(title);
         out.writeLong(lastModificationTime);
-        out.writeTypedList(vocables);
+        out.writeList(vocables);
     }
 
     @Override
