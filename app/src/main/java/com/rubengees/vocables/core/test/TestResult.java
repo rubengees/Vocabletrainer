@@ -22,6 +22,7 @@ public class TestResult implements Parcelable {
         }
 
     };
+
     private List<TestAnswer> answers;
     private int correct = 0;
     private int incorrect = 0;

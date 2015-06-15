@@ -35,6 +35,7 @@ public class Filesystem implements Parcelable {
 
     private void readFromParcel(Parcel in) {
         root = in.readString();
+        subDirs = new ArrayList<>();
         in.readStringList(subDirs);
     }
 

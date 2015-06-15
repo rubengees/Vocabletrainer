@@ -24,6 +24,7 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
         }
 
     };
+
     private List<String> meanings;
 
     public Meaning(List<String> meanings) {
@@ -129,6 +130,8 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
     }
 
     private void readFromParcel(Parcel in) {
+        meanings = new ArrayList<>();
+
         in.readStringList(meanings);
     }
 

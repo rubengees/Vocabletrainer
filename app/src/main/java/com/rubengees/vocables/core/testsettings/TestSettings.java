@@ -3,6 +3,7 @@ package com.rubengees.vocables.core.testsettings;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class TestSettings implements Parcelable {
         }
 
     };
+
     private List<Integer> unitIds;
     private int maxRate;
 
@@ -55,6 +57,7 @@ public class TestSettings implements Parcelable {
     }
 
     private void readFromParcel(Parcel in) {
+        unitIds = new ArrayList<>();
         in.readList(unitIds, null);
     }
 
