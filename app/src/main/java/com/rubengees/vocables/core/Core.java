@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.anjlab.android.iab.v3.BillingProcessor;
+import com.anjlab.android.iab.v3.TransactionDetails;
 import com.rubengees.vocables.core.mode.ClassicMode;
 import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.core.mode.ModeData;
@@ -25,6 +27,7 @@ public class Core {
     private static Core ourInstance;
     private GoogleServiceConnection connection;
     private VocableManager vocableManager;
+    private BillingProcessor billingProcessor;
     private UndoManager undoManager;
     private List<Mode> modes;
     private Activity context;
@@ -34,6 +37,31 @@ public class Core {
         this.connection = new GoogleServiceConnection(context, savedInstanceState);
         this.vocableManager = new VocableManager(context);
         this.undoManager = new UndoManager();
+
+        this.billingProcessor = new BillingProcessor(context, "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApdRQ/21yH5x2NeNC/9SwT1k+MJxXsahs9xlMBRv+ExkruoyAtjEqj9tQr2FHTl/AcEah0V+8OwJP20dhQm0j7zrZx7PNB/s39zJypUlv4" +
+                "h1DyFC0LvMRnLoyfVfPNZN5eK9Z9Bbd1poLRob0ncRbYLBRkAtwW27Js4I6pI9v7CO5xdra6skK62soZNXyD/r0KsGbHJdCrWDj8CDh4K94LgRIXH8bUwwggMUR0ANZQ80bi" +
+                "WfTLRMN1XsWz5X7nMD2pKo6LJZ48uyCTYAdc4lemhAsXLh3rbR9l4/rWKxettAtd/zNR2N/iZTQhs6XqBXuY1Eo6VRKn7ISoqA571iH9wIDAQAB", new BillingProcessor.IBillingHandler() {
+            @Override
+            public void onProductPurchased(String s, TransactionDetails transactionDetails) {
+
+            }
+
+            @Override
+            public void onPurchaseHistoryRestored() {
+
+            }
+
+            @Override
+            public void onBillingError(int i, Throwable throwable) {
+
+            }
+
+            @Override
+            public void onBillingInitialized() {
+
+            }
+        });
+
         modes = new ArrayList<>(3);
         generateModes();
     }
@@ -87,6 +115,10 @@ public class Core {
         db.close();
     }
 
+    public void donate(String item) {
+
+    }
+
     public List<Mode> getModes() {
         return modes;
     }
@@ -111,8 +143,16 @@ public class Core {
         connection.onStop();
     }
 
+    public void onDestroy() {
+        if (billingProcessor != null) {
+            billingProcessor.release();
+        }
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        connection.onActivityResult(requestCode, resultCode, data);
+        if (!billingProcessor.handleActivityResult(requestCode, resultCode, data)) {
+            connection.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     public void onSaveInstanceState(Bundle outState) {

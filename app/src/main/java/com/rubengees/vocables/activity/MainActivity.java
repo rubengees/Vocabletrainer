@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
@@ -20,9 +19,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.rubengees.vocables.R;
-import com.rubengees.vocables.billing.IabHelper;
-import com.rubengees.vocables.billing.IabResult;
-import com.rubengees.vocables.billing.Purchase;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.dialog.DonateDialog;
@@ -44,7 +40,7 @@ import java.util.List;
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainActivity extends ExtendedToolbarActivity implements WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback, DonateDialog.DonateDialogCallback {
+public class MainActivity extends ExtendedToolbarActivity implements WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback {
 
     private static final String DIALOG_WELCOME = "dialog_welcome";
     private static final String DIALOG_EVALUATION = "dialog_evaluation";
@@ -61,7 +57,6 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
     private long currentDrawerId;
     private Mode currentMode;
 
-    private IabHelper billingHelper;
     private Drawer.OnDrawerItemClickListener onDrawerItemClickListener = new Drawer.OnDrawerItemClickListener() {
         @Override
         public boolean onItemClick(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem drawerItem) {
@@ -113,7 +108,6 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
                     case 5:
                         DonateDialog donateDialog = DonateDialog.newInstance();
 
-                        donateDialog.setCallback(MainActivity.this);
                         donateDialog.show(getFragmentManager(), DONATE_DIALOG);
                         return true;
                     case 6:
@@ -145,9 +139,7 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (resultCode != RESULT_CANCELED) {
-            if (!billingHelper.handleActivityResult(requestCode, resultCode, data)) {
-                core.onActivityResult(requestCode, resultCode, data);
-            }
+            core.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -195,10 +187,6 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
                 playGamesDialog.setCallback(this);
             }
 
-            if (donateDialog != null) {
-                donateDialog.setCallback(this);
-            }
-
             Fragment current = manager.findFragmentById(R.id.content);
 
             if (current != null && current instanceof OnBackPressedListener) {
@@ -212,18 +200,6 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
         if (PreferenceUtils.shouldShowAds(this)) {
             showAds();
         }
-
-        billingHelper = new IabHelper(this, "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApdRQ/21yH5x2NeNC/9SwT1k+MJxXsahs9xlMBRv+ExkruoyAtjEqj9tQr2FHTl/AcEah0V+8OwJP20dhQm0j7zrZx7PNB/s39zJypUlv4" +
-                "h1DyFC0LvMRnLoyfVfPNZN5eK9Z9Bbd1poLRob0ncRbYLBRkAtwW27Js4I6pI9v7CO5xdra6skK62soZNXyD/r0KsGbHJdCrWDj8CDh4K94LgRIXH8bUwwggMUR0ANZQ80bi" +
-                "WfTLRMN1XsWz5X7nMD2pKo6LJZ48uyCTYAdc4lemhAsXLh3rbR9l4/rWKxettAtd/zNR2N/iZTQhs6XqBXuY1Eo6VRKn7ISoqA571iH9wIDAQAB");
-        billingHelper.enableDebugLogging(true, "billing");
-        billingHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-            public void onIabSetupFinished(IabResult result) {
-                if (!result.isSuccess()) {
-
-                }
-            }
-        });
     }
 
     @Override
@@ -257,12 +233,9 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         adView.destroy();
-        if (billingHelper != null) {
-            billingHelper.dispose();
-        }
-        billingHelper = null;
+        core.onDestroy();
+        super.onDestroy();
     }
 
     @Override
@@ -377,8 +350,9 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
 
     /**
      * Sets the current visible Fragment
+     *
      * @param fragment The new Fragment
-     * @param title The Title of the Fragment
+     * @param title    The Title of the Fragment
      */
     public void setFragment(Fragment fragment, String title) {
         int color = getResources().getColor(R.color.primary);
@@ -419,19 +393,6 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
         adView.loadAd(adRequest);
     }
 
-    public void purchase(String item) {
-        billingHelper.launchPurchaseFlow(this, item, REQUEST_PURCHASE, new IabHelper.OnIabPurchaseFinishedListener() {
-            @Override
-            public void onIabPurchaseFinished(IabResult result, Purchase info) {
-                if (result.isSuccess()) {
-                    Toast.makeText(MainActivity.this, getString(R.string.activity_main_donation_message), Toast.LENGTH_SHORT).show();
-
-                    billingHelper.consumeAsync(info, null);
-                }
-            }
-        });
-    }
-
     @Override
     public void onEvaluate() {
         Utils.showPlayStorePage(this);
@@ -456,11 +417,6 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
     @Override
     public void onShowAchievements() {
         core.getConnection().showAchievements();
-    }
-
-    @Override
-    public void onDonate(String item) {
-        purchase(item);
     }
 
     public interface OnBackPressedListener {

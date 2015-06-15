@@ -7,13 +7,12 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.core.Core;
 
 /**
  * Created by ruben on 10.06.15.
  */
 public class DonateDialog extends DialogFragment {
-
-    private DonateDialogCallback callback;
 
     public static DonateDialog newInstance() {
         return new DonateDialog();
@@ -25,30 +24,22 @@ public class DonateDialog extends DialogFragment {
         builder.title(getString(R.string.dialog_donate_title)).content(getString(R.string.dialog_donate_content)).items(R.array.donation_titles).itemsCallback(new MaterialDialog.ListCallback() {
             @Override
             public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
-                if (callback != null) {
+                Core core = Core.getInstance(getActivity());
+
                     switch (i) {
                         case 0:
-                            callback.onDonate(getString(R.string.donate_50_id));
+                            core.donate(getString(R.string.donate_50_id));
                             break;
                         case 1:
-                            callback.onDonate(getString(R.string.donate_100_id));
+                            core.donate(getString(R.string.donate_100_id));
                             break;
                         case 2:
-                            callback.onDonate(getString(R.string.donate_200_id));
+                            core.donate(getString(R.string.donate_200_id));
                             break;
                     }
-                }
             }
         });
 
         return builder.build();
-    }
-
-    public void setCallback(DonateDialogCallback callback) {
-        this.callback = callback;
-    }
-
-    public interface DonateDialogCallback {
-        void onDonate(String item);
     }
 }
