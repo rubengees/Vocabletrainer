@@ -126,8 +126,6 @@
 
     <string name="dialog_vocable_title">Modify Vocable</string>
     <string name="dialog_vocable_ok">Save</string>
-    <string name="dialog_vocable_error_no_meaning">You have to give at least one Meaning</string>
-    <string name="dialog_vocable_error_no_unit">You have to name a unit</string>
     <string name="dialog_vocable_input_hint_first_meaning">Meaning in your language</string>
     <string name="dialog_vocable_input_hint_second_meaning">Meaning in foreign language</string>
 
