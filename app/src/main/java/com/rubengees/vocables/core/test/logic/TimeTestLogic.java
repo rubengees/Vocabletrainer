@@ -23,7 +23,7 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
     private static final String STATE_MAX_TIME = "maxTime";
     private static final String STATE_TIME_REMAINING = "timeRemaining";
 
-    private Random random;
+    private Random random = new Random();
     private double randomValue;
     private MeaningField field;
     private long maxTime;

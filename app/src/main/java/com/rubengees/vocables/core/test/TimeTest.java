@@ -25,11 +25,13 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
 
     private static final int SIZE_X = 2;
     private static final int SIZE_Y = 5;
+    private static final String STATE_WAS_WAITING = "wasWaiting";
+
+    private TimeTestLogic logic;
+
     private LinearLayout layout;
     private TextView question;
     private ProgressBar progress;
-
-    private TimeTestLogic logic;
 
     private boolean waiting = false;
 
@@ -82,7 +84,7 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
 
         if (waiting) {
             waiting = false;
-            outState.putBoolean("wasWaiting", true);
+            outState.putBoolean(STATE_WAS_WAITING, true);
         }
     }
 
@@ -92,7 +94,7 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
 
         logic = new TimeTestLogic(getContext(), savedInstanceState, this);
 
-        if (savedInstanceState.getBoolean("wasWaiting", false)) {
+        if (savedInstanceState.getBoolean(STATE_WAS_WAITING, false)) {
             next();
         }
     }

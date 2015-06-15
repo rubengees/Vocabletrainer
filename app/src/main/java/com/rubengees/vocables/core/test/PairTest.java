@@ -24,11 +24,13 @@ public class PairTest extends Test implements View.OnClickListener {
 
     private static final int SIZE_X = 2;
     private static final int SIZE_Y = 5;
+    private static final String STATE_WAS_WAITING = "wasWaiting";
+
     private PairTestLogic logic;
 
     private LinearLayout layout;
     private boolean wasEmpty;
-    private boolean animating;
+    private boolean waiting;
 
     public PairTest(Context context, TestSettings settings, OnTestFinishedListener listener, int color, int darkColor, Bundle savedInstanceState) {
         super(context, settings, listener, color, darkColor, savedInstanceState);
@@ -57,7 +59,14 @@ public class PairTest extends Test implements View.OnClickListener {
 
     @Override
     public void saveInstanceState(Bundle outState) {
+        super.saveInstanceState(outState);
+
         logic.saveInstanceState(outState);
+
+        if (waiting) {
+            waiting = false;
+            outState.putBoolean(STATE_WAS_WAITING, true);
+        }
     }
 
     @Override
@@ -65,6 +74,10 @@ public class PairTest extends Test implements View.OnClickListener {
         super.restoreSavedInstanceState(savedInstanceState);
 
         logic = new PairTestLogic(getContext(), savedInstanceState);
+
+        if (savedInstanceState.getBoolean(STATE_WAS_WAITING, false)) {
+            next();
+        }
     }
 
     @Override
@@ -81,7 +94,7 @@ public class PairTest extends Test implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if (!animating) {
+        if (!waiting) {
             processInput((Button) view);
         }
     }
@@ -112,7 +125,6 @@ public class PairTest extends Test implements View.OnClickListener {
 
     private void showResult(Position first, Position second, Position result) {
         if (shouldAnimate()) {
-            animating = true;
             final AppCompatButton firstButton = (AppCompatButton) ButtonContainerTools.getButtonAt(layout, first);
             final AppCompatButton secondButton = (AppCompatButton) ButtonContainerTools.getButtonAt(layout, second);
             final AppCompatButton correctButton;
@@ -130,22 +142,27 @@ public class PairTest extends Test implements View.OnClickListener {
                 Utils.setButtonColor(correctButton, Utils.getColor(getContext(), R.color.red));
             }
 
+            waiting = true;
             AnimationUtils.animate(firstButton, Techniques.FadeOut, 300, 1000, null);
             if (correctButton == null) {
                 AnimationUtils.animate(secondButton, Techniques.FadeOut, 300, 1000, new AnimationUtils.AnimationEndListener() {
                     @Override
                     public void onAnimationEnd() {
-                        animating = false;
-                        next();
+                        if (waiting) {
+                            waiting = false;
+                            next();
+                        }
                     }
                 });
             } else {
                 AnimationUtils.animate(correctButton, Techniques.FadeOut, 300, 1000, new AnimationUtils.AnimationEndListener() {
                     @Override
                     public void onAnimationEnd() {
-                        animating = false;
-                        Utils.setButtonColor(secondButton, getColor());
-                        next();
+                        if (waiting) {
+                            waiting = false;
+                            Utils.setButtonColor(secondButton, getColor());
+                            next();
+                        }
                     }
                 });
             }

@@ -29,6 +29,8 @@ import com.rubengees.vocables.utils.Utils;
  */
 public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabClickListener {
 
+    private static final String STATE_WAS_WAITING = "wasWaiting";
+
     private ClassicTestLogic logic;
 
     private EditText input;
@@ -141,7 +143,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
 
         logic = new ClassicTestLogic(getContext(), savedInstanceState);
 
-        if (savedInstanceState.getBoolean("wasWaiting", false)) {
+        if (savedInstanceState.getBoolean(STATE_WAS_WAITING, false)) {
             next();
         }
     }
@@ -154,7 +156,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
 
         if (waiting) {
             waiting = false;
-            outState.putBoolean("wasWaiting", true);
+            outState.putBoolean(STATE_WAS_WAITING, true);
         }
     }
 
