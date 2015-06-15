@@ -9,6 +9,8 @@ import com.rubengees.vocables.core.testsettings.Direction;
 import com.rubengees.vocables.pojo.Meaning;
 import com.rubengees.vocables.pojo.Vocable;
 
+import java.util.Random;
+
 /**
  * Created by Ruben on 04.04.2015.
  */
@@ -16,7 +18,8 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
 
     private static final String STATE_RANDOM = "random";
 
-    private double random;
+    private Random random = new Random();
+    private double randomValue;
 
     public ClassicTestLogic(Context context, ClassicTestSettings settings) {
         super(context, settings);
@@ -32,20 +35,20 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
     public boolean next() {
         super.next();
 
-        random = Math.random();
+        randomValue = random.nextDouble();
         return getPosition() < getAmount();
     }
 
     @Override
     protected void restoreSavedInstanceState(Bundle savedInstanceState) {
         super.restoreSavedInstanceState(savedInstanceState);
-        random = savedInstanceState.getDouble(STATE_RANDOM);
+        randomValue = savedInstanceState.getDouble(STATE_RANDOM);
     }
 
     @Override
     public void saveInstanceState(Bundle outState) {
         super.saveInstanceState(outState);
-        outState.putDouble(STATE_RANDOM, random);
+        outState.putDouble(STATE_RANDOM, randomValue);
     }
 
     @Override
@@ -77,7 +80,7 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
         } else if (direction == Direction.SECOND) {
             return vocable.getSecondMeaning();
         } else {
-            if (random < 0.5) {
+            if (randomValue < 0.5) {
                 return vocable.getFirstMeaning();
             } else {
                 return vocable.getSecondMeaning();
@@ -94,7 +97,7 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
         } else if (direction == Direction.SECOND) {
             return vocable.getFirstMeaning();
         } else {
-            if (random < 0.5) {
+            if (randomValue < 0.5) {
                 return vocable.getSecondMeaning();
             } else {
                 return vocable.getFirstMeaning();

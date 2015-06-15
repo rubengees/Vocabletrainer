@@ -106,6 +106,7 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
 
     @Override
     public void onConnected(Bundle bundle) {
+
     }
 
     @Override

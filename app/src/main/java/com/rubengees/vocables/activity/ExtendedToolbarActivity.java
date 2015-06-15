@@ -69,6 +69,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (onFabClickListener != null) {
                     onFabClickListener.onFabClick();
                 }

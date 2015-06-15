@@ -23,7 +23,8 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
     private static final String STATE_MAX_TIME = "maxTime";
     private static final String STATE_TIME_REMAINING = "timeRemaining";
 
-    private double random;
+    private Random random;
+    private double randomValue;
     private MeaningField field;
     private long maxTime;
     private long timeRemaining;
@@ -56,7 +57,7 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
     public boolean next() {
         super.next();
 
-        random = Math.random();
+        randomValue = random.nextDouble();
         field.setCells(getCells());
 
         return true;
@@ -65,7 +66,7 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
     @Override
     protected void restoreSavedInstanceState(Bundle savedInstanceState) {
         super.restoreSavedInstanceState(savedInstanceState);
-        random = savedInstanceState.getDouble(STATE_RANDOM);
+        randomValue = savedInstanceState.getDouble(STATE_RANDOM);
         field = savedInstanceState.getParcelable(STATE_FIELD);
         maxTime = savedInstanceState.getLong(STATE_MAX_TIME);
         timeRemaining = savedInstanceState.getLong(STATE_TIME_REMAINING);
@@ -86,7 +87,7 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
     @Override
     public void saveInstanceState(Bundle outState) {
         super.saveInstanceState(outState);
-        outState.putDouble(STATE_RANDOM, random);
+        outState.putDouble(STATE_RANDOM, randomValue);
         outState.putParcelable(STATE_FIELD, field);
         outState.putLong(STATE_MAX_TIME, maxTime);
         outState.putLong(STATE_TIME_REMAINING, timeRemaining);
@@ -133,7 +134,7 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
         } else if (direction == Direction.SECOND) {
             return vocable.getFirstMeaning();
         } else {
-            if (random < 0.5) {
+            if (randomValue < 0.5) {
                 return vocable.getSecondMeaning();
             } else {
                 return vocable.getFirstMeaning();
@@ -167,7 +168,7 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
         } else if (direction == Direction.SECOND) {
             return vocable.getSecondMeaning();
         } else {
-            if (random < 0.5) {
+            if (randomValue < 0.5) {
                 return vocable.getFirstMeaning();
             } else {
                 return vocable.getSecondMeaning();
