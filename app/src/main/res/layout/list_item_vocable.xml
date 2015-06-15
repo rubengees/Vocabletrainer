@@ -49,6 +49,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/icon_info_description"
                 android:src="@drawable/ic_info" />
         </RelativeLayout>
 

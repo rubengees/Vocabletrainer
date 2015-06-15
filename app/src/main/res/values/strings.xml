@@ -190,4 +190,11 @@
     <string name="units">Units</string>
     <string name="menut_test_hint">Show Hint</string>
     <string name="dialog_hint_title">Hint</string>
+    <string name="icon_back_description">Back Icon</string>
+    <string name="icon_result_description">Result Icon</string>
+    <string name="icon_file_description">File Icon</string>
+    <string name="icon_add_description">Add Icon</string>
+    <string name="icon_edit_description">Edit Icon</string>
+    <string name="icon_info_description">Info Icon</string>
+    <string name="icon_toggle_description">Toggle Icon</string>
 </resources>

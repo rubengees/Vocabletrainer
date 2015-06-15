@@ -88,7 +88,8 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
                         if (currentMode == null || currentMode != mode) {
                             currentMode = mode;
 
-                            setFragment(TestSettingsFragment.newInstance(mode), mode.getTitle(MainActivity.this), mode.getColor(MainActivity.this), mode.getDarkColor(MainActivity.this));
+                            setFragment(TestSettingsFragment.newInstance(mode), currentMode.getTitle(MainActivity.this), currentMode.getColor(MainActivity.this),
+                                    currentMode.getDarkColor(MainActivity.this));
                             return false;
                         } else {
                             return true;
@@ -173,7 +174,6 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
             WelcomeDialog welcomeDialog = (WelcomeDialog) manager.findFragmentByTag(DIALOG_WELCOME);
             EvaluationDialog evaluationDialog = (EvaluationDialog) manager.findFragmentByTag(DIALOG_EVALUATION);
             PlayGamesDialog playGamesDialog = (PlayGamesDialog) manager.findFragmentByTag(DIALOG_PLAY_GAMES);
-            DonateDialog donateDialog = (DonateDialog) manager.findFragmentByTag(DONATE_DIALOG);
 
             if (welcomeDialog != null) {
                 welcomeDialog.setCallback(this);

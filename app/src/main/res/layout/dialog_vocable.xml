@@ -29,6 +29,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/icon_add_description"
         android:src="@drawable/btn_add" />
 
     <ImageButton
@@ -39,6 +40,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/icon_add_description"
         android:src="@drawable/btn_add" />
 
     <android.support.design.widget.TextInputLayout
@@ -95,7 +97,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/icon_toggle_description" />
 
     </RelativeLayout>
 

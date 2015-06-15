@@ -36,6 +36,7 @@
                 android:layout_toLeftOf="@+id/list_item_unit_info"
                 android:layout_toStartOf="@+id/list_item_unit_info"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/icon_edit_description"
                 android:src="@drawable/ic_edit" />
 
             <ImageButton
@@ -47,6 +48,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/icon_info_description"
                 android:src="@drawable/ic_info" />
         </RelativeLayout>
 
