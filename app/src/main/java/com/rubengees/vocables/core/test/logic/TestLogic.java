@@ -53,6 +53,7 @@ public abstract class TestLogic<E extends TestSettings> {
 
     public TestLogic(Context context, Bundle savedInstanceState) {
         this.context = context;
+
         restoreSavedInstanceState(savedInstanceState);
     }
 

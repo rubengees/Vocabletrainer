@@ -163,6 +163,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
     @Override
     public void show() {
         super.show();
+
         status.setText(getContext().getString(R.string.test_question) + " '" + logic.getQuestion().toString() + "'?");
         input.getText().clear();
     }

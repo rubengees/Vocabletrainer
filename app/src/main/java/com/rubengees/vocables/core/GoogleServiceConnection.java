@@ -125,13 +125,15 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
                     mGoogleApiClient.connect();
                 }
             } else {
-                GoogleServiceErrorDialog dialog = GoogleServiceErrorDialog.newInstance(result.getErrorCode(), REQUEST_RESOLVE_ERROR);
-                dialog.setCallback(this);
+                if (context != null) {
+                    GoogleServiceErrorDialog dialog = GoogleServiceErrorDialog.newInstance(result.getErrorCode(), REQUEST_RESOLVE_ERROR);
+                    dialog.setCallback(this);
 
-                dialog.show(context.getFragmentManager(), GOOGLE_SERVICE_ERROR_DIALOG);
-                mResolvingError = true;
-                shouldConnect = false;
-                PreferenceUtils.setSignIn(context, false);
+                    dialog.show(context.getFragmentManager(), GOOGLE_SERVICE_ERROR_DIALOG);
+                    mResolvingError = true;
+                    shouldConnect = false;
+                    PreferenceUtils.setSignIn(context, false);
+                }
             }
         }
     }
@@ -146,10 +148,12 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
                     mGoogleApiClient.connect();
                 }
             } else {
-                GoogleServiceErrorDialog.newInstance(context.getString(R.string.google_service_connection_unknown_error))
-                        .show(context.getFragmentManager(), GOOGLE_SERVICE_ERROR_DIALOG);
+                if (context != null) {
+                    GoogleServiceErrorDialog.newInstance(context.getString(R.string.google_service_connection_unknown_error))
+                            .show(context.getFragmentManager(), GOOGLE_SERVICE_ERROR_DIALOG);
 
-                disconnect();
+                    disconnect();
+                }
             }
         }
     }

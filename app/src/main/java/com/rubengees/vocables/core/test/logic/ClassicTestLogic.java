@@ -42,12 +42,14 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
     @Override
     protected void restoreSavedInstanceState(Bundle savedInstanceState) {
         super.restoreSavedInstanceState(savedInstanceState);
+
         randomValue = savedInstanceState.getDouble(STATE_RANDOM);
     }
 
     @Override
     public void saveInstanceState(Bundle outState) {
         super.saveInstanceState(outState);
+
         outState.putDouble(STATE_RANDOM, randomValue);
     }
 
