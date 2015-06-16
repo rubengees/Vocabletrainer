@@ -143,6 +143,7 @@ public class VocableDialog extends DialogFragment {
             TextInputLayout input = (TextInputLayout) meaningContainer1.getChildAt(0);
 
             input.setError(getString(R.string.input_error_empty));
+            input.setErrorEnabled(true);
             error = true;
         }
 
@@ -150,6 +151,7 @@ public class VocableDialog extends DialogFragment {
             TextInputLayout input = (TextInputLayout) meaningContainer2.getChildAt(0);
 
             input.setError(getString(R.string.input_error_empty));
+            input.setErrorEnabled(true);
             error = true;
         }
 
@@ -161,7 +163,9 @@ public class VocableDialog extends DialogFragment {
                 unit.setTitle(unitTitle);
                 unit.setLastModificationTime(System.currentTimeMillis());
             } else {
-                ((TextInputLayout) inputUnit.getParent()).setError(getString(R.string.input_error_empty));
+                TextInputLayout inputLayout = (TextInputLayout) inputUnit.getParent();
+                inputLayout.setError(getString(R.string.input_error_empty));
+                inputLayout.setErrorEnabled(true);
 
                 error = true;
             }
@@ -393,7 +397,8 @@ public class VocableDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                ((TextInputLayout) inputUnit.getParent()).setError(null);
+                TextInputLayout inputLayout = (TextInputLayout) inputUnit.getParent();
+                inputLayout.setErrorEnabled(false);
             }
         });
 
@@ -418,7 +423,7 @@ public class VocableDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                result.setError(null);
+                result.setErrorEnabled(false);
             }
         });
         input.setText(text);

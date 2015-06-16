@@ -101,6 +101,7 @@ public class TransferUtils {
     private static List<Unit> parseCsv(Context context, File file) throws FormatException, IOException {
         HashMap<String, Unit> unitMap = new HashMap<>();
         BufferedReader reader = new BufferedReader(new FileReader(file));
+
         long creationTime = System.currentTimeMillis();
         int pos = 0;
         String line = reader.readLine();

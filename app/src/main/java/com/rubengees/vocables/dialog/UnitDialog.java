@@ -90,7 +90,7 @@ public class UnitDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                inputLayout.setError(null);
+                inputLayout.setErrorEnabled(false);
             }
         });
 
@@ -119,6 +119,7 @@ public class UnitDialog extends DialogFragment {
     private void processInput() {
         if (input.getText().toString().isEmpty()) {
             inputLayout.setError(getString(R.string.input_error_empty));
+            inputLayout.setErrorEnabled(true);
         } else {
             unit.setTitle(input.getText().toString());
             unit.setLastModificationTime(System.currentTimeMillis());
