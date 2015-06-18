@@ -80,6 +80,8 @@ public class PairTestLogic extends TestLogic<TestSettings> {
 
             if (current != null) {
                 return selected.getVocable().getHint();
+            } else {
+                return null;
             }
         }
     }

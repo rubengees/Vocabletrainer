@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
 import com.rubengees.vocables.core.test.logic.TestLogic;
 import com.rubengees.vocables.core.testsettings.TestSettings;
@@ -108,7 +111,9 @@ public abstract class Test {
     }
 
     protected void showError() {
-        SnackbarManager.show(Snackbar.with(this).text(context.getString(com.rubengees.vocables.R.string.test_error)).duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE));
+        SnackbarManager.show(Snackbar.with(getContext()).text(context.getString(com.rubengees.vocables.R.string.test_error)).type(SnackbarType.MULTI_LINE)
+                .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE));
+        finishTest(getLogic().getResult(), getLogic().getVocables());
     }
 
     public boolean setHintVisibilityListener(OnHintVisibilityListener hintVisibilityListener) {

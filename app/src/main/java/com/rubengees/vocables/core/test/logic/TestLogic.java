@@ -89,7 +89,13 @@ public abstract class TestLogic<E extends TestSettings> {
     }
 
     public final Vocable getCurrentVocable() {
-        return vocables.get(getAdjustedPosition());
+        int pos = getAdjustedPosition();
+
+        if (pos >= vocables.size()) {
+            return null;
+        } else {
+            return vocables.get(pos);
+        }
     }
 
     public final int getAdjustedPosition() {

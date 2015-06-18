@@ -18,6 +18,7 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.nispok.snackbar.SnackbarManager;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.mode.Mode;
@@ -345,6 +346,7 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
 
         setTitle(title);
         styleApplication(color, darkColor);
+        SnackbarManager.dismiss();
     }
 
     /**
