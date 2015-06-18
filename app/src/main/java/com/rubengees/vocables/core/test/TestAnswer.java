@@ -62,8 +62,8 @@ public class TestAnswer implements Parcelable {
     }
 
     private void readFromParcel(Parcel in) {
-        question = in.readParcelable(question.getClass().getClassLoader());
-        answer = in.readParcelable(answer.getClass().getClassLoader());
+        question = in.readParcelable(Meaning.class.getClassLoader());
+        answer = in.readParcelable(Meaning.class.getClassLoader());
         given = in.readParcelable(Meaning.class.getClassLoader());
         correct = in.readInt() == 1;
         time = in.readInt();
