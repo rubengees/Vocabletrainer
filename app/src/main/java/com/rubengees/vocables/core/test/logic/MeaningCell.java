@@ -36,7 +36,7 @@ public class MeaningCell implements Parcelable {
 
     private void readFromParcel(Parcel in) {
         vocable = in.readParcelable(Vocable.class.getClassLoader());
-        meaning = in.readParcelable(Parcelable.class.getClassLoader());
+        meaning = in.readParcelable(Meaning.class.getClassLoader());
     }
 
     @Override

@@ -43,6 +43,7 @@ public class PairTestLogic extends TestLogic<TestSettings> {
                     meaningCells.add(new MeaningCell(vocable, vocable.getFirstMeaning()));
                     meaningCells.add(new MeaningCell(vocable, vocable.getSecondMeaning()));
                 }
+
                 Collections.shuffle(meaningCells);
 
                 field.setCells(meaningCells);
@@ -75,7 +76,11 @@ public class PairTestLogic extends TestLogic<TestSettings> {
         if (selected == null) {
             return null;
         } else {
-            return selected.getVocable().getHint();
+            Vocable current = selected.getVocable();
+
+            if (current != null) {
+                return selected.getVocable().getHint();
+            }
         }
     }
 

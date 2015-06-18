@@ -197,4 +197,5 @@
     <string name="icon_edit_description">Edit</string>
     <string name="icon_info_description">Info</string>
     <string name="icon_toggle_description">Toggle</string>
+    <string name="test_error">Something went wrong, please re-add your Vocables</string>
 </resources>

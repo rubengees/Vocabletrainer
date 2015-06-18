@@ -25,6 +25,7 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         }
 
     };
+
     private MeaningCell[][] field;
     private Position selected;
     private int elementCount = 0;
@@ -78,9 +79,12 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         sizeX = in.readInt();
         sizeY = in.readInt();
         field = new MeaningCell[sizeX][sizeY];
+
         for (int i = 0; i < sizeY; i++) {
             field[i] = in.createTypedArray(MeaningCell.CREATOR);
+
         }
+
         selected = in.readParcelable(Position.class.getClassLoader());
         elementCount = in.readInt();
     }

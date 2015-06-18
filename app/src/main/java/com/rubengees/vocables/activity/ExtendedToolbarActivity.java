@@ -75,6 +75,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
                 }
             }
         });
+
         inflateLayout(LayoutInflater.from(this), content, savedInstanceState);
 
         if (savedInstanceState != null) {

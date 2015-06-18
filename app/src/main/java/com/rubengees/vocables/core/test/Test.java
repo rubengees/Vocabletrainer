@@ -107,6 +107,10 @@ public abstract class Test {
         return animate;
     }
 
+    protected void showError() {
+        SnackbarManager.show(Snackbar.with(this).text(context.getString(com.rubengees.vocables.R.string.test_error)).duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE));
+    }
+
     public boolean setHintVisibilityListener(OnHintVisibilityListener hintVisibilityListener) {
         this.hintVisibilityListener = hintVisibilityListener;
 

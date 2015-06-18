@@ -57,10 +57,15 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
     public boolean next() {
         super.next();
 
-        randomValue = random.nextDouble();
-        field.setCells(getCells());
 
-        return true;
+        if (getAmount() >= 10) {
+            randomValue = random.nextDouble();
+            field.setCells(getCells());
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -95,7 +100,13 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
 
     @Override
     public String getHint() {
-        return getCurrentVocable().getHint();
+        Vocable current = getCurrentVocable();
+
+        if (current != null) {
+            return current.getHint();
+        } else {
+            return null;
+        }
     }
 
     private void cancelTimer() {

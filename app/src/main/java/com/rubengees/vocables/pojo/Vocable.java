@@ -55,8 +55,8 @@ public class Vocable implements TrainerItem, Parcelable {
 
     private void readFromParcel(Parcel in) {
         id = in.readInt();
-        firstMeaning = in.readParcelable(firstMeaning.getClass().getClassLoader());
-        secondMeaning = in.readParcelable(secondMeaning.getClass().getClassLoader());
+        firstMeaning = in.readParcelable(Meaning.class.getClassLoader());
+        secondMeaning = in.readParcelable(Meaning.class.getClassLoader());
         hint = in.readString();
         correct = in.readInt();
         incorrect = in.readInt();

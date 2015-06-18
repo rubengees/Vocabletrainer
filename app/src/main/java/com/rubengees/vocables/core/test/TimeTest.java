@@ -52,10 +52,15 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
 
     @Override
     public void show() {
-        super.show();
+        if (logic.getAmount() < 5) {
+            showError();
+            return;
+        } else {
+            super.show();
 
-        ButtonContainerTools.refreshButtons(layout, logic.getField(), getColor(), getDarkColor(), false);
-        question.setText(getContext().getString(R.string.test_question) + " " + "'" + logic.getQuestion() + "'?");
+            ButtonContainerTools.refreshButtons(layout, logic.getField(), getColor(), getDarkColor(), false);
+            question.setText(getContext().getString(R.string.test_question) + " " + "'" + logic.getQuestion() + "'?");
+        }
     }
 
     @Override
@@ -149,6 +154,11 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
     }
 
     private void next() {
+        if (logic.getAmount() < 10) {
+            showError();
+            return;
+        }
+
         logic.next();
         show();
         changeHintVisibility(logic.getHint() != null);

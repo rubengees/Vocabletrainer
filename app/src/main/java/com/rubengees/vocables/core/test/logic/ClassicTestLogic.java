@@ -55,7 +55,13 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
 
     @Override
     public String getHint() {
-        return getCurrentVocable().getHint();
+        Vocable current = getCurrentVocable();
+
+        if (current != null) {
+            return current.getHint();
+        } else {
+            return null;
+        }
     }
 
     public Meaning processAnswer(String given) {

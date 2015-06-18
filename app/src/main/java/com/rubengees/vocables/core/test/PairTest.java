@@ -49,12 +49,16 @@ public class PairTest extends Test implements View.OnClickListener {
 
     @Override
     public void show() {
-        super.show();
-        MeaningField field = logic.getField();
+        if (logic.getAmount() < 5) {
+            showError();
+        } else {
+            super.show();
+            MeaningField field = logic.getField();
 
-        ButtonContainerTools.refreshButtons(layout, field, getColor(), getDarkColor(), wasEmpty);
-        changeHintVisibility(logic.getHint() != null);
-        wasEmpty = false;
+            ButtonContainerTools.refreshButtons(layout, field, getColor(), getDarkColor(), wasEmpty);
+            changeHintVisibility(logic.getHint() != null);
+            wasEmpty = false;
+        }
     }
 
     @Override
