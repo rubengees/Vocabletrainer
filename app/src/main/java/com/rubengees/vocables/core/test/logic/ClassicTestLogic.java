@@ -83,16 +83,20 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
         Vocable vocable = getCurrentVocable();
         Direction direction = getSettings().getDirection();
 
-        if (direction == Direction.FIRST) {
-            return vocable.getFirstMeaning();
-        } else if (direction == Direction.SECOND) {
-            return vocable.getSecondMeaning();
-        } else {
-            if (randomValue < 0.5) {
+        if (vocable != null) {
+            if (direction == Direction.FIRST) {
                 return vocable.getFirstMeaning();
-            } else {
+            } else if (direction == Direction.SECOND) {
                 return vocable.getSecondMeaning();
+            } else {
+                if (randomValue < 0.5) {
+                    return vocable.getFirstMeaning();
+                } else {
+                    return vocable.getSecondMeaning();
+                }
             }
+        } else {
+            return null;
         }
     }
 
@@ -100,16 +104,20 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
         Vocable vocable = getCurrentVocable();
         Direction direction = getSettings().getDirection();
 
-        if (direction == Direction.FIRST) {
-            return vocable.getSecondMeaning();
-        } else if (direction == Direction.SECOND) {
-            return vocable.getFirstMeaning();
-        } else {
-            if (randomValue < 0.5) {
+        if (vocable != null) {
+            if (direction == Direction.FIRST) {
                 return vocable.getSecondMeaning();
-            } else {
+            } else if (direction == Direction.SECOND) {
                 return vocable.getFirstMeaning();
+            } else {
+                if (randomValue < 0.5) {
+                    return vocable.getSecondMeaning();
+                } else {
+                    return vocable.getFirstMeaning();
+                }
             }
+        } else {
+            return null;
         }
     }
 }

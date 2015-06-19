@@ -226,11 +226,11 @@ public class VocableDialog extends DialogFragment {
     }
 
     private void cleanUp(Unit unit) {
-        for (int i = 1; i < meaningContainer1.getChildCount(); i++) {
+        for (int i = meaningContainer1.getChildCount() - 1; i > 0; i--) {
             meaningContainer1.removeViewAt(i);
         }
 
-        for (int i = 1; i < meaningContainer2.getChildCount(); i++) {
+        for (int i = meaningContainer2.getChildCount() - 1; i > 0; i--) {
             meaningContainer2.removeViewAt(i);
         }
 

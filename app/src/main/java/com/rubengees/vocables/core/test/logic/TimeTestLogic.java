@@ -174,16 +174,20 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
         Vocable vocable = getCurrentVocable();
         Direction direction = getSettings().getDirection();
 
-        if (direction == Direction.FIRST) {
-            return vocable.getFirstMeaning();
-        } else if (direction == Direction.SECOND) {
-            return vocable.getSecondMeaning();
-        } else {
-            if (randomValue < 0.5) {
+        if (vocable != null) {
+            if (direction == Direction.FIRST) {
                 return vocable.getFirstMeaning();
-            } else {
+            } else if (direction == Direction.SECOND) {
                 return vocable.getSecondMeaning();
+            } else {
+                if (randomValue < 0.5) {
+                    return vocable.getFirstMeaning();
+                } else {
+                    return vocable.getSecondMeaning();
+                }
             }
+        } else {
+            return null;
         }
     }
 
