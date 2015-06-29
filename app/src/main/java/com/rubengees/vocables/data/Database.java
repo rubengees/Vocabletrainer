@@ -90,12 +90,14 @@ public class Database extends SQLiteOpenHelper {
             Cursor cursor = db.query("vocables", null, null, null, null, null, "id ASC");
             Cursor meanings1Cursor = null;
             Cursor meanings2Cursor = null;
+
             if (oldVersion > 2) {
                 meanings1Cursor = db.query("values1", null, null, null, null, null, "id_values1 ASC");
                 meanings2Cursor = db.query("values2", null, null, null, null, null, "id_values2 ASC");
                 meanings1Cursor.moveToFirst();
                 meanings2Cursor.moveToFirst();
             }
+
             if (cursor.moveToFirst()) {
                 do {
                     String unitTitle;
@@ -131,6 +133,8 @@ public class Database extends SQLiteOpenHelper {
 
                     if (oldVersion <= 1) {
                         unitTitle = context.getString(R.string.database_uni_title_default);
+                    } else if (oldVersion == 2) {
+                        unitTitle = cursor.getString(5);
                     } else {
                         unitTitle = cursor.getString(3);
                     }
@@ -149,9 +153,11 @@ public class Database extends SQLiteOpenHelper {
             }
 
             cursor.close();
+
             if (meanings1Cursor != null) {
                 meanings1Cursor.close();
             }
+
             if (meanings2Cursor != null) {
                 meanings2Cursor.close();
             }
@@ -179,6 +185,7 @@ public class Database extends SQLiteOpenHelper {
             }
 
             addUnits(db, units);
+
             for (Unit unit : units) {
                 addVocables(db, unit, unit.getVocables());
             }
@@ -192,6 +199,7 @@ public class Database extends SQLiteOpenHelper {
             if (cursor.getInt(0) != id) {
                 break;
             }
+
             result.add(cursor.getString(1));
         } while (cursor.moveToNext());
 
