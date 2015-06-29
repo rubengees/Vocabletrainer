@@ -1,6 +1,7 @@
 package com.rubengees.vocables.core.testsettings;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.List;
 
@@ -9,6 +10,17 @@ import java.util.List;
  */
 public class TimeTestSettings extends TestSettings {
 
+    public static final Parcelable.Creator<TimeTestSettings> CREATOR = new Parcelable.Creator<TimeTestSettings>() {
+
+        public TimeTestSettings createFromParcel(Parcel in) {
+            return new TimeTestSettings(in);
+        }
+
+        public TimeTestSettings[] newArray(int size) {
+            return new TimeTestSettings[size];
+        }
+
+    };
     private Direction direction;
 
     public TimeTestSettings() {

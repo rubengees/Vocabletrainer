@@ -1,6 +1,7 @@
 package com.rubengees.vocables.core.testsettings;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.List;
 
@@ -9,6 +10,17 @@ import java.util.List;
  */
 public class ClassicTestSettings extends TestSettings {
 
+    public static final Parcelable.Creator<ClassicTestSettings> CREATOR = new Parcelable.Creator<ClassicTestSettings>() {
+
+        public ClassicTestSettings createFromParcel(Parcel in) {
+            return new ClassicTestSettings(in);
+        }
+
+        public ClassicTestSettings[] newArray(int size) {
+            return new ClassicTestSettings[size];
+        }
+
+    };
     private Direction direction;
     private boolean caseSensitive;
 
