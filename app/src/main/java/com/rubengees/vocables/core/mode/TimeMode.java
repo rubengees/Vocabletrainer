@@ -30,6 +30,7 @@ public class TimeMode extends Mode {
         }
 
     };
+    public static final int MIN_AMOUNT = 10;
 
     protected TimeMode(Parcel in) {
         super(in);
@@ -51,7 +52,7 @@ public class TimeMode extends Mode {
 
     @Override
     public int getMinAmount() {
-        return 10;
+        return MIN_AMOUNT;
     }
 
     @Override

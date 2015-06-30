@@ -50,7 +50,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:7.5.0'
 
     compile 'com.afollestad:material-dialogs:0.7.6.0'
-    compile('com.mikepenz:materialdrawer:3.0.8@aar') {
+    compile('com.mikepenz:materialdrawer:3.0.9@aar') {
         transitive = true
     }
     compile('com.mikepenz:aboutlibraries:5.0.5@aar') {

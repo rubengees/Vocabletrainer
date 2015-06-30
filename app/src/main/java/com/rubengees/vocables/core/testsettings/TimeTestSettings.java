@@ -40,8 +40,8 @@ public class TimeTestSettings extends TestSettings {
 
     @Override
     public void writeToParcel(final Parcel out, final int flags) {
-        super.writeToParcel(out, flags);
         out.writeSerializable(direction);
+        super.writeToParcel(out, flags);
     }
 
     public Direction getDirection() {

@@ -70,8 +70,8 @@ public class Vocable implements TrainerItem, Parcelable {
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(id);
-        out.writeParcelable(firstMeaning, 0);
-        out.writeParcelable(secondMeaning, 0);
+        out.writeParcelable(firstMeaning, flags);
+        out.writeParcelable(secondMeaning, flags);
         out.writeString(hint);
         out.writeInt(correct);
         out.writeInt(incorrect);

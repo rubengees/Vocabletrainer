@@ -76,9 +76,9 @@ public class TestAnswer implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeParcelable(question, 0);
-        out.writeParcelable(answer, 0);
-        out.writeParcelable(given, 0);
+        out.writeParcelable(question, flags);
+        out.writeParcelable(answer, flags);
+        out.writeParcelable(given, flags);
         out.writeInt(correct ? 1 : 0);
         out.writeInt(time);
     }

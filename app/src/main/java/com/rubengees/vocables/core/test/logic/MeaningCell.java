@@ -46,8 +46,8 @@ public class MeaningCell implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeParcelable(vocable, 0);
-        out.writeParcelable(meaning, 0);
+        out.writeParcelable(vocable, flags);
+        out.writeParcelable(meaning, flags);
     }
 
     public Vocable getVocable() {

@@ -31,6 +31,7 @@ public class PairMode extends Mode {
         }
 
     };
+    public static final int MIN_AMOUNT = 5;
 
     protected PairMode(Parcel in) {
         super(in);
@@ -52,7 +53,7 @@ public class PairMode extends Mode {
 
     @Override
     public int getMinAmount() {
-        return 5;
+        return MIN_AMOUNT;
     }
 
     @Override

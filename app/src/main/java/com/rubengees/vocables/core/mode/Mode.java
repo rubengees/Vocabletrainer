@@ -33,7 +33,7 @@ public abstract class Mode implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeParcelable(data, 0);
+        out.writeParcelable(data, flags);
     }
 
     private void readFromParcel(Parcel in) {

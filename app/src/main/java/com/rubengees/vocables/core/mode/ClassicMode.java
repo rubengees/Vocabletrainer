@@ -30,6 +30,7 @@ public class ClassicMode extends Mode {
         }
 
     };
+    public static final int MIN_AMOUNT = 1;
 
     public ClassicMode(Parcel in) {
         super(in);
@@ -51,7 +52,7 @@ public class ClassicMode extends Mode {
 
     @Override
     public int getMinAmount() {
-        return 1;
+        return MIN_AMOUNT;
     }
 
     @Override
