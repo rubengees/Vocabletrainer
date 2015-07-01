@@ -129,7 +129,12 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
                     GoogleServiceErrorDialog dialog = GoogleServiceErrorDialog.newInstance(result.getErrorCode(), REQUEST_RESOLVE_ERROR);
                     dialog.setCallback(this);
 
-                    dialog.show(context.getFragmentManager(), GOOGLE_SERVICE_ERROR_DIALOG);
+                    try {
+                        dialog.show(context.getFragmentManager(), GOOGLE_SERVICE_ERROR_DIALOG);
+                    } catch (IllegalStateException ignored) {
+
+                    }
+
                     mResolvingError = true;
                     shouldConnect = false;
                     PreferenceUtils.setSignIn(context, false);

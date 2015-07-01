@@ -147,7 +147,7 @@ public class TestFragment extends MainFragment implements Test.OnTestFinishedLis
     public void onTestFinished(TestResult result, TestSettings settings, ArrayList<Vocable> vocables) {
         Activity activity = getActivity();
 
-        if (activity == null) {
+        if (activity == null || !isAdded()) {
             shouldFinish = true;
             this.result = result;
             this.vocables = vocables;

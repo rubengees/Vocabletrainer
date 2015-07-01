@@ -92,7 +92,7 @@ public class TransferUtils {
         if (file.getName().endsWith(".csv")) {
             return parseCsv(context, file);
         } else if (file.getName().endsWith(".xml")) {
-            return parseXml(file);
+            return parseXml(context, file);
         } else {
             return null;
         }
@@ -139,7 +139,7 @@ public class TransferUtils {
 
                 unit.add(vocable);
             } else {
-                throw new FormatException(String.valueOf(pos));
+                throw new FormatException(context.getString(R.string.dialog_import_error_message) + " " + String.valueOf(pos));
             }
 
             line = reader.readLine();
@@ -149,7 +149,7 @@ public class TransferUtils {
         return new ArrayList<>(unitMap.values());
     }
 
-    private static List<Unit> parseXml(File file) throws FormatException, IOException {
+    private static List<Unit> parseXml(Context context, File file) throws FormatException, IOException {
         List<Unit> result = new ArrayList<>();
         XmlPullParser parser = null;
         long creationTime = System.currentTimeMillis();
@@ -179,7 +179,7 @@ public class TransferUtils {
             parser.require(XmlPullParser.END_TAG, null, TAG_UNITS);
         } catch (XmlPullParserException e) {
             if (parser != null) {
-                throw new FormatException(String.valueOf(parser.getLineNumber()));
+                throw new FormatException(context.getString(R.string.dialog_import_error_message) + " " + String.valueOf(parser.getLineNumber()));
             }
         }
 

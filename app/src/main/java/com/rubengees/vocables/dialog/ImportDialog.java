@@ -62,7 +62,7 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
     @Override
     public void onImportFinished(String result) {
         if (result != null) {
-            Toast.makeText(getActivity(), getString(R.string.dialog_import_error_message) + " " + result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
         } else {
             if (listener != null) {
                 listener.onImportFinished(null);
