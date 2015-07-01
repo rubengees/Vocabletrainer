@@ -20,6 +20,8 @@ import java.util.List;
  */
 public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.ViewHolder> {
 
+    private static final int FAB_MARGIN = 56 + 32;  //FAB size + Margin
+
     private Unit unit;
     private SortedList<Vocable> list;
     private OnItemClickListener listener;
@@ -136,7 +138,7 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
             case 1:
                 View space = new View(parent.getContext());
 
-                space.setMinimumHeight(Utils.dpToPx(parent.getContext(), 56 + 32)); //FAB size + Margin
+                space.setMinimumHeight(Utils.dpToPx(parent.getContext(), FAB_MARGIN));
                 return new ViewHolderSpace(space);
             default:
                 return null;

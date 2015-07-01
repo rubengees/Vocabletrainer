@@ -10,7 +10,9 @@ import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 
 /**
- * Created by ruben on 10.06.15.
+ * A Dialog with all donate options.
+ *
+ * @author Ruben Gees
  */
 public class DonateDialog extends DialogFragment {
 

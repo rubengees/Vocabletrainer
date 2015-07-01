@@ -1,7 +1,9 @@
 package com.rubengees.vocables.adapter;
 
 /**
- * Created by ruben on 18.05.15.
+ * A simple pojo for the help articles.
+ *
+ * @author Ruben Gees
  */
 public class HelpItem {
 

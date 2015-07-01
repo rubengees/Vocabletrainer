@@ -18,9 +18,14 @@ import lecho.lib.hellocharts.view.ColumnChartView;
 import lecho.lib.hellocharts.view.PieChartView;
 
 /**
- * Created by ruben on 02.06.15.
+ * Adapter to show the Results of a Test.
  */
 public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int FAB_MARGIN = 28 + 4;  //Half FAB size + Margin
+    private static final int VIEW_TYPE_SPACE = 0;
+    private static final int VIEW_TYPE_HEADER = 1;
+    private static final int VIEW_TYPE_RESULT = 2;
 
     private final Context context;
     private TestResult result;
@@ -38,7 +43,7 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case 0:
                 View space = new View(parent.getContext());
 
-                space.setMinimumHeight(Utils.dpToPx(parent.getContext(), 28 + 4)); //Half FAB size + Margin
+                space.setMinimumHeight(Utils.dpToPx(parent.getContext(), FAB_MARGIN));
                 return new ViewHolderSpace(space);
             case 1:
                 return new ViewHolderResultHeader(inflater.inflate(R.layout.list_item_result_header, parent, false));
@@ -82,11 +87,11 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemViewType(int position) {
         if (position <= 0) {
-            return 0;
+            return VIEW_TYPE_SPACE;
         } else if (position == 1) {
-            return 1;
+            return VIEW_TYPE_HEADER;
         } else {
-            return 2;
+            return VIEW_TYPE_RESULT;
         }
     }
 

@@ -8,7 +8,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.rubengees.vocables.R;
 
 /**
- * Created by Ruben on 07.05.2015.
+ * A Dialog to confirm deletion of all Vocables.
+ *
+ * @author Ruben Gees
  */
 public class DeleteDialog extends DialogFragment {
 

@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ruben on 18.05.15.
+ * Adapter for showing Files in a RecyclerView
+ *
+ * @author Ruben Gees
  */
 public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
 
@@ -54,6 +56,11 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
         return files.size();
     }
 
+    /**
+     * Sets a {@link List} of files to this adapter
+     *
+     * @param files The list of files
+     */
     public void setFiles(List<File> files) {
         this.files = files;
         notifyDataSetChanged();

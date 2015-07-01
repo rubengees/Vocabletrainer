@@ -38,6 +38,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
     private static final String SAVED_INSTANCE_STATE_COLOR = "activity_color";
     private static final String SAVED_INSTANCE_STATE_COLOR_DARK = "activity_color_dark";
     private static final String SAVED_INSTANCE_STATE_IS_EXTENDED = "activity_is_extended";
+    private static final int ANIMATION_DURATION = 500;
 
     private Toolbar toolbar;
     private View toolbarExtensionPlaceHolder;
@@ -216,7 +217,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         if (isExtended) {
             fab.setImageResource(drawable);
             if (fab.getVisibility() != View.VISIBLE) {
-                YoYo.with(Techniques.Landing).duration(500).interpolate(new LinearOutSlowInInterpolator()).playOn(fab);
+                YoYo.with(Techniques.Landing).duration(ANIMATION_DURATION).interpolate(new LinearOutSlowInInterpolator()).playOn(fab);
                 fab.setVisibility(View.VISIBLE);
             }
             fab.bringToFront();

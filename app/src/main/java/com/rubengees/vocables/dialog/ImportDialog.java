@@ -12,7 +12,9 @@ import com.rubengees.vocables.utils.ImportTask;
 import java.io.File;
 
 /**
- * Created by ruben on 29.05.15.
+ * A dialog showing the progress of an import.
+ *
+ * @author Ruben Gees
  */
 public class ImportDialog extends DialogFragment implements ImportTask.OnImportFinishedListener {
 

@@ -14,7 +14,9 @@ import com.rubengees.vocables.pojo.TrainerItem;
 import lecho.lib.hellocharts.view.PieChartView;
 
 /**
- * Created by ruben on 09.06.15.
+ * A dialog to show the stats of an {@link com.rubengees.vocables.pojo.Unit} or a {@link com.rubengees.vocables.pojo.Vocable}.
+ *
+ * @author Ruben Gees
  */
 public class InfoDialog extends DialogFragment {
 

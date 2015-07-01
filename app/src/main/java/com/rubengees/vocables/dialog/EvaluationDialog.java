@@ -8,7 +8,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.rubengees.vocables.R;
 
 /**
- * Created by ruben on 05.05.15.
+ * A dialog to trigger evaluation of this App.
+ *
+ * @author Ruben Gees
  */
 public class EvaluationDialog extends DialogFragment {
 

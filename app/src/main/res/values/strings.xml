@@ -17,7 +17,7 @@
     <string name="preference_mail_title">Mail to the developer</string>
     <string name="preferences_evaluation_summary">Rate this App in the Play Store</string>
     <string name="preferences_evaluation_title">Evaluation</string>
-    <string name="preferences_developer_summary" translatable="false">Ruben Gees</string>
+    <string name="preferences_developer_summary">Ruben Gees</string>
     <string name="preferences_developer_title">Developer of this App</string>
     <string name="preferences_licences_summary">Licences of libraries used in this App</string>
     <string name="preferences_licences_title">Licences</string>

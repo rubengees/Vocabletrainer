@@ -36,6 +36,14 @@ public class TestResultFragment extends MainFragment {
     private static final String KEY_RESULT = "result";
     private static final String KEY_SETTINGS = "settings";
     private static final String KEY_VOCABLES = "vocables";
+    private static final int ACHIEVEMENT_TIME = 2000;
+    private static final int ACHIEVEMENT_AMOUNT = 20;
+    private static final int RATE_PERFECT = 100;
+    private static final int RATE_VERY_GOOD = 92;
+    private static final int RATE_GOOD = 81;
+    private static final int RATE_OKAY = 67;
+    private static final int RATE_NOT_SO_WELL = 50;
+    private static final int RATE_BAD = 30;
 
     private Mode mode;
     private TestResult result;
@@ -82,8 +90,8 @@ public class TestResultFragment extends MainFragment {
                 connection.unlockAchievement(getString(R.string.achievement_learning));
                 connection.incrementAchievement(getString(R.string.achievement_geek));
 
-                if (mode instanceof TimeMode && result.getAverageTime() <= 2000
-                        && Utils.calculateCorrectAnswerRate(result.getCorrect(), result.getIncorrect()) >= 20) {
+                if (mode instanceof TimeMode && result.getAverageTime() <= ACHIEVEMENT_TIME
+                        && Utils.calculateCorrectAnswerRate(result.getCorrect(), result.getIncorrect()) >= ACHIEVEMENT_AMOUNT) {
                     connection.unlockAchievement(getString(R.string.achievement_at_the_speed_of_light));
                 }
             }
@@ -124,17 +132,17 @@ public class TestResultFragment extends MainFragment {
         if (result.getCorrect() + result.getIncorrect() > 0) {
             int rate = Utils.calculateCorrectAnswerRate(result.getCorrect(), result.getIncorrect());
 
-            if (rate == 100) {
+            if (rate == RATE_PERFECT) {
                 return getString(R.string.fragment_result_perfect);
-            } else if (rate >= 92) {
+            } else if (rate >= RATE_VERY_GOOD) {
                 return getString(R.string.fragment_result_very_good);
-            } else if (rate >= 81) {
+            } else if (rate >= RATE_GOOD) {
                 return getString(R.string.fragment_result_good);
-            } else if (rate >= 67) {
+            } else if (rate >= RATE_OKAY) {
                 return getString(R.string.fragment_result_okay);
-            } else if (rate >= 50) {
+            } else if (rate >= RATE_NOT_SO_WELL) {
                 return getString(R.string.fragment_result_not_so_well);
-            } else if (rate >= 30) {
+            } else if (rate >= RATE_BAD) {
                 return getString(R.string.fragment_result_bad);
             } else {
                 return getString(R.string.fragment_result_horrible);

@@ -10,7 +10,9 @@ import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.GoogleServiceConnection;
 
 /**
- * Created by Ruben on 11.05.2015.
+ * A dialog to interact with the PlayGames Service.
+ *
+ * @author Ruben Gees
  */
 public class PlayGamesDialog extends DialogFragment {
 

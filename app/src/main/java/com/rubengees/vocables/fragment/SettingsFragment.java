@@ -24,7 +24,7 @@ import com.rubengees.vocables.utils.ReminderUtils;
 import com.rubengees.vocables.utils.Utils;
 
 /**
- * Created by Ruben on 24.04.2015.
+ * A Fragment to displays the Settings of this App.
  */
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener, MainActivity.OnBackPressedListener {
 
@@ -36,6 +36,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private static final String PREF_LICENCES = "pref_licences";
     private static final String PREF_DEVELOPER = "pref_developer";
     private static final String PREF_SOURCE = "pref_source";
+    private static final int ANIMATION_DURATION = 500;
 
     private Preference ads, reminder, email, evaluation, developer, licences, source;
     private ListPreference reminderTime;
@@ -160,6 +161,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         return (MainActivity) getActivity();
     }
 
+    //Code below is copied from MainFragment since this Fragment can't inherit from it
+
     protected ExtendedToolbarActivity getToolbarActivity() {
         return (ExtendedToolbarActivity) getActivity();
     }
@@ -174,7 +177,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         if (enter) {
             animator = ObjectAnimator.ofFloat(this, "translationX", displayWidth / 4, 0);
-            animator.setDuration(500);
+            animator.setDuration(ANIMATION_DURATION);
             animator.setInterpolator(new LinearOutSlowInInterpolator());
         }
 

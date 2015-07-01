@@ -10,7 +10,9 @@ import com.rubengees.vocables.R;
 import java.io.File;
 
 /**
- * Created by Ruben on 31.05.2015.
+ * A dialog to confirm to override a File in an export.
+ *
+ * @author Ruben Gees
  */
 public class OverrideDialog extends DialogFragment {
 
@@ -58,6 +60,9 @@ public class OverrideDialog extends DialogFragment {
         this.callback = callback;
     }
 
+    /**
+     * Callback for the override.
+     */
     public interface OverrideDialogCallback {
         void onOverride(File file);
     }

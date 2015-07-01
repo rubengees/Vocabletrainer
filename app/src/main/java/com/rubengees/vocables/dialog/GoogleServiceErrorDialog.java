@@ -9,7 +9,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 /**
- * Created by ruben on 05.05.15.
+ * A dialog showing all errors when trying to connect to PlayServices.
+ *
+ * @author Ruben Gees
  */
 public class GoogleServiceErrorDialog extends DialogFragment {
 

@@ -11,7 +11,9 @@ import com.rubengees.vocables.R;
 import java.util.List;
 
 /**
- * Created by ruben on 18.05.15.
+ * Adapter to handle the help articles.
+ *
+ * @author Ruben Gees
  */
 public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.ViewHolder> {
 

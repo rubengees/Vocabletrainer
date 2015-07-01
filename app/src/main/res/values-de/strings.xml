@@ -102,6 +102,7 @@
     <string name="preferences_category_contact">Kontakt</string>
     <string name="preferences_category_general">Allgemein</string>
     <string name="preferences_developer_title">Entwickler dieser App</string>
+    <string name="preferences_developer_summary">Ruben Gees</string>
     <string name="preferences_evaluation_summary">Bewerte diese App im Play Store</string>
     <string name="preferences_evaluation_title">Bewertung</string>
     <string name="preferences_licences_summary">Lizenzen von Bibliotheken, die in dieser App genutzt wurden</string>

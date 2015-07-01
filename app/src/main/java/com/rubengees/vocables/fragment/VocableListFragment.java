@@ -65,6 +65,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     private static final String SORT_MODE = "sort_mode";
     private static final String CURRENT_UNIT = "current_unit";
     private static final String INFO_DIALOG = "info_dialog";
+    private static final float INTERPOLATOR_FACTOR = 1.5f;
 
     private RecyclerView recycler;
     private FloatingActionButton fab;
@@ -275,7 +276,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                 }).eventListener(new EventListener() {
                     @Override
                     public void onShow(Snackbar snackbar) {
-                        AnimationUtils.translateY(fab, -snackbar.getHeight(), 300, new DecelerateInterpolator(1.5f));
+                        AnimationUtils.translateY(fab, -snackbar.getHeight(), ANIMATION_DURATION, new DecelerateInterpolator(INTERPOLATOR_FACTOR));
                     }
 
                     @Override
@@ -290,7 +291,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
                     @Override
                     public void onDismiss(Snackbar snackbar) {
-                        AnimationUtils.translateY(fab, snackbar.getHeight(), 300, new AccelerateInterpolator(1.5f));
+                        AnimationUtils.translateY(fab, snackbar.getHeight(), ANIMATION_DURATION, new AccelerateInterpolator(INTERPOLATOR_FACTOR));
                         if (!replacing) {
                             getUndoManager().clear();
                         }
@@ -323,7 +324,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
             }
         });
         fab.setImageResource(R.drawable.ic_add);
-        AnimationUtils.animate(fab, Techniques.Landing, 500, 0, null);
+        AnimationUtils.animate(fab, Techniques.Landing, ANIMATION_DURATION, 0, null);
     }
 
     private void setUnitAdapter() {

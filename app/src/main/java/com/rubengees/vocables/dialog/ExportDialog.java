@@ -12,7 +12,9 @@ import com.rubengees.vocables.utils.ExportTask;
 import java.io.File;
 
 /**
- * Created by ruben on 29.05.15.
+ * A dialog showing the progress of an export.
+ *
+ * @author Ruben Gees
  */
 public class ExportDialog extends DialogFragment implements ExportTask.OnExportFinishedListener {
 
