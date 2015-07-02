@@ -20,7 +20,7 @@ import com.rubengees.vocables.core.test.logic.ClassicTestLogic;
 import com.rubengees.vocables.core.test.logic.TestLogic;
 import com.rubengees.vocables.core.testsettings.ClassicTestSettings;
 import com.rubengees.vocables.core.testsettings.TestSettings;
-import com.rubengees.vocables.pojo.Meaning;
+import com.rubengees.vocables.pojo.MeaningList;
 import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.Utils;
 
@@ -90,7 +90,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
                 text = null;
             }
 
-            Meaning result = logic.processAnswer(text);
+            MeaningList result = logic.processAnswer(text);
 
             if (shouldAnimate()) {
                 showResult(result);
@@ -100,7 +100,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
         }
     }
 
-    private void showResult(Meaning result) {
+    private void showResult(MeaningList result) {
         Spannable text;
 
         if (result == null) {

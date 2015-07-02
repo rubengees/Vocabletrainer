@@ -3,7 +3,7 @@ package com.rubengees.vocables.core.test.logic;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.rubengees.vocables.pojo.Meaning;
+import com.rubengees.vocables.pojo.MeaningList;
 import com.rubengees.vocables.pojo.Vocable;
 
 /**
@@ -23,20 +23,20 @@ public class MeaningCell implements Parcelable {
     };
 
     private Vocable vocable;
-    private Meaning meaning;
+    private MeaningList meaningList;
 
     private MeaningCell(Parcel in) {
         readFromParcel(in);
     }
 
-    public MeaningCell(Vocable vocable, Meaning meaning) {
+    public MeaningCell(Vocable vocable, MeaningList meaningList) {
         this.vocable = vocable;
-        this.meaning = meaning;
+        this.meaningList = meaningList;
     }
 
     private void readFromParcel(Parcel in) {
         vocable = in.readParcelable(Vocable.class.getClassLoader());
-        meaning = in.readParcelable(Meaning.class.getClassLoader());
+        meaningList = in.readParcelable(MeaningList.class.getClassLoader());
     }
 
     @Override
@@ -47,14 +47,14 @@ public class MeaningCell implements Parcelable {
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeParcelable(vocable, flags);
-        out.writeParcelable(meaning, flags);
+        out.writeParcelable(meaningList, flags);
     }
 
     public Vocable getVocable() {
         return vocable;
     }
 
-    public Meaning getMeaning() {
-        return meaning;
+    public MeaningList getMeaningList() {
+        return meaningList;
     }
 }

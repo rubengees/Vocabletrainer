@@ -8,7 +8,7 @@ import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.test.TestAnswer;
 import com.rubengees.vocables.core.test.TestResult;
 import com.rubengees.vocables.core.testsettings.TestSettings;
-import com.rubengees.vocables.pojo.Meaning;
+import com.rubengees.vocables.pojo.MeaningList;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
 
@@ -134,7 +134,7 @@ public abstract class TestLogic<E extends TestSettings> {
         return settings;
     }
 
-    final void processAnswer(Vocable vocable, Meaning question, Meaning answer, Meaning given, boolean correct) {
+    final void processAnswer(Vocable vocable, MeaningList question, MeaningList answer, MeaningList given, boolean correct) {
         int time = (int) (System.currentTimeMillis() - currentTime);
         TestAnswer testAnswer = new TestAnswer(question, answer, given, correct, time);
 

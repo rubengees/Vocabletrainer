@@ -52,7 +52,7 @@ public class ButtonContainerTools {
                     button.setVisibility(View.INVISIBLE);
                     button.setEnabled(false);
                 } else {
-                    button.setText(cell.getMeaning().toString());
+                    button.setText(cell.getMeaningList().toString());
                     if (field.isSelected(pos)) {
                         Utils.setButtonColor(button, darkColor);
                     } else {

@@ -20,7 +20,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.data.VocableManager;
-import com.rubengees.vocables.pojo.Meaning;
+import com.rubengees.vocables.pojo.MeaningList;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
 
@@ -128,8 +128,8 @@ public class VocableDialog extends DialogFragment {
     private boolean processInput() {
         List<String> firstMeanings;
         List<String> secondMeanings;
-        Meaning firstMeaning;
-        Meaning secondMeaning;
+        MeaningList firstMeaningList;
+        MeaningList secondMeaningList;
         String hint = null;
         String unitTitle;
         Unit unit = null;
@@ -177,8 +177,8 @@ public class VocableDialog extends DialogFragment {
             return false;
         }
 
-        firstMeaning = new Meaning(firstMeanings);
-        secondMeaning = new Meaning(secondMeanings);
+        firstMeaningList = new MeaningList(firstMeanings);
+        secondMeaningList = new MeaningList(secondMeanings);
 
         String hintText = this.hint.getText().toString().trim();
 
@@ -187,7 +187,7 @@ public class VocableDialog extends DialogFragment {
         }
 
         if (vocable == null) {
-            Vocable current = new Vocable(firstMeaning, secondMeaning, hint, System.currentTimeMillis());
+            Vocable current = new Vocable(firstMeaningList, secondMeaningList, hint, System.currentTimeMillis());
 
             if (callback != null) {
                 callback.onVocableAdded(unit, current);
@@ -197,8 +197,8 @@ public class VocableDialog extends DialogFragment {
 
             return false;
         } else {
-            vocable.setFirstMeaning(firstMeaning);
-            vocable.setSecondMeaning(secondMeaning);
+            vocable.setFirstMeaningList(firstMeaningList);
+            vocable.setSecondMeaningList(secondMeaningList);
             vocable.updateModificationTime();
             vocable.setHint(hint);
 
@@ -342,7 +342,7 @@ public class VocableDialog extends DialogFragment {
 
     private void processVocable() {
         if (vocable != null) {
-            processMeanings(vocable.getFirstMeaning().toList(), vocable.getSecondMeaning().toList());
+            processMeanings(vocable.getFirstMeaningList().toList(), vocable.getSecondMeaningList().toList());
 
             this.hint.setText(vocable.getHint());
         } else {

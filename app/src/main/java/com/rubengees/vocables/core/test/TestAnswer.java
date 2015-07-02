@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.rubengees.vocables.pojo.Meaning;
+import com.rubengees.vocables.pojo.MeaningList;
 
 /**
  * Created by Ruben Gees on 13.02.2015.
@@ -23,9 +23,9 @@ public class TestAnswer implements Parcelable {
         }
 
     };
-    private Meaning question;
-    private Meaning answer;
-    private Meaning given;
+    private MeaningList question;
+    private MeaningList answer;
+    private MeaningList given;
     private boolean correct;
     private int time;
 
@@ -33,7 +33,7 @@ public class TestAnswer implements Parcelable {
         readFromParcel(in);
     }
 
-    public TestAnswer(@NonNull Meaning question, @NonNull Meaning answer, @Nullable Meaning given, boolean correct, int time) {
+    public TestAnswer(@NonNull MeaningList question, @NonNull MeaningList answer, @Nullable MeaningList given, boolean correct, int time) {
         this.question = question;
         this.answer = answer;
         this.given = given;
@@ -41,15 +41,15 @@ public class TestAnswer implements Parcelable {
         this.time = time;
     }
 
-    public Meaning getQuestion() {
+    public MeaningList getQuestion() {
         return question;
     }
 
-    public Meaning getAnswer() {
+    public MeaningList getAnswer() {
         return answer;
     }
 
-    public Meaning getGiven() {
+    public MeaningList getGiven() {
         return given;
     }
 
@@ -62,9 +62,9 @@ public class TestAnswer implements Parcelable {
     }
 
     private void readFromParcel(Parcel in) {
-        question = in.readParcelable(Meaning.class.getClassLoader());
-        answer = in.readParcelable(Meaning.class.getClassLoader());
-        given = in.readParcelable(Meaning.class.getClassLoader());
+        question = in.readParcelable(MeaningList.class.getClassLoader());
+        answer = in.readParcelable(MeaningList.class.getClassLoader());
+        given = in.readParcelable(MeaningList.class.getClassLoader());
         correct = in.readInt() == 1;
         time = in.readInt();
     }

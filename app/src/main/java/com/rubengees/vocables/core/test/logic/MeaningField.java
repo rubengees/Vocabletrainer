@@ -3,7 +3,7 @@ package com.rubengees.vocables.core.test.logic;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.rubengees.vocables.pojo.Meaning;
+import com.rubengees.vocables.pojo.MeaningList;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -114,13 +114,13 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         }
     }
 
-    public Position findCellPosition(Meaning meaning) {
+    public Position findCellPosition(MeaningList meaningList) {
         for (int i = 0; i < getSizeX(); i++) {
             for (int ii = 0; ii < getSizeY(); ii++) {
                 Position current = new Position(i, ii);
                 MeaningCell cell = getCell(current);
 
-                if (cell != null && cell.getMeaning().equals(meaning)) {
+                if (cell != null && cell.getMeaningList().equals(meaningList)) {
                     return current;
                 }
             }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Xml;
 
 import com.rubengees.vocables.R;
-import com.rubengees.vocables.pojo.Meaning;
+import com.rubengees.vocables.pojo.MeaningList;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
 
@@ -65,11 +65,11 @@ public class TransferUtils {
                 serializer.startTag(null, TAG_VOCABLE);
 
                 serializer.startTag(null, TAG_FIRST_MEANING);
-                insertMeaning(serializer, vocable.getFirstMeaning());
+                insertMeaning(serializer, vocable.getFirstMeaningList());
                 serializer.endTag(null, TAG_FIRST_MEANING);
 
                 serializer.startTag(null, TAG_SECOND_MEANING);
-                insertMeaning(serializer, vocable.getSecondMeaning());
+                insertMeaning(serializer, vocable.getSecondMeaningList());
                 serializer.endTag(null, TAG_SECOND_MEANING);
                 serializer.endTag(null, TAG_VOCABLE);
             }
@@ -80,8 +80,8 @@ public class TransferUtils {
         serializer.endDocument();
     }
 
-    private static void insertMeaning(XmlSerializer serializer, Meaning meaning) throws IOException {
-        for (String word : meaning.getMeanings()) {
+    private static void insertMeaning(XmlSerializer serializer, MeaningList meaningList) throws IOException {
+        for (String word : meaningList.getMeanings()) {
             serializer.startTag(null, TAG_VALUE);
             serializer.text(word);
             serializer.endTag(null, TAG_VALUE);
@@ -122,8 +122,8 @@ public class TransferUtils {
             String[] split2 = split[1].split(";");
 
             if (split1.length >= 1 && split2.length >= 1) {
-                Meaning first = new Meaning(new ArrayList<>(Arrays.asList(split1)));
-                Meaning second = new Meaning(new ArrayList<>(Arrays.asList(split2)));
+                MeaningList first = new MeaningList(new ArrayList<>(Arrays.asList(split1)));
+                MeaningList second = new MeaningList(new ArrayList<>(Arrays.asList(split2)));
                 Vocable vocable = new Vocable(first, second, null, creationTime);
 
                 Unit unit;
@@ -193,8 +193,8 @@ public class TransferUtils {
         while (parser.nextTag() != XmlPullParser.END_TAG) {
             parser.require(XmlPullParser.START_TAG, null, TAG_VOCABLE);
             while (parser.nextTag() != XmlPullParser.END_TAG) {
-                Meaning first;
-                Meaning second;
+                MeaningList first;
+                MeaningList second;
 
                 parser.require(XmlPullParser.START_TAG, null, TAG_FIRST_MEANING);
                 first = getMeaningFromXml(parser);
@@ -212,7 +212,7 @@ public class TransferUtils {
         return result;
     }
 
-    private static Meaning getMeaningFromXml(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private static MeaningList getMeaningFromXml(XmlPullParser parser) throws IOException, XmlPullParserException {
         List<String> words = new ArrayList<>();
 
         parser.nextTag();
@@ -222,7 +222,7 @@ public class TransferUtils {
             parser.require(XmlPullParser.END_TAG, null, TAG_VALUE);
         } while (parser.nextTag() != XmlPullParser.END_TAG);
 
-        return new Meaning(words);
+        return new MeaningList(words);
     }
 
     public static class FormatException extends Exception {

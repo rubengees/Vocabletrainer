@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.rubengees.vocables.core.testsettings.ClassicTestSettings;
 import com.rubengees.vocables.core.testsettings.Direction;
-import com.rubengees.vocables.pojo.Meaning;
+import com.rubengees.vocables.pojo.MeaningList;
 import com.rubengees.vocables.pojo.Vocable;
 
 import java.util.Random;
@@ -64,13 +64,13 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
         }
     }
 
-    public Meaning processAnswer(String given) {
+    public MeaningList processAnswer(String given) {
         Vocable current = getCurrentVocable();
-        Meaning question = getQuestion();
-        Meaning answer = getAnswer();
+        MeaningList question = getQuestion();
+        MeaningList answer = getAnswer();
         boolean correct = given != null && getSettings().isCaseSensitive() ? answer.contains(given) : answer.containsIgnoreCase(given);
 
-        processAnswer(current, question, answer, given == null ? null : new Meaning(given), correct);
+        processAnswer(current, question, answer, given == null ? null : new MeaningList(given), correct);
 
         if (correct) {
             return null;
@@ -79,20 +79,20 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
         }
     }
 
-    public Meaning getQuestion() {
+    public MeaningList getQuestion() {
         Vocable vocable = getCurrentVocable();
         Direction direction = getSettings().getDirection();
 
         if (vocable != null) {
             if (direction == Direction.FIRST) {
-                return vocable.getFirstMeaning();
+                return vocable.getFirstMeaningList();
             } else if (direction == Direction.SECOND) {
-                return vocable.getSecondMeaning();
+                return vocable.getSecondMeaningList();
             } else {
                 if (randomValue < 0.5) {
-                    return vocable.getFirstMeaning();
+                    return vocable.getFirstMeaningList();
                 } else {
-                    return vocable.getSecondMeaning();
+                    return vocable.getSecondMeaningList();
                 }
             }
         } else {
@@ -100,20 +100,20 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
         }
     }
 
-    public Meaning getAnswer() {
+    public MeaningList getAnswer() {
         Vocable vocable = getCurrentVocable();
         Direction direction = getSettings().getDirection();
 
         if (vocable != null) {
             if (direction == Direction.FIRST) {
-                return vocable.getSecondMeaning();
+                return vocable.getSecondMeaningList();
             } else if (direction == Direction.SECOND) {
-                return vocable.getFirstMeaning();
+                return vocable.getFirstMeaningList();
             } else {
                 if (randomValue < 0.5) {
-                    return vocable.getSecondMeaning();
+                    return vocable.getSecondMeaningList();
                 } else {
-                    return vocable.getFirstMeaning();
+                    return vocable.getFirstMeaningList();
                 }
             }
         } else {

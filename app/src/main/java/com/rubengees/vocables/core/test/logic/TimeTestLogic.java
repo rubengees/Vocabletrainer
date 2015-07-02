@@ -6,7 +6,7 @@ import android.os.CountDownTimer;
 
 import com.rubengees.vocables.core.testsettings.Direction;
 import com.rubengees.vocables.core.testsettings.TimeTestSettings;
-import com.rubengees.vocables.pojo.Meaning;
+import com.rubengees.vocables.pojo.MeaningList;
 import com.rubengees.vocables.pojo.Vocable;
 
 import java.util.ArrayList;
@@ -137,27 +137,27 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
         return result;
     }
 
-    private Meaning getAnswerMeaning(Vocable vocable) {
+    private MeaningList getAnswerMeaning(Vocable vocable) {
         Direction direction = getSettings().getDirection();
 
         if (direction == Direction.FIRST) {
-            return vocable.getSecondMeaning();
+            return vocable.getSecondMeaningList();
         } else if (direction == Direction.SECOND) {
-            return vocable.getFirstMeaning();
+            return vocable.getFirstMeaningList();
         } else {
             if (randomValue < 0.5) {
-                return vocable.getSecondMeaning();
+                return vocable.getSecondMeaningList();
             } else {
-                return vocable.getFirstMeaning();
+                return vocable.getFirstMeaningList();
             }
         }
     }
 
     public Position processAnswer(Position pos) {
         Vocable current = getCurrentVocable();
-        Meaning question = getQuestion();
-        Meaning answer = current.getOtherMeaning(question);
-        Meaning given = field.getCell(pos).getMeaning();
+        MeaningList question = getQuestion();
+        MeaningList answer = current.getOtherMeaning(question);
+        MeaningList given = field.getCell(pos).getMeaningList();
 
         boolean correct = answer.equals(given);
 
@@ -170,20 +170,20 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
         }
     }
 
-    public Meaning getQuestion() {
+    public MeaningList getQuestion() {
         Vocable vocable = getCurrentVocable();
         Direction direction = getSettings().getDirection();
 
         if (vocable != null) {
             if (direction == Direction.FIRST) {
-                return vocable.getFirstMeaning();
+                return vocable.getFirstMeaningList();
             } else if (direction == Direction.SECOND) {
-                return vocable.getSecondMeaning();
+                return vocable.getSecondMeaningList();
             } else {
                 if (randomValue < 0.5) {
-                    return vocable.getFirstMeaning();
+                    return vocable.getFirstMeaningList();
                 } else {
-                    return vocable.getSecondMeaning();
+                    return vocable.getSecondMeaningList();
                 }
             }
         } else {

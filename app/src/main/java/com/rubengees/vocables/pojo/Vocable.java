@@ -23,8 +23,8 @@ public class Vocable implements TrainerItem, Parcelable {
     };
 
     private Integer id;
-    private Meaning firstMeaning;
-    private Meaning secondMeaning;
+    private MeaningList firstMeaningList;
+    private MeaningList secondMeaningList;
     private String hint;
     private long lastModificationTime;
     private int correct;
@@ -34,19 +34,19 @@ public class Vocable implements TrainerItem, Parcelable {
         readFromParcel(in);
     }
 
-    public Vocable(@NonNull Meaning firstMeaning, @NonNull Meaning secondMeaning, @Nullable String hint, long lastModificationTime) {
-        this.firstMeaning = firstMeaning;
-        this.secondMeaning = secondMeaning;
+    public Vocable(@NonNull MeaningList firstMeaningList, @NonNull MeaningList secondMeaningList, @Nullable String hint, long lastModificationTime) {
+        this.firstMeaningList = firstMeaningList;
+        this.secondMeaningList = secondMeaningList;
         this.hint = hint;
         this.lastModificationTime = lastModificationTime;
         this.correct = 0;
         this.incorrect = 0;
     }
 
-    public Vocable(@NonNull Integer id, @NonNull Meaning firstMeaning, @NonNull Meaning secondMeaning, int correct, int incorrect, @Nullable String hint, long lastModificationTime) {
+    public Vocable(@NonNull Integer id, @NonNull MeaningList firstMeaningList, @NonNull MeaningList secondMeaningList, int correct, int incorrect, @Nullable String hint, long lastModificationTime) {
         this.id = id;
-        this.firstMeaning = firstMeaning;
-        this.secondMeaning = secondMeaning;
+        this.firstMeaningList = firstMeaningList;
+        this.secondMeaningList = secondMeaningList;
         this.hint = hint;
         this.lastModificationTime = lastModificationTime;
         this.correct = correct;
@@ -55,8 +55,8 @@ public class Vocable implements TrainerItem, Parcelable {
 
     private void readFromParcel(Parcel in) {
         id = in.readInt();
-        firstMeaning = in.readParcelable(Meaning.class.getClassLoader());
-        secondMeaning = in.readParcelable(Meaning.class.getClassLoader());
+        firstMeaningList = in.readParcelable(MeaningList.class.getClassLoader());
+        secondMeaningList = in.readParcelable(MeaningList.class.getClassLoader());
         hint = in.readString();
         correct = in.readInt();
         incorrect = in.readInt();
@@ -70,8 +70,8 @@ public class Vocable implements TrainerItem, Parcelable {
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(id);
-        out.writeParcelable(firstMeaning, flags);
-        out.writeParcelable(secondMeaning, flags);
+        out.writeParcelable(firstMeaningList, flags);
+        out.writeParcelable(secondMeaningList, flags);
         out.writeString(hint);
         out.writeInt(correct);
         out.writeInt(incorrect);
@@ -125,20 +125,20 @@ public class Vocable implements TrainerItem, Parcelable {
         return incorrect;
     }
 
-    public Meaning getFirstMeaning() {
-        return firstMeaning;
+    public MeaningList getFirstMeaningList() {
+        return firstMeaningList;
     }
 
-    public void setFirstMeaning(Meaning firstMeaning) {
-        this.firstMeaning = firstMeaning;
+    public void setFirstMeaningList(MeaningList firstMeaningList) {
+        this.firstMeaningList = firstMeaningList;
     }
 
-    public Meaning getSecondMeaning() {
-        return secondMeaning;
+    public MeaningList getSecondMeaningList() {
+        return secondMeaningList;
     }
 
-    public void setSecondMeaning(Meaning secondMeaning) {
-        this.secondMeaning = secondMeaning;
+    public void setSecondMeaningList(MeaningList secondMeaningList) {
+        this.secondMeaningList = secondMeaningList;
     }
 
     public void processAnswer(boolean correct) {
@@ -162,7 +162,7 @@ public class Vocable implements TrainerItem, Parcelable {
         if (o != null && o instanceof Vocable) {
             Vocable other = (Vocable) o;
 
-            boolean result = (other == this) || (firstMeaning.equals(other.getFirstMeaning()) && secondMeaning.equals(other.getSecondMeaning())
+            boolean result = (other == this) || (firstMeaningList.equals(other.getFirstMeaningList()) && secondMeaningList.equals(other.getSecondMeaningList())
                     && (lastModificationTime == other.getLastModificationTime()) &&
                     (getCorrect() == other.getCorrect()) && (incorrect == other.getIncorrect()));
             if (hint != null) {
@@ -178,8 +178,8 @@ public class Vocable implements TrainerItem, Parcelable {
     @Override
     public int hashCode() {
         int result = this.id.hashCode();
-        result = 31 * result + this.firstMeaning.hashCode();
-        result = 31 * result + this.secondMeaning.hashCode();
+        result = 31 * result + this.firstMeaningList.hashCode();
+        result = 31 * result + this.secondMeaningList.hashCode();
         result = 31 * result + (this.hint != null ? this.hint.hashCode() : 0);
         result = 31 * result + (int) (this.lastModificationTime ^ lastModificationTime >>> 32);
         result = 31 * result + this.correct;
@@ -187,11 +187,11 @@ public class Vocable implements TrainerItem, Parcelable {
         return result;
     }
 
-    public Meaning getOtherMeaning(Meaning meaning) {
-        if (meaning == firstMeaning) {
-            return secondMeaning;
+    public MeaningList getOtherMeaning(MeaningList meaningList) {
+        if (meaningList == firstMeaningList) {
+            return secondMeaningList;
         } else {
-            return firstMeaning;
+            return firstMeaningList;
         }
     }
 }

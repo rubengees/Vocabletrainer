@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.rubengees.vocables.core.testsettings.TestSettings;
-import com.rubengees.vocables.pojo.Meaning;
+import com.rubengees.vocables.pojo.MeaningList;
 import com.rubengees.vocables.pojo.Vocable;
 
 import java.util.ArrayList;
@@ -40,8 +40,8 @@ public class PairTestLogic extends TestLogic<TestSettings> {
                 List<MeaningCell> meaningCells = new ArrayList<>(10);
 
                 for (Vocable vocable : getCurrentVocables()) {
-                    meaningCells.add(new MeaningCell(vocable, vocable.getFirstMeaning()));
-                    meaningCells.add(new MeaningCell(vocable, vocable.getSecondMeaning()));
+                    meaningCells.add(new MeaningCell(vocable, vocable.getFirstMeaningList()));
+                    meaningCells.add(new MeaningCell(vocable, vocable.getSecondMeaningList()));
                 }
 
                 Collections.shuffle(meaningCells);
@@ -93,9 +93,9 @@ public class PairTestLogic extends TestLogic<TestSettings> {
     public Position processAnswer(Position pos) {
         MeaningCell selectedCell = field.getSelected();
         MeaningCell givenCell = field.getCell(pos);
-        Meaning question = selectedCell.getMeaning();
-        Meaning answer = selectedCell.getVocable().getOtherMeaning(question);
-        Meaning given = givenCell.getMeaning();
+        MeaningList question = selectedCell.getMeaningList();
+        MeaningList answer = selectedCell.getVocable().getOtherMeaning(question);
+        MeaningList given = givenCell.getMeaningList();
         Vocable vocable = selectedCell.getVocable();
 
         boolean correct = answer.equals(given);

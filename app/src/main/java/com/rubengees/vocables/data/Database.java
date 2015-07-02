@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.core.mode.ModeData;
-import com.rubengees.vocables.pojo.Meaning;
+import com.rubengees.vocables.pojo.MeaningList;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
 
@@ -139,7 +139,7 @@ public class Database extends SQLiteOpenHelper {
                         unitTitle = cursor.getString(3);
                     }
 
-                    Vocable vocable = new Vocable(id, new Meaning(meanings1), new Meaning(meanings2), correct, incorrect, hint, time);
+                    Vocable vocable = new Vocable(id, new MeaningList(meanings1), new MeaningList(meanings2), correct, incorrect, hint, time);
 
                     if (vocables.containsKey(unitTitle)) {
                         vocables.get(unitTitle).add(vocable);
@@ -245,16 +245,16 @@ public class Database extends SQLiteOpenHelper {
         int id = (int) db.insert(TABLE_VOCABLES, null, vocableValues);
         vocable.setId(id);
 
-        insertMeanings(db, id, vocable.getFirstMeaning(), COLUMN_MEANING1_ID, COLUMN_MEANING1_MEANING, TABLE_MEANINGS1);
-        insertMeanings(db, id, vocable.getSecondMeaning(), COLUMN_MEANING2_ID, COLUMN_MEANING2_MEANING, TABLE_MEANINGS2);
+        insertMeanings(db, id, vocable.getFirstMeaningList(), COLUMN_MEANING1_ID, COLUMN_MEANING1_MEANING, TABLE_MEANINGS1);
+        insertMeanings(db, id, vocable.getSecondMeaningList(), COLUMN_MEANING2_ID, COLUMN_MEANING2_MEANING, TABLE_MEANINGS2);
 
         unitVocableValues.put(COLUMN_UNIT_VOCABLE_U_ID, containingUnit.getId());
         unitVocableValues.put(COLUMN_UNIT_VOCABLE_V_ID, id);
         db.insert(TABLE_UNIT_VOCABLE, null, unitVocableValues);
     }
 
-    private void insertMeanings(SQLiteDatabase db, int id, Meaning meaning, String columnId, String columnMeaning, String table) {
-        for (String m : meaning.getMeanings()) {
+    private void insertMeanings(SQLiteDatabase db, int id, MeaningList meaningList, String columnId, String columnMeaning, String table) {
+        for (String m : meaningList.getMeanings()) {
             ContentValues meaningValues = new ContentValues(2);
 
             meaningValues.put(columnId, id);
@@ -350,8 +350,8 @@ public class Database extends SQLiteOpenHelper {
         db.delete(TABLE_MEANINGS1, COLUMN_MEANING1_ID + " = ?", id);
         db.delete(TABLE_MEANINGS2, COLUMN_MEANING2_ID + " = ?", id);
 
-        insertMeanings(db, vocable.getId(), vocable.getFirstMeaning(), COLUMN_MEANING1_ID, COLUMN_MEANING1_MEANING, TABLE_MEANINGS1);
-        insertMeanings(db, vocable.getId(), vocable.getSecondMeaning(), COLUMN_MEANING2_ID, COLUMN_MEANING2_MEANING, TABLE_MEANINGS2);
+        insertMeanings(db, vocable.getId(), vocable.getFirstMeaningList(), COLUMN_MEANING1_ID, COLUMN_MEANING1_MEANING, TABLE_MEANINGS1);
+        insertMeanings(db, vocable.getId(), vocable.getSecondMeaningList(), COLUMN_MEANING2_ID, COLUMN_MEANING2_MEANING, TABLE_MEANINGS2);
 
         unitVocableValues.put(COLUMN_UNIT_VOCABLE_U_ID, containingUnit.getId());
 
@@ -428,8 +428,8 @@ public class Database extends SQLiteOpenHelper {
                 int incorrect = vocables.getInt(2);
                 String hint = vocables.getString(3);
                 long lastModificationTime = vocables.getLong(4);
-                Meaning first = new Meaning(generateMeanings(id, meanings1));
-                Meaning second = new Meaning(generateMeanings(id, meanings2));
+                MeaningList first = new MeaningList(generateMeanings(id, meanings1));
+                MeaningList second = new MeaningList(generateMeanings(id, meanings2));
 
                 Vocable vocable = new Vocable(id, first, second, correct, incorrect, hint, lastModificationTime);
 

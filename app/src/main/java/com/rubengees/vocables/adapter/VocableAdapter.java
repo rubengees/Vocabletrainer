@@ -35,10 +35,10 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
             public int compare(Vocable vocable, Vocable other) {
                 switch (getSortMode()) {
                     case TITLE:
-                        int result = vocable.getFirstMeaning().compareTo(other.getFirstMeaning());
+                        int result = vocable.getFirstMeaningList().compareTo(other.getFirstMeaningList());
 
                         if (result == 0) {
-                            return vocable.getSecondMeaning().compareTo(other.getSecondMeaning());
+                            return vocable.getSecondMeaningList().compareTo(other.getSecondMeaningList());
                         } else {
                             return result;
                         }
@@ -150,8 +150,8 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
         if (viewHolder instanceof VocableAdapter.ViewHolder) {
             Vocable vocable = list.get(i);
 
-            ((ViewHolder) viewHolder).firstMeaning.setText(vocable.getFirstMeaning().toString());
-            ((ViewHolder) viewHolder).secondMeaning.setText(vocable.getSecondMeaning().toString());
+            ((ViewHolder) viewHolder).firstMeaning.setText(vocable.getFirstMeaningList().toString());
+            ((ViewHolder) viewHolder).secondMeaning.setText(vocable.getSecondMeaningList().toString());
         }
     }
 
