@@ -19,7 +19,7 @@ import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.Utils;
 
 /**
- * Utils for the Modes with a Grid of Buttons.
+ * Utils for the Modes with a Grid of Buttons.x
  */
 public class ButtonContainerTools {
 
