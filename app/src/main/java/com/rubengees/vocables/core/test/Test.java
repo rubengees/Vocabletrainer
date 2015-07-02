@@ -20,6 +20,9 @@ import java.util.ArrayList;
  */
 public abstract class Test {
 
+    protected int ANIMATION_TIME;
+    protected int WAIT_TIME;
+
     private OnTestFinishedListener testFinishedListener;
     private OnHintVisibilityListener hintVisibilityListener;
     private Context context;

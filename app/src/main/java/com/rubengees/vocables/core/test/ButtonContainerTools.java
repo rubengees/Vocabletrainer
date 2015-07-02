@@ -1,6 +1,8 @@
 package com.rubengees.vocables.core.test;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +19,23 @@ import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.Utils;
 
 /**
- * Created by Ruben on 05.04.2015.
+ * Utils for the Modes with a Grid of Buttons.
  */
 public class ButtonContainerTools {
 
-    public static void buildButtonLayout(Context context, ViewGroup root, int sizeX, int sizeY, View.OnClickListener buttonListener) {
+    public static final int ANIMATION_DURATION = 300;
+
+    /**
+     * Appends a LinearLayout containing buttons as specified in the sizeX and sizeY parameters.
+     * To every Button is a Tag with the {@link Position} assigned. A OnClickListener can be set also.
+     *
+     * @param root           The parent View, which the new one should be added to
+     * @param sizeX          The amount of Buttons in horizontal direction
+     * @param sizeY          The amount of Buttons in vertical direction
+     * @param buttonListener A listener which should be assigned to each Button
+     */
+    public static void buildButtonLayout(@NonNull ViewGroup root, int sizeX, int sizeY, @Nullable View.OnClickListener buttonListener) {
+        Context context = root.getContext();
 
         for (int i = 0; i < sizeX; i++) {
             LinearLayout container = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.layout_test_button_container, root, false);
@@ -38,7 +52,16 @@ public class ButtonContainerTools {
         }
     }
 
-    public static void refreshButtons(ViewGroup root, MeaningField field, int color, int darkColor, boolean animateIn) {
+    /**
+     * Refreshes a ButtonLayout using the data from a {@link MeaningField}.
+     *
+     * @param root      The ButtonLayout
+     * @param field     The MeaningField
+     * @param color     The Color for the Buttons
+     * @param darkColor A darker version of the Color
+     * @param animateIn If Buttons should animate in
+     */
+    public static void refreshButtons(@NonNull ViewGroup root, @NonNull MeaningField field, int color, int darkColor, boolean animateIn) {
         for (int i = 0; i < field.getSizeX(); i++) {
             ViewGroup buttonContainer = (ViewGroup) root.getChildAt(i);
 
@@ -64,19 +87,26 @@ public class ButtonContainerTools {
                     button.setEnabled(true);
 
                     if (animateIn) {
-                        AnimationUtils.animate(button, Techniques.FadeIn, 300, 0, null);
+                        AnimationUtils.animate(button, Techniques.FadeIn, ANIMATION_DURATION, 0, null);
                     }
                 }
             }
         }
     }
 
+    /**
+     * Returns a Button from the ButtonLayout at the specified {@link Position}.
+     *
+     * @param layout The ButtonLayout
+     * @param pos    The Position
+     * @return The Button at that Position. May be null
+     */
     public static Button getButtonAt(ViewGroup layout, Position pos) {
         return (Button) ((ViewGroup) layout.getChildAt(pos.getX())).getChildAt(pos.getY());
     }
 
     private static void animateIn(View view) {
-        AnimationUtils.animate(view, Techniques.FadeIn, 300, 0, null);
+        AnimationUtils.animate(view, Techniques.FadeIn, ANIMATION_DURATION, 0, null);
     }
 
 }

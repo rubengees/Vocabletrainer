@@ -23,12 +23,12 @@ import java.util.Map;
 
 public abstract class TestLogic<E extends TestSettings> {
 
+    protected static final double RANDOM_FACTOR = 0.5;
     private static final String STATE_VOCABLES = "vocables";
     private static final String STATE_SETTINGS = "settings";
     private static final String STATE_POSITION = "position";
     private static final String STATE_CURRENT_TIME = "currentTime";
     private static final String STATE_RESULT = "result";
-
     private Context context;
     private ArrayList<Vocable> vocables;
     private int position = -1;

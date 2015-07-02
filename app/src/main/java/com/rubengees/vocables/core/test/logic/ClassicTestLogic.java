@@ -89,7 +89,7 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
             } else if (direction == Direction.SECOND) {
                 return vocable.getSecondMeaningList();
             } else {
-                if (randomValue < 0.5) {
+                if (randomValue < RANDOM_FACTOR) {
                     return vocable.getFirstMeaningList();
                 } else {
                     return vocable.getSecondMeaningList();
@@ -110,7 +110,7 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
             } else if (direction == Direction.SECOND) {
                 return vocable.getFirstMeaningList();
             } else {
-                if (randomValue < 0.5) {
+                if (randomValue < RANDOM_FACTOR) {
                     return vocable.getSecondMeaningList();
                 } else {
                     return vocable.getFirstMeaningList();

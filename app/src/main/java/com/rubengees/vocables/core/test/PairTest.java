@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.core.mode.PairMode;
 import com.rubengees.vocables.core.test.logic.MeaningField;
 import com.rubengees.vocables.core.test.logic.PairTestLogic;
 import com.rubengees.vocables.core.test.logic.Position;
@@ -49,7 +50,7 @@ public class PairTest extends Test implements View.OnClickListener {
 
     @Override
     public void show() {
-        if (logic.getAmount() < 5) {
+        if (logic.getAmount() < PairMode.MIN_AMOUNT) {
             showError();
         } else {
             super.show();
@@ -91,7 +92,7 @@ public class PairTest extends Test implements View.OnClickListener {
         View view = View.inflate(getContext(), R.layout.layout_test_pair, null);
         layout = (LinearLayout) view.findViewById(R.id.layout_test_pair_button_layout);
 
-        ButtonContainerTools.buildButtonLayout(getContext(), layout, SIZE_X, SIZE_Y, this);
+        ButtonContainerTools.buildButtonLayout(layout, SIZE_X, SIZE_Y, this);
 
         getToolbarActivity().collapseToolbar();
 
@@ -149,9 +150,9 @@ public class PairTest extends Test implements View.OnClickListener {
             }
 
             waiting = true;
-            AnimationUtils.animate(firstButton, Techniques.FadeOut, 300, 1000, null);
+            AnimationUtils.animate(firstButton, Techniques.FadeOut, ANIMATION_TIME, WAIT_TIME, null);
             if (correctButton == null) {
-                AnimationUtils.animate(secondButton, Techniques.FadeOut, 300, 1000, new AnimationUtils.AnimationEndListener() {
+                AnimationUtils.animate(secondButton, Techniques.FadeOut, ANIMATION_TIME, WAIT_TIME, new AnimationUtils.AnimationEndListener() {
                     @Override
                     public void onAnimationEnd() {
                         if (waiting) {
@@ -161,7 +162,7 @@ public class PairTest extends Test implements View.OnClickListener {
                     }
                 });
             } else {
-                AnimationUtils.animate(correctButton, Techniques.FadeOut, 300, 1000, new AnimationUtils.AnimationEndListener() {
+                AnimationUtils.animate(correctButton, Techniques.FadeOut, ANIMATION_TIME, WAIT_TIME, new AnimationUtils.AnimationEndListener() {
                     @Override
                     public void onAnimationEnd() {
                         if (waiting) {

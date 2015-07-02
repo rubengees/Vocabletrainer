@@ -205,7 +205,7 @@ public abstract class TestSettingsLayout {
         savedInstanceState.putInt(STATE_CHECKED_UNIT_AMOUNT, checkedUnitAmount);
     }
 
-    public abstract View inflateSpecificLayout(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState);
+    public abstract void inflateSpecificLayout(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState);
 
     public interface OnTestSettingsListener {
         void onChange(TestSettings settings);

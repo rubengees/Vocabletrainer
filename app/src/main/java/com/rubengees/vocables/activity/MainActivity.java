@@ -396,7 +396,7 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
 
     @Override
     public void onEvaluate() {
-        Utils.showPlayStorePage(this);
+        Utils.showGooglePlusPage(this);
         PreferenceUtils.setEvaluated(this);
     }
 

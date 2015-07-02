@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
+import com.rubengees.vocables.core.mode.ClassicMode;
 import com.rubengees.vocables.core.test.logic.ClassicTestLogic;
 import com.rubengees.vocables.core.test.logic.TestLogic;
 import com.rubengees.vocables.core.testsettings.ClassicTestSettings;
@@ -115,15 +116,15 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
         status.setText(text);
 
         waiting = true;
-        AnimationUtils.animate(status, Techniques.FlipInX, 300, 0, new AnimationUtils.AnimationEndListener() {
+        AnimationUtils.animate(status, Techniques.FlipInX, ANIMATION_TIME, 0, new AnimationUtils.AnimationEndListener() {
             @Override
             public void onAnimationEnd() {
-                Utils.wait(getToolbarActivity(), 1000, new Utils.OnWaitFinishedListener() {
+                Utils.wait(getToolbarActivity(), WAIT_TIME, new Utils.OnWaitFinishedListener() {
                     @Override
                     public void onWaitFinished() {
                         if (waiting) {
                             next();
-                            AnimationUtils.animate(status, Techniques.FlipInX, 300, 0, new AnimationUtils.AnimationEndListener() {
+                            AnimationUtils.animate(status, Techniques.FlipInX, ANIMATION_TIME, 0, new AnimationUtils.AnimationEndListener() {
                                 @Override
                                 public void onAnimationEnd() {
                                     waiting = false;
@@ -162,7 +163,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
 
     @Override
     public void show() {
-        if (logic.getAmount() < 1) {
+        if (logic.getAmount() < ClassicMode.MIN_AMOUNT) {
             showError();
         } else {
             super.show();

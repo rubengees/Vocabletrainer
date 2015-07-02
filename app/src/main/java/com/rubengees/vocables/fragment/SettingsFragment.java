@@ -140,7 +140,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
             return true;
         } else if (preference == developer) {
-            Utils.showPlayStorePage(getActivity());
+            Utils.showGooglePlusPage(getActivity());
             return true;
         } else if (preference == licences) {
             new LibsBuilder().withAboutIconShown(true).withAboutVersionShownName(true).withAnimations(true)

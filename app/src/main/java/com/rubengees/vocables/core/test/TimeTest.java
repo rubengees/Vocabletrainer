@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.core.mode.TimeMode;
 import com.rubengees.vocables.core.test.logic.Position;
 import com.rubengees.vocables.core.test.logic.TestLogic;
 import com.rubengees.vocables.core.test.logic.TimeTestLogic;
@@ -52,7 +53,7 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
 
     @Override
     public void show() {
-        if (logic.getAmount() < 5) {
+        if (logic.getAmount() < TimeMode.MIN_AMOUNT) {
             showError();
         } else {
             super.show();
@@ -71,7 +72,7 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
         View header = View.inflate(getContext(), R.layout.header, null);
         question = (TextView) header.findViewById(R.id.header_text);
 
-        ButtonContainerTools.buildButtonLayout(getContext(), layout, SIZE_X, SIZE_Y, this);
+        ButtonContainerTools.buildButtonLayout(layout, SIZE_X, SIZE_Y, this);
 
         getToolbarActivity().expandToolbar();
         getToolbarActivity().disableFab();
@@ -139,7 +140,7 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
 
             waiting = true;
             logic.onPause();
-            Utils.wait((Activity) getContext(), 1000, new Utils.OnWaitFinishedListener() {
+            Utils.wait((Activity) getContext(), WAIT_TIME, new Utils.OnWaitFinishedListener() {
                 @Override
                 public void onWaitFinished() {
                     if (waiting) {
@@ -155,7 +156,7 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
     }
 
     private void next() {
-        if (logic.getAmount() < 10) {
+        if (logic.getAmount() < TimeMode.MIN_AMOUNT) {
             showError();
         } else {
             logic.next();

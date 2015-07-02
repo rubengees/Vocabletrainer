@@ -13,7 +13,9 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
 
 /**
- * Created by Ruben on 10.05.2015.
+ * Utils for animating Views
+ *
+ * @author Ruben Gees
  */
 public class AnimationUtils {
 
