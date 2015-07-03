@@ -59,6 +59,7 @@ public class ButtonContainerTools {
                         Utils.setButtonColor(button, color);
                     }
 
+                    button.setTag(new Position(i, ii));
                     button.setVisibility(View.VISIBLE);
                     button.setEnabled(true);
 

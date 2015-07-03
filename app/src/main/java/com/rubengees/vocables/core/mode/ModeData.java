@@ -121,4 +121,12 @@ public class ModeData implements Parcelable {
     public void setAverageTime(int averageTime) {
         this.averageTime = averageTime;
     }
+
+    public void reset() {
+        played = 0;
+        correct = 0;
+        incorrect = 0;
+        bestTime = 0;
+        averageTime = 0;
+    }
 }

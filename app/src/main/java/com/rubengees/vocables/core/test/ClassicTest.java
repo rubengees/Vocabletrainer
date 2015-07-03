@@ -164,7 +164,6 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
     public void show() {
         if (logic.getAmount() < 1) {
             showError();
-            return;
         } else {
             super.show();
 

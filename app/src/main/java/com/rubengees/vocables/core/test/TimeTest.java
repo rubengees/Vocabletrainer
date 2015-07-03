@@ -54,7 +54,6 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
     public void show() {
         if (logic.getAmount() < 5) {
             showError();
-            return;
         } else {
             super.show();
 
@@ -101,6 +100,8 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
 
         if (savedInstanceState.getBoolean(STATE_WAS_WAITING, false)) {
             next();
+        } else {
+            show();
         }
     }
 
@@ -156,12 +157,11 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
     private void next() {
         if (logic.getAmount() < 10) {
             showError();
-            return;
+        } else {
+            logic.next();
+            show();
+            changeHintVisibility(logic.getHint() != null);
         }
-
-        logic.next();
-        show();
-        changeHintVisibility(logic.getHint() != null);
     }
 
     @Override

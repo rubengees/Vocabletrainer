@@ -20,6 +20,7 @@ public class TimeTestSettings extends TestSettings {
             return new TimeTestSettings[size];
         }
 
+
     };
     private Direction direction;
 

@@ -81,6 +81,8 @@ public class PairTest extends Test implements View.OnClickListener {
 
         if (savedInstanceState.getBoolean(STATE_WAS_WAITING, false)) {
             next();
+        } else {
+            show();
         }
     }
 

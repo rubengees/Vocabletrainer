@@ -107,4 +107,8 @@ public abstract class Mode implements Parcelable {
     public abstract Test getTest(Context context, TestSettings settings, Test.OnTestFinishedListener listener, Bundle savedInstanceState);
 
     public abstract Test getTest(Context context, TestSettings settings, Test.OnTestFinishedListener listener);
+
+    public void reset() {
+        data.reset();
+    }
 }

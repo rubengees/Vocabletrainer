@@ -161,4 +161,8 @@
     <string name="icon_result_description">Ergebnis</string>
     <string name="icon_toggle_description">Umschalten</string>
     <string name="test_error">Etwas ist schiefgelaufen. Bitte füge deine Vokabeln erneut hinzu</string>
+    <string name="menu_stats_reset">Statistiken zurücksetzen</string>
+    <string name="dialog_reset_ok">Zurücksetzten</string>
+    <string name="dialog_reset_title">Statistiken zurücksetzten</string>
+    <string name="dialog_reset_content">Alle Statistiken werden gelöscht. Vokabel-Statistiken sind davon nicht betroffen</string>
 </resources>

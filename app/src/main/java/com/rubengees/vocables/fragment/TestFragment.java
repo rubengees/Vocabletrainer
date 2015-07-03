@@ -1,6 +1,7 @@
 package com.rubengees.vocables.fragment;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,14 +28,21 @@ import java.util.ArrayList;
  */
 public class TestFragment extends MainFragment implements Test.OnTestFinishedListener {
 
-    public static final String HINT_DIALOG = "hint_dialog";
+    private static final String HINT_DIALOG = "hint_dialog";
     private static final String MODE_KEY = "mode";
     private static final String SETTINGS_KEY = "settings";
+    private static final String STATE_SHOULD_FINISH = "should_finish";
+    private static final String STATE_TEST_RESULT = "test_result";
+    private static final String STATE_VOCABLES = "result_vocables";
     private Mode mode;
     private Test test;
     private TestSettings settings;
 
     private MenuItem hint;
+
+    private boolean shouldFinish = false;
+    private TestResult result;
+    private ArrayList<Vocable> vocables;
 
     public TestFragment() {
         // Required empty public constructor
@@ -53,6 +61,7 @@ public class TestFragment extends MainFragment implements Test.OnTestFinishedLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mode = getArguments().getParcelable(MODE_KEY);
             settings = getArguments().getParcelable(SETTINGS_KEY);
@@ -62,6 +71,9 @@ public class TestFragment extends MainFragment implements Test.OnTestFinishedLis
             test = mode.getTest(getActivity(), settings, this);
         } else {
             test = mode.getTest(getActivity(), settings, this, savedInstanceState);
+            shouldFinish = savedInstanceState.getBoolean(STATE_SHOULD_FINISH);
+            result = savedInstanceState.getParcelable(STATE_TEST_RESULT);
+            vocables = savedInstanceState.getParcelableArrayList(STATE_VOCABLES);
         }
 
         setHasOptionsMenu(true);
@@ -111,6 +123,9 @@ public class TestFragment extends MainFragment implements Test.OnTestFinishedLis
         super.onSaveInstanceState(outState);
 
         test.saveInstanceState(outState);
+        outState.putBoolean(STATE_SHOULD_FINISH, shouldFinish);
+        outState.putParcelable(STATE_TEST_RESULT, result);
+        outState.putParcelableArrayList(STATE_VOCABLES, vocables);
     }
 
     @Override
@@ -120,8 +135,25 @@ public class TestFragment extends MainFragment implements Test.OnTestFinishedLis
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (shouldFinish) {
+            onTestFinished(result, settings, vocables);
+        }
+    }
+
+    @Override
     public void onTestFinished(TestResult result, TestSettings settings, ArrayList<Vocable> vocables) {
-        getActivity().getFragmentManager()
-                .beginTransaction().replace(R.id.content, TestResultFragment.newInstance(mode, result, settings, vocables)).commit();
+        Activity activity = getActivity();
+
+        if (activity == null) {
+            shouldFinish = true;
+            this.result = result;
+            this.vocables = vocables;
+        } else {
+            activity.getFragmentManager()
+                    .beginTransaction().replace(R.id.content, TestResultFragment.newInstance(mode, result, settings, vocables)).commit();
+        }
     }
 }
