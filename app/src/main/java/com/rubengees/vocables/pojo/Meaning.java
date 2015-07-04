@@ -5,7 +5,9 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -27,11 +29,13 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
 
     private List<String> meanings;
 
-    public Meaning(List<String> meanings) {
+    public Meaning(@NonNull List<String> meanings) {
         if (meanings.isEmpty()) {
             throw new RuntimeException("The list with the meanings cannot be empty");
         }
-        this.meanings = meanings;
+
+        this.meanings = new LinkedList<>();
+        setMeanings(meanings);
     }
 
     private Meaning(Parcel in) {
@@ -39,16 +43,21 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
     }
 
     public Meaning(@NonNull String given) {
-        this.meanings = new ArrayList<>();
-        meanings.add(given);
+        if (given == null) {
+            throw new RuntimeException("The meaning cannot be null");
+        }
+
+        this.meanings = new LinkedList<>();
+        this.meanings.add(given);
     }
 
     public List<String> getMeanings() {
         return meanings;
     }
 
-    public void setMeanings(List<String> firstMeanings) {
-        this.meanings = firstMeanings;
+    public void setMeanings(Collection<String> meanings) {
+        this.meanings.clear();
+        this.meanings.addAll(meanings);
     }
 
     public boolean contains(String s) {
@@ -113,6 +122,7 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
         }
 
         if (another instanceof Meaning) {
+            //TODO improve
             List<String> copy = new ArrayList<>(meanings);
 
             for (String s : ((Meaning) another).getMeanings()) {
@@ -130,7 +140,7 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
     }
 
     private void readFromParcel(Parcel in) {
-        meanings = new ArrayList<>();
+        this.meanings = new LinkedList<>();
 
         in.readStringList(meanings);
     }
@@ -156,6 +166,6 @@ public class Meaning implements Comparable<Meaning>, Iterable<String>, Parcelabl
     }
 
     public List<String> toList() {
-        return new ArrayList<>(meanings);
+        return new LinkedList<>(meanings);
     }
 }

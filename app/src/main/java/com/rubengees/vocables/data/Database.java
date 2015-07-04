@@ -510,7 +510,7 @@ public class Database extends SQLiteOpenHelper {
 
             unit.setId(cursor.getInt(0));
             unit.setTitle(cursor.getString(1));
-            unit.setLastModificationTime(cursor.getInt(2));
+            unit.updateModificationTime();
             result.put(unit.getId(), unit);
         } while (cursor.moveToNext());
 

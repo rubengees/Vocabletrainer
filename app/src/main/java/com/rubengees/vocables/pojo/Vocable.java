@@ -77,31 +77,49 @@ public class Vocable implements TrainerItem, Parcelable {
         out.writeInt(incorrect);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Long getLastModificationTime() {
         return lastModificationTime;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setLastModificationTime(long time) {
-        this.lastModificationTime = time;
+    public void updateModificationTime() {
+        this.lastModificationTime = System.currentTimeMillis();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Integer getId() {
         return id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getCorrect() {
         return correct;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getIncorrect() {
         return incorrect;
@@ -144,9 +162,9 @@ public class Vocable implements TrainerItem, Parcelable {
         if (o != null && o instanceof Vocable) {
             Vocable other = (Vocable) o;
 
-            boolean result = other == this || firstMeaning.equals(other.getFirstMeaning()) && secondMeaning.equals(other.getSecondMeaning())
-                    && lastModificationTime == other.getLastModificationTime() &&
-                    getCorrect() == other.getCorrect() && incorrect == other.getIncorrect();
+            boolean result = (other == this) || (firstMeaning.equals(other.getFirstMeaning()) && secondMeaning.equals(other.getSecondMeaning())
+                    && (lastModificationTime == other.getLastModificationTime()) &&
+                    (getCorrect() == other.getCorrect()) && (incorrect == other.getIncorrect()));
             if (hint != null) {
                 result = hint.equals(other.getHint());
             }
@@ -155,6 +173,18 @@ public class Vocable implements TrainerItem, Parcelable {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.id.hashCode();
+        result = 31 * result + this.firstMeaning.hashCode();
+        result = 31 * result + this.secondMeaning.hashCode();
+        result = 31 * result + (this.hint != null ? this.hint.hashCode() : 0);
+        result = 31 * result + (int) (this.lastModificationTime ^ lastModificationTime >>> 32);
+        result = 31 * result + this.correct;
+        result = 31 * result + this.incorrect;
+        return result;
     }
 
     public Meaning getOtherMeaning(Meaning meaning) {

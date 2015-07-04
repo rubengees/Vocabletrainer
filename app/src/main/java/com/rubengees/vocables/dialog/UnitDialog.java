@@ -122,7 +122,7 @@ public class UnitDialog extends DialogFragment {
             inputLayout.setErrorEnabled(true);
         } else {
             unit.setTitle(input.getText().toString());
-            unit.setLastModificationTime(System.currentTimeMillis());
+            unit.updateModificationTime();
 
             if (callback != null) {
                 callback.onUnitChanged(unit, unitPos);

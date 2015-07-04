@@ -47,21 +47,33 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
         vocables = new ArrayList<>();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Long getLastModificationTime() {
         return lastModificationTime;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setLastModificationTime(long time) {
-        this.lastModificationTime = time;
+    public void updateModificationTime() {
+        this.lastModificationTime = System.currentTimeMillis();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Integer getId() {
         return id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setId(int id) {
         this.id = id;
@@ -75,6 +87,9 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
         this.title = title;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getCorrect() {
         int result = 0;
@@ -86,6 +101,9 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getIncorrect() {
         int result = 0;

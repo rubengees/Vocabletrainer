@@ -161,7 +161,7 @@ public class VocableDialog extends DialogFragment {
             if (!unitTitle.isEmpty()) {
                 unit = new Unit();
                 unit.setTitle(unitTitle);
-                unit.setLastModificationTime(System.currentTimeMillis());
+                unit.updateModificationTime();
             } else {
                 TextInputLayout inputLayout = (TextInputLayout) inputUnit.getParent();
                 inputLayout.setError(getString(R.string.input_error_empty));
@@ -199,7 +199,7 @@ public class VocableDialog extends DialogFragment {
         } else {
             vocable.setFirstMeaning(firstMeaning);
             vocable.setSecondMeaning(secondMeaning);
-            vocable.setLastModificationTime(System.currentTimeMillis());
+            vocable.updateModificationTime();
             vocable.setHint(hint);
 
             if (callback != null) {
