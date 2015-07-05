@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
 import com.rubengees.vocables.R;
@@ -40,53 +41,83 @@ public class ClassicMode extends Mode {
         super(data);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getColor(final Context context) {
         return context.getResources().getColor(R.color.classic_mode);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getDarkColor(final Context context) {
         return context.getResources().getColor(R.color.classic_mode_dark);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getMinAmount() {
         return MIN_AMOUNT;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getHelpText(final Context context) {
         return context.getString(R.string.mode_classic_help);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getTitle(final Context context) {
         return context.getString(R.string.mode_classic_title);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getShortTitle(final Context context) {
         return context.getString(R.string.mode_classic_title_short);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Drawable getIcon(final Context context) {
         return ContextCompat.getDrawable(context, R.drawable.ic_mode_classic);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public TestSettingsLayout getTestSettingsLayout(Context context, TestSettingsLayout.OnTestSettingsListener listener) {
+    public TestSettingsLayout getTestSettingsLayout(@NonNull Context context, @NonNull TestSettingsLayout.OnTestSettingsListener listener) {
         return new ClassicTestSettingsLayout(context, listener);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Test getTest(Context context, TestSettings settings, Test.OnTestFinishedListener listener, Bundle savedInstanceState) {
+    public Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener, @NonNull Bundle savedInstanceState) {
         return new ClassicTest(context, settings, listener, getColor(context), getDarkColor(context), savedInstanceState);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Test getTest(Context context, TestSettings settings, Test.OnTestFinishedListener listener) {
+    public Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener) {
         return new ClassicTest(context, settings, listener, getColor(context), getDarkColor(context));
     }
 

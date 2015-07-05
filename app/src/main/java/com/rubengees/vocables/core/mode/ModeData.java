@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by ruben on 12.05.15.
+ * A pojo containing the data of a {@link Mode}.
  */
 public class ModeData implements Parcelable {
 
@@ -66,62 +66,135 @@ public class ModeData implements Parcelable {
         averageTime = in.readInt();
     }
 
+    /**
+     * Returns the ID.
+     *
+     * @return The ID
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Sets the ID.
+     *
+     * @param id The ID
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Returns the amount of played Rounds.
+     *
+     * @return The amount
+     */
     public int getPlayed() {
         return played;
     }
 
+    /**
+     * Sets the amount of played Rounds.
+     *
+     * @param played The amount
+     */
     public void setPlayed(int played) {
         this.played = played;
     }
 
+    /**
+     * Returns the amount of correct Answers given while playing this Mode.
+     *
+     * @return The amount
+     */
     public int getCorrect() {
         return correct;
     }
 
+    /**
+     * Sets the amount of correct Answers given while playing this Mode.
+     *
+     * @param correct The amount
+     */
     public void setCorrect(int correct) {
         this.correct = correct;
     }
 
+    /**
+     * Returns the amount of incorrect Answers given while playing this Mode.
+     *
+     * @return The amount
+     */
     public int getIncorrect() {
         return incorrect;
     }
 
+    /**
+     * Sets the amount of incorrect Answers given while playing this Mode.
+     *
+     * @param incorrect The amount
+     */
     public void setIncorrect(int incorrect) {
         this.incorrect = incorrect;
     }
 
+    /**
+     * Returns the amount of perfect games in a row.
+     *
+     * @return The amount
+     */
     public int getPerfectInRow() {
         return perfectInRow;
     }
 
+    /**
+     * Sets the amount of perfect games in a row
+     *
+     * @param perfectInRow The amount
+     */
     public void setPerfectInRow(int perfectInRow) {
         this.perfectInRow = perfectInRow;
     }
 
+    /**
+     * Returns the best time the mode was ever completed in per Vocable.
+     *
+     * @return The time
+     */
     public int getBestTime() {
         return bestTime;
     }
 
+    /**
+     * Sets the best time the mode was ever completed in per Vocable.
+     *
+     * @param bestTime The time
+     */
     public void setBestTime(int bestTime) {
         this.bestTime = bestTime;
     }
 
+    /**
+     * Returns the average time the mode was completed in per Vocable.
+     *
+     * @return The time
+     */
     public int getAverageTime() {
         return averageTime;
     }
 
+    /**
+     * Sets the average time the mode was completed in per Vocable.
+     *
+     * @param averageTime The time
+     */
     public void setAverageTime(int averageTime) {
         this.averageTime = averageTime;
     }
 
+    /**
+     * Resets the data of this mode. The perfectOnRow field is not affected.
+     */
     public void reset() {
         played = 0;
         correct = 0;
