@@ -15,7 +15,7 @@ import com.rubengees.vocables.core.testsettings.layout.ClassicTestSettingsLayout
 import com.rubengees.vocables.core.testsettings.layout.TestSettingsLayout;
 
 /**
- * Created by ruben on 27.04.15.
+ * An Object storing all the relevant data of the ClassicMode.
  */
 public class ClassicMode extends Mode {
 
