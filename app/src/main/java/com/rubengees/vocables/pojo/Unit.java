@@ -63,6 +63,10 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
         this.lastModificationTime = System.currentTimeMillis();
     }
 
+    public void setModificationTime(long modificationTime) {
+        this.lastModificationTime = modificationTime;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -180,6 +184,27 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
         out.writeString(title);
         out.writeLong(lastModificationTime);
         out.writeList(vocables);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Unit vocables = (Unit) o;
+
+        return lastModificationTime == vocables.lastModificationTime && id.equals(vocables.id) && title.equals(vocables.title);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+
+        result = 31 * result + title.hashCode();
+        result = 31 * result + (int) (lastModificationTime ^ (lastModificationTime >>> 32));
+
+        return result;
     }
 
     @Override

@@ -145,8 +145,8 @@ public class PairTest extends Test implements View.OnClickListener {
                 correctButton = (AppCompatButton) ButtonContainerTools.getButtonAt(layout, result);
 
                 Utils.setButtonColor(firstButton, Utils.getColor(getContext(), R.color.red));
-                Utils.setButtonColor(secondButton, Utils.getColor(getContext(), R.color.green));
-                Utils.setButtonColor(correctButton, Utils.getColor(getContext(), R.color.red));
+                Utils.setButtonColor(secondButton, Utils.getColor(getContext(), R.color.red));
+                Utils.setButtonColor(correctButton, Utils.getColor(getContext(), R.color.green));
             }
 
             waiting = true;

@@ -45,7 +45,7 @@ public class TimeTestSettingsLayout extends TestSettingsLayout {
     }
 
     @Override
-    public View inflateSpecificLayout(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public void inflateSpecificLayout(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_test_settings_time, parent, true);
         direction = (RadioGroup) root.findViewById(R.id.fragment_test_settings_direction);
@@ -60,7 +60,5 @@ public class TimeTestSettingsLayout extends TestSettingsLayout {
                 }
             });
         }
-
-        return direction;
     }
 }

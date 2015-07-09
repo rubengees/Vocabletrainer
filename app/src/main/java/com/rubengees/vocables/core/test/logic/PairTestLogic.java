@@ -94,7 +94,7 @@ public class PairTestLogic extends TestLogic<TestSettings> {
         MeaningCell selectedCell = field.getSelected();
         MeaningCell givenCell = field.getCell(pos);
         MeaningList question = selectedCell.getMeaningList();
-        MeaningList answer = selectedCell.getVocable().getOtherMeaning(question);
+        MeaningList answer = selectedCell.getVocable().getOtherMeaningList(question);
         MeaningList given = givenCell.getMeaningList();
         Vocable vocable = selectedCell.getVocable();
 

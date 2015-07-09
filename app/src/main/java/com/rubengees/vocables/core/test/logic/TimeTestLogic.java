@@ -156,7 +156,7 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
     public Position processAnswer(Position pos) {
         Vocable current = getCurrentVocable();
         MeaningList question = getQuestion();
-        MeaningList answer = current.getOtherMeaning(question);
+        MeaningList answer = current.getOtherMeaningList(question);
         MeaningList given = field.getCell(pos).getMeaningList();
 
         boolean correct = answer.equals(given);

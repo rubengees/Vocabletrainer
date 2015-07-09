@@ -201,6 +201,12 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         return root;
     }
 
+    @Override
+    public void onStop() {
+        SnackbarManager.dismiss();
+        super.onStop();
+    }
+
     private void setupRecycler(Bundle savedInstanceState) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), Utils.getSpanCount(getActivity()));
 
@@ -265,7 +271,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         int amount = getUndoManager().size();
 
         SnackbarManager.show(Snackbar.with(getActivity()).actionColor(getResources().getColor(R.color.accent)).actionLabel(getString(R.string.fragment_vocable_list_undo))
-                .text(amount + " " + (amount == 1 ? getString(R.string.vocable) : getString(R.string.vocables)) + " " + getString(R.string.fragmnet_vocable_list_deleted_message)).actionListener(new ActionClickListener() {
+                .text(amount + " " + (amount == 1 ? getString(R.string.vocable) : getString(R.string.vocables)) + " " + getString(R.string.fragmnet_vocable_list_deleted_message)).duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE).actionListener(new ActionClickListener() {
                     @Override
                     public void onActionClicked(Snackbar snackbar) {
                         vocableManager.addUnits(getUndoManager().getUnits());

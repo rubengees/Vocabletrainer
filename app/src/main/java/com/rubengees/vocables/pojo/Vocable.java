@@ -178,17 +178,19 @@ public class Vocable implements TrainerItem, Parcelable {
     @Override
     public int hashCode() {
         int result = this.id.hashCode();
+
         result = 31 * result + this.firstMeaningList.hashCode();
         result = 31 * result + this.secondMeaningList.hashCode();
         result = 31 * result + (this.hint != null ? this.hint.hashCode() : 0);
         result = 31 * result + (int) (this.lastModificationTime ^ lastModificationTime >>> 32);
         result = 31 * result + this.correct;
         result = 31 * result + this.incorrect;
+
         return result;
     }
 
-    public MeaningList getOtherMeaning(MeaningList meaningList) {
-        if (meaningList == firstMeaningList) {
+    public MeaningList getOtherMeaningList(MeaningList meaningList) {
+        if (meaningList.equals(firstMeaningList)) {
             return secondMeaningList;
         } else {
             return firstMeaningList;

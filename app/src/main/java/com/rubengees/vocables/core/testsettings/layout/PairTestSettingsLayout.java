@@ -3,7 +3,6 @@ package com.rubengees.vocables.core.testsettings.layout;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.rubengees.vocables.core.testsettings.TestSettings;
@@ -23,7 +22,7 @@ public class PairTestSettingsLayout extends TestSettingsLayout {
     }
 
     @Override
-    public View inflateSpecificLayout(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        return null;
+    public void inflateSpecificLayout(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
+
     }
 }
