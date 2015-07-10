@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Ruben Gees on 06.02.2015.
@@ -84,7 +85,7 @@ public class Database extends SQLiteOpenHelper {
     public final void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         if (oldVersion <= 4) {
-            HashMap<String, ArrayList<Vocable>> vocables = new HashMap<>();
+            HashMap<String, ArrayList<Vocable>> vocables = new HashMap<>(500);
             long time = System.currentTimeMillis();
 
             Cursor cursor = db.query("vocables", null, null, null, null, null, "id ASC");
@@ -109,8 +110,8 @@ public class Database extends SQLiteOpenHelper {
                     String hint = null;
 
                     if (oldVersion <= 2) {
-                        meanings1 = new ArrayList<>();
-                        meanings2 = new ArrayList<>();
+                        meanings1 = new ArrayList<>(1);
+                        meanings2 = new ArrayList<>(1);
 
                         meanings1.add(cursor.getString(1));
                         meanings2.add(cursor.getString(2));
@@ -144,7 +145,7 @@ public class Database extends SQLiteOpenHelper {
                     if (vocables.containsKey(unitTitle)) {
                         vocables.get(unitTitle).add(vocable);
                     } else {
-                        ArrayList<Vocable> list = new ArrayList<>();
+                        ArrayList<Vocable> list = new ArrayList<>(50);
                         vocables.put(unitTitle, list);
                         list.add(vocable);
                     }
@@ -174,13 +175,13 @@ public class Database extends SQLiteOpenHelper {
             db.execSQL(CREATE_TABLE_MEANINGS2);
             db.execSQL(CREATE_TABLE_MODES);
 
-            List<Unit> units = new ArrayList<>();
+            List<Unit> units = new ArrayList<>(10);
 
-            for (String key : vocables.keySet()) {
+            for (Map.Entry<String, ArrayList<Vocable>> stringArrayListEntry : vocables.entrySet()) {
                 Unit unit = new Unit();
 
-                unit.setTitle(key);
-                unit.addAll(vocables.get(key));
+                unit.setTitle(stringArrayListEntry.getKey());
+                unit.addAll(stringArrayListEntry.getValue());
                 units.add(unit);
             }
 
@@ -193,7 +194,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     private ArrayList<String> generateMeanings(int id, Cursor cursor) {
-        ArrayList<String> result = new ArrayList<>();
+        ArrayList<String> result = new ArrayList<>(2);
 
         do {
             if (cursor.getInt(0) != id) {
@@ -410,7 +411,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public final HashMap<Integer, Unit> getUnits() {
-        HashMap<Integer, Unit> result = new HashMap<>();
+        HashMap<Integer, Unit> result = new HashMap<>(10);
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor units = db.query(TABLE_UNITS, null, null, null, null, null, null);
@@ -449,7 +450,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public final HashMap<Integer, ModeData> getModes() {
-        HashMap<Integer, ModeData> result = new HashMap<>();
+        HashMap<Integer, ModeData> result = new HashMap<>(4);
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor modes = db.query(TABLE_MODES, null, null, null, null, null, null);
@@ -503,7 +504,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     private HashMap<Integer, Unit> getUnitMap(Cursor cursor) {
-        HashMap<Integer, Unit> result = new HashMap<>();
+        HashMap<Integer, Unit> result = new HashMap<>(10);
 
         do {
             Unit unit = new Unit();

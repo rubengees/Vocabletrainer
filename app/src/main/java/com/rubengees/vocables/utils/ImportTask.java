@@ -32,12 +32,12 @@ public class ImportTask {
         this.file = file;
     }
 
-    public static ImportTask getInstance(Context context, @NonNull File file, @Nullable OnImportFinishedListener listener) {
+    public static ImportTask getInstance(@NonNull Context context, @NonNull File file, @Nullable OnImportFinishedListener listener) {
         if (instance == null || !instance.isRunning()) {
             instance = new ImportTask(context, file);
         }
 
-        instance.setListener(listener);
+        instance.listener = listener;
 
         return instance;
     }
@@ -53,7 +53,7 @@ public class ImportTask {
         }
     }
 
-    public void setListener(OnImportFinishedListener listener) {
+    public void setListener(@Nullable OnImportFinishedListener listener) {
         this.listener = listener;
     }
 

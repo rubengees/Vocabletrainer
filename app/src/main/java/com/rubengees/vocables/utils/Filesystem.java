@@ -2,6 +2,7 @@ package com.rubengees.vocables.utils;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class Filesystem implements Parcelable {
         readFromParcel(in);
     }
 
-    public Filesystem(String pRoot) {
+    public Filesystem(@NonNull String pRoot) {
         root = pRoot;
         subDirs = new ArrayList<>();
     }
@@ -66,7 +67,7 @@ public class Filesystem implements Parcelable {
         return true;
     }
 
-    public boolean cd(String subDirectory) {
+    public boolean cd(@NonNull String subDirectory) {
         File f = new File(getPath() + "/" + subDirectory);
         if (!f.exists()) {
             return false;

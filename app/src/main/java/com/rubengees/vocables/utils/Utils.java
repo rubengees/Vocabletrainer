@@ -93,12 +93,7 @@ public class Utils {
                 }
 
                 if (context != null) {
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            listener.onWaitFinished();
-                        }
-                    });
+                    context.runOnUiThread(new MyRunnable(listener));
                 }
             }
         }).start();
@@ -177,4 +172,16 @@ public class Utils {
         void onWaitFinished();
     }
 
+    private static class MyRunnable implements Runnable {
+        private final OnWaitFinishedListener listener;
+
+        public MyRunnable(OnWaitFinishedListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void run() {
+            listener.onWaitFinished();
+        }
+    }
 }

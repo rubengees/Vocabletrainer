@@ -114,7 +114,7 @@ public abstract class Test {
     }
 
     protected void showError() {
-        SnackbarManager.show(Snackbar.with(getContext()).text(context.getString(com.rubengees.vocables.R.string.test_error)).type(SnackbarType.MULTI_LINE)
+        SnackbarManager.show(Snackbar.with(context).text(context.getString(com.rubengees.vocables.R.string.test_error)).type(SnackbarType.MULTI_LINE)
                 .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE));
         finishTest(getLogic().getResult(), getLogic().getVocables());
     }

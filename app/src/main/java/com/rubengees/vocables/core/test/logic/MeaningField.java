@@ -49,9 +49,9 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     }
 
     public void setCells(List<MeaningCell> cells) {
-        for (int i = 0; i < getSizeX(); i++) {
-            for (int ii = 0; ii < getSizeY(); ii++) {
-                field[i][ii] = cells.get(i * getSizeY() + ii);
+        for (int i = 0; i < sizeX; i++) {
+            for (int ii = 0; ii < sizeY; ii++) {
+                field[i][ii] = cells.get(i * sizeY + ii);
             }
         }
 
@@ -68,7 +68,7 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     }
 
     public int getSize() {
-        return getSizeX() * getSizeY();
+        return sizeX * sizeY;
     }
 
     public void unSelect() {
@@ -115,8 +115,8 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     }
 
     public Position findCellPosition(MeaningList meaningList) {
-        for (int i = 0; i < getSizeX(); i++) {
-            for (int ii = 0; ii < getSizeY(); ii++) {
+        for (int i = 0; i < sizeX; i++) {
+            for (int ii = 0; ii < sizeY; ii++) {
                 Position current = new Position(i, ii);
                 MeaningCell cell = getCell(current);
 
@@ -149,8 +149,8 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     public List<MeaningCell> toList() {
         List<MeaningCell> result = new ArrayList<>(getSize());
 
-        for (int i = 0; i < getSizeX(); i++) {
-            for (int ii = 0; ii < getSizeY(); ii++) {
+        for (int i = 0; i < sizeX; i++) {
+            for (int ii = 0; ii < sizeY; ii++) {
                 MeaningCell current = field[i][ii];
 
                 if (current != null) {
@@ -169,8 +169,8 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(getSizeX());
-        out.writeInt(getSizeY());
+        out.writeInt(sizeX);
+        out.writeInt(sizeY);
 
         for (MeaningCell[] cell : field) {
             out.writeParcelableArray(cell, flags);

@@ -410,22 +410,7 @@ public class VocableDialog extends DialogFragment {
         EditText input = (EditText) result.getChildAt(0);
 
         result.setHint(hint);
-        input.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                result.setErrorEnabled(false);
-            }
-        });
+        input.addTextChangedListener(new MyTextWatcher(result));
         input.setText(text);
         input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
@@ -447,5 +432,28 @@ public class VocableDialog extends DialogFragment {
         void onVocableAdded(Unit unit, Vocable vocable);
 
         void onVocableChanged(Unit newUnit, Unit oldUnit, Vocable vocable, int pos);
+    }
+
+    private static class MyTextWatcher implements TextWatcher {
+        private final TextInputLayout result;
+
+        public MyTextWatcher(TextInputLayout result) {
+            this.result = result;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            result.setErrorEnabled(false);
+        }
     }
 }

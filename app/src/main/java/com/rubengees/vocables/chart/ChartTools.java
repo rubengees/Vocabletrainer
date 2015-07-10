@@ -24,9 +24,9 @@ public class ChartTools {
 
     public static void generateAnswerChart(PieChartView chart, int correct, int incorrect) {
         Context context = chart.getContext();
-        List<Integer> values = new ArrayList<>();
-        ArrayList<Integer> colors = new ArrayList<>();
-        ArrayList<String> titles = new ArrayList<>();
+        List<Integer> values = new ArrayList<>(4);
+        ArrayList<Integer> colors = new ArrayList<>(4);
+        ArrayList<String> titles = new ArrayList<>(4);
 
         values.add(correct);
         values.add(incorrect);
@@ -40,9 +40,9 @@ public class ChartTools {
 
     public static void generateModeChart(PieChartView chart, List<Mode> modes) {
         Context context = chart.getContext();
-        List<Integer> values = new ArrayList<>();
-        ArrayList<Integer> colors = new ArrayList<>();
-        ArrayList<String> titles = new ArrayList<>();
+        List<Integer> values = new ArrayList<>(4);
+        ArrayList<Integer> colors = new ArrayList<>(4);
+        ArrayList<String> titles = new ArrayList<>(4);
 
         for (Mode mode : modes) {
             values.add(mode.getPlayed());
@@ -55,9 +55,9 @@ public class ChartTools {
 
     public static void generateTimeChart(ColumnChartView chart, int bestTime, int averageTime) {
         Context context = chart.getContext();
-        List<Integer> values = new ArrayList<>();
-        ArrayList<Integer> colors = new ArrayList<>();
-        ArrayList<String> titles = new ArrayList<>();
+        List<Integer> values = new ArrayList<>(2);
+        ArrayList<Integer> colors = new ArrayList<>(2);
+        ArrayList<String> titles = new ArrayList<>(2);
 
         values.add(bestTime);
         values.add(averageTime);
@@ -70,7 +70,7 @@ public class ChartTools {
     }
 
     private static void generatePieChart(PieChartView chart, List<Integer> values, ArrayList<Integer> colors, ArrayList<String> titles) {
-        ArrayList<SliceValue> sliceValues = new ArrayList<>();
+        ArrayList<SliceValue> sliceValues = new ArrayList<>(4);
 
         for (int i = 0; i < values.size(); i++) {
             int value = values.get(i);
@@ -91,7 +91,7 @@ public class ChartTools {
     }
 
     private static void generateColumnChart(ColumnChartView chart, List<Integer> values, ArrayList<Integer> colors, ArrayList<String> titles) {
-        ArrayList<Column> columns = new ArrayList<>();
+        ArrayList<Column> columns = new ArrayList<>(4);
 
         for (int i = 0; i < values.size(); i++) {
             int value = values.get(i);

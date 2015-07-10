@@ -34,7 +34,7 @@ public class ExportTask {
             instance = new ExportTask(context, file);
         }
 
-        instance.setListener(listener);
+        instance.listener = listener;
 
         return instance;
     }

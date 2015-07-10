@@ -95,7 +95,7 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    class ViewHolderResultHeader extends RecyclerView.ViewHolder {
+    static class ViewHolderResultHeader extends RecyclerView.ViewHolder {
 
         PieChartView answers;
         ColumnChartView times;
@@ -108,7 +108,7 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    class ViewHolderResult extends RecyclerView.ViewHolder {
+    static class ViewHolderResult extends RecyclerView.ViewHolder {
 
         ImageView icon;
         TextView answer;

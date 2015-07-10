@@ -74,7 +74,7 @@ public class ChartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return modes.size() + 1;
     }
 
-    class ViewHolderMode extends RecyclerView.ViewHolder {
+    static class ViewHolderMode extends RecyclerView.ViewHolder {
 
         TextView title;
         PieChartView answers;
@@ -89,7 +89,7 @@ public class ChartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    class ViewHolderGeneral extends RecyclerView.ViewHolder {
+    static class ViewHolderGeneral extends RecyclerView.ViewHolder {
 
         PieChartView modes;
         PieChartView answers;
