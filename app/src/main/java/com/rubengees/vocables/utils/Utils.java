@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
 import android.util.TypedValue;
 
@@ -46,7 +47,7 @@ public class Utils {
      * @param context The current Context
      * @return The amount of Spans
      */
-    public static int getSpanCount(Context context) {
+    public static int getSpanCount(@NonNull Context context) {
         int orientation = context.getResources().getConfiguration().orientation;
 
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -70,7 +71,7 @@ public class Utils {
      * @param context The Context
      * @return True if the device is a tablet, false otherwise
      */
-    private static boolean isTablet(Context context) {
+    private static boolean isTablet(@NonNull Context context) {
         return context.getResources().getBoolean(R.bool.isTablet);
     }
 
@@ -82,7 +83,7 @@ public class Utils {
      * @param time     The amount of time in Milliseconds
      * @param listener The Callback
      */
-    public static void wait(final Activity context, final int time, final OnWaitFinishedListener listener) {
+    public static void wait(@NonNull final Activity context, @NonNull final int time, @NonNull final OnWaitFinishedListener listener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -92,9 +93,7 @@ public class Utils {
                     e.printStackTrace();
                 }
 
-                if (context != null) {
-                    context.runOnUiThread(new MyRunnable(listener));
-                }
+                context.runOnUiThread(new MyRunnable(listener));
             }
         }).start();
     }
@@ -104,7 +103,7 @@ public class Utils {
      *
      * @param context The current Context.
      */
-    public static void showGooglePlusPage(Context context) {
+    public static void showGooglePlusPage(@NonNull Context context) {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW);
 
@@ -124,7 +123,7 @@ public class Utils {
      * @param dp      The dp
      * @return Th px
      */
-    public static int dpToPx(Context context, int dp) {
+    public static int dpToPx(@NonNull Context context, int dp) {
         Resources resources = context.getResources();
 
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
@@ -136,7 +135,7 @@ public class Utils {
      * @param button The Button to tint
      * @param color  The Color to use
      */
-    public static void setButtonColor(AppCompatButton button, int color) {
+    public static void setButtonColor(@NonNull AppCompatButton button, int color) {
         ColorStateList list = new ColorStateList(new int[][]{new int[]{android.R.attr.state_enabled}, new int[]{android.R.attr.state_pressed}}, new int[]{color, darkenColor(color)});
         button.setSupportBackgroundTintList(list);
     }
@@ -161,7 +160,7 @@ public class Utils {
      * @param color   The ID of the Color
      * @return The Color
      */
-    public static int getColor(Context context, @ColorRes int color) {
+    public static int getColor(@NonNull Context context, @ColorRes int color) {
         return context.getResources().getColor(color);
     }
 

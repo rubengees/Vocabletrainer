@@ -77,8 +77,6 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     private ViewGroup root;
 
-    private boolean replacing = false;
-
     public VocableListFragment() {
         // Required empty public constructor
     }
@@ -497,6 +495,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     public void onDelete() {
         vocableManager.clear();
         SnackbarManager.dismiss();
+        getUndoManager().clear();
         adapter.clear();
         updateCount();
 
