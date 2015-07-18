@@ -14,7 +14,7 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
 
     private SortMode sortMode;
 
-    public VocableListAdapter(SortMode sortMode) {
+    public VocableListAdapter(@NonNull SortMode sortMode) {
         this.sortMode = sortMode;
     }
 
@@ -22,11 +22,11 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
 
     public abstract void clear();
 
-    public abstract void add(T item);
+    public abstract void add(@NonNull T item);
 
-    public abstract void addAll(Collection<T> items);
+    public abstract void addAll(@NonNull Collection<T> items);
 
-    public abstract void update(T item, int pos);
+    public abstract void update(@NonNull T item, int pos);
 
     public abstract T get(int pos);
 

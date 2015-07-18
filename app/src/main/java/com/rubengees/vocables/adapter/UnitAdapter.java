@@ -1,5 +1,6 @@
 package com.rubengees.vocables.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -91,14 +92,14 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
     }
 
     @Override
-    public void add(Unit item) {
+    public void add(@NonNull Unit item) {
         if (list.indexOf(item) == -1) {
             list.add(item);
         }
     }
 
     @Override
-    public void addAll(Collection<Unit> items) {
+    public void addAll(@NonNull Collection<Unit> items) {
         list.beginBatchedUpdates();
         for (Unit item : items) {
             if (list.indexOf(item) == -1) {
@@ -109,7 +110,7 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
     }
 
     @Override
-    public void update(Unit item, int pos) {
+    public void update(@NonNull Unit item, int pos) {
         list.updateItemAt(pos, item);
     }
 

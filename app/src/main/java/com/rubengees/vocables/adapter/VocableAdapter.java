@@ -1,5 +1,6 @@
 package com.rubengees.vocables.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -103,12 +104,12 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
     }
 
     @Override
-    public void add(Vocable item) {
+    public void add(@NonNull Vocable item) {
         list.add(item);
     }
 
     @Override
-    public void addAll(Collection<Vocable> items) {
+    public void addAll(@NonNull Collection<Vocable> items) {
         list.beginBatchedUpdates();
         for (Vocable item : items) {
             list.add(item);
@@ -117,7 +118,7 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
     }
 
     @Override
-    public void update(Vocable item, int pos) {
+    public void update(@NonNull Vocable item, int pos) {
         list.updateItemAt(pos, item);
     }
 
