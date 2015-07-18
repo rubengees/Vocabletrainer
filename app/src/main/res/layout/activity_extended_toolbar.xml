@@ -39,7 +39,7 @@
         android:visibility="gone"
         tools:ignore="UnusedAttribute" />
 
-    <com.melnykov.fab.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,12 +49,8 @@
         android:layout_marginBottom="-32dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:elevation="6dp"
         android:visibility="gone"
-        fab:fab_colorNormal="@color/accent"
-        fab:fab_colorPressed="@color/accent"
-        fab:fab_colorRipple="@color/ripple_material_dark"
-        tools:ignore="UnusedAttribute" />
+        fab:elevation="4dp" />
 
     <FrameLayout
         android:id="@+id/content_container"
