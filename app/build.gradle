@@ -53,7 +53,7 @@ dependencies {
     compile('com.mikepenz:materialdrawer:3.1.2@aar') {
         transitive = true
     }
-    compile('com.mikepenz:aboutlibraries:5.0.5@aar') {
+    compile('com.mikepenz:aboutlibraries:5.0.8@aar') {
         transitive = true
     }
     compile 'com.github.lecho:hellocharts-library:1.5.5@aar'

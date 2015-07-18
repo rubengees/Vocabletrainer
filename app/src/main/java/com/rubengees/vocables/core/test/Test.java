@@ -116,6 +116,7 @@ public abstract class Test {
 
     protected void showError() {
         SnackbarManager.show(Snackbar.make(getToolbarActivity().findViewById(R.id.content), context.getString(com.rubengees.vocables.R.string.test_error), Snackbar.LENGTH_INDEFINITE), null, null);
+        //noinspection unchecked
         finishTest(getLogic().getResult(), getLogic().getVocables());
     }
 
