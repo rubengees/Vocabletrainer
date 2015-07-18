@@ -3,14 +3,12 @@ package com.rubengees.vocables.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.enums.SnackbarType;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
 import com.rubengees.vocables.core.Core;
@@ -18,6 +16,7 @@ import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.core.testsettings.layout.TestSettingsLayout;
 import com.rubengees.vocables.data.VocableManager;
+import com.rubengees.vocables.utils.SnackbarManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,8 +90,8 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
                 if (vocableAmount >= mode.getMinAmount()) {
                     getActivity().getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
                 } else {
-                    SnackbarManager.show(Snackbar.with(getActivity()).text(getString(R.string.fragment_test_settings_error_not_enough_vocables) + " " + mode.getMinAmount())
-                            .duration(Snackbar.SnackbarDuration.LENGTH_LONG).type(SnackbarType.MULTI_LINE), (ViewGroup) getActivity().findViewById(R.id.content));
+                    SnackbarManager.show(Snackbar.make(root, getString(R.string.fragment_test_settings_error_not_enough_vocables)
+                            + " " + mode.getMinAmount(), Snackbar.LENGTH_LONG), null, null);
                 }
             }
         });

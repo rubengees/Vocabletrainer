@@ -2,16 +2,16 @@ package com.rubengees.vocables.core.test;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.enums.SnackbarType;
+import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
 import com.rubengees.vocables.core.test.logic.TestLogic;
 import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.pojo.Vocable;
 import com.rubengees.vocables.utils.PreferenceUtils;
+import com.rubengees.vocables.utils.SnackbarManager;
 
 import java.util.ArrayList;
 
@@ -32,6 +32,7 @@ public abstract class Test {
     private boolean animate;
 
     private Bundle savedInstanceState;
+    private View root;
 
     public Test(Context context, TestSettings settings, OnTestFinishedListener testFinishedListener, int color, int darkColor, Bundle savedInstanceState) {
         this(context, settings, testFinishedListener, color, darkColor);
@@ -81,14 +82,14 @@ public abstract class Test {
     }
 
     public final View getLayout() {
-        View result = getSpecificLayout();
+        root = getSpecificLayout();
 
         if (savedInstanceState != null) {
             restoreSavedInstanceState(savedInstanceState);
             savedInstanceState = null;
         }
 
-        return result;
+        return root;
     }
 
     public abstract View getSpecificLayout();
@@ -114,8 +115,7 @@ public abstract class Test {
     }
 
     protected void showError() {
-        SnackbarManager.show(Snackbar.with(context).text(context.getString(com.rubengees.vocables.R.string.test_error)).type(SnackbarType.MULTI_LINE)
-                .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE));
+        SnackbarManager.show(Snackbar.make(getToolbarActivity().findViewById(R.id.content), context.getString(com.rubengees.vocables.R.string.test_error), Snackbar.LENGTH_INDEFINITE), null, null);
         finishTest(getLogic().getResult(), getLogic().getVocables());
     }
 

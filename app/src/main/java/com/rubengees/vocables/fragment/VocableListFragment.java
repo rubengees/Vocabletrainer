@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -16,16 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.listeners.ActionClickListener;
-import com.nispok.snackbar.listeners.EventListener;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.TransferActivity;
 import com.rubengees.vocables.adapter.UnitAdapter;
@@ -47,6 +42,7 @@ import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
 import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.ImportTask;
+import com.rubengees.vocables.utils.SnackbarManager;
 import com.rubengees.vocables.utils.Utils;
 
 import java.util.HashMap;
@@ -68,7 +64,6 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     private static final String SORT_MODE = "sort_mode";
     private static final String CURRENT_UNIT = "current_unit";
     private static final String INFO_DIALOG = "info_dialog";
-    private static final float INTERPOLATOR_FACTOR = 1.5f;
 
     private RecyclerView recycler;
     private FloatingActionButton fab;
@@ -127,6 +122,12 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         vocableManager = Core.getInstance(getActivity()).getVocableManager();
 
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onStop() {
+        SnackbarManager.dismiss();
+        super.onStop();
     }
 
     @Override
@@ -204,12 +205,6 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         return root;
     }
 
-    @Override
-    public void onStop() {
-        SnackbarManager.dismiss();
-        super.onStop();
-    }
-
     private void setupRecycler(Bundle savedInstanceState) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), Utils.getSpanCount(getActivity()));
 
@@ -272,48 +267,19 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     private void showSnackbar() {
         int amount = getUndoManager().size();
+        String text = amount + " " + (amount == 1 ? getString(R.string.vocable) : getString(R.string.vocables))
+                + " " + getString(R.string.fragmnet_vocable_list_deleted_message);
 
-        SnackbarManager.show(Snackbar.with(getActivity()).actionColor(getResources().getColor(R.color.accent)).actionLabel(getString(R.string.fragment_vocable_list_undo))
-                .text(amount + " " + (amount == 1 ? getString(R.string.vocable) : getString(R.string.vocables)) + " " + getString(R.string.fragmnet_vocable_list_deleted_message)).duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE).actionListener(new ActionClickListener() {
-                    @Override
-                    public void onActionClicked(Snackbar snackbar) {
-                        undo();
-                    }
-                }).eventListener(new EventListener() {
-                    @Override
-                    public void onShow(Snackbar snackbar) {
-                        AnimationUtils.translateY(fab, -snackbar.getHeight(), ANIMATION_DURATION, new DecelerateInterpolator(INTERPOLATOR_FACTOR));
-                    }
-
-                    @Override
-                    public void onShowByReplace(Snackbar snackbar) {
-
-                    }
-
-                    @Override
-                    public void onShown(Snackbar snackbar) {
-
-                    }
-
-                    @Override
-                    public void onDismiss(Snackbar snackbar) {
-                        AnimationUtils.translateY(fab, snackbar.getHeight(), ANIMATION_DURATION, new AccelerateInterpolator(INTERPOLATOR_FACTOR));
-                        if (!replacing) {
-                            getUndoManager().clear();
-                        }
-                        replacing = false;
-                    }
-
-                    @Override
-                    public void onDismissByReplace(Snackbar snackbar) {
-                        replacing = true;
-                    }
-
-                    @Override
-                    public void onDismissed(Snackbar snackbar) {
-
-                    }
-                }), root);
+        if (SnackbarManager.hasSnackbar()) {
+            SnackbarManager.update(text);
+        } else {
+            SnackbarManager.show(Snackbar.make(root, text, Snackbar.LENGTH_INDEFINITE), getString(R.string.fragment_vocable_list_undo), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    undo();
+                }
+            });
+        }
     }
 
     private void setupFAB() {
@@ -481,6 +447,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         } else if (adapter instanceof UnitAdapter) {
             ((UnitAdapter) adapter).addAll(units.values());
         }
+
+        updateCount();
 
         vocableManager.addUnits(units.values());
         getUndoManager().clear();

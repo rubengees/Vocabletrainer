@@ -4,17 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.listeners.ActionClickListener;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.dialog.OverrideDialog;
 import com.rubengees.vocables.fragment.FileFragment;
+import com.rubengees.vocables.utils.SnackbarManager;
 import com.rubengees.vocables.utils.TransferUtils;
 
 import java.io.File;
@@ -73,13 +73,13 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
     }
 
     private void showSnackbar() {
-        SnackbarManager.show(Snackbar.with(this).text(getString(R.string.activity_transfer_error_sd)).actionLabel(getString(R.string.activity_transfer_error_retry)).actionColor(getResources().getColor(R.color.accent))
-                .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE).actionListener(new ActionClickListener() {
+        SnackbarManager.show(Snackbar.make(findViewById(R.id.content), getString(R.string.activity_transfer_error_sd), Snackbar.LENGTH_INDEFINITE),
+                getString(R.string.activity_transfer_error_retry), new View.OnClickListener() {
                     @Override
-                    public void onActionClicked(Snackbar snackbar) {
+                    public void onClick(View v) {
                         tryShowContent();
                     }
-                }));
+                });
     }
 
     @Override

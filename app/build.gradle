@@ -56,7 +56,6 @@ dependencies {
     compile('com.mikepenz:aboutlibraries:5.0.5@aar') {
         transitive = true
     }
-    compile 'com.nispok:snackbar:2.10.10'
     compile 'com.github.lecho:hellocharts-library:1.5.5@aar'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.easing:library:1.0.1@aar'

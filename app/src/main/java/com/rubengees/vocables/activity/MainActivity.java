@@ -20,7 +20,6 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.nispok.snackbar.SnackbarManager;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.mode.Mode;
@@ -35,6 +34,7 @@ import com.rubengees.vocables.fragment.TestSettingsFragment;
 import com.rubengees.vocables.fragment.VocableListFragment;
 import com.rubengees.vocables.utils.PreferenceUtils;
 import com.rubengees.vocables.utils.ReminderUtils;
+import com.rubengees.vocables.utils.SnackbarManager;
 import com.rubengees.vocables.utils.Utils;
 
 import java.util.ArrayList;
