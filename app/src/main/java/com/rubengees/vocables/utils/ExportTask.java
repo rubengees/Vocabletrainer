@@ -29,7 +29,7 @@ public class ExportTask {
         this.file = file;
     }
 
-    public static ExportTask getInstance(Context context, @NonNull File file, @Nullable OnExportFinishedListener listener) {
+    public static ExportTask getInstance(@NonNull Context context, @NonNull File file, @Nullable OnExportFinishedListener listener) {
         if (instance == null) {
             instance = new ExportTask(context, file);
         }
@@ -46,7 +46,7 @@ public class ExportTask {
         }
     }
 
-    public void setListener(OnExportFinishedListener listener) {
+    public void setListener(@Nullable OnExportFinishedListener listener) {
         this.listener = listener;
     }
 

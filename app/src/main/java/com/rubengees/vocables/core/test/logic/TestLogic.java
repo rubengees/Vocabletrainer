@@ -29,6 +29,7 @@ public abstract class TestLogic<E extends TestSettings> {
     private static final String STATE_POSITION = "position";
     private static final String STATE_CURRENT_TIME = "currentTime";
     private static final String STATE_RESULT = "result";
+
     private Context context;
     private ArrayList<Vocable> vocables;
     private int position = -1;
@@ -92,7 +93,7 @@ public abstract class TestLogic<E extends TestSettings> {
         int pos = getAdjustedPosition();
 
         if (pos >= vocables.size()) {
-            return null;
+            throw new RuntimeException("The requested position is not in the list.");
         } else {
             return vocables.get(pos);
         }

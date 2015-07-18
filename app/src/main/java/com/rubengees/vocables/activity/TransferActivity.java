@@ -125,7 +125,7 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
     }
 
     @Override
-    public void onFileClicked(File file) {
+    public void onFileClicked(@NonNull File file) {
         if (isImport && TransferUtils.isFileSupported(file)) {
             Intent in = new Intent();
             in.putExtra("path", file.getAbsolutePath());
@@ -157,7 +157,7 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
     }
 
     @Override
-    public void onOverride(File file) {
+    public void onOverride(@NonNull File file) {
         Intent in = new Intent();
         in.putExtra("path", file.getAbsolutePath());
 

@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.rubengees.vocables.enumeration.SortMode;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by Ruben on 30.04.2015.
@@ -24,7 +24,7 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
 
     public abstract void add(T item);
 
-    public abstract void addAll(List<T> items);
+    public abstract void addAll(Collection<T> items);
 
     public abstract void update(T item, int pos);
 

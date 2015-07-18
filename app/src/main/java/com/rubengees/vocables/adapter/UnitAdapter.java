@@ -12,6 +12,7 @@ import com.rubengees.vocables.enumeration.SortMode;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.utils.Utils;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -91,14 +92,18 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
 
     @Override
     public void add(Unit item) {
-        list.add(item);
+        if (list.indexOf(item) == -1) {
+            list.add(item);
+        }
     }
 
     @Override
-    public void addAll(List<Unit> items) {
+    public void addAll(Collection<Unit> items) {
         list.beginBatchedUpdates();
         for (Unit item : items) {
-            list.add(item);
+            if (list.indexOf(item) == -1) {
+                list.add(item);
+            }
         }
         list.endBatchedUpdates();
     }

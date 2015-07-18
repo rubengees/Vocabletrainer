@@ -302,11 +302,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
      * @param title the Title
      */
     @Override
-    public final void setTitle(CharSequence title) {
-        if (title == null) {
-            return;
-        }
-
+    public final void setTitle(@Nullable CharSequence title) {
         ActionBar ab = getSupportActionBar();
 
         if (ab != null) {
@@ -333,7 +329,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
      * Sets the Subtitle of the Application
      * @param subtitle The Subtitle
      */
-    public void setSubtitle(String subtitle) {
+    public void setSubtitle(@Nullable String subtitle) {
         ActionBar ab = getSupportActionBar();
 
         if (ab != null) {

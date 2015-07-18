@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -47,6 +48,8 @@ import com.rubengees.vocables.pojo.Vocable;
 import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.ImportTask;
 import com.rubengees.vocables.utils.Utils;
+
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -274,10 +277,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                 .text(amount + " " + (amount == 1 ? getString(R.string.vocable) : getString(R.string.vocables)) + " " + getString(R.string.fragmnet_vocable_list_deleted_message)).duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE).actionListener(new ActionClickListener() {
                     @Override
                     public void onActionClicked(Snackbar snackbar) {
-                        vocableManager.addUnits(getUndoManager().getUnits());
-                        getUndoManager().clear();
-
-                        onImportFinished(null);
+                        undo();
                     }
                 }).eventListener(new EventListener() {
                     @Override
@@ -342,7 +342,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         updateCount();
     }
 
-    private void setVocableAdapter(Unit unit) {
+    private void setVocableAdapter(@NonNull Unit unit) {
         getToolbarActivity().expandToolbar();
         getToolbarActivity().setToolbarView(header);
 
@@ -469,6 +469,23 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         dialog.show(getFragmentManager(), VOCABLE_DIALOG);
     }
 
+    private void undo() {
+        HashMap<Integer, Unit> units = getUndoManager().getUnits();
+
+        if (adapter instanceof VocableAdapter) {
+            Unit current = units.get(((VocableAdapter) adapter).getUnit().getId());
+
+            if (current != null) {
+                ((VocableAdapter) adapter).addAll(current.getVocables());
+            }
+        } else if (adapter instanceof UnitAdapter) {
+            ((UnitAdapter) adapter).addAll(units.values());
+        }
+
+        vocableManager.addUnits(units.values());
+        getUndoManager().clear();
+    }
+
     @Override
     public void onUnitChanged(Unit unit, int pos) {
         vocableManager.updateUnit(unit);
@@ -511,6 +528,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     @Override
     public void onDelete() {
         vocableManager.clear();
+        SnackbarManager.dismiss();
         adapter.clear();
         updateCount();
 

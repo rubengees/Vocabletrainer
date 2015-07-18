@@ -202,4 +202,5 @@
     <string name="dialog_reset_title">Reset Statistics</string>
     <string name="dialog_reset_content">All Statistics will be deleted. Vocable-Statistics will be not affected</string>
     <string name="dialog_reset_ok">Reset</string>
+    <string name="transfer_import_format_error">This format is not supported. See \'Import\' in Help.</string>
 </resources>

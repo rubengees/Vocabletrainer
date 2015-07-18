@@ -1,6 +1,7 @@
 package com.rubengees.vocables.utils;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Xml;
 
 import com.rubengees.vocables.R;
@@ -38,12 +39,12 @@ public class TransferUtils {
     public static final String TAG_SECOND_MEANING = "second_meaning";
     public static final String TAG_VALUE = "value";
 
-    public static boolean isFileSupported(File file) {
+    public static boolean isFileSupported(@NonNull File file) {
         String filename = file.getName();
         return filename.endsWith(".csv") || filename.endsWith(".xml");
     }
 
-    public static void export(List<Unit> units, File toExport) throws IOException {
+    public static void export(@NonNull List<Unit> units, @NonNull File toExport) throws IOException {
         XmlSerializer serializer = Xml.newSerializer();
         serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
         BufferedWriter writer = new BufferedWriter(new FileWriter(toExport));
@@ -52,7 +53,7 @@ public class TransferUtils {
         writeXml(serializer, units);
     }
 
-    private static void writeXml(XmlSerializer serializer, List<Unit> units) throws IOException {
+    private static void writeXml(@NonNull XmlSerializer serializer, @NonNull List<Unit> units) throws IOException {
         serializer.startDocument("UTF-16", true);
         serializer.startTag(null, TAG_UNITS);
         for (Unit unit : units) {
@@ -80,7 +81,7 @@ public class TransferUtils {
         serializer.endDocument();
     }
 
-    private static void insertMeaning(XmlSerializer serializer, MeaningList meaningList) throws IOException {
+    private static void insertMeaning(@NonNull XmlSerializer serializer, @NonNull MeaningList meaningList) throws IOException {
         for (String word : meaningList.getMeanings()) {
             serializer.startTag(null, TAG_VALUE);
             serializer.text(word);
@@ -88,17 +89,17 @@ public class TransferUtils {
         }
     }
 
-    public static List<Unit> getList(Context context, File file) throws FormatException, IOException {
+    public static List<Unit> getList(@NonNull Context context, @NonNull File file) throws FormatException, IOException {
         if (file.getName().endsWith(".csv")) {
             return parseCsv(context, file);
         } else if (file.getName().endsWith(".xml")) {
             return parseXml(context, file);
         } else {
-            return null;
+            throw new FormatException(context.getString(R.string.transfer_import_format_error));
         }
     }
 
-    private static List<Unit> parseCsv(Context context, File file) throws FormatException, IOException {
+    private static List<Unit> parseCsv(@NonNull Context context, @NonNull File file) throws FormatException, IOException {
         HashMap<String, Unit> unitMap = new HashMap<>();
         BufferedReader reader = new BufferedReader(new FileReader(file));
 

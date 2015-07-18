@@ -1,6 +1,7 @@
 package com.rubengees.vocables.data;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
@@ -29,15 +30,15 @@ public class VocableManager {
         }
     }
 
-    public void vocableAdded(Unit unit, Vocable vocable) {
+    public void vocableAdded(@NonNull Unit unit, @NonNull Vocable vocable) {
         db.addVocable(unit, vocable);
     }
 
-    public void vocablesAdded(Unit unit, List<Vocable> vocables) {
+    public void vocablesAdded(@NonNull Unit unit, @NonNull List<Vocable> vocables) {
         db.addVocables(unit, vocables);
     }
 
-    public void vocableRemoved(Unit unit, Vocable vocable) {
+    public void vocableRemoved(@NonNull Unit unit, @NonNull Vocable vocable) {
         if (unit.isEmpty()) {
             units.remove(unit.getId());
             db.removeUnit(unit);
@@ -46,7 +47,7 @@ public class VocableManager {
         db.removeVocable(vocable);
     }
 
-    public void vocablesRemoved(Unit unit, List<Vocable> vocables) {
+    public void vocablesRemoved(@NonNull Unit unit, @NonNull List<Vocable> vocables) {
         if (unit.isEmpty()) {
             units.remove(unit.getId());
             db.removeUnit(unit);
@@ -55,7 +56,7 @@ public class VocableManager {
         db.removeVocables(vocables);
     }
 
-    public void updateVocable(Unit oldUnit, Unit newUnit, Vocable vocable) {
+    public void updateVocable(@NonNull Unit oldUnit, @NonNull Unit newUnit, @NonNull Vocable vocable) {
         if (oldUnit != newUnit) {
             oldUnit.remove(vocable);
             newUnit.add(vocable);
@@ -77,8 +78,10 @@ public class VocableManager {
         }
     }
 
-    private Unit getUnitFromRAM(Unit toFind) {
-        if (toFind.getId() == null) {
+    private Unit getUnitFromRAM(@NonNull Unit toFind) {
+        Unit existing = units.get(toFind.getId());
+
+        if (existing == null) {
             Unit sameTitle = null;
 
             for (Unit unit1 : units.values()) {
@@ -97,15 +100,15 @@ public class VocableManager {
                 return sameTitle;
             }
         } else {
-            return units.get(toFind.getId());
+            return existing;
         }
     }
 
-    public void updateVocablesFast(List<Vocable> vocables) {
+    public void updateVocablesFast(@NonNull List<Vocable> vocables) {
         db.updateVocablesFast(vocables);
     }
 
-    public boolean addUnit(Unit unit) {
+    public boolean addUnit(@NonNull Unit unit) {
         if (unit.isEmpty()) {
             throw new RuntimeException("A unit cannot be empty!");
         }
@@ -124,25 +127,21 @@ public class VocableManager {
         }
     }
 
-    public void addUnits(Collection<Unit> units) {
+    public void addUnits(@NonNull Collection<Unit> units) {
         for (Unit unit : units) {
             addUnit(unit);
         }
     }
 
-    public void removeUnit(Unit unit) {
+    public void removeUnit(@NonNull Unit unit) {
         List<Vocable> vocables = unit.getVocables();
 
         unit.clear();
         vocablesRemoved(unit, vocables);
     }
 
-    public Unit getUnit(Integer id) {
-        if (id == null) {
-            return null;
-        } else {
-            return units.get(id);
-        }
+    public Unit getUnit(@NonNull Integer id) {
+        return units.get(id);
     }
 
     public List<Unit> getUnitList() {

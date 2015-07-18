@@ -3,7 +3,6 @@ package com.rubengees.vocables.data;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
 
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -21,6 +20,7 @@ public class UndoManager {
     public void add(Unit unit) {
         Unit dummy = new Unit();
         dummy.setTitle(unit.getTitle());
+        dummy.setId(unit.getId());
 
         dummy.addAll(unit.getVocables());
         units.put(unit.getId(), dummy);
@@ -34,6 +34,7 @@ public class UndoManager {
         } else {
             Unit dummy = new Unit();
             dummy.setTitle(unit.getTitle());
+            dummy.setId(unit.getId());
 
             dummy.add(vocable);
             units.put(unit.getId(), dummy);
@@ -47,8 +48,8 @@ public class UndoManager {
         size = 0;
     }
 
-    public Collection<Unit> getUnits() {
-        return units.values();
+    public HashMap<Integer, Unit> getUnits() {
+        return units;
     }
 
     public int size() {

@@ -1,6 +1,8 @@
 package com.rubengees.vocables.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -37,7 +39,7 @@ public class FileFragment extends MainFragment implements FileAdapter.OnItemClic
 
     }
 
-    public static FileFragment newInstance(String path) {
+    public static FileFragment newInstance(@NonNull String path) {
         FileFragment fragment = new FileFragment();
         Bundle bundle = new Bundle();
 
@@ -46,13 +48,7 @@ public class FileFragment extends MainFragment implements FileAdapter.OnItemClic
         return fragment;
     }
 
-    public FileFragment withListener(FileFragmentListener listener) {
-        this.listener = listener;
-
-        return this;
-    }
-
-    public void setFileEventListener(FileFragmentListener listener) {
+    public void setFileEventListener(@Nullable FileFragmentListener listener) {
         this.listener = listener;
     }
 
@@ -101,7 +97,7 @@ public class FileFragment extends MainFragment implements FileAdapter.OnItemClic
         return filesystem.getCurrentDir();
     }
 
-    private void cd(String name) {
+    private void cd(@NonNull String name) {
         filesystem.cd(name);
         refresh();
     }
@@ -134,7 +130,7 @@ public class FileFragment extends MainFragment implements FileAdapter.OnItemClic
     }
 
     @Override
-    public void onItemClick(File file) {
+    public void onItemClick(@NonNull File file) {
         if (file.isDirectory()) {
             cd(file.getName());
         } else {

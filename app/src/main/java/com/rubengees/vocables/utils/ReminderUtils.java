@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 
 import com.rubengees.vocables.receiver.BootReceiver;
 import com.rubengees.vocables.receiver.ReminderReceiver;
@@ -16,7 +17,7 @@ import java.util.Calendar;
  * Created by Ruben Gees on 08.02.2015.
  */
 public class ReminderUtils {
-    public static void cancelReminder(Context context) {
+    public static void cancelReminder(@NonNull Context context) {
         ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).cancel(PendingIntent.getBroadcast(context, 0, new Intent(context, ReminderReceiver.class), 0));
         ComponentName receiver = new ComponentName(context, BootReceiver.class);
         PackageManager pm = context.getPackageManager();
@@ -26,7 +27,7 @@ public class ReminderUtils {
                 PackageManager.DONT_KILL_APP);
     }
 
-    public static void setReminder(Context context) {
+    public static void setReminder(@NonNull Context context) {
         int time = PreferenceUtils.getReminderTime(context);
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, ReminderReceiver.class);

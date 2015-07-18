@@ -19,11 +19,17 @@ import com.nineoldandroids.animation.Animator;
  */
 public class AnimationUtils {
 
-    public static void translateY(View view, int y, int duration, Interpolator interpolator) {
-        ViewPropertyAnimator animator = view.animate().translationYBy(y).setDuration(duration).setInterpolator(interpolator);
+    public static void translateY(@NonNull View view, int y, int duration, @Nullable Interpolator interpolator) {
+        ViewPropertyAnimator animator = view.animate().translationYBy(y).setDuration(duration);
+
+        if (interpolator != null) {
+            animator.setInterpolator(interpolator);
+        }
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             animator.withLayer();
         }
+
         animator.start();
     }
 

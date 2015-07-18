@@ -13,7 +13,7 @@ import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
 import com.rubengees.vocables.utils.Utils;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by Ruben on 30.04.2015.
@@ -108,7 +108,7 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
     }
 
     @Override
-    public void addAll(List<Vocable> items) {
+    public void addAll(Collection<Vocable> items) {
         list.beginBatchedUpdates();
         for (Vocable item : items) {
             list.add(item);
