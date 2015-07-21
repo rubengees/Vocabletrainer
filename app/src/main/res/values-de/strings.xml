@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Vokabeltrainer</string>
-    <string name="activity_about_content">Eine kostenlose und quelloffene App um Vokabeln zu lernen</string>
+    <string name="activity_about_content">Eine kostenlose und quelloffene App um Vokabeln zu lernen.</string>
     <string name="activity_about_title">Über</string>
     <string name="activity_main_divider_modes">Modi</string>
     <string name="activity_transfer_error_file_type">Dieser Dateityp wird nicht unterstützt. Siehe \'Import\' in der Hilfe</string>
@@ -166,4 +166,13 @@
     <string name="dialog_reset_ok">Zurücksetzen</string>
     <string name="dialog_reset_title">Statistiken zurücksetzen</string>
     <string name="dialog_reset_content">Alle Statistiken werden gelöscht. Vokabel-Statistiken sind davon nicht betroffen</string>
+    <string name="layout_test_training_not_ok">Wusste ich nicht</string>
+    <string name="layout_test_training_ok">Wusste ich</string>
+    <string name="layout_test_training_show_answer">Antwort zeigen</string>
+    <string name="mode_training_title">Übungs-Modus</string>
+    <string name="mode_training_title_short">Übung</string>
+    <string name="transfer_import_format_error">Dieses Format wird nicht unterstützt. Siehe \'Import\' in der Hilfe.</string>
+    <string name="activity_about_content_authors">Autoren in der derzeitigen Version: &lt;a href="http://www.freepik.com">Freepik&lt;/>, &lt;a href="http://www.flaticon.com/authors/linh-pham">linh pham&lt;/>, &lt;a href="http://www.flaticon.com/authors/simpleicon">simpleicon&lt;/>, &lt;a href="http://www.flaticon.com/authors/dave-gandy">dave gandy&lt;/></string>
+    <string name="activity_about_content_icons">Einige Icons wurden von den Autoren auf &lt;a href="http://www.flaticon.com">Flaticon.com&lt;/> erstellt.</string>
+    <string name="mode_training_help">Im Übungs-Modus lernst du Vokabeln ohne die Antwort einzutippen. Du kannst über die Antwort nachdenken, sie dir anzeigen lassen und auswählen ob du sie wusstest oder nicht. Antworten aus diesem Modus zählen in keine Statistiken und schalten keine Erfolge frei.</string>
 </resources>

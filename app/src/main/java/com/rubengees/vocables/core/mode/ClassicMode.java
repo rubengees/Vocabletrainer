@@ -113,6 +113,11 @@ public class ClassicMode extends Mode {
         return new ClassicTest(context, settings, listener, getColor(context), getDarkColor(context), savedInstanceState);
     }
 
+    @Override
+    public boolean isRelevant() {
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      */

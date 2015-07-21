@@ -114,6 +114,11 @@ public class PairMode extends Mode {
         return new PairTest(context, settings, listener, getColor(context), getDarkColor(context), savedInstanceState);
     }
 
+    @Override
+    public boolean isRelevant() {
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      */

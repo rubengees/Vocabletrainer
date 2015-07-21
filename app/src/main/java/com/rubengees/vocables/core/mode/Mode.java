@@ -217,6 +217,8 @@ public abstract class Mode implements Parcelable {
      */
     public abstract Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener, @NonNull Bundle savedInstanceState);
 
+    public abstract boolean isRelevant();
+
     /**
      * Resets all the data of this Mode. The perfectInRow field will not be affected.
      */

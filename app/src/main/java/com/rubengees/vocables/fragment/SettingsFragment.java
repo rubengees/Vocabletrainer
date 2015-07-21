@@ -145,7 +145,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         } else if (preference == licences) {
             new LibsBuilder().withAboutIconShown(true).withAboutVersionShownName(true).withAnimations(true)
                     .withAboutAppName(getString(R.string.app_name))
-                    .withAboutDescription(getString(R.string.activity_about_content)).withActivityTitle(getString(R.string.activity_about_title))
+                    .withAboutDescription(getString(R.string.activity_about_content) + '\n' + getString(R.string.activity_about_content_icons) + '\n' + getString(R.string.activity_about_content_authors)).withActivityTitle(getString(R.string.activity_about_title))
                     .withFields(R.string.class.getFields()).withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR).start(getActivity());
         } else if (preference == source) {
             Uri uri = Uri.parse("https://github.com/RubenGees/Vocabletrainer");

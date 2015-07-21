@@ -135,7 +135,7 @@
     <string name="fragment_settings_mail_subject">Vocabletrainer Feedback</string>
     <string name="fragment_settings_mail_client">Choose Client</string>
 
-    <string name="activity_about_content">A free and opensource App to learn Vocables</string>
+    <string name="activity_about_content">A free and opensource App to learn Vocables.</string>
     <string name="activity_about_title">About</string>
 
     <string name="fragment_vocable_list_undo">Undo</string>
@@ -203,4 +203,12 @@
     <string name="dialog_reset_content">All Statistics will be deleted. Vocable-Statistics will be not affected</string>
     <string name="dialog_reset_ok">Reset</string>
     <string name="transfer_import_format_error">This format is not supported. See \'Import\' in Help.</string>
+    <string name="layout_test_training_ok">I knew it</string>
+    <string name="layout_test_training_not_ok">I didn\'t know it</string>
+    <string name="layout_test_training_show_answer">Show answer</string>
+    <string name="mode_training_title">Training Mode</string>
+    <string name="mode_training_title_short">Training</string>
+    <string name="activity_about_content_icons">Some Icons are created by authors at flaticon.com.</string>
+    <string name="activity_about_content_authors">Authors in current Version: &lt;a href="http://www.freepik.com">Freepik&lt;/>, &lt;a href="http://www.flaticon.com/authors/linh-pham">linh pham&lt;/>, &lt;a href="http://www.flaticon.com/authors/simpleicon">simpleicon&lt;/>, &lt;a href="http://www.flaticon.com/authors/dave-gandy">dave gandy&lt;/></string>
+    <string name="mode_training_help">The Training Mode is for learning your Vocables without typing the answer in. You can think about the answer, view it and select if you knew it or not. Answers from this Mode will not affect any statistics or unlock achievements.</string>
 </resources>

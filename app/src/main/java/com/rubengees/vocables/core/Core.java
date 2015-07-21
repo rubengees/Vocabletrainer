@@ -14,6 +14,7 @@ import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.core.mode.ModeData;
 import com.rubengees.vocables.core.mode.PairMode;
 import com.rubengees.vocables.core.mode.TimeMode;
+import com.rubengees.vocables.core.mode.TrainingMode;
 import com.rubengees.vocables.data.Database;
 import com.rubengees.vocables.data.UndoManager;
 import com.rubengees.vocables.data.VocableManager;
@@ -43,7 +44,7 @@ public class Core {
 
         initBilling();
 
-        modes = new ArrayList<>(3);
+        modes = new ArrayList<>(4);
         generateModes();
     }
 
@@ -118,6 +119,12 @@ public class Core {
             modes.add(new TimeMode(new ModeData(2, 0, 0, 0, 0, 0, 0)));
         }
 
+        if (data.containsKey(3)) {
+            modes.add(new TrainingMode(data.get(3)));
+        } else {
+            modes.add(new TrainingMode(new ModeData(3, 0, 0, 0, 0, 0, 0)));
+        }
+
         db.close();
     }
 
@@ -136,7 +143,7 @@ public class Core {
     }
 
     public List<Mode> getModes() {
-        return modes;
+        return new ArrayList<>(modes);
     }
 
     public GoogleServiceConnection getConnection() {

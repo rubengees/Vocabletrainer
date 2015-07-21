@@ -19,6 +19,7 @@ import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.core.mode.TimeMode;
 import com.rubengees.vocables.core.test.TestResult;
 import com.rubengees.vocables.core.testsettings.TestSettings;
+import com.rubengees.vocables.core.testsettings.TrainingTestSettings;
 import com.rubengees.vocables.pojo.Vocable;
 import com.rubengees.vocables.utils.Utils;
 
@@ -76,28 +77,32 @@ public class TestResultFragment extends MainFragment {
         }
 
         if (savedInstanceState == null) {
-            mode.processResult(result);
-            core.getVocableManager().updateVocablesFast(vocables);
-            core.saveMode(mode);
+            if (mode.isRelevant()) {
+                mode.processResult(result);
+                core.getVocableManager().updateVocablesFast(vocables);
+                core.saveMode(mode);
+            }
 
             GoogleServiceConnection connection = Core.getInstance(getActivity()).getConnection();
 
-            if (result.getCorrect() >= vocables.size()) {
-                if (result.getIncorrect() <= 0) {
-                    connection.unlockAchievement(getString(R.string.achievement_perfect));
+            if (!(settings instanceof TrainingTestSettings)) {
+                if (result.getCorrect() >= vocables.size()) {
+                    if (result.getIncorrect() <= 0) {
+                        connection.unlockAchievement(getString(R.string.achievement_perfect));
+                    }
+
+                    connection.unlockAchievement(getString(R.string.achievement_learning));
+                    connection.incrementAchievement(getString(R.string.achievement_geek));
+
+                    if (mode instanceof TimeMode && result.getAverageTime() <= ACHIEVEMENT_TIME
+                            && Utils.calculateCorrectAnswerRate(result.getCorrect(), result.getIncorrect()) >= ACHIEVEMENT_AMOUNT) {
+                        connection.unlockAchievement(getString(R.string.achievement_at_the_speed_of_light));
+                    }
                 }
 
-                connection.unlockAchievement(getString(R.string.achievement_learning));
-                connection.incrementAchievement(getString(R.string.achievement_geek));
-
-                if (mode instanceof TimeMode && result.getAverageTime() <= ACHIEVEMENT_TIME
-                        && Utils.calculateCorrectAnswerRate(result.getCorrect(), result.getIncorrect()) >= ACHIEVEMENT_AMOUNT) {
-                    connection.unlockAchievement(getString(R.string.achievement_at_the_speed_of_light));
+                if (mode.getPerfectInRow() == 3) {
+                    connection.unlockAchievement(getString(R.string.achievement_perfectionist));
                 }
-            }
-
-            if (mode.getPerfectInRow() == 3) {
-                connection.unlockAchievement(getString(R.string.achievement_perfectionist));
             }
         }
     }

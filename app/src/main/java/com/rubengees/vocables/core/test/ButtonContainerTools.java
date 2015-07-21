@@ -77,9 +77,9 @@ public class ButtonContainerTools {
                 } else {
                     button.setText(cell.getMeaningList().toString());
                     if (field.isSelected(pos)) {
-                        Utils.setButtonColor(button, darkColor);
+                        Utils.tintButton(button, darkColor);
                     } else {
-                        Utils.setButtonColor(button, color);
+                        Utils.tintButton(button, color);
                     }
 
                     button.setVisibility(View.VISIBLE);

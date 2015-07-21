@@ -139,14 +139,14 @@ public class PairTest extends Test implements View.OnClickListener {
             if (result == null) {
                 correctButton = null;
 
-                Utils.setButtonColor(firstButton, Utils.getColor(getContext(), R.color.green));
-                Utils.setButtonColor(secondButton, Utils.getColor(getContext(), R.color.green));
+                Utils.tintButton(firstButton, Utils.getColor(getContext(), R.color.green));
+                Utils.tintButton(secondButton, Utils.getColor(getContext(), R.color.green));
             } else {
                 correctButton = (AppCompatButton) ButtonContainerTools.getButtonAt(layout, result);
 
-                Utils.setButtonColor(firstButton, Utils.getColor(getContext(), R.color.red));
-                Utils.setButtonColor(secondButton, Utils.getColor(getContext(), R.color.red));
-                Utils.setButtonColor(correctButton, Utils.getColor(getContext(), R.color.green));
+                Utils.tintButton(firstButton, Utils.getColor(getContext(), R.color.red));
+                Utils.tintButton(secondButton, Utils.getColor(getContext(), R.color.red));
+                Utils.tintButton(correctButton, Utils.getColor(getContext(), R.color.green));
             }
 
             waiting = true;
@@ -167,7 +167,7 @@ public class PairTest extends Test implements View.OnClickListener {
                     public void onAnimationEnd() {
                         if (waiting) {
                             waiting = false;
-                            Utils.setButtonColor(secondButton, getColor());
+                            Utils.tintButton(secondButton, getColor());
                             next();
                         }
                     }

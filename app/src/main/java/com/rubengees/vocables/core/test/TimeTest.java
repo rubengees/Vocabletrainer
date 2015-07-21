@@ -130,12 +130,12 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
             AppCompatButton answerButton = (AppCompatButton) ButtonContainerTools.getButtonAt(layout, answerPos);
 
             if (resultPos == null) {
-                Utils.setButtonColor(answerButton, Utils.getColor(getContext(), R.color.green));
+                Utils.tintButton(answerButton, Utils.getColor(getContext(), R.color.green));
             } else {
                 AppCompatButton resultButton = (AppCompatButton) ButtonContainerTools.getButtonAt(layout, resultPos);
 
-                Utils.setButtonColor(answerButton, Utils.getColor(getContext(), R.color.red));
-                Utils.setButtonColor(resultButton, Utils.getColor(getContext(), R.color.green));
+                Utils.tintButton(answerButton, Utils.getColor(getContext(), R.color.red));
+                Utils.tintButton(resultButton, Utils.getColor(getContext(), R.color.green));
             }
 
             waiting = true;

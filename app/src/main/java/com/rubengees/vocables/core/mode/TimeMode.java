@@ -113,6 +113,11 @@ public class TimeMode extends Mode {
         return new TimeTest(context, settings, listener, getColor(context), getDarkColor(context), savedInstanceState);
     }
 
+    @Override
+    public boolean isRelevant() {
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      */

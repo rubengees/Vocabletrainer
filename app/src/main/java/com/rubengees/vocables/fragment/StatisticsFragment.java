@@ -18,6 +18,7 @@ import com.rubengees.vocables.data.Database;
 import com.rubengees.vocables.dialog.StatisticsResetDialog;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class StatisticsFragment extends MainFragment implements StatisticsResetDialog.StatisticsResetDialogCallback {
@@ -46,6 +47,14 @@ public class StatisticsFragment extends MainFragment implements StatisticsResetD
 
         if (getArguments() != null) {
             this.modes = getArguments().getParcelableArrayList(KEY_MODES);
+
+            Iterator<Mode> iterator = this.modes.iterator();
+
+            while (iterator.hasNext()) {
+                if (!iterator.next().isRelevant()) {
+                    iterator.remove();
+                }
+            }
         }
 
         StatisticsResetDialog resetDialog = (StatisticsResetDialog) getActivity().getFragmentManager().findFragmentByTag(RESET_DIALOG);

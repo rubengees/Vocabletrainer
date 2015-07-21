@@ -136,11 +136,15 @@ public abstract class TestLogic<E extends TestSettings> {
     }
 
     final void processAnswer(Vocable vocable, MeaningList question, MeaningList answer, MeaningList given, boolean correct) {
+        processAnswerDontSave(vocable, question, answer, given, correct);
+        vocable.processAnswer(correct);
+    }
+
+    final void processAnswerDontSave(Vocable vocable, MeaningList question, MeaningList answer, MeaningList given, boolean correct) {
         int time = (int) (System.currentTimeMillis() - currentTime);
         TestAnswer testAnswer = new TestAnswer(question, answer, given, correct, time);
 
         result.addAnswer(testAnswer);
-        vocable.processAnswer(correct);
     }
 
     public void saveInstanceState(Bundle outState) {

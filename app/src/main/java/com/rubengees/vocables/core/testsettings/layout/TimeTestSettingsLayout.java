@@ -31,7 +31,7 @@ public class TimeTestSettingsLayout extends TestSettingsLayout {
         return settings;
     }
 
-    private Direction getDirection() {
+    protected Direction getDirection() {
         switch (direction.getCheckedRadioButtonId()) {
             case R.id.fragment_test_settings_direction_your_other:
                 return Direction.FIRST;

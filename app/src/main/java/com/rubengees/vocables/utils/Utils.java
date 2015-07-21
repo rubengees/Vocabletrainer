@@ -83,7 +83,7 @@ public class Utils {
      * @param time     The amount of time in Milliseconds
      * @param listener The Callback
      */
-    public static void wait(@NonNull final Activity context, @NonNull final int time, @NonNull final OnWaitFinishedListener listener) {
+    public static void wait(@NonNull final Activity context, final int time, @NonNull final OnWaitFinishedListener listener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -135,7 +135,7 @@ public class Utils {
      * @param button The Button to tint
      * @param color  The Color to use
      */
-    public static void setButtonColor(@NonNull AppCompatButton button, int color) {
+    public static void tintButton(@NonNull AppCompatButton button, int color) {
         ColorStateList list = new ColorStateList(new int[][]{new int[]{android.R.attr.state_enabled}, new int[]{android.R.attr.state_pressed}}, new int[]{color, darkenColor(color)});
         button.setSupportBackgroundTintList(list);
     }
