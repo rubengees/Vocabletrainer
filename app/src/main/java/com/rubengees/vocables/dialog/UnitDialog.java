@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.pojo.Unit;
+import com.rubengees.vocables.utils.PreferenceUtils;
 
 /**
  * Created by ruben on 05.05.15.
@@ -76,6 +78,10 @@ public class UnitDialog extends DialogFragment {
                 return false;
             }
         });
+
+        if (!PreferenceUtils.shouldShowSuggestions(getActivity())) {
+            input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        }
 
         input.addTextChangedListener(new TextWatcher() {
             @Override

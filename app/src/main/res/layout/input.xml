@@ -5,6 +5,5 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textNoSuggestions" />
+        android:layout_height="wrap_content" />
 </android.support.design.widget.TextInputLayout>

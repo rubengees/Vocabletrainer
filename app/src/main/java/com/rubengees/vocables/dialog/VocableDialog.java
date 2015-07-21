@@ -23,6 +23,7 @@ import com.rubengees.vocables.data.VocableManager;
 import com.rubengees.vocables.pojo.MeaningList;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
+import com.rubengees.vocables.utils.PreferenceUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,6 +55,7 @@ public class VocableDialog extends DialogFragment {
     private EditText inputUnit;
     private ImageButton toggleUnit;
     private ArrayAdapter<Unit> adapter;
+    private boolean showSuggestions;
 
     public static VocableDialog newInstance(Integer unitId, Vocable vocable, Integer vocablePos) {
         VocableDialog dialog = new VocableDialog();
@@ -76,6 +78,7 @@ public class VocableDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
 
         manager = Core.getInstance(getActivity()).getVocableManager();
+        showSuggestions = PreferenceUtils.shouldShowSuggestions(getActivity());
 
         if (getArguments() != null) {
             vocable = getArguments().getParcelable(KEY_VOCABLE);
@@ -381,8 +384,10 @@ public class VocableDialog extends DialogFragment {
         inputUnit = (EditText) content.findViewById(R.id.dialog_vocable_unit_input);
         toggleUnit = (ImageButton) content.findViewById(R.id.dialog_vocable_toggle_unit_input);
 
-        hint.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        inputUnit.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        if (!showSuggestions) {
+            hint.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            inputUnit.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        }
 
         inputUnit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -412,7 +417,10 @@ public class VocableDialog extends DialogFragment {
         result.setHint(hint);
         input.addTextChangedListener(new MyTextWatcher(result));
         input.setText(text);
-        input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+
+        if (!showSuggestions) {
+            input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        }
 
         return result;
     }

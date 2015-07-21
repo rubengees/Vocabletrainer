@@ -31,6 +31,13 @@
             android:summaryOn="@string/preferences_animations_on"
             android:title="@string/preferences_animations_title" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_suggestions"
+            android:summaryOff="@string/preference_suggestions_off"
+            android:summaryOn="@string/preference_suggestions_on"
+            android:title="@string/preference_suggestions_title" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

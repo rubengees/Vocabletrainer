@@ -175,4 +175,7 @@
     <string name="activity_about_content_authors">Autoren in der derzeitigen Version: &lt;a href="http://www.freepik.com">Freepik&lt;/>, &lt;a href="http://www.flaticon.com/authors/linh-pham">linh pham&lt;/>, &lt;a href="http://www.flaticon.com/authors/simpleicon">simpleicon&lt;/>, &lt;a href="http://www.flaticon.com/authors/dave-gandy">dave gandy&lt;/></string>
     <string name="activity_about_content_icons">Einige Icons wurden von den Autoren auf &lt;a href="http://www.flaticon.com">Flaticon.com&lt;/> erstellt.</string>
     <string name="mode_training_help">Im Übungs-Modus lernst du Vokabeln ohne die Antwort einzutippen. Du kannst über die Antwort nachdenken, sie dir anzeigen lassen und auswählen ob du sie wusstest oder nicht. Antworten aus diesem Modus zählen in keine Statistiken und schalten keine Erfolge frei.</string>
+    <string name="preference_suggestions_title">Eingabe Vorschläge</string>
+    <string name="preference_suggestions_on">Vorschläge werden angezeigt</string>
+    <string name="preference_suggestions_off">Vorschläge werden nicht angezeigt</string>
 </resources>

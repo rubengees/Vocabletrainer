@@ -211,4 +211,7 @@
     <string name="activity_about_content_icons">Some Icons are created by authors at flaticon.com.</string>
     <string name="activity_about_content_authors">Authors in current Version: &lt;a href="http://www.freepik.com">Freepik&lt;/>, &lt;a href="http://www.flaticon.com/authors/linh-pham">linh pham&lt;/>, &lt;a href="http://www.flaticon.com/authors/simpleicon">simpleicon&lt;/>, &lt;a href="http://www.flaticon.com/authors/dave-gandy">dave gandy&lt;/></string>
     <string name="mode_training_help">The Training Mode is for learning your Vocables without typing the answer in. You can think about the answer, view it and select if you knew it or not. Answers from this Mode will not affect any statistics or unlock achievements.</string>
+    <string name="preference_suggestions_title">Input suggestions</string>
+    <string name="preference_suggestions_on">Suggestions will be displayed</string>
+    <string name="preference_suggestions_off">Suggestions won\'t be displayed</string>
 </resources>

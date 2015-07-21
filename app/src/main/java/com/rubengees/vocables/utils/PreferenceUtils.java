@@ -17,6 +17,7 @@ public class PreferenceUtils {
     private static final String PREF_ANIMATION = "pref_animation";
     private static final String PREF_FIRST_START = "first_start";
     private static final String PREF_EVALUATION = "pref_evaluation";
+    private static final String PREF_SUGGESTIONS = "pref_suggestions";
 
     public static boolean shouldSignIn(@NonNull Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PREF_START_GAMES, false);
@@ -68,5 +69,9 @@ public class PreferenceUtils {
 
     public static boolean hasEvaluated(@NonNull Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PREF_EVALUATION, false);
+    }
+
+    public static boolean shouldShowSuggestions(@NonNull Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PREF_SUGGESTIONS, false);
     }
 }

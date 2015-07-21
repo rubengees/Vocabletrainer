@@ -53,8 +53,7 @@
             android:id="@+id/dialog_vocable_hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/dialog_vocable_hint_input_hint"
-            android:inputType="textNoSuggestions" />
+            android:hint="@string/dialog_vocable_hint_input_hint" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -85,8 +84,7 @@
                 android:id="@+id/dialog_vocable_unit_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/dialog_vocable_unit_input_hint"
-                android:inputType="textNoSuggestions" />
+                android:hint="@string/dialog_vocable_unit_input_hint" />
 
         </android.support.design.widget.TextInputLayout>
 
