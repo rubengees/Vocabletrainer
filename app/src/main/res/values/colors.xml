@@ -18,6 +18,6 @@
     <color name="pair_mode_dark">#512DA8</color>
     <color name="time_mode">#607D8B</color>
     <color name="time_mode_dark">#455A64</color>
-    <color name="training_mode">#4CAF50</color>
-    <color name="training_mode_dark">#388E3C</color>
+    <color name="training_mode">#3F51B5</color>
+    <color name="training_mode_dark">#303F9F</color>
 </resources>
