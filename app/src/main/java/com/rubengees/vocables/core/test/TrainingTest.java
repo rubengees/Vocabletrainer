@@ -128,8 +128,8 @@ public class TrainingTest extends Test {
 
             handleVisibility();
 
-            waiting = true;
             if (shouldAnimate()) {
+                waiting = true;
                 AnimationUtils.animate(status, Techniques.FlipInX, ANIMATION_TIME, 0, new AnimationUtils.AnimationEndListener() {
                     @Override
                     public void onAnimationEnd() {
