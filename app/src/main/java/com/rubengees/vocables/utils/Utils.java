@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
@@ -135,7 +136,7 @@ public class Utils {
      * @param button The Button to tint
      * @param color  The Color to use
      */
-    public static void tintButton(@NonNull AppCompatButton button, int color) {
+    public static void tintButton(@NonNull AppCompatButton button, @ColorInt int color) {
         ColorStateList list = new ColorStateList(new int[][]{new int[]{android.R.attr.state_enabled}, new int[]{android.R.attr.state_pressed}}, new int[]{color, darkenColor(color)});
         button.setSupportBackgroundTintList(list);
     }
@@ -146,7 +147,7 @@ public class Utils {
      * @param color The Color to darken
      * @return The new Color
      */
-    public static int darkenColor(int color) {
+    public static int darkenColor(@ColorInt int color) {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         hsv[2] *= DARKER_COLOR_FACTOR;

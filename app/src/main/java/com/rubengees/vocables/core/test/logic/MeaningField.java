@@ -2,6 +2,9 @@ package com.rubengees.vocables.core.test.logic;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.Size;
 
 import com.rubengees.vocables.pojo.MeaningList;
 
@@ -33,12 +36,12 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     private int sizeX;
     private int sizeY;
 
-    public MeaningField(int sizeX, int sizeY, List<MeaningCell> cells) {
+    public MeaningField(@Size(min = 2) int sizeX, @Size(min = 2) int sizeY, List<MeaningCell> cells) {
         this(sizeX, sizeY);
         setCells(cells);
     }
 
-    public MeaningField(int sizeX, int sizeY) {
+    public MeaningField(@Size(min = 2) int sizeX, @Size(min = 2) int sizeY) {
         field = new MeaningCell[sizeX][sizeY];
         this.sizeX = sizeX;
         this.sizeY = sizeY;
@@ -48,7 +51,7 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         readFromParcel(in);
     }
 
-    public void setCells(List<MeaningCell> cells) {
+    public void setCells(@NonNull List<MeaningCell> cells) {
         for (int i = 0; i < sizeX; i++) {
             for (int ii = 0; ii < sizeY; ii++) {
                 field[i][ii] = cells.get(i * sizeY + ii);
@@ -93,12 +96,12 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         return elementCount <= 0;
     }
 
-    public void remove(Position pos) {
+    public void remove(@NonNull Position pos) {
         field[pos.getX()][pos.getY()] = null;
         elementCount--;
     }
 
-    public void select(Position pos) {
+    public void select(@Nullable Position pos) {
         selected = pos;
     }
 
@@ -114,7 +117,7 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         }
     }
 
-    public Position findCellPosition(MeaningList meaningList) {
+    public Position findCellPosition(@NonNull MeaningList meaningList) {
         for (int i = 0; i < sizeX; i++) {
             for (int ii = 0; ii < sizeY; ii++) {
                 Position current = new Position(i, ii);
@@ -129,11 +132,11 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         return null;
     }
 
-    public MeaningCell getCell(Position pos) {
+    public MeaningCell getCell(@NonNull Position pos) {
         return field[pos.getX()][pos.getY()];
     }
 
-    public boolean isSelected(Position pos) {
+    public boolean isSelected(@NonNull Position pos) {
         return selected != null && selected.equals(pos);
     }
 

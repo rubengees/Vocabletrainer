@@ -82,12 +82,12 @@ public class MeaningList implements List<String>, Comparable<MeaningList>, Parce
     }
 
     @Override
-    public boolean addAll(int location, Collection<? extends String> collection) {
+    public boolean addAll(int location, @NonNull Collection<? extends String> collection) {
         return meanings.addAll(location, collection);
     }
 
     @Override
-    public boolean addAll(Collection<? extends String> collection) {
+    public boolean addAll(@NonNull Collection<? extends String> collection) {
         return meanings.addAll(collection);
     }
 

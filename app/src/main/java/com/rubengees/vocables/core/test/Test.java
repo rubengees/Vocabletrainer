@@ -32,7 +32,6 @@ public abstract class Test {
     private boolean animate;
 
     private Bundle savedInstanceState;
-    private View root;
 
     public Test(Context context, TestSettings settings, OnTestFinishedListener testFinishedListener, int color, int darkColor, Bundle savedInstanceState) {
         this(context, settings, testFinishedListener, color, darkColor);
@@ -82,7 +81,7 @@ public abstract class Test {
     }
 
     public final View getLayout() {
-        root = getSpecificLayout();
+        View root = getSpecificLayout();
 
         if (savedInstanceState != null) {
             restoreSavedInstanceState(savedInstanceState);

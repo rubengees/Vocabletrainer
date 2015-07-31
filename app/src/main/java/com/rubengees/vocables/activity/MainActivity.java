@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
@@ -38,6 +37,7 @@ import com.rubengees.vocables.utils.SnackbarManager;
 import com.rubengees.vocables.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
@@ -48,76 +48,58 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
     private static final String DIALOG_WELCOME = "dialog_welcome";
     private static final String DIALOG_EVALUATION = "dialog_evaluation";
     private static final String DIALOG_PLAY_GAMES = "dialog_play_games";
-    private static final String CURRENT_DRAWER_ID = "current_drawer_id";
-    private static final String CURRENT_MODE = "current_mode";
     private static final String DONATE_DIALOG = "donate_dialog";
+    private static final String STATE_DRAWER_IDENTIFIER = "drawer_identifier";
 
     private Drawer drawer;
     private AdView adView;
     private Core core;
     private OnBackPressedListener onBackPressedListener;
-    private long currentDrawerId;
-    private Mode currentMode;
+    private int currentDrawerItemIdentifier = 0;
 
     private Drawer.OnDrawerItemClickListener onDrawerItemClickListener = new Drawer.OnDrawerItemClickListener() {
+
         @Override
-        public boolean onItemClick(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem drawerItem) {
-            boolean switchSection = false;
+        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+            int identifier = drawerItem.getIdentifier();
 
-            if (drawerItem.getIdentifier() != currentDrawerId || drawerItem.getTag() instanceof Mode) {
-                switchSection = true;
-            }
+            if (identifier != currentDrawerItemIdentifier) {
+                currentDrawerItemIdentifier = identifier;
 
-            if (switchSection) {
-
-                if (drawerItem instanceof PrimaryDrawerItem) {
-                    if (((PrimaryDrawerItem) drawerItem).isCheckable()) {
-                        currentDrawerId = drawerItem.getIdentifier();
-                    }
-
-                    if (drawerItem.getTag() == null) {
-                        currentMode = null;
-                    }
-                }
-
-                switch (drawerItem.getIdentifier()) {
-                    case 0:
-                        setFragment(VocableListFragment.newInstance(), getString(R.string.fragment_vocable_list_title));
-                        return false;
-                    case 1:
-                        Mode mode = (Mode) drawerItem.getTag();
-
-                        if (currentMode == null || currentMode != mode) {
-                            currentMode = mode;
-
-                            setFragment(TestSettingsFragment.newInstance(mode), currentMode.getTitle(MainActivity.this), currentMode.getColor(MainActivity.this),
-                                    currentMode.getDarkColor(MainActivity.this));
+                if (identifier >= 10) {
+                    switch (identifier) {
+                        case 10:
+                            setFragment(VocableListFragment.newInstance(), getString(R.string.fragment_vocable_list_title));
                             return false;
-                        } else {
+                        case 11:
+                            setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModeList()), getString(R.string.fragment_statistics_title));
+                            return false;
+                        case 12:
+                            PlayGamesDialog playGamesDialog = PlayGamesDialog.newInstance();
+
+                            playGamesDialog.setCallback(MainActivity.this);
+                            playGamesDialog.show(getFragmentManager(), DIALOG_PLAY_GAMES);
                             return true;
-                        }
-                    case 2:
-                        setFragment(StatisticsFragment.newInstance((ArrayList<Mode>) core.getModes()), getString(R.string.fragment_statistics_title));
-                        return false;
-                    case 3:
-                        PlayGamesDialog playGamesDialog = PlayGamesDialog.newInstance();
+                        case 13:
+                            setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModeList()), getString(R.string.fragment_help_title));
+                            return false;
+                        case 14:
+                            DonateDialog donateDialog = DonateDialog.newInstance();
 
-                        playGamesDialog.setCallback(MainActivity.this);
-                        playGamesDialog.show(getFragmentManager(), DIALOG_PLAY_GAMES);
-                        return true;
-                    case 4:
-                        setFragment(HelpFragment.newInstance((ArrayList<Mode>) core.getModes()), getString(R.string.fragment_help_title));
-                        return false;
-                    case 5:
-                        DonateDialog donateDialog = DonateDialog.newInstance();
+                            donateDialog.show(getFragmentManager(), DONATE_DIALOG);
+                            return true;
+                        case 15:
+                            setFragment(new SettingsFragment(), getString(R.string.fragment_settings_title));
+                            return false;
+                    }
+                } else {
+                    HashMap<Integer, Mode> modes = core.getModes();
+                    Mode current = modes.get(identifier);
 
-                        donateDialog.show(getFragmentManager(), DONATE_DIALOG);
-                        return true;
-                    case 6:
-                        setFragment(new SettingsFragment(), getString(R.string.fragment_settings_title));
-                        return false;
-                    default:
-                        return true;
+                    setFragment(TestSettingsFragment.newInstance(current), current.getTitle(MainActivity.this), current.getColor(MainActivity.this),
+                            current.getDarkColor(MainActivity.this));
+
+                    return false;
                 }
             }
 
@@ -150,8 +132,7 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
     protected void onSaveInstanceState(final Bundle outState) {
         core.onSaveInstanceState(outState);
         drawer.saveInstanceState(outState);
-        outState.putLong(CURRENT_DRAWER_ID, currentDrawerId);
-        outState.putParcelable(CURRENT_MODE, currentMode);
+        outState.putInt("drawer_position", currentDrawerItemIdentifier);
         super.onSaveInstanceState(outState);
     }
 
@@ -195,8 +176,7 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
                 onBackPressedListener = (OnBackPressedListener) current;
             }
 
-            currentDrawerId = savedInstanceState.getLong(CURRENT_DRAWER_ID);
-            currentMode = savedInstanceState.getParcelable(CURRENT_MODE);
+            currentDrawerItemIdentifier = savedInstanceState.getInt(STATE_DRAWER_IDENTIFIER);
         }
 
         if (PreferenceUtils.shouldShowAds(this)) {
@@ -257,7 +237,7 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
 
     private void generateDrawer(@Nullable Bundle savedInstanceState) {
         drawer = new DrawerBuilder().withActivity(this).withToolbar(getToolbar())
-                .withDrawerItems(generateDrawerItems()).withSavedInstance(savedInstanceState).withStickyDrawerItems(generateStickyDrawerItems())
+                .withDrawerItems(generateDrawerItems()).withStickyDrawerItems(generateStickyDrawerItems())
                 .withOnDrawerItemClickListener(onDrawerItemClickListener).withShowDrawerOnFirstLaunch(true).withActionBarDrawerToggleAnimated(true).withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
                     public void onDrawerOpened(View view) {
@@ -273,7 +253,7 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
                     public void onDrawerSlide(View view, float v) {
 
                     }
-                }).build();
+                }).withSavedInstance(savedInstanceState).build();
     }
 
     private ArrayList<IDrawerItem> generateDrawerItems() {
@@ -281,18 +261,17 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
 
         result.add(new PrimaryDrawerItem().withName(getString(R.string.fragment_vocable_list_title)).withIcon(R.drawable.ic_list)
                 .withSelectedTextColorRes(R.color.primary)
-                .withSelectedIconColorRes(R.color.primary).withIconTintingEnabled(true).withIdentifier(0));
+                .withSelectedIconColorRes(R.color.primary).withIconTintingEnabled(true).withIdentifier(10));
         result.add(new SectionDrawerItem().withName(getString(R.string.activity_main_divider_modes)));
         result.addAll(generateModeItems());
         result.add(new DividerDrawerItem());
         result.add(new PrimaryDrawerItem().withName(getString(R.string.fragment_statistics_title)).withIcon(R.drawable.ic_stats)
                 .withSelectedTextColorRes(R.color.primary)
-                .withIconTintingEnabled(true).withSelectedIconColorRes(R.color.primary).withIdentifier(2));
+                .withIconTintingEnabled(true).withSelectedIconColorRes(R.color.primary).withIdentifier(11));
 
         PrimaryDrawerItem playGames = new PrimaryDrawerItem().withName(getString(R.string.dialog_play_games_title)).withIcon(R.drawable.ic_play_games)
-                .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(3);
+                .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withSelectable(false).withIdentifier(12);
 
-        playGames.setCheckable(false);
         result.add(playGames);
 
         return result;
@@ -302,27 +281,28 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
         ArrayList<IDrawerItem> result = new ArrayList<>();
 
         result.add(new PrimaryDrawerItem().withName(getString(R.string.fragment_help_title)).withIcon(R.drawable.ic_help).withSelectedTextColorRes(R.color.primary)
-                .withIconTintingEnabled(true).withSelectedIconColorRes(R.color.primary).withIdentifier(4));
+                .withIconTintingEnabled(true).withSelectedIconColorRes(R.color.primary).withIdentifier(13));
 
         PrimaryDrawerItem donate = new PrimaryDrawerItem().withName(getString(R.string.dialog_donate_title)).withIcon(R.drawable.ic_donate)
-                .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(5);
+                .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withSelectable(false).withIdentifier(14);
 
-        donate.setCheckable(false);
         result.add(donate);
 
         result.add(new PrimaryDrawerItem().withName(getString(R.string.fragment_settings_title)).withIcon(R.drawable.ic_settings)
-                .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(6));
+                .withIconTintingEnabled(true).withSelectedTextColorRes(R.color.primary).withSelectedIconColorRes(R.color.primary).withIdentifier(15));
         return result;
     }
 
     private List<IDrawerItem> generateModeItems() {
         List<IDrawerItem> result = new ArrayList<>();
+        HashMap<Integer, Mode> modes = core.getModes();
 
-        for (Mode mode : core.getModes()) {
-            int color = mode.getColor(this);
+        for (Integer id : modes.keySet()) {
+            Mode current = modes.get(id);
+            int color = current.getColor(this);
 
-            result.add(new PrimaryDrawerItem().withName(mode.getTitle(this)).withIcon(mode.getIcon(this))
-                    .withSelectedTextColor(color).withIconTintingEnabled(true).withSelectedIconColor(color).withIdentifier(1).withTag(mode));
+            result.add(new PrimaryDrawerItem().withName(current.getTitle(this)).withIcon(current.getIcon(this))
+                    .withSelectedTextColor(color).withIconTintingEnabled(true).withSelectedIconColor(color).withIdentifier(current.getId()));
         }
 
         return result;

@@ -33,7 +33,7 @@ public class Core {
     private VocableManager vocableManager;
     private BillingProcessor billingProcessor;
     private UndoManager undoManager;
-    private List<Mode> modes;
+    private HashMap<Integer, Mode> modes;
     private Activity context;
 
     private Core(Activity context, Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class Core {
 
         initBilling();
 
-        modes = new ArrayList<>(4);
+        modes = new HashMap<>(4);
         generateModes();
     }
 
@@ -102,27 +102,27 @@ public class Core {
         HashMap<Integer, ModeData> data = db.getModes();
 
         if (data.containsKey(0)) {
-            modes.add(new ClassicMode(data.get(0)));
+            modes.put(0, new ClassicMode(data.get(0)));
         } else {
-            modes.add(new ClassicMode(new ModeData(0, 0, 0, 0, 0, 0, 0)));
+            modes.put(0, new ClassicMode(new ModeData(0, 0, 0, 0, 0, 0, 0)));
         }
 
         if (data.containsKey(1)) {
-            modes.add(new PairMode(data.get(1)));
+            modes.put(1, new PairMode(data.get(1)));
         } else {
-            modes.add(new PairMode(new ModeData(1, 0, 0, 0, 0, 0, 0)));
+            modes.put(1, new PairMode(new ModeData(1, 0, 0, 0, 0, 0, 0)));
         }
 
         if (data.containsKey(2)) {
-            modes.add(new TimeMode(data.get(2)));
+            modes.put(2, new TimeMode(data.get(2)));
         } else {
-            modes.add(new TimeMode(new ModeData(2, 0, 0, 0, 0, 0, 0)));
+            modes.put(2, new TimeMode(new ModeData(2, 0, 0, 0, 0, 0, 0)));
         }
 
         if (data.containsKey(3)) {
-            modes.add(new TrainingMode(data.get(3)));
+            modes.put(3, new TrainingMode(data.get(3)));
         } else {
-            modes.add(new TrainingMode(new ModeData(3, 0, 0, 0, 0, 0, 0)));
+            modes.put(3, new TrainingMode(new ModeData(3, 0, 0, 0, 0, 0, 0)));
         }
 
         db.close();
@@ -142,8 +142,12 @@ public class Core {
         }
     }
 
-    public List<Mode> getModes() {
-        return new ArrayList<>(modes);
+    public List<Mode> getModeList() {
+        return new ArrayList<>(modes.values());
+    }
+
+    public HashMap<Integer, Mode> getModes() {
+        return new HashMap<>(modes);
     }
 
     public GoogleServiceConnection getConnection() {
