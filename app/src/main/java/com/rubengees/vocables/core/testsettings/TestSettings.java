@@ -58,7 +58,7 @@ public class TestSettings implements Parcelable {
 
     private void readFromParcel(Parcel in) {
         unitIds = new ArrayList<>();
-        in.readList(unitIds, null);
+        in.readList(unitIds, Integer.class.getClassLoader());
     }
 
     @Override
