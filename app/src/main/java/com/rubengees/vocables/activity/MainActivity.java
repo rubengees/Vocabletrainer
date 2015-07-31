@@ -226,10 +226,10 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
             drawer.closeDrawer();
         } else {
             if (onBackPressedListener != null && onBackPressedListener.onBackPressed()) {
-                if (onBackPressedListener instanceof VocableListFragment) {
-                    super.onBackPressed();
+                if (drawer.getCurrentSelection() != 0) {
+                    drawer.setSelectionAtPosition(0);
                 } else {
-                    drawer.setSelection(0);
+                    super.onBackPressed();
                 }
             }
         }
