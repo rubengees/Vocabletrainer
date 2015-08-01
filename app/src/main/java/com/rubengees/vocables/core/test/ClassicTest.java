@@ -13,7 +13,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
+import com.easyandroidanimations.library.Animation;
+import com.easyandroidanimations.library.AnimationListener;
+import com.easyandroidanimations.library.FadeInAnimation;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
 import com.rubengees.vocables.core.mode.ClassicMode;
@@ -22,7 +24,6 @@ import com.rubengees.vocables.core.test.logic.TestLogic;
 import com.rubengees.vocables.core.testsettings.ClassicTestSettings;
 import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.pojo.MeaningList;
-import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.Utils;
 
 /**
@@ -93,16 +94,12 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
 
             MeaningList result = logic.processAnswer(text);
 
-            if (shouldAnimate()) {
-                showResult(result);
-            } else {
-                next();
-            }
+            showResult(result);
         }
     }
 
     private void showResult(MeaningList result) {
-        Spannable text;
+        final Spannable text;
 
         if (result == null) {
             text = new SpannableString(getContext().getString(R.string.test_classic_correct));
@@ -115,26 +112,33 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
 
         status.setText(text);
 
-        waiting = true;
-        AnimationUtils.animate(status, Techniques.FlipInX, ANIMATION_TIME, 0, new AnimationUtils.AnimationEndListener() {
-            @Override
-            public void onAnimationEnd() {
-                Utils.wait(getToolbarActivity(), WAIT_TIME, new Utils.OnWaitFinishedListener() {
-                    @Override
-                    public void onWaitFinished() {
-                        if (waiting) {
-                            next();
-                            AnimationUtils.animate(status, Techniques.FlipInX, ANIMATION_TIME, 0, new AnimationUtils.AnimationEndListener() {
-                                @Override
-                                public void onAnimationEnd() {
-                                    waiting = false;
-                                }
-                            });
+        if (shouldAnimate()) {
+            waiting = true;
+
+            new FadeInAnimation(status).setDuration(ANIMATION_TIME).setListener(new AnimationListener() {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+
+                    Utils.wait(getToolbarActivity(), WAIT_TIME, new Utils.OnWaitFinishedListener() {
+                        @Override
+                        public void onWaitFinished() {
+                            if (waiting) {
+                                waiting = false;
+
+                                next();
+                            }
                         }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            }).animate();
+        } else {
+            Utils.wait(getToolbarActivity(), WAIT_TIME, new Utils.OnWaitFinishedListener() {
+                @Override
+                public void onWaitFinished() {
+                    next();
+                }
+            });
+        }
 
     }
 
@@ -170,6 +174,17 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
 
             status.setText(getContext().getString(R.string.test_question) + " '" + logic.getQuestion().toString() + "'?");
             input.getText().clear();
+
+            if (shouldAnimate()) {
+                waiting = true;
+
+                new FadeInAnimation(status).setDuration(ANIMATION_TIME).setListener(new AnimationListener() {
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        waiting = false;
+                    }
+                }).animate();
+            }
         }
     }
 

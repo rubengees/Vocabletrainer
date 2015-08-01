@@ -2,20 +2,22 @@ package com.rubengees.vocables.core.test;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
+import com.easyandroidanimations.library.Animation;
+import com.easyandroidanimations.library.AnimationListener;
+import com.easyandroidanimations.library.FadeInAnimation;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.mode.ClassicMode;
 import com.rubengees.vocables.core.test.logic.TestLogic;
 import com.rubengees.vocables.core.test.logic.TrainingTestLogic;
 import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.core.testsettings.TrainingTestSettings;
-import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.Utils;
 
 /**
@@ -130,12 +132,12 @@ public class TrainingTest extends Test {
 
             if (shouldAnimate()) {
                 waiting = true;
-                AnimationUtils.animate(status, Techniques.FlipInX, ANIMATION_TIME, 0, new AnimationUtils.AnimationEndListener() {
+                new FadeInAnimation(status).setDuration(ANIMATION_TIME).setInterpolator(new LinearOutSlowInInterpolator()).setListener(new AnimationListener() {
                     @Override
-                    public void onAnimationEnd() {
+                    public void onAnimationEnd(Animation animation) {
                         waiting = false;
                     }
-                });
+                }).animate();
             }
         }
     }

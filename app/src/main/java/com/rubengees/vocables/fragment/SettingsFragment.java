@@ -1,9 +1,6 @@
 package com.rubengees.vocables.fragment;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -11,9 +8,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.TwoStatePreference;
 import android.support.v4.app.ShareCompat;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.ActionBar;
-import android.view.Display;
 
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
@@ -36,8 +31,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private static final String PREF_LICENCES = "pref_licences";
     private static final String PREF_DEVELOPER = "pref_developer";
     private static final String PREF_SOURCE = "pref_source";
-    private static final int ANIMATION_DURATION = 500;
-
     private Preference ads, reminder, email, evaluation, developer, licences, source;
     private ListPreference reminderTime;
 
@@ -165,23 +158,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     protected ExtendedToolbarActivity getToolbarActivity() {
         return (ExtendedToolbarActivity) getActivity();
-    }
-
-    @Override
-    public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        float displayWidth = size.x;
-        Animator animator = null;
-
-        if (enter) {
-            animator = ObjectAnimator.ofFloat(this, "translationX", displayWidth / 4, 0);
-            animator.setDuration(ANIMATION_DURATION);
-            animator.setInterpolator(new LinearOutSlowInInterpolator());
-        }
-
-        return animator;
     }
 
     @Override

@@ -23,8 +23,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
+import com.easyandroidanimations.library.ScaleInAnimation;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.utils.Utils;
 
@@ -217,7 +216,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         if (isExtended) {
             fab.setImageResource(drawable);
             if (fab.getVisibility() != View.VISIBLE) {
-                YoYo.with(Techniques.Landing).duration(ANIMATION_DURATION).interpolate(new LinearOutSlowInInterpolator()).playOn(fab);
+                new ScaleInAnimation(fab).setDuration(ANIMATION_DURATION).setInterpolator(new LinearOutSlowInInterpolator()).animate();
                 fab.setVisibility(View.VISIBLE);
             }
             fab.bringToFront();

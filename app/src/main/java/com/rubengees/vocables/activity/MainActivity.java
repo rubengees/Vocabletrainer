@@ -55,7 +55,7 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
     private AdView adView;
     private Core core;
     private OnBackPressedListener onBackPressedListener;
-    private int currentDrawerItemIdentifier = 0;
+    private int currentDrawerItemIdentifier = 10;
 
     private Drawer.OnDrawerItemClickListener onDrawerItemClickListener = new Drawer.OnDrawerItemClickListener() {
 
@@ -132,7 +132,7 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
     protected void onSaveInstanceState(final Bundle outState) {
         core.onSaveInstanceState(outState);
         drawer.saveInstanceState(outState);
-        outState.putInt("drawer_position", currentDrawerItemIdentifier);
+        outState.putInt(STATE_DRAWER_IDENTIFIER, currentDrawerItemIdentifier);
         super.onSaveInstanceState(outState);
     }
 

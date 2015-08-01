@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.daimajia.androidanimations.library.Techniques;
+import com.easyandroidanimations.library.FadeInAnimation;
+import com.easyandroidanimations.library.ParallelAnimator;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.test.logic.MeaningCell;
 import com.rubengees.vocables.core.test.logic.MeaningField;
 import com.rubengees.vocables.core.test.logic.Position;
-import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.Utils;
 
 /**
@@ -35,6 +35,7 @@ public class ButtonContainerTools {
      * @param buttonListener A listener which should be assigned to each Button
      */
     public static void buildButtonLayout(@NonNull ViewGroup root, int sizeX, int sizeY, @Nullable View.OnClickListener buttonListener) {
+        ParallelAnimator animator = new ParallelAnimator();
         Context context = root.getContext();
 
         for (int i = 0; i < sizeX; i++) {
@@ -47,9 +48,11 @@ public class ButtonContainerTools {
 
                 button.setTag(new Position(i, ii));
                 button.setOnClickListener(buttonListener);
-                animateIn(button);
+                animator.add(new FadeInAnimation(button));
             }
         }
+
+        animator.setDuration(ANIMATION_DURATION).animate();
     }
 
     /**
@@ -62,6 +65,8 @@ public class ButtonContainerTools {
      * @param animateIn If Buttons should animate in
      */
     public static void refreshButtons(@NonNull ViewGroup root, @NonNull MeaningField field, int color, int darkColor, boolean animateIn) {
+        ParallelAnimator animator = new ParallelAnimator();
+
         for (int i = 0; i < field.getSizeX(); i++) {
             ViewGroup buttonContainer = (ViewGroup) root.getChildAt(i);
 
@@ -86,11 +91,13 @@ public class ButtonContainerTools {
                     button.setEnabled(true);
 
                     if (animateIn) {
-                        AnimationUtils.animate(button, Techniques.FadeIn, ANIMATION_DURATION, 0, null);
+                        animator.add(new FadeInAnimation(button));
                     }
                 }
             }
         }
+
+        animator.setDuration(ANIMATION_DURATION).animate();
     }
 
     /**
@@ -102,10 +109,6 @@ public class ButtonContainerTools {
      */
     public static Button getButtonAt(ViewGroup layout, Position pos) {
         return (Button) ((ViewGroup) layout.getChildAt(pos.getX())).getChildAt(pos.getY());
-    }
-
-    private static void animateIn(View view) {
-        AnimationUtils.animate(view, Techniques.FadeIn, ANIMATION_DURATION, 0, null);
     }
 
 }
