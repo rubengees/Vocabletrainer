@@ -30,7 +30,7 @@ public abstract class TestSettingsLayout {
     private static final String STATE_CHECKED_UNIT_AMOUNT = "checked_unit_amount";
     private static final int RATE_ALL = 100;
     private static final int RATE_OKAY = 60;
-    private static final int RATE_BAD = 40;
+    private static final int RATE_BAD = 30;
 
     protected OnTestSettingsListener listener;
     private Context context;
@@ -54,7 +54,9 @@ public abstract class TestSettingsLayout {
 
         result.setMaxRate(getRate());
         for (Integer integer : getUnitIds()) {
-            result.addUnitId(integer);
+            if (integer != null) {
+                result.addUnitId(integer);
+            }
         }
 
         return result;
