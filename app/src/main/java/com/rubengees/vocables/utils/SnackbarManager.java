@@ -12,19 +12,36 @@ public class SnackbarManager {
 
     private static Snackbar current;
 
-    public static void show(@NonNull final Snackbar snackbar, @Nullable String actionTitle, final @Nullable View.OnClickListener listener) {
+    public static void show(@NonNull final Snackbar snackbar, @Nullable String actionTitle, final @Nullable SnackbarCallback callback) {
         dismiss();
         current = snackbar;
 
-        if (actionTitle != null && listener != null) {
+        if (actionTitle != null && callback != null) {
             snackbar.setAction(actionTitle, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     current = null;
-                    listener.onClick(v);
+
+                    callback.onClick(v);
                 }
             });
         }
+
+        snackbar.getView().addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {
+
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View v) {
+                current = null;
+
+                if (callback != null) {
+                    callback.onDismiss(v);
+                }
+            }
+        });
 
         snackbar.show();
     }
@@ -43,5 +60,15 @@ public class SnackbarManager {
 
     public static void update(@NonNull String text) {
         current.setText(text);
+    }
+
+    public static abstract class SnackbarCallback {
+        public void onDismiss(View v) {
+
+        }
+
+        public void onClick(View v) {
+
+        }
     }
 }

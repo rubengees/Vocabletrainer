@@ -271,7 +271,12 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         if (SnackbarManager.hasSnackbar()) {
             SnackbarManager.update(text);
         } else {
-            SnackbarManager.show(Snackbar.make(root, text, Snackbar.LENGTH_INDEFINITE), getString(R.string.fragment_vocable_list_undo), new View.OnClickListener() {
+            SnackbarManager.show(Snackbar.make(root, text, Snackbar.LENGTH_INDEFINITE), getString(R.string.fragment_vocable_list_undo), new SnackbarManager.SnackbarCallback() {
+                @Override
+                public void onDismiss(View v) {
+                    getUndoManager().clear();
+                }
+
                 @Override
                 public void onClick(View v) {
                     undo();

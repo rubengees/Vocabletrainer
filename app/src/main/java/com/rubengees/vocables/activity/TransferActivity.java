@@ -74,7 +74,7 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
 
     private void showSnackbar() {
         SnackbarManager.show(Snackbar.make(findViewById(R.id.content), getString(R.string.activity_transfer_error_sd), Snackbar.LENGTH_INDEFINITE),
-                getString(R.string.activity_transfer_error_retry), new View.OnClickListener() {
+                getString(R.string.activity_transfer_error_retry), new SnackbarManager.SnackbarCallback() {
                     @Override
                     public void onClick(View v) {
                         tryShowContent();
