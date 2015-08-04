@@ -113,10 +113,21 @@ public class FileFragment extends MainFragment implements FileAdapter.OnItemClic
     }
 
     private void refreshToolbar() {
+        int verticalMargin = Utils.dpToPx(getActivity(), 8);
+        int horizontalMargin = Utils.dpToPx(getActivity(), 16);
+
         if (filesystem.isRoot()) {
             up.setVisibility(View.GONE);
+
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) status.getLayoutParams();
+            params.setMargins(horizontalMargin, verticalMargin, horizontalMargin, verticalMargin);
+            status.requestLayout();
         } else {
             up.setVisibility(View.VISIBLE);
+
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) status.getLayoutParams();
+            params.setMargins(0, verticalMargin, horizontalMargin, verticalMargin);
+            status.requestLayout();
         }
 
         status.setText(filesystem.getPath());
