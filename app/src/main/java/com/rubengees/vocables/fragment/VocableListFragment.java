@@ -46,6 +46,9 @@ import com.rubengees.vocables.utils.SnackbarManager;
 import com.rubengees.vocables.utils.Utils;
 
 import java.util.HashMap;
+import java.util.List;
+
+import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -205,9 +208,11 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     private void setupRecycler(Bundle savedInstanceState) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), Utils.getSpanCount(getActivity()));
+        SlideInRightAnimator animator = new SlideInRightAnimator();
 
         recycler.setLayoutManager(layoutManager);
-        recycler.setHasFixedSize(true);
+        // recycler.setHasFixedSize(true);
+        recycler.setItemAnimator(animator);
 
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -305,11 +310,11 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     private void setUnitAdapter() {
         getToolbarActivity().collapseToolbar();
+        List<Unit> units = vocableManager.getUnitList();
 
-        adapter = new UnitAdapter(vocableManager.getUnitList(), mode, this);
+        adapter = new UnitAdapter(units, mode, this);
 
-        recycler.setAdapter(adapter);
-        updateCount();
+        setAdapter(adapter);
     }
 
     private void setVocableAdapter(@NonNull Unit unit) {
@@ -318,8 +323,12 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
         adapter = new VocableAdapter(unit, mode, this);
 
-        recycler.setAdapter(adapter);
         unitTitle.setText(unit.getTitle());
+        setAdapter(adapter);
+    }
+
+    private void setAdapter(VocableListAdapter adapter) {
+        recycler.setAdapter(adapter);
         updateCount();
     }
 

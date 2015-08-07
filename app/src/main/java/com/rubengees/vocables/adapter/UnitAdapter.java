@@ -14,7 +14,6 @@ import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.utils.Utils;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by ruben on 02.05.15.
@@ -26,7 +25,7 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
     private SortedList<Unit> list;
     private OnItemClickListener listener;
 
-    public UnitAdapter(List<Unit> units, SortMode sortMode, OnItemClickListener listener) {
+    public UnitAdapter(Collection<Unit> units, SortMode sortMode, OnItemClickListener listener) {
         super(sortMode);
         this.listener = listener;
 
@@ -84,11 +83,7 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
 
     @Override
     public void clear() {
-        list.beginBatchedUpdates();
-        for (int i = list.size() - 1; i >= 0; i--) {
-            list.removeItemAt(i);
-        }
-        list.endBatchedUpdates();
+        list.clear();
     }
 
     @Override

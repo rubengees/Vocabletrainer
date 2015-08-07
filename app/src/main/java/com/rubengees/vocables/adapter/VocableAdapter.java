@@ -110,11 +110,7 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
 
     @Override
     public void addAll(@NonNull Collection<Vocable> items) {
-        list.beginBatchedUpdates();
-        for (Vocable item : items) {
-            list.add(item);
-        }
-        list.endBatchedUpdates();
+        list.addAll(items);
     }
 
     @Override
