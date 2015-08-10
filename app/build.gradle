@@ -27,7 +27,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 41
-        versionName "4.2"
+        versionName "4.1.2"
     }
 
     buildTypes {
