@@ -31,7 +31,7 @@ public class TestSettings implements Parcelable {
         unitIds = new LinkedList<>();
     }
 
-    protected TestSettings(Parcel in) {
+    public TestSettings(Parcel in) {
         readFromParcel(in);
     }
 
