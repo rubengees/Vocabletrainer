@@ -3,7 +3,7 @@ package com.rubengees.vocables.core.testsettings;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Ruben on 04.05.2015.
@@ -28,7 +28,7 @@ public class TimeTestSettings extends TestSettings {
 
     }
 
-    public TimeTestSettings(List<Integer> unitIds, int maxRate, Direction direction) {
+    public TimeTestSettings(ArrayList<Integer> unitIds, int maxRate, Direction direction) {
         super(unitIds, maxRate);
         this.direction = direction;
     }

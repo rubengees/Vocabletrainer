@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -24,18 +23,18 @@ public class TestSettings implements Parcelable {
 
     };
 
-    private List<Integer> unitIds;
+    private ArrayList<Integer> unitIds;
     private int maxRate;
 
     public TestSettings() {
-        unitIds = new LinkedList<>();
+        unitIds = new ArrayList<>();
     }
 
     public TestSettings(Parcel in) {
         readFromParcel(in);
     }
 
-    public TestSettings(List<Integer> unitIds, int maxRate) {
+    public TestSettings(ArrayList<Integer> unitIds, int maxRate) {
         this.unitIds = unitIds;
         this.maxRate = maxRate;
     }
@@ -57,8 +56,7 @@ public class TestSettings implements Parcelable {
     }
 
     private void readFromParcel(Parcel in) {
-        unitIds = new ArrayList<>();
-        in.readList(unitIds, Integer.class.getClassLoader());
+        unitIds = in.readArrayList(Integer.class.getClassLoader());
         maxRate = in.readInt();
     }
 
