@@ -59,6 +59,7 @@ public class TestSettings implements Parcelable {
     private void readFromParcel(Parcel in) {
         unitIds = new ArrayList<>();
         in.readList(unitIds, Integer.class.getClassLoader());
+        maxRate = in.readInt();
     }
 
     @Override
@@ -69,5 +70,6 @@ public class TestSettings implements Parcelable {
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeList(unitIds);
+        out.writeInt(maxRate);
     }
 }

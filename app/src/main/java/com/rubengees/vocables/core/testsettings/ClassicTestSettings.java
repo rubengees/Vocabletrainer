@@ -42,9 +42,9 @@ public class ClassicTestSettings extends TestSettings {
 
     @Override
     public void writeToParcel(final Parcel out, final int flags) {
+        super.writeToParcel(out, flags);
         out.writeSerializable(direction);
         out.writeInt(caseSensitive ? 1 : 0);
-        super.writeToParcel(out, flags);
     }
 
     public Direction getDirection() {

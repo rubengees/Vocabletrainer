@@ -209,9 +209,10 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     private void setupRecycler(Bundle savedInstanceState) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), Utils.getSpanCount(getActivity()));
         SlideInRightAnimator animator = new SlideInRightAnimator();
+        animator.setSupportsChangeAnimations(false);
 
         recycler.setLayoutManager(layoutManager);
-        // recycler.setHasFixedSize(true);
+        recycler.setHasFixedSize(true);
         recycler.setItemAnimator(animator);
 
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
