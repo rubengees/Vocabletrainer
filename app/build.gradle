@@ -67,11 +67,13 @@ dependencies {
     compile fileTree(dir: 'libs', include: 'ParseCrashReporting-*.jar')
 }
 
-parse {
+/* Script used for release-building.
+
+  parse {
     Properties parseProperties = new Properties();
     parseProperties.load(file("parse.properties").newDataInputStream())
 
     applicationId "jbGGB4h145fjHxPS2ShHNxltSQKRVWr7m1uvBLmG"
     masterKey parseProperties.getProperty("parse.master")
     uploadSymbols true
-}
+} */
