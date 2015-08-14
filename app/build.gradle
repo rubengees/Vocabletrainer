@@ -63,7 +63,7 @@ dependencies {
     compile 'jp.wasabeef:recyclerview-animators:1.2.1'
     compile 'org.apmem.tools:layouts:1.9@aar'
     compile 'com.anjlab.android.iab.v3:library:1.0.26@aar'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.0@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.1@aar') {
         transitive = true;
     }
 }
