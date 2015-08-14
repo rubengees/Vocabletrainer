@@ -3,7 +3,7 @@ package com.rubengees.vocables.core.testsettings;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Ruben on 24.04.2015.
@@ -28,7 +28,7 @@ public class ClassicTestSettings extends TestSettings {
 
     }
 
-    public ClassicTestSettings(List<Integer> unitIds, int maxRate, Direction direction, boolean caseSensitive) {
+    public ClassicTestSettings(ArrayList<Integer> unitIds, int maxRate, Direction direction, boolean caseSensitive) {
         super(unitIds, maxRate);
         this.direction = direction;
         this.caseSensitive = caseSensitive;
@@ -42,9 +42,9 @@ public class ClassicTestSettings extends TestSettings {
 
     @Override
     public void writeToParcel(final Parcel out, final int flags) {
+        super.writeToParcel(out, flags);
         out.writeSerializable(direction);
         out.writeInt(caseSensitive ? 1 : 0);
-        super.writeToParcel(out, flags);
     }
 
     public Direction getDirection() {
