@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.mikepenz.materialdrawer.Drawer;
@@ -19,6 +18,7 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.parse.ParseAnalytics;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.mode.Mode;
@@ -39,8 +39,6 @@ import com.rubengees.vocables.utils.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends ExtendedToolbarActivity implements WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback {
@@ -141,11 +139,12 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
      */
     @Override
     public void init(Bundle savedInstanceState) {
-        Fabric.with(this, new Crashlytics());
-        core = Core.getInstance(this, savedInstanceState);
-        generateDrawer(savedInstanceState);
+        ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
+        core = Core.getInstance(this, savedInstanceState);
         adView = (AdView) findViewById(R.id.adView);
+
+        generateDrawer(savedInstanceState);
 
         if (savedInstanceState == null) {
             setFragment(VocableListFragment.newInstance(), getString(R.string.fragment_vocable_list_title));

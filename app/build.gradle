@@ -1,22 +1,20 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.parse'
+
 buildscript {
     repositories {
-        maven { url 'https://maven.fabric.io/public' }
+        mavenCentral()
+        maven { url 'https://maven.parse.com/repo' }
     }
-
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.19.0'
+        classpath 'com.parse.tools:gradle:1.1'
     }
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
-
 repositories {
-    maven { url 'https://maven.fabric.io/public' }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url "https://jitpack.io" }
 }
-
 
 android {
     compileSdkVersion 22
@@ -63,7 +61,17 @@ dependencies {
     compile 'jp.wasabeef:recyclerview-animators:1.2.1'
     compile 'org.apmem.tools:layouts:1.9@aar'
     compile 'com.anjlab.android.iab.v3:library:1.0.26@aar'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.1@aar') {
-        transitive = true;
-    }
+
+    compile('com.parse.bolts:bolts-android:1.2.1')
+    compile('com.parse:parse-android:1.10.0')
+    compile fileTree(dir: 'libs', include: 'ParseCrashReporting-*.jar')
+}
+
+parse {
+    Properties parseProperties = new Properties();
+    parseProperties.load(file("parse.properties").newDataInputStream())
+
+    applicationId "jbGGB4h145fjHxPS2ShHNxltSQKRVWr7m1uvBLmG"
+    masterKey parseProperties.getProperty("parse.master")
+    uploadSymbols true
 }

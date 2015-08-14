@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Vocabletrainer</string>
 
+    <string name="parse_app_id" translatable="false">jbGGB4h145fjHxPS2ShHNxltSQKRVWr7m1uvBLmG</string>
+    <string name="parse_client_key" translatable="false">xTqyiTkpRmds4WCyzylFSbZxXAcIR7UuvJBlNsKp</string>
+
     <string name="preferences_ads_off">Ads are disabled. Ads support the development of this App</string>
     <string name="preferences_ads_on">Ads are enabled. Thank you!</string>
     <string name="preferences_ads_title">Advertisements</string>

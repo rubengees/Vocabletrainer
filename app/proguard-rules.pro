@@ -16,13 +16,14 @@
 #   public *;
 #}
 
--keep class com.daimajia.** { *; }
-
--keepattributes SourceFile,LineNumberTable
-
 -keepclassmembers class * implements android.os.Parcelable {
     static ** CREATOR;
 }
+
+-keepattributes *Annotation*
+-keepattributes Signature
+-dontwarn com.squareup.**
+-keep class com.squareup.** { *; }
 
 -keep class android.support.design.widget.** { *; }
 -keep interface android.support.design.widget.** { *; }
