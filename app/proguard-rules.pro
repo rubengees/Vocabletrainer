@@ -20,6 +20,7 @@
     static android.os.Parcelable$Creator CREATOR;
 }
 
+-keepattributes SourceFile,LineNumberTable
 -keepnames class com.parse.** { *; }
 
 -keepattributes *Annotation*

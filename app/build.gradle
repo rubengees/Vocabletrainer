@@ -36,12 +36,6 @@ android {
         }
     }
 
-    packagingOptions {
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude '.readme'
-    }
-
     compileOptions {
         encoding "UTF-8"
     }
@@ -85,9 +79,11 @@ parse {
             masterKey parseProperties.getProperty("masterKey")
             uploadSymbols true
         } else {
-            throw new StopExecutionException("The property file must contain the master key. (masterKey)")
+            logger.log(LogLevel.WARN, "The property file must contain the master key. (masterKey)")
+            return
         }
     } else {
-        throw new StopExecutionException("Symbol Upload failed: No property file.")
+        logger.log(LogLevel.WARN, "Symbol Upload failed: No property file.")
+        return
     }
 }

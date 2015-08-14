@@ -302,6 +302,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                 }
 
                 showVocableDialog(unitId, null, null);
+
+                throw new RuntimeException("Error!");
             }
         });
         fab.setImageResource(R.drawable.ic_add);
