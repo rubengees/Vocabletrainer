@@ -36,6 +36,12 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude '.readme'
+    }
+
     compileOptions {
         encoding "UTF-8"
     }
@@ -67,13 +73,21 @@ dependencies {
     compile fileTree(dir: 'libs', include: 'ParseCrashReporting-*.jar')
 }
 
-/* Script used for release-building.
+parse {
+    File propertyFile = file("parse.properties")
 
-  parse {
-    Properties parseProperties = new Properties();
-    parseProperties.load(file("parse.properties").newDataInputStream())
+    if (propertyFile.exists()) {
+        Properties parseProperties = new Properties()
+        parseProperties.load(propertyFile.newDataInputStream())
 
-    applicationId "jbGGB4h145fjHxPS2ShHNxltSQKRVWr7m1uvBLmG"
-    masterKey parseProperties.getProperty("parse.master")
-    uploadSymbols true
-} */
+        if (parseProperties.get("masterKey") != null) {
+            applicationId "jbGGB4h145fjHxPS2ShHNxltSQKRVWr7m1uvBLmG"
+            masterKey parseProperties.getProperty("masterKey")
+            uploadSymbols true
+        } else {
+            throw new StopExecutionException("The property file must contain the master key. (masterKey)")
+        }
+    } else {
+        throw new StopExecutionException("Symbol Upload failed: No property file.")
+    }
+}

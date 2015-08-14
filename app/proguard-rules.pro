@@ -17,13 +17,15 @@
 #}
 
 -keepclassmembers class * implements android.os.Parcelable {
-    static ** CREATOR;
+    static android.os.Parcelable$Creator CREATOR;
 }
+
+-keepnames class com.parse.** { *; }
 
 -keepattributes *Annotation*
 -keepattributes Signature
 -dontwarn com.squareup.**
--keep class com.squareup.** { *; }
+-dontwarn okio.**
 
 -keep class android.support.design.widget.** { *; }
 -keep interface android.support.design.widget.** { *; }
