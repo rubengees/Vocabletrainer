@@ -20,5 +20,7 @@
     static android.os.Parcelable$Creator CREATOR;
 }
 
+-keepattributes SourceFile,LineNumberTable
+
 -keep class android.support.design.widget.** { *; }
 -keep interface android.support.design.widget.** { *; }
