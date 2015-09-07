@@ -86,8 +86,10 @@ public class Filesystem implements Parcelable {
         File f = new File(path);
         String[] list = f.list();
 
-        for (String name : list) {
-            result.add(new File(path + "/" + name));
+        if (list != null) {
+            for (String name : list) {
+                result.add(new File(path + "/" + name));
+            }
         }
 
         return result;
