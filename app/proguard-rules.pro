@@ -20,13 +20,5 @@
     static android.os.Parcelable$Creator CREATOR;
 }
 
--keepattributes SourceFile,LineNumberTable
--keepnames class com.parse.** { *; }
-
--keepattributes *Annotation*
--keepattributes Signature
--dontwarn com.squareup.**
--dontwarn okio.**
-
 -keep class android.support.design.widget.** { *; }
 -keep interface android.support.design.widget.** { *; }

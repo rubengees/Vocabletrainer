@@ -18,7 +18,6 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.parse.ParseAnalytics;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.mode.Mode;
@@ -139,8 +138,6 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
      */
     @Override
     public void init(Bundle savedInstanceState) {
-        ParseAnalytics.trackAppOpenedInBackground(getIntent());
-
         core = Core.getInstance(this, savedInstanceState);
         adView = (AdView) findViewById(R.id.adView);
 
