@@ -40,3 +40,5 @@ proguard/
  
 # OS
 .DS_Store
+
+fabric.properties

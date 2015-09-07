@@ -1,6 +1,7 @@
 package com.rubengees.vocables.fragment;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -58,8 +59,9 @@ public class FileFragment extends MainFragment implements FileAdapter.OnItemClic
 
         if (savedInstanceState != null) {
             filesystem = savedInstanceState.getParcelable(KEY_FILESYSTEM);
-        } else if (getArguments() != null) {
-            filesystem = new Filesystem(getArguments().getString(KEY_PATH));
+        } else {
+            filesystem = new Filesystem(getArguments().getString(KEY_PATH,
+                    Environment.getExternalStorageDirectory().getPath()));
         }
     }
 
