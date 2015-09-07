@@ -24,3 +24,8 @@
 
 -keep class android.support.design.widget.** { *; }
 -keep interface android.support.design.widget.** { *; }
+
+-dontwarn org.apache.http.**
+-dontwarn android.net.http.AndroidHttpClient
+-dontwarn com.google.android.gms.**
+-dontwarn com.android.volley.toolbox.**
