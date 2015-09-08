@@ -50,7 +50,9 @@ public class TestResultFragment extends MainFragment {
     private TestResult result;
     private TestSettings settings;
 
-    public static TestResultFragment newInstance(Mode mode, TestResult result, TestSettings settings, ArrayList<Vocable> vocables) {
+    public static TestResultFragment newInstance(Mode mode, TestResult result,
+                                                 TestSettings settings,
+                                                 ArrayList<Vocable> vocables) {
         TestResultFragment fragment = new TestResultFragment();
         Bundle args = new Bundle();
 
@@ -95,7 +97,8 @@ public class TestResultFragment extends MainFragment {
                     connection.incrementAchievement(getString(R.string.achievement_geek));
 
                     if (mode instanceof TimeMode && result.getAverageTime() <= ACHIEVEMENT_TIME
-                            && Utils.calculateCorrectAnswerRate(result.getCorrect(), result.getIncorrect()) >= ACHIEVEMENT_AMOUNT) {
+                            && Utils.calculateCorrectAnswerRate(result.getCorrect(),
+                            result.getIncorrect()) >= ACHIEVEMENT_AMOUNT) {
                         connection.unlockAchievement(getString(R.string.achievement_at_the_speed_of_light));
                     }
                 }
@@ -110,7 +113,8 @@ public class TestResultFragment extends MainFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recycler = (RecyclerView) inflater.inflate(R.layout.fragment_test_result, container, false);
+        RecyclerView recycler = (RecyclerView) inflater.inflate(R.layout.fragment_test_result,
+                container, false);
         View header = inflater.inflate(R.layout.header, container, false);
         TextView resultText = (TextView) header.findViewById(R.id.header_text);
         ResultAdapter adapter = new ResultAdapter(result, getActivity());
@@ -124,7 +128,8 @@ public class TestResultFragment extends MainFragment {
         getToolbarActivity().enableFab(R.drawable.ic_again, new ExtendedToolbarActivity.OnFabClickListener() {
             @Override
             public void onFabClick() {
-                getActivity().getFragmentManager().beginTransaction().replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
+                getActivity().getFragmentManager().beginTransaction().
+                        replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
             }
         });
 
