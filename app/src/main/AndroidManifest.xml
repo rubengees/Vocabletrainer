@@ -24,6 +24,9 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f63ce66379581f9e21504cb73d75b1702ae7db86" />
 
         <activity
             android:name=".activity.MainActivity"
