@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -143,7 +144,7 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
     }
 
     private void requestPermission() {
-        if (shouldShowRequestPermissionRationale(
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             PermissionExplanationDialog dialog = PermissionExplanationDialog.newInstance(
                     getString(R.string.dialog_permission_explanation_write_external_storage));
@@ -151,7 +152,7 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
             dialog.setCallback(permissionExplanationDialogCallback);
             dialog.show(getFragmentManager(), PERMISSION_DIALOG);
         } else {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSION_WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
         }
     }
@@ -174,7 +175,8 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
     }
 
     private boolean hasPermission() {
-        return checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+        return ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                 PackageManager.PERMISSION_GRANTED;
     }
 
