@@ -44,7 +44,8 @@ public class TransferUtils {
         return filename.endsWith(".csv") || filename.endsWith(".xml");
     }
 
-    public static void export(@NonNull List<Unit> units, @NonNull File toExport) throws IOException {
+    public static void export(@NonNull List<Unit> units, @NonNull File toExport)
+            throws IOException {
         XmlSerializer serializer = Xml.newSerializer();
         serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
         BufferedWriter writer = new BufferedWriter(new FileWriter(toExport));
@@ -53,7 +54,8 @@ public class TransferUtils {
         writeXml(serializer, units);
     }
 
-    private static void writeXml(@NonNull XmlSerializer serializer, @NonNull List<Unit> units) throws IOException {
+    private static void writeXml(@NonNull XmlSerializer serializer, @NonNull List<Unit> units)
+            throws IOException {
         serializer.startDocument("UTF-16", true);
         serializer.startTag(null, TAG_UNITS);
         for (Unit unit : units) {
@@ -81,7 +83,8 @@ public class TransferUtils {
         serializer.endDocument();
     }
 
-    private static void insertMeaning(@NonNull XmlSerializer serializer, @NonNull MeaningList meaningList) throws IOException {
+    private static void insertMeaning(@NonNull XmlSerializer serializer,
+                                      @NonNull MeaningList meaningList) throws IOException {
         for (String word : meaningList.getMeanings()) {
             serializer.startTag(null, TAG_VALUE);
             serializer.text(word);
@@ -89,7 +92,8 @@ public class TransferUtils {
         }
     }
 
-    public static List<Unit> getList(@NonNull Context context, @NonNull File file) throws FormatException, IOException {
+    public static List<Unit> getList(@NonNull Context context, @NonNull File file)
+            throws FormatException, IOException {
         if (file.getName().endsWith(".csv")) {
             return parseCsv(context, file);
         } else if (file.getName().endsWith(".xml")) {
@@ -99,7 +103,8 @@ public class TransferUtils {
         }
     }
 
-    private static List<Unit> parseCsv(@NonNull Context context, @NonNull File file) throws FormatException, IOException {
+    private static List<Unit> parseCsv(@NonNull Context context, @NonNull File file)
+            throws FormatException, IOException {
         HashMap<String, Unit> unitMap = new HashMap<>();
         BufferedReader reader = new BufferedReader(new FileReader(file));
 
@@ -117,7 +122,8 @@ public class TransferUtils {
             } else if (split.length == 3) {
                 unitTitle = split[2];
             } else {
-                throw new FormatException(String.valueOf(pos));
+                throw new FormatException(context.getString(R.string.dialog_import_error_message) +
+                        " " + String.valueOf(pos));
             }
 
             String[] split1 = split[0].split(";");
@@ -141,7 +147,8 @@ public class TransferUtils {
 
                 unit.add(vocable);
             } else {
-                throw new FormatException(context.getString(R.string.dialog_import_error_message) + " " + String.valueOf(pos));
+                throw new FormatException(context.getString(R.string.dialog_import_error_message) +
+                        " " + String.valueOf(pos));
             }
 
             line = reader.readLine();
@@ -151,7 +158,8 @@ public class TransferUtils {
         return new ArrayList<>(unitMap.values());
     }
 
-    private static List<Unit> parseXml(Context context, File file) throws FormatException, IOException {
+    private static List<Unit> parseXml(Context context, File file)
+            throws FormatException, IOException {
         List<Unit> result = new ArrayList<>();
         XmlPullParser parser = null;
         long creationTime = System.currentTimeMillis();
@@ -181,14 +189,16 @@ public class TransferUtils {
             parser.require(XmlPullParser.END_TAG, null, TAG_UNITS);
         } catch (XmlPullParserException e) {
             if (parser != null) {
-                throw new FormatException(context.getString(R.string.dialog_import_error_message) + " " + String.valueOf(parser.getLineNumber()));
+                throw new FormatException(context.getString(R.string.dialog_import_error_message)
+                        + " " + String.valueOf(parser.getLineNumber()));
             }
         }
 
         return result;
     }
 
-    private static List<Vocable> getVocablesFromXml(XmlPullParser parser, long creationTime) throws IOException, XmlPullParserException {
+    private static List<Vocable> getVocablesFromXml(XmlPullParser parser, long creationTime)
+            throws IOException, XmlPullParserException {
         List<Vocable> result = new ArrayList<>();
 
         parser.require(XmlPullParser.START_TAG, null, TAG_VOCABLES);
@@ -214,7 +224,8 @@ public class TransferUtils {
         return result;
     }
 
-    private static MeaningList getMeaningFromXml(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private static MeaningList getMeaningFromXml(XmlPullParser parser)
+            throws IOException, XmlPullParserException {
         List<String> words = new ArrayList<>();
 
         parser.nextTag();

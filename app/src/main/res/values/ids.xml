@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_id" translatable="false">15289982266</string>
+    <string name="merchant_id" translatable="false">04617498669571049488</string>
+    <string name="licence_key" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApdR
+        Q/21yH5x2NeNC/9SwT1k+MJxXsahs9xlMBRv+ExkruoyAtjEqj9tQr2FHTl/AcEah0V+8OwJP20dhQm0j7zrZx7PNB/
+        s39zJypUlv4h1DyFC0LvMRnLoyfVfPNZN5eK9Z9Bbd1poLRob0ncRbYLBRkAtwW27Js4I6pI9v7CO5xdra6skK62soZ
+        NXyD/r0KsGbHJdCrWDj8CDh4K94LgRIXH8bUwwggMUR0ANZQ80biWfTLRMN1XsWz5X7nMD2pKo6LJZ48uyCTYAdc4le
+        mhAsXLh3rbR9l4/rWKxettAtd/zNR2N/iZTQhs6XqBXuY1Eo6VRKn7ISoqA571iH9wIDAQAB</string>
     <string name="donate_50_id" translatable="false">donate_50_cent</string>
     <string name="donate_100_id" translatable="false">donate_100_cent</string>
     <string name="donate_200_id" translatable="false">donate_200_cent</string>

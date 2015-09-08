@@ -65,36 +65,39 @@ public class Core {
     }
 
     private void initBilling() {
-        this.billingProcessor = new BillingProcessor(context, "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApdRQ/21yH5x2NeNC/9SwT1k+MJxXsahs9xlMBRv+ExkruoyAtjEqj9tQr2FHTl/AcEah0V+8OwJP20dhQm0j7zrZx7PNB/s39zJypUlv4" +
-                "h1DyFC0LvMRnLoyfVfPNZN5eK9Z9Bbd1poLRob0ncRbYLBRkAtwW27Js4I6pI9v7CO5xdra6skK62soZNXyD/r0KsGbHJdCrWDj8CDh4K94LgRIXH8bUwwggMUR0ANZQ80bi" +
-                "WfTLRMN1XsWz5X7nMD2pKo6LJZ48uyCTYAdc4lemhAsXLh3rbR9l4/rWKxettAtd/zNR2N/iZTQhs6XqBXuY1Eo6VRKn7ISoqA571iH9wIDAQAB", new BillingProcessor.IBillingHandler() {
-            @Override
-            public void onProductPurchased(String productId, TransactionDetails transactionDetails) {
-                if (context != null) {
-                    Toast.makeText(context, context.getString(R.string.activity_main_donation_message), Toast.LENGTH_SHORT).show();
-                }
-                if (billingProcessor.isInitialized()) {
-                    billingProcessor.consumePurchase(productId);
-                }
-            }
+        this.billingProcessor = new BillingProcessor(context,
+                context.getString(R.string.licence_key), context.getString(R.string.merchant_id),
+                new BillingProcessor.IBillingHandler() {
+                    @Override
+                    public void onProductPurchased(String productId,
+                                                   TransactionDetails transactionDetails) {
+                        if (context != null) {
+                            Toast.makeText(context, context.getString(R.string.activity_main_donation_message),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        if (billingProcessor.isInitialized()) {
+                            billingProcessor.consumePurchase(productId);
+                        }
+                    }
 
-            @Override
-            public void onPurchaseHistoryRestored() {
+                    @Override
+                    public void onPurchaseHistoryRestored() {
 
-            }
+                    }
 
-            @Override
-            public void onBillingError(int errorCode, Throwable error) {
-                if (context != null) {
-                    Toast.makeText(context, context.getString(R.string.activity_main_donation_error), Toast.LENGTH_SHORT).show();
-                }
-            }
+                    @Override
+                    public void onBillingError(int errorCode, Throwable error) {
+                        if (context != null) {
+                            Toast.makeText(context, context.getString(R.string.activity_main_donation_error),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
-            @Override
-            public void onBillingInitialized() {
+                    @Override
+                    public void onBillingInitialized() {
 
-            }
-        });
+                    }
+                });
     }
 
     private void generateModes() {
