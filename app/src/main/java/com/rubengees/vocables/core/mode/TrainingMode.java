@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
@@ -21,10 +20,10 @@ import com.rubengees.vocables.utils.Utils;
  */
 public class TrainingMode extends Mode {
 
-    public static final Parcelable.Creator<TrainingMode> CREATOR = new Parcelable.Creator<TrainingMode>() {
-
-        public TrainingMode createFromParcel(Parcel in) {
-            return new TrainingMode(in);
+    public static final int MIN_AMOUNT = 1;
+    public static final Creator<TrainingMode> CREATOR = new Creator<TrainingMode>() {
+        public TrainingMode createFromParcel(Parcel source) {
+            return new TrainingMode(source);
         }
 
         public TrainingMode[] newArray(int size) {
@@ -32,14 +31,11 @@ public class TrainingMode extends Mode {
         }
     };
 
-    public static final int MIN_AMOUNT = 1;
-
-
     public TrainingMode(ModeData data) {
         super(data);
     }
 
-    public TrainingMode(Parcel in) {
+    protected TrainingMode(Parcel in) {
         super(in);
     }
 
@@ -78,16 +74,19 @@ public class TrainingMode extends Mode {
         return ContextCompat.getDrawable(context, R.drawable.ic_mode_training);
     }
 
+    @NonNull
     @Override
     public TestSettingsLayout getTestSettingsLayout(@NonNull Context context, @NonNull TestSettingsLayout.OnTestSettingsListener listener) {
         return new TrainingTestSettingsLayout(context, listener);
     }
 
+    @NonNull
     @Override
     public Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener) {
         return new TrainingTest(context, settings, listener, getColor(context), getDarkColor(context));
     }
 
+    @NonNull
     @Override
     public Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener, @NonNull Bundle savedInstanceState) {
         return new TrainingTest(context, settings, listener, getColor(context), getDarkColor(context), savedInstanceState);
@@ -96,5 +95,15 @@ public class TrainingMode extends Mode {
     @Override
     public boolean isRelevant() {
         return false;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
     }
 }

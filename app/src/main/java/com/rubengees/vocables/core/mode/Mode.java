@@ -24,21 +24,7 @@ public abstract class Mode implements Parcelable {
     }
 
     protected Mode(Parcel in) {
-        readFromParcel(in);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeParcelable(data, flags);
-    }
-
-    private void readFromParcel(Parcel in) {
-        data = in.readParcelable(ModeData.class.getClassLoader());
+        this.data = in.readParcelable(ModeData.class.getClassLoader());
     }
 
     /**
@@ -192,6 +178,7 @@ public abstract class Mode implements Parcelable {
      * @param listener The Listener for the Test
      * @return The TestSettingsLayout
      */
+    @NonNull
     public abstract TestSettingsLayout getTestSettingsLayout(@NonNull Context context, @NonNull TestSettingsLayout.OnTestSettingsListener listener);
 
     /**
@@ -203,6 +190,7 @@ public abstract class Mode implements Parcelable {
      * @param listener The Listener for the Test
      * @return The Test
      */
+    @NonNull
     public abstract Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener);
 
     /**
@@ -215,6 +203,7 @@ public abstract class Mode implements Parcelable {
      * The caller passes an additional Bundle, from which the last state of the Test is recovered.
      * Call this Mehod after an Orientation change.
      */
+    @NonNull
     public abstract Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener, @NonNull Bundle savedInstanceState);
 
     public abstract boolean isRelevant();
@@ -225,4 +214,15 @@ public abstract class Mode implements Parcelable {
     public void reset() {
         data.reset();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.data, 0);
+    }
+
 }

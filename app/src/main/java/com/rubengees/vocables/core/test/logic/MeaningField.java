@@ -17,22 +17,18 @@ import java.util.List;
  */
 public class MeaningField implements Iterable<MeaningCell>, Parcelable {
 
-    public static final Creator<MeaningField> CREATOR = new Creator<MeaningField>() {
-
-        public MeaningField createFromParcel(Parcel in) {
-            return new MeaningField(in);
+    public static final Parcelable.Creator<MeaningField> CREATOR = new Parcelable.Creator<MeaningField>() {
+        public MeaningField createFromParcel(Parcel source) {
+            return new MeaningField(source);
         }
 
         public MeaningField[] newArray(int size) {
             return new MeaningField[size];
         }
-
     };
-
     private MeaningCell[][] field;
     private Position selected;
     private int elementCount = 0;
-
     private int sizeX;
     private int sizeY;
 
@@ -47,8 +43,15 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         this.sizeY = sizeY;
     }
 
-    private MeaningField(Parcel in) {
-        readFromParcel(in);
+    protected MeaningField(Parcel in) {
+        this.selected = in.readParcelable(Position.class.getClassLoader());
+        this.elementCount = in.readInt();
+        this.sizeX = in.readInt();
+        this.sizeY = in.readInt();
+        for (int i = 0; i < sizeY; i++) {
+            field[i] = in.createTypedArray(MeaningCell.CREATOR);
+
+        }
     }
 
     public void setCells(@NonNull List<MeaningCell> cells) {
@@ -76,20 +79,6 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
 
     public void unSelect() {
         selected = null;
-    }
-
-    private void readFromParcel(Parcel in) {
-        sizeX = in.readInt();
-        sizeY = in.readInt();
-        field = new MeaningCell[sizeX][sizeY];
-
-        for (int i = 0; i < sizeY; i++) {
-            field[i] = in.createTypedArray(MeaningCell.CREATOR);
-
-        }
-
-        selected = in.readParcelable(Position.class.getClassLoader());
-        elementCount = in.readInt();
     }
 
     public boolean isEmpty() {
@@ -171,16 +160,13 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(sizeX);
-        out.writeInt(sizeY);
-
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.selected, 0);
+        dest.writeInt(this.elementCount);
+        dest.writeInt(this.sizeX);
+        dest.writeInt(this.sizeY);
         for (MeaningCell[] cell : field) {
-            out.writeParcelableArray(cell, flags);
+            dest.writeParcelableArray(cell, flags);
         }
-
-        out.writeParcelable(selected, flags);
-        out.writeInt(elementCount);
     }
-
 }

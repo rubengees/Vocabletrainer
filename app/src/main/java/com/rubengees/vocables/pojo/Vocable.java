@@ -11,17 +11,14 @@ import android.support.annotation.Nullable;
 public class Vocable implements TrainerItem, Parcelable {
 
     public static final Parcelable.Creator<Vocable> CREATOR = new Parcelable.Creator<Vocable>() {
-
-        public Vocable createFromParcel(Parcel in) {
-            return new Vocable(in);
+        public Vocable createFromParcel(Parcel source) {
+            return new Vocable(source);
         }
 
         public Vocable[] newArray(int size) {
             return new Vocable[size];
         }
-
     };
-
     private Integer id;
     private MeaningList firstMeaningList;
     private MeaningList secondMeaningList;
@@ -29,10 +26,6 @@ public class Vocable implements TrainerItem, Parcelable {
     private long lastModificationTime;
     private int correct;
     private int incorrect;
-
-    private Vocable(Parcel in) {
-        readFromParcel(in);
-    }
 
     public Vocable(@NonNull MeaningList firstMeaningList, @NonNull MeaningList secondMeaningList, @Nullable String hint, long lastModificationTime) {
         this.firstMeaningList = firstMeaningList;
@@ -53,28 +46,14 @@ public class Vocable implements TrainerItem, Parcelable {
         this.incorrect = incorrect;
     }
 
-    private void readFromParcel(Parcel in) {
-        id = in.readInt();
-        firstMeaningList = in.readParcelable(MeaningList.class.getClassLoader());
-        secondMeaningList = in.readParcelable(MeaningList.class.getClassLoader());
-        hint = in.readString();
-        correct = in.readInt();
-        incorrect = in.readInt();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(id);
-        out.writeParcelable(firstMeaningList, flags);
-        out.writeParcelable(secondMeaningList, flags);
-        out.writeString(hint);
-        out.writeInt(correct);
-        out.writeInt(incorrect);
+    protected Vocable(Parcel in) {
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.firstMeaningList = in.readParcelable(MeaningList.class.getClassLoader());
+        this.secondMeaningList = in.readParcelable(MeaningList.class.getClassLoader());
+        this.hint = in.readString();
+        this.lastModificationTime = in.readLong();
+        this.correct = in.readInt();
+        this.incorrect = in.readInt();
     }
 
     /**
@@ -195,5 +174,21 @@ public class Vocable implements TrainerItem, Parcelable {
         } else {
             return firstMeaningList;
         }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeParcelable(this.firstMeaningList, 0);
+        dest.writeParcelable(this.secondMeaningList, 0);
+        dest.writeString(this.hint);
+        dest.writeLong(this.lastModificationTime);
+        dest.writeInt(this.correct);
+        dest.writeInt(this.incorrect);
     }
 }

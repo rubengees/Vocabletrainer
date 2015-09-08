@@ -11,43 +11,26 @@ import com.rubengees.vocables.pojo.Vocable;
  */
 public class MeaningCell implements Parcelable {
 
-    public static final Creator<MeaningCell> CREATOR = new Creator<MeaningCell>() {
-
-        public MeaningCell createFromParcel(Parcel in) {
-            return new MeaningCell(in);
+    public static final Parcelable.Creator<MeaningCell> CREATOR = new Parcelable.Creator<MeaningCell>() {
+        public MeaningCell createFromParcel(Parcel source) {
+            return new MeaningCell(source);
         }
 
         public MeaningCell[] newArray(int size) {
             return new MeaningCell[size];
         }
     };
-
     private Vocable vocable;
     private MeaningList meaningList;
-
-    private MeaningCell(Parcel in) {
-        readFromParcel(in);
-    }
 
     public MeaningCell(Vocable vocable, MeaningList meaningList) {
         this.vocable = vocable;
         this.meaningList = meaningList;
     }
 
-    private void readFromParcel(Parcel in) {
-        vocable = in.readParcelable(Vocable.class.getClassLoader());
-        meaningList = in.readParcelable(MeaningList.class.getClassLoader());
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeParcelable(vocable, flags);
-        out.writeParcelable(meaningList, flags);
+    protected MeaningCell(Parcel in) {
+        this.vocable = in.readParcelable(Vocable.class.getClassLoader());
+        this.meaningList = in.readParcelable(MeaningList.class.getClassLoader());
     }
 
     public Vocable getVocable() {
@@ -56,5 +39,16 @@ public class MeaningCell implements Parcelable {
 
     public MeaningList getMeaningList() {
         return meaningList;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.vocable, 0);
+        dest.writeParcelable(this.meaningList, 0);
     }
 }

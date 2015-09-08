@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
@@ -20,25 +19,23 @@ import com.rubengees.vocables.core.testsettings.layout.TimeTestSettingsLayout;
  */
 public class TimeMode extends Mode {
 
-    public static final Parcelable.Creator<TimeMode> CREATOR = new Parcelable.Creator<TimeMode>() {
-
-        public TimeMode createFromParcel(Parcel in) {
-            return new TimeMode(in);
+    public static final int MIN_AMOUNT = 10;
+    public static final Creator<TimeMode> CREATOR = new Creator<TimeMode>() {
+        public TimeMode createFromParcel(Parcel source) {
+            return new TimeMode(source);
         }
 
         public TimeMode[] newArray(int size) {
             return new TimeMode[size];
         }
-
     };
-    public static final int MIN_AMOUNT = 10;
-
-    protected TimeMode(Parcel in) {
-        super(in);
-    }
 
     public TimeMode(ModeData data) {
         super(data);
+    }
+
+    protected TimeMode(Parcel in) {
+        super(in);
     }
 
     /**
@@ -100,6 +97,7 @@ public class TimeMode extends Mode {
     /**
      * {@inheritDoc}
      */
+    @NonNull
     @Override
     public TestSettingsLayout getTestSettingsLayout(@NonNull Context context, @NonNull TestSettingsLayout.OnTestSettingsListener listener) {
         return new TimeTestSettingsLayout(context, listener);
@@ -108,6 +106,7 @@ public class TimeMode extends Mode {
     /**
      * {@inheritDoc}
      */
+    @NonNull
     @Override
     public Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener, @NonNull Bundle savedInstanceState) {
         return new TimeTest(context, settings, listener, getColor(context), getDarkColor(context), savedInstanceState);
@@ -121,9 +120,19 @@ public class TimeMode extends Mode {
     /**
      * {@inheritDoc}
      */
+    @NonNull
     @Override
     public Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener) {
         return new TimeTest(context, settings, listener, getColor(context), getDarkColor(context));
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+    }
 }

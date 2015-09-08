@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
@@ -19,27 +18,23 @@ import com.rubengees.vocables.core.testsettings.layout.TestSettingsLayout;
  * Created by ruben on 28.04.15.
  */
 public class PairMode extends Mode {
-
-    public static final Parcelable.Creator<PairMode> CREATOR = new Parcelable.Creator<
-            PairMode>() {
-
-        public PairMode createFromParcel(Parcel in) {
-            return new PairMode(in);
+    public static final int MIN_AMOUNT = 5;
+    public static final Creator<PairMode> CREATOR = new Creator<PairMode>() {
+        public PairMode createFromParcel(Parcel source) {
+            return new PairMode(source);
         }
 
         public PairMode[] newArray(int size) {
             return new PairMode[size];
         }
-
     };
-    public static final int MIN_AMOUNT = 5;
-
-    protected PairMode(Parcel in) {
-        super(in);
-    }
 
     public PairMode(ModeData data) {
         super(data);
+    }
+
+    protected PairMode(Parcel in) {
+        super(in);
     }
 
     /**
@@ -101,6 +96,7 @@ public class PairMode extends Mode {
     /**
      * {@inheritDoc}
      */
+    @NonNull
     @Override
     public TestSettingsLayout getTestSettingsLayout(@NonNull Context context, @NonNull TestSettingsLayout.OnTestSettingsListener listener) {
         return new PairTestSettingsLayout(context, listener);
@@ -109,6 +105,7 @@ public class PairMode extends Mode {
     /**
      * {@inheritDoc}
      */
+    @NonNull
     @Override
     public Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener, @NonNull Bundle savedInstanceState) {
         return new PairTest(context, settings, listener, getColor(context), getDarkColor(context), savedInstanceState);
@@ -122,9 +119,19 @@ public class PairMode extends Mode {
     /**
      * {@inheritDoc}
      */
+    @NonNull
     @Override
     public Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener) {
         return new PairTest(context, settings, listener, getColor(context), getDarkColor(context));
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+    }
 }

@@ -17,17 +17,14 @@ import java.util.ListIterator;
 public class MeaningList implements List<String>, Comparable<MeaningList>, Parcelable {
 
     public static final Parcelable.Creator<MeaningList> CREATOR = new Parcelable.Creator<MeaningList>() {
-
-        public MeaningList createFromParcel(Parcel in) {
-            return new MeaningList(in);
+        public MeaningList createFromParcel(Parcel source) {
+            return new MeaningList(source);
         }
 
         public MeaningList[] newArray(int size) {
             return new MeaningList[size];
         }
-
     };
-
     private List<String> meanings;
 
     public MeaningList(@NonNull List<String> meanings) {
@@ -39,13 +36,13 @@ public class MeaningList implements List<String>, Comparable<MeaningList>, Parce
         setMeanings(meanings);
     }
 
-    private MeaningList(Parcel in) {
-        readFromParcel(in);
-    }
-
     public MeaningList(@NonNull String given) {
         this.meanings = new LinkedList<>();
         this.meanings.add(given);
+    }
+
+    protected MeaningList(Parcel in) {
+        this.meanings = in.createStringArrayList();
     }
 
     /**
@@ -330,19 +327,13 @@ public class MeaningList implements List<String>, Comparable<MeaningList>, Parce
         return result;
     }
 
-    private void readFromParcel(Parcel in) {
-        this.meanings = new LinkedList<>();
-
-        in.readStringList(meanings);
-    }
-
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeStringList(meanings);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringList(this.meanings);
     }
 }

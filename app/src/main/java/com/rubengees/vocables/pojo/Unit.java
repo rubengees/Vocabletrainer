@@ -14,27 +14,20 @@ import java.util.List;
 /**
  * Created by Ruben on 24.04.2015.
  */
-public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Comparable<Unit> {
-
+public class Unit implements TrainerItem, Iterable<Vocable>, Comparable<Unit>, Parcelable {
     public static final Parcelable.Creator<Unit> CREATOR = new Parcelable.Creator<Unit>() {
-
-        public Unit createFromParcel(Parcel in) {
-            return new Unit(in);
+        public Unit createFromParcel(Parcel source) {
+            return new Unit(source);
         }
 
         public Unit[] newArray(int size) {
             return new Unit[size];
         }
-
     };
     private Integer id;
     private String title;
     private List<Vocable> vocables;
     private long lastModificationTime;
-
-    private Unit(Parcel in) {
-        readFromParcel(in);
-    }
 
     public Unit(@NonNull Integer id, String title, long lastModificationTime) {
         this();
@@ -45,6 +38,13 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
 
     public Unit() {
         vocables = new ArrayList<>();
+    }
+
+    protected Unit(Parcel in) {
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.title = in.readString();
+        this.vocables = in.createTypedArrayList(Vocable.CREATOR);
+        this.lastModificationTime = in.readLong();
     }
 
     /**
@@ -165,27 +165,6 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
         return vocables.remove(vocable);
     }
 
-    private void readFromParcel(Parcel in) {
-        vocables = new ArrayList<>();
-        id = in.readInt();
-        title = in.readString();
-        lastModificationTime = in.readLong();
-        in.readList(vocables, Vocable.class.getClassLoader());
-    }
-
-    @Override
-    public final int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public final void writeToParcel(Parcel out, int flags) {
-        out.writeInt(id);
-        out.writeString(title);
-        out.writeLong(lastModificationTime);
-        out.writeList(vocables);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -220,5 +199,18 @@ public class Unit implements TrainerItem, Parcelable, Iterable<Vocable>, Compara
     @Override
     public String toString() {
         return title;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.title);
+        dest.writeTypedList(vocables);
+        dest.writeLong(this.lastModificationTime);
     }
 }

@@ -55,6 +55,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mode = getArguments().getParcelable(KEY_MODE);
+
             layout = mode.getTestSettingsLayout(getActivity(), this);
         }
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
@@ -20,25 +19,23 @@ import com.rubengees.vocables.core.testsettings.layout.TestSettingsLayout;
  */
 public class ClassicMode extends Mode {
 
-    public static final Parcelable.Creator<ClassicMode> CREATOR = new Parcelable.Creator<ClassicMode>() {
-
-        public ClassicMode createFromParcel(Parcel in) {
-            return new ClassicMode(in);
+    public static final int MIN_AMOUNT = 1;
+    public static final Creator<ClassicMode> CREATOR = new Creator<ClassicMode>() {
+        public ClassicMode createFromParcel(Parcel source) {
+            return new ClassicMode(source);
         }
 
         public ClassicMode[] newArray(int size) {
             return new ClassicMode[size];
         }
-
     };
-    public static final int MIN_AMOUNT = 1;
-
-    public ClassicMode(Parcel in) {
-        super(in);
-    }
 
     public ClassicMode(ModeData data) {
         super(data);
+    }
+
+    protected ClassicMode(Parcel in) {
+        super(in);
     }
 
     /**
@@ -100,6 +97,7 @@ public class ClassicMode extends Mode {
     /**
      * {@inheritDoc}
      */
+    @NonNull
     @Override
     public TestSettingsLayout getTestSettingsLayout(@NonNull Context context, @NonNull TestSettingsLayout.OnTestSettingsListener listener) {
         return new ClassicTestSettingsLayout(context, listener);
@@ -108,6 +106,7 @@ public class ClassicMode extends Mode {
     /**
      * {@inheritDoc}
      */
+    @NonNull
     @Override
     public Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener, @NonNull Bundle savedInstanceState) {
         return new ClassicTest(context, settings, listener, getColor(context), getDarkColor(context), savedInstanceState);
@@ -121,9 +120,19 @@ public class ClassicMode extends Mode {
     /**
      * {@inheritDoc}
      */
+    @NonNull
     @Override
     public Test getTest(@NonNull Context context, @NonNull TestSettings settings, @NonNull Test.OnTestFinishedListener listener) {
         return new ClassicTest(context, settings, listener, getColor(context), getDarkColor(context));
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+    }
 }

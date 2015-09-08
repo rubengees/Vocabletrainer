@@ -9,17 +9,14 @@ import android.os.Parcelable;
 public class ModeData implements Parcelable {
 
     public static final Parcelable.Creator<ModeData> CREATOR = new Parcelable.Creator<ModeData>() {
-
-        public ModeData createFromParcel(Parcel in) {
-            return new ModeData(in);
+        public ModeData createFromParcel(Parcel source) {
+            return new ModeData(source);
         }
 
         public ModeData[] newArray(int size) {
             return new ModeData[size];
         }
-
     };
-
     private int id;
     private int played;
     private int correct;
@@ -39,31 +36,13 @@ public class ModeData implements Parcelable {
     }
 
     protected ModeData(Parcel in) {
-        readFromParcel(in);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(played);
-        out.writeInt(correct);
-        out.writeInt(incorrect);
-        out.writeInt(perfectInRow);
-        out.writeInt(bestTime);
-        out.writeInt(averageTime);
-    }
-
-    private void readFromParcel(Parcel in) {
-        played = in.readInt();
-        correct = in.readInt();
-        incorrect = in.readInt();
-        perfectInRow = in.readInt();
-        bestTime = in.readInt();
-        averageTime = in.readInt();
+        this.id = in.readInt();
+        this.played = in.readInt();
+        this.correct = in.readInt();
+        this.incorrect = in.readInt();
+        this.perfectInRow = in.readInt();
+        this.bestTime = in.readInt();
+        this.averageTime = in.readInt();
     }
 
     /**
@@ -201,5 +180,21 @@ public class ModeData implements Parcelable {
         incorrect = 0;
         bestTime = 0;
         averageTime = 0;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.played);
+        dest.writeInt(this.correct);
+        dest.writeInt(this.incorrect);
+        dest.writeInt(this.perfectInRow);
+        dest.writeInt(this.bestTime);
+        dest.writeInt(this.averageTime);
     }
 }

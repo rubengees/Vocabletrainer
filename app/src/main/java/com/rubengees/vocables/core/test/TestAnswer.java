@@ -13,15 +13,13 @@ import com.rubengees.vocables.pojo.MeaningList;
 public class TestAnswer implements Parcelable {
 
     public static final Parcelable.Creator<TestAnswer> CREATOR = new Parcelable.Creator<TestAnswer>() {
-
-        public TestAnswer createFromParcel(Parcel in) {
-            return new TestAnswer(in);
+        public TestAnswer createFromParcel(Parcel source) {
+            return new TestAnswer(source);
         }
 
         public TestAnswer[] newArray(int size) {
             return new TestAnswer[size];
         }
-
     };
     private MeaningList question;
     private MeaningList answer;
@@ -29,16 +27,20 @@ public class TestAnswer implements Parcelable {
     private boolean correct;
     private int time;
 
-    private TestAnswer(Parcel in) {
-        readFromParcel(in);
-    }
-
     public TestAnswer(@NonNull MeaningList question, @NonNull MeaningList answer, @Nullable MeaningList given, boolean correct, int time) {
         this.question = question;
         this.answer = answer;
         this.given = given;
         this.correct = correct;
         this.time = time;
+    }
+
+    protected TestAnswer(Parcel in) {
+        this.question = in.readParcelable(MeaningList.class.getClassLoader());
+        this.answer = in.readParcelable(MeaningList.class.getClassLoader());
+        this.given = in.readParcelable(MeaningList.class.getClassLoader());
+        this.correct = in.readByte() != 0;
+        this.time = in.readInt();
     }
 
     public MeaningList getQuestion() {
@@ -61,25 +63,17 @@ public class TestAnswer implements Parcelable {
         return time;
     }
 
-    private void readFromParcel(Parcel in) {
-        question = in.readParcelable(MeaningList.class.getClassLoader());
-        answer = in.readParcelable(MeaningList.class.getClassLoader());
-        given = in.readParcelable(MeaningList.class.getClassLoader());
-        correct = in.readInt() == 1;
-        time = in.readInt();
-    }
-
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeParcelable(question, flags);
-        out.writeParcelable(answer, flags);
-        out.writeParcelable(given, flags);
-        out.writeInt(correct ? 1 : 0);
-        out.writeInt(time);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.question, 0);
+        dest.writeParcelable(this.answer, 0);
+        dest.writeParcelable(this.given, 0);
+        dest.writeByte(correct ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.time);
     }
 }
