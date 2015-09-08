@@ -61,7 +61,9 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
             int identifier = drawerItem.getIdentifier();
 
             if (identifier != currentDrawerItemIdentifier) {
-                currentDrawerItemIdentifier = identifier;
+                if (drawerItem.isSelectable()) {
+                    currentDrawerItemIdentifier = identifier;
+                }
 
                 if (identifier >= 10) {
                     switch (identifier) {
@@ -221,12 +223,16 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
         if (drawer.isDrawerOpen()) {
             drawer.closeDrawer();
         } else {
-            if (onBackPressedListener != null && onBackPressedListener.onBackPressed()) {
-                if (drawer.getCurrentSelection() != 0) {
-                    drawer.setSelectionAtPosition(0);
-                } else {
-                    super.onBackPressed();
+            if (onBackPressedListener != null) {
+                if (onBackPressedListener.onBackPressed()) {
+                    if (drawer.getCurrentSelection() != 10) {
+                        drawer.setSelection(10, true);
+                    } else {
+                        super.onBackPressed();
+                    }
                 }
+            } else {
+                super.onBackPressed();
             }
         }
     }

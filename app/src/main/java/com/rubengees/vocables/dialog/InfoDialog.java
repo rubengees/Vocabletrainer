@@ -47,6 +47,6 @@ public class InfoDialog extends DialogFragment {
 
         ChartTools.generateAnswerChart(chart, item.getCorrect(), item.getIncorrect());
 
-        return builder.title(getString(R.string.dialog_info_title)).negativeText(getString(R.string.dialog_info_close)).customView(view, true).build();
+        return builder.title(getString(R.string.dialog_info_title)).negativeText(getString(R.string.dialog_close)).customView(view, true).build();
     }
 }

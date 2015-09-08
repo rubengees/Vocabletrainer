@@ -183,7 +183,6 @@
     <string name="dialog_vocable_hint_input_hint">Hint</string>
     <string name="test_classic_correct">Correct!</string>
     <string name="test_classic_wrong">Wrong! Correct:</string>
-    <string name="dialog_info_close">Close</string>
     <string name="dialog_donate_content">Donate to support the Developer and this App</string>
     <string name="activity_main_donation_message">Thank you for your donation!</string>
     <string name="activity_main_donation_error">An unknown Error occurred</string>
@@ -217,4 +216,7 @@
     <string name="preference_suggestions_title">Input suggestions</string>
     <string name="preference_suggestions_on">Suggestions will be displayed</string>
     <string name="preference_suggestions_off">Suggestions won\'t be displayed</string>
+    <string name="dialog_permission_title">Permission explanation</string>
+    <string name="dialog_close">Close</string>
+    <string name="dialog_permission_explanation_write_external_storage">If you want to import and export, this App needs to have access to your external Storage. It will never read any personal data.</string>
 </resources>
