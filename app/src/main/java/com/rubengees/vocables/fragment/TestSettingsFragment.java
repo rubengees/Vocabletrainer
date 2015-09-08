@@ -25,8 +25,9 @@ import com.rubengees.vocables.utils.SnackbarManager;
  */
 public class TestSettingsFragment extends MainFragment implements TestSettingsLayout.OnTestSettingsListener {
 
+    public static final String STATE_MODE = "mode";
     private static final String KEY_MODE = "mode";
-    private static final String KEY_TEST_SETTINGS = "test_settings";
+    private static final String STATE_TEST_SETTINGS = "test_settings";
     private static final String STATE_VOCABLE_AMOUNT = "vocable_amount";
 
     private Mode mode;
@@ -53,16 +54,16 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+
+        if (savedInstanceState == null) {
             mode = getArguments().getParcelable(KEY_MODE);
-
-            layout = mode.getTestSettingsLayout(getActivity(), this);
+        } else {
+            mode = getArguments().getParcelable(STATE_MODE);
+            settings = savedInstanceState.getParcelable(STATE_TEST_SETTINGS);
+            vocableAmount = savedInstanceState.getInt(STATE_VOCABLE_AMOUNT);
         }
 
-        if (savedInstanceState != null) {
-            settings = savedInstanceState.getParcelable(KEY_TEST_SETTINGS);
-        }
-
+        layout = mode.getTestSettingsLayout(getActivity(), this);
         manager = Core.getInstance(getActivity()).getVocableManager();
     }
 
@@ -80,7 +81,6 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
 
             updateStatus(calculateAmount(settings));
         } else {
-            this.vocableAmount = savedInstanceState.getInt(STATE_VOCABLE_AMOUNT);
             updateStatus(vocableAmount);
         }
 
@@ -130,7 +130,8 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(KEY_TEST_SETTINGS, settings);
+        outState.putParcelable(STATE_MODE, mode);
+        outState.putParcelable(STATE_TEST_SETTINGS, settings);
         outState.putInt(STATE_VOCABLE_AMOUNT, vocableAmount);
         layout.saveInstanceState(outState);
     }
