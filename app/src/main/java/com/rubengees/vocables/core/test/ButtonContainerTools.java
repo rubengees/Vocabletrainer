@@ -46,7 +46,6 @@ public class ButtonContainerTools {
                 Button button = (Button) LayoutInflater.from(context).inflate(R.layout.layout_test_button, container, false);
                 container.addView(button);
 
-                button.setTag(new Position(i, ii));
                 button.setOnClickListener(buttonListener);
                 animator.add(new FadeInAnimation(button));
             }
@@ -107,8 +106,23 @@ public class ButtonContainerTools {
      * @param pos    The Position
      * @return The Button at that Position. May be null
      */
-    public static Button getButtonAt(ViewGroup layout, Position pos) {
+    @Nullable
+    public static Button getButtonAt(@NonNull ViewGroup layout, @NonNull Position pos) {
         return (Button) ((ViewGroup) layout.getChildAt(pos.getX())).getChildAt(pos.getY());
     }
 
+    @Nullable
+    public static Position findPositionOfButton(@NonNull ViewGroup layout, @NonNull Button button) {
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            ViewGroup buttonContainer = (ViewGroup) layout.getChildAt(i);
+
+            for (int ii = 0; ii < buttonContainer.getChildCount(); ii++) {
+                if (button == buttonContainer.getChildAt(ii)) {
+                    return new Position(i, ii);
+                }
+            }
+        }
+
+        return null;
+    }
 }

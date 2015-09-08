@@ -108,7 +108,7 @@ public class PairTest extends Test implements View.OnClickListener {
     }
 
     private void processInput(Button button) {
-        Position pos = (Position) button.getTag();
+        Position pos = ButtonContainerTools.findPositionOfButton(layout, button);
 
         if (logic.hasSelectedButton()) {
             Position selectedPos = logic.getSelected();
