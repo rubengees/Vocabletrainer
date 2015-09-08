@@ -1,7 +1,6 @@
 package com.rubengees.vocables.core.testsettings;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.ArrayList;
 
@@ -10,16 +9,14 @@ import java.util.ArrayList;
  */
 public class ClassicTestSettings extends TestSettings {
 
-    public static final Parcelable.Creator<ClassicTestSettings> CREATOR = new Parcelable.Creator<ClassicTestSettings>() {
-
-        public ClassicTestSettings createFromParcel(Parcel in) {
-            return new ClassicTestSettings(in);
+    public static final Creator<ClassicTestSettings> CREATOR = new Creator<ClassicTestSettings>() {
+        public ClassicTestSettings createFromParcel(Parcel source) {
+            return new ClassicTestSettings(source);
         }
 
         public ClassicTestSettings[] newArray(int size) {
             return new ClassicTestSettings[size];
         }
-
     };
     private Direction direction;
     private boolean caseSensitive;
@@ -34,17 +31,11 @@ public class ClassicTestSettings extends TestSettings {
         this.caseSensitive = caseSensitive;
     }
 
-    public ClassicTestSettings(final Parcel in) {
+    protected ClassicTestSettings(Parcel in) {
         super(in);
-        direction = (Direction) in.readSerializable();
-        caseSensitive = in.readInt() == 1;
-    }
-
-    @Override
-    public void writeToParcel(final Parcel out, final int flags) {
-        super.writeToParcel(out, flags);
-        out.writeSerializable(direction);
-        out.writeInt(caseSensitive ? 1 : 0);
+        int tmpDirection = in.readInt();
+        this.direction = tmpDirection == -1 ? null : Direction.values()[tmpDirection];
+        this.caseSensitive = in.readByte() != 0;
     }
 
     public Direction getDirection() {
@@ -61,5 +52,17 @@ public class ClassicTestSettings extends TestSettings {
 
     public void setCaseSensitive(boolean caseSensitive) {
         this.caseSensitive = caseSensitive;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.direction == null ? -1 : this.direction.ordinal());
+        dest.writeByte(caseSensitive ? (byte) 1 : (byte) 0);
     }
 }

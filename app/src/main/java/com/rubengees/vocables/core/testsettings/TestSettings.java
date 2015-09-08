@@ -11,18 +11,6 @@ import java.util.List;
  */
 public class TestSettings implements Parcelable {
 
-    public static final Parcelable.Creator<TestSettings> CREATOR = new Parcelable.Creator<TestSettings>() {
-
-        public TestSettings createFromParcel(Parcel in) {
-            return new TestSettings(in);
-        }
-
-        public TestSettings[] newArray(int size) {
-            return new TestSettings[size];
-        }
-
-    };
-
     private ArrayList<Integer> unitIds;
     private int maxRate;
 
@@ -30,13 +18,15 @@ public class TestSettings implements Parcelable {
         unitIds = new ArrayList<>();
     }
 
-    public TestSettings(Parcel in) {
-        readFromParcel(in);
-    }
-
     public TestSettings(ArrayList<Integer> unitIds, int maxRate) {
         this.unitIds = unitIds;
         this.maxRate = maxRate;
+    }
+
+    protected TestSettings(Parcel in) {
+        this.unitIds = new ArrayList<>();
+        in.readList(this.unitIds, List.class.getClassLoader());
+        this.maxRate = in.readInt();
     }
 
     public void addUnitId(int id) {
@@ -55,19 +45,15 @@ public class TestSettings implements Parcelable {
         this.maxRate = rate;
     }
 
-    private void readFromParcel(Parcel in) {
-        unitIds = in.readArrayList(Integer.class.getClassLoader());
-        maxRate = in.readInt();
-    }
-
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeList(unitIds);
-        out.writeInt(maxRate);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeList(this.unitIds);
+        dest.writeInt(this.maxRate);
     }
+
 }

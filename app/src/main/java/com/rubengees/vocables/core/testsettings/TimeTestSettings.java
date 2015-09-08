@@ -1,7 +1,6 @@
 package com.rubengees.vocables.core.testsettings;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.ArrayList;
 
@@ -10,18 +9,6 @@ import java.util.ArrayList;
  */
 public class TimeTestSettings extends TestSettings {
 
-    public static final Parcelable.Creator<TimeTestSettings> CREATOR = new Parcelable.Creator<TimeTestSettings>() {
-
-        public TimeTestSettings createFromParcel(Parcel in) {
-            return new TimeTestSettings(in);
-        }
-
-        public TimeTestSettings[] newArray(int size) {
-            return new TimeTestSettings[size];
-        }
-
-
-    };
     private Direction direction;
 
     public TimeTestSettings() {
@@ -33,15 +20,10 @@ public class TimeTestSettings extends TestSettings {
         this.direction = direction;
     }
 
-    public TimeTestSettings(final Parcel in) {
+    protected TimeTestSettings(Parcel in) {
         super(in);
-        direction = (Direction) in.readSerializable();
-    }
-
-    @Override
-    public void writeToParcel(final Parcel out, final int flags) {
-        super.writeToParcel(out, flags);
-        out.writeSerializable(direction);
+        int tmpDirection = in.readInt();
+        this.direction = tmpDirection == -1 ? null : Direction.values()[tmpDirection];
     }
 
     public Direction getDirection() {
@@ -50,6 +32,17 @@ public class TimeTestSettings extends TestSettings {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.direction == null ? -1 : this.direction.ordinal());
     }
 
 }
