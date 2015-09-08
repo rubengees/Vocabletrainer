@@ -21,7 +21,9 @@ import com.rubengees.vocables.utils.Utils;
 /**
  * A Fragment to displays the Settings of this App.
  */
-public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener, MainActivity.OnBackPressedListener {
+public class SettingsFragment extends PreferenceFragment implements
+        Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener,
+        MainActivity.OnBackPressedListener {
 
     private static final String PREF_ADS = "pref_ads";
     private static final String PREF_REMINDER = "pref_reminder";
@@ -74,8 +76,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     private void setReminderTimeSummary(String newValue) {
         String summary = null;
-        String[] values = getActivity().getResources().getStringArray(R.array.reminder_time_preference_values);
-        String[] entries = getActivity().getResources().getStringArray(R.array.reminder_time_preference_entries);
+        String[] values = getActivity().getResources()
+                .getStringArray(R.array.reminder_time_preference_values);
+        String[] entries = getActivity().getResources().
+                getStringArray(R.array.reminder_time_preference_entries);
 
         for (int i = 0; i < values.length; i++) {
             if (newValue.equals(values[i])) {
@@ -126,9 +130,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             final String appPackageName = getActivity().getPackageName();
 
             try {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=" + appPackageName)));
             } catch (android.content.ActivityNotFoundException e) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id="
+                                + appPackageName)));
             }
 
             return true;
@@ -136,10 +143,13 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             Utils.showGooglePlusPage(getActivity());
             return true;
         } else if (preference == licences) {
-            new LibsBuilder().withAboutIconShown(true).withAboutVersionShownName(true).withAnimations(true)
-                    .withAboutAppName(getString(R.string.app_name))
-                    .withAboutDescription(getString(R.string.activity_about_content) + '\n' + getString(R.string.activity_about_content_icons) + '\n' + getString(R.string.activity_about_content_authors)).withActivityTitle(getString(R.string.activity_about_title))
-                    .withFields(R.string.class.getFields()).withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR).start(getActivity());
+            new LibsBuilder().withAboutIconShown(true).withAboutVersionShownName(true)
+                    .withAnimations(true).withAboutAppName(getString(R.string.app_name))
+                    .withAboutDescription(getString(R.string.activity_about_content) + '\n'
+                            + getString(R.string.activity_about_content_icons) + '\n'
+                            + getString(R.string.activity_about_content_authors))
+                    .withActivityTitle(getString(R.string.activity_about_title)).withFields(R.string.class.getFields())
+                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR).start(getActivity());
         } else if (preference == source) {
             Uri uri = Uri.parse("https://github.com/RubenGees/Vocabletrainer");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
