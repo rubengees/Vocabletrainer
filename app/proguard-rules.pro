@@ -22,6 +22,10 @@
 
 -keepattributes SourceFile,LineNumberTable
 
+-dontwarn android.support.v7.**
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v7.** { *; }
+
 -keep class android.support.design.widget.** { *; }
 -keep interface android.support.design.widget.** { *; }
 

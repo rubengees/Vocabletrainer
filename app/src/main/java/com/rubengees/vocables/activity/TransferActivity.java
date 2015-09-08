@@ -27,7 +27,7 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
 
     public static final int REQUEST_IMPORT = 10010;
     public static final int REQUEST_EXPORT = 10011;
-    public static final int PERMISSION_WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 5000;
+    public static final int PERMISSION_WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 5;
     private static final String OVERRIDE_DIALOG = "override_dialog";
     private static final String FRAGMENT_TRANSFER = "transfer_fragment";
     private static final String PERMISSION_DIALOG = "permission_dialog";
