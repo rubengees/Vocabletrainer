@@ -82,7 +82,9 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
             if (fragment != null) {
                 configureFragment(fragment);
             } else {
-                showSnackbar();
+                if (hasPermission()) {
+                    showSnackbar();
+                }
             }
 
             if (overrideDialog != null) {
@@ -182,15 +184,17 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
 
     @Override
     public void onFileClicked(@NonNull File file) {
-        if (isImport && TransferUtils.isFileSupported(file)) {
-            Intent in = new Intent();
-            in.putExtra("path", file.getAbsolutePath());
+        if (isImport) {
+            if (TransferUtils.isFileSupported(file)) {
+                Intent in = new Intent();
+                in.putExtra("path", file.getAbsolutePath());
 
-            setResult(RESULT_OK, in);
-            finish();
-        } else {
-            Toast.makeText(this, getString(R.string.activity_transfer_error_file_type),
-                    Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK, in);
+                finish();
+            } else {
+                Toast.makeText(this, getString(R.string.activity_transfer_error_file_type),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
