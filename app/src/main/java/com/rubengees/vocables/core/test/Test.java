@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public abstract class Test {
 
     protected static final int ANIMATION_TIME = 500;
-    protected static final int WAIT_TIME = 1000;
+    protected static final int WAIT_TIME = 1500;
 
     private OnTestFinishedListener testFinishedListener;
     private OnHintVisibilityListener hintVisibilityListener;
