@@ -65,7 +65,7 @@
     <string name="fragment_result_not_so_well">Ausreichend</string>
     <string name="fragment_result_okay">Befriedigend</string>
     <string name="fragment_result_perfect">Perfekt!</string>
-    <string name="fragment_result_very_good">Seht gut</string>
+    <string name="fragment_result_very_good">Sehr gut</string>
     <string name="fragment_settings_mail_client">Wähle einen Client</string>
     <string name="fragment_settings_mail_subject">Vokabeltrainer Feedback</string>
     <string name="fragment_settings_title">Einstellungen</string>
