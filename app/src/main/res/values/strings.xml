@@ -154,12 +154,6 @@
 
     <string name="dialog_vocable_unit_input_hint">Unit title</string>
 
-    <string name="dialog_welcome_ads_text">You can choose if this App should show Ads. It would be appreciated if you do so, because it supports the developer of this App.</string>
-    <string name="dialog_welcome_ads_check_box">Show Ads</string>
-    <string name="dialog_welcome_reminder_text">This App can remind you to learn Vocables every day.</string>
-    <string name="dialog_welcome_reminder_check_box">Remind me</string>
-    <string name="dialog_welcome_play_games_check_box">Sign into Play Games</string>
-
     <string name="fragment_test_classic_input_hint">Answer</string>
 
     <string name="fragment_test_settings_rate_all">All Vocables</string>

@@ -18,13 +18,16 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.rubengees.introduction.IntroductionActivity;
+import com.rubengees.introduction.IntroductionBuilder;
+import com.rubengees.introduction.entity.Option;
+import com.rubengees.introduction.entity.Slide;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
 import com.rubengees.vocables.core.mode.Mode;
 import com.rubengees.vocables.dialog.DonateDialog;
 import com.rubengees.vocables.dialog.EvaluationDialog;
 import com.rubengees.vocables.dialog.PlayGamesDialog;
-import com.rubengees.vocables.dialog.WelcomeDialog;
 import com.rubengees.vocables.fragment.HelpFragment;
 import com.rubengees.vocables.fragment.SettingsFragment;
 import com.rubengees.vocables.fragment.StatisticsFragment;
@@ -40,9 +43,8 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class MainActivity extends ExtendedToolbarActivity implements WelcomeDialog.WelcomeDialogCallback, EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback {
+public class MainActivity extends ExtendedToolbarActivity implements EvaluationDialog.EvaluationDialogCallback, PlayGamesDialog.PlayGamesDialogCallback {
 
-    private static final String DIALOG_WELCOME = "dialog_welcome";
     private static final String DIALOG_EVALUATION = "dialog_evaluation";
     private static final String DIALOG_PLAY_GAMES = "dialog_play_games";
     private static final String DONATE_DIALOG = "donate_dialog";
@@ -106,13 +108,31 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
         }
     };
 
-    private void showDialog() {
+    private void showIntro() {
         if (PreferenceUtils.isFirstStart(this)) {
-            WelcomeDialog dialog = WelcomeDialog.newInstance();
-            dialog.setCallback(this);
+            new IntroductionBuilder(this).withSlides(generateIntroSlides()).introduceMyself();
 
-            dialog.show(getFragmentManager(), DIALOG_WELCOME);
-        } else if (!PreferenceUtils.hasEvaluated(this)) {
+            PreferenceUtils.setFirstStarted(this);
+        }
+    }
+
+    private List<Slide> generateIntroSlides() {
+        List<Slide> slides = new ArrayList<>();
+
+        slides.add(new Slide().withColorResource(R.color.primary).withTitle("Welcome").
+                withImageResource(R.mipmap.ic_launcher));
+        slides.add(new Slide().withColorResource(R.color.accent).withTitle("Advertisements").withImageResource(R.drawable.ic_intro_add)
+                .withOption(new Option("You can choose if this App should show Ads. It would be appreciated if you do so, because it supports the developer of this App", true)));
+        slides.add(new Slide().withColorResource(R.color.teal).withTitle("Reminder").withImageResource(R.drawable.ic_intro_bell)
+                .withOption(new Option("This App can remind you to learn Vocables every day", false)));
+        slides.add(new Slide().withColorResource(R.color.teal).withTitle("Play Games").withImageResource(R.drawable.ic_intro_play_games)
+                .withOption(new Option("Enable Play Games to earn achievements", false)));
+
+        return slides;
+    }
+
+    private void showDialog() {
+        if (!PreferenceUtils.hasEvaluated(this)) {
             EvaluationDialog dialog = EvaluationDialog.newInstance();
             dialog.setCallback(this);
 
@@ -124,8 +144,30 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode != RESULT_CANCELED) {
-            core.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IntroductionBuilder.INTRODUCTION_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<Option> options =
+                        data.getParcelableArrayListExtra(IntroductionActivity.OPTION_RESULT);
+
+                for (Option option : options) {
+                    if (option.getPosition() == 1) {
+                        setAdsEnabled(option.isActivated());
+                    } else if (option.getPosition() == 2) {
+                        setReminderEnabled(option.isActivated());
+                    } else if (option.getPosition() == 3) {
+                        if (option.isActivated()) {
+                            core.getConnection().connect();
+                        }
+                    }
+                }
+            } else {
+                setAdsEnabled(false);
+                setReminderEnabled(false);
+            }
+        } else {
+            if (resultCode != RESULT_CANCELED) {
+                core.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
@@ -150,17 +192,12 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
         if (savedInstanceState == null) {
             setFragment(VocableListFragment.newInstance(), getString(R.string.fragment_vocable_list_title));
 
+            showIntro();
             showDialog();
         } else {
             FragmentManager manager = getFragmentManager();
-
-            WelcomeDialog welcomeDialog = (WelcomeDialog) manager.findFragmentByTag(DIALOG_WELCOME);
             EvaluationDialog evaluationDialog = (EvaluationDialog) manager.findFragmentByTag(DIALOG_EVALUATION);
             PlayGamesDialog playGamesDialog = (PlayGamesDialog) manager.findFragmentByTag(DIALOG_PLAY_GAMES);
-
-            if (welcomeDialog != null) {
-                welcomeDialog.setCallback(this);
-            }
 
             if (evaluationDialog != null) {
                 evaluationDialog.setCallback(this);
@@ -348,22 +385,22 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
         setFragment(fragment, title, color, darkColor);
     }
 
-    @Override
-    public void onWelcomeDialogClosed(boolean showAds, boolean enableReminder, boolean signIntoPlayGames) {
-        if (showAds) {
-            showAds();
-        }
-
-        if (enableReminder) {
+    private void setReminderEnabled(boolean enabled) {
+        if (enabled) {
             PreferenceUtils.setReminder(this, true);
             ReminderUtils.setReminder(this);
+        } else {
+            PreferenceUtils.setReminder(this, false);
+            ReminderUtils.cancelReminder(this);
         }
+    }
 
-        if (signIntoPlayGames) {
-            core.getConnection().connect();
+    private void setAdsEnabled(boolean enabled) {
+        if (enabled) {
+            showAds();
+        } else {
+            hideAds();
         }
-
-        PreferenceUtils.setFirstStarted(this);
     }
 
     public void hideAds() {
@@ -375,7 +412,8 @@ public class MainActivity extends ExtendedToolbarActivity implements WelcomeDial
     public void showAds() {
         PreferenceUtils.setAds(this, true);
         adView.setVisibility(View.VISIBLE);
-        AdRequest adRequest = new AdRequest.Builder().addKeyword("Vocable").addKeyword("Learning").addKeyword("Game").build();
+        AdRequest adRequest = new AdRequest.Builder().addKeyword("Vocable").addKeyword("Learning")
+                .addKeyword("Game").build();
 
         adView.loadAd(adRequest);
     }
