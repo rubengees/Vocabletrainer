@@ -48,8 +48,6 @@ import com.rubengees.vocables.utils.Utils;
 import java.util.HashMap;
 import java.util.List;
 
-import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link VocableListFragment#newInstance} factory method to
@@ -208,12 +206,9 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
     private void setupRecycler(Bundle savedInstanceState) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), Utils.getSpanCount(getActivity()));
-        SlideInRightAnimator animator = new SlideInRightAnimator();
-        animator.setSupportsChangeAnimations(false);
 
         recycler.setLayoutManager(layoutManager);
         recycler.setHasFixedSize(true);
-        recycler.setItemAnimator(animator);
 
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
