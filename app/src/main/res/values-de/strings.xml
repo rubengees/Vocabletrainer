@@ -180,4 +180,12 @@
     <string name="dialog_permission_explanation_write_external_storage">Wenn du Importieren und Exportieren möchtest, braucht diese App Zugriff auf den externen Speicher. Es werden keine persönlichen Daten ausgelesen.</string>
     <string name="dialog_permission_title">Berechtigungserklärung</string>
     <string name="dialog_close">Schließen</string>
+    <string name="intro_ads_description">Aktiviere Werbung um die Entwicklung dieser App zu unterstützen</string>
+    <string name="intro_ads_title">Werbung</string>
+    <string name="intro_play_games_description">Aktiviere Play Games um Erfolge zu erzielen</string>
+    <string name="intro_play_games_title">Play Games</string>
+    <string name="intro_reminder_description">Werde jeden Tag daran erinnert Vokabeln zu lernen</string>
+    <string name="intro_reminder_title">Erinnerungen</string>
+    <string name="intro_welcome_description">Nur ein paar Einstellungen und es geht los!</string>
+    <string name="intro_welcome_title">Willkommen</string>
 </resources>

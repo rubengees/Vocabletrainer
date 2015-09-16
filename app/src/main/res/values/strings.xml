@@ -213,4 +213,12 @@
     <string name="dialog_permission_title">Permission explanation</string>
     <string name="dialog_close">Close</string>
     <string name="dialog_permission_explanation_write_external_storage">If you want to import and export, this App needs to have access to your external Storage. It will never read any personal data.</string>
+    <string name="intro_welcome_title">Welcome</string>
+    <string name="intro_welcome_description">Just some settings and you are ready to go!</string>
+    <string name="intro_ads_title">Advertisements</string>
+    <string name="intro_ads_description">Enable advertisements if you want to support the development of this App</string>
+    <string name="intro_reminder_title">Reminder</string>
+    <string name="intro_reminder_description">Get reminded every day to learn Vocables</string>
+    <string name="intro_play_games_title">Play Games</string>
+    <string name="intro_play_games_description">Enable Play Games to earn achievements</string>
 </resources>

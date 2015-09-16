@@ -108,36 +108,36 @@ public class MainActivity extends ExtendedToolbarActivity implements EvaluationD
         }
     };
 
-    private void showIntro() {
+    private void showIntroAndDialogs() {
         if (PreferenceUtils.isFirstStart(this)) {
             new IntroductionBuilder(this).withSlides(generateIntroSlides()).introduceMyself();
 
             PreferenceUtils.setFirstStarted(this);
+        } else if (!PreferenceUtils.hasEvaluated(this)) {
+            EvaluationDialog dialog = EvaluationDialog.newInstance();
+            dialog.setCallback(this);
+
+            dialog.show(getFragmentManager(), DIALOG_EVALUATION);
         }
     }
 
     private List<Slide> generateIntroSlides() {
         List<Slide> slides = new ArrayList<>();
 
-        slides.add(new Slide().withColorResource(R.color.primary).withTitle("Welcome").
-                withImageResource(R.mipmap.ic_launcher));
-        slides.add(new Slide().withColorResource(R.color.accent).withTitle("Advertisements").withImageResource(R.drawable.ic_intro_add)
-                .withOption(new Option("You can choose if this App should show Ads. It would be appreciated if you do so, because it supports the developer of this App", true)));
-        slides.add(new Slide().withColorResource(R.color.teal).withTitle("Reminder").withImageResource(R.drawable.ic_intro_bell)
-                .withOption(new Option("This App can remind you to learn Vocables every day", false)));
-        slides.add(new Slide().withColorResource(R.color.teal).withTitle("Play Games").withImageResource(R.drawable.ic_intro_play_games)
-                .withOption(new Option("Enable Play Games to earn achievements", false)));
+        slides.add(new Slide().withColorResource(R.color.primary)
+                .withTitle(R.string.intro_welcome_title).withImage(R.drawable.ic_intro_books)
+                .withDescription(R.string.intro_welcome_description));
+        slides.add(new Slide().withColorResource(R.color.accent)
+                .withTitle(R.string.intro_ads_title).withImage(R.drawable.ic_intro_ad)
+                .withOption(new Option(getString(R.string.intro_ads_description), true)));
+        slides.add(new Slide().withColorResource(R.color.pair_mode)
+                .withTitle(R.string.intro_reminder_title).withImage(R.drawable.ic_intro_bell)
+                .withOption(new Option(getString(R.string.intro_reminder_description), false)));
+        slides.add(new Slide().withColorResource(R.color.training_mode)
+                .withTitle(R.string.intro_play_games_title).withImage(R.drawable.ic_intro_play_games)
+                .withOption(new Option(getString(R.string.intro_play_games_description), false)));
 
         return slides;
-    }
-
-    private void showDialog() {
-        if (!PreferenceUtils.hasEvaluated(this)) {
-            EvaluationDialog dialog = EvaluationDialog.newInstance();
-            dialog.setCallback(this);
-
-            dialog.show(getFragmentManager(), DIALOG_EVALUATION);
-        }
     }
 
     @Override
@@ -192,8 +192,7 @@ public class MainActivity extends ExtendedToolbarActivity implements EvaluationD
         if (savedInstanceState == null) {
             setFragment(VocableListFragment.newInstance(), getString(R.string.fragment_vocable_list_title));
 
-            showIntro();
-            showDialog();
+            showIntroAndDialogs();
         } else {
             FragmentManager manager = getFragmentManager();
             EvaluationDialog evaluationDialog = (EvaluationDialog) manager.findFragmentByTag(DIALOG_EVALUATION);
