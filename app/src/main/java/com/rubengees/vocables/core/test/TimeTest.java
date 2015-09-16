@@ -36,11 +36,13 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
 
     private boolean waiting = false;
 
-    public TimeTest(Context context, TestSettings settings, OnTestFinishedListener listener, int color, int darkColor, Bundle savedInstanceState) {
+    public TimeTest(Context context, TestSettings settings, OnTestFinishedListener listener,
+                    int color, int darkColor, Bundle savedInstanceState) {
         super(context, settings, listener, color, darkColor, savedInstanceState);
     }
 
-    public TimeTest(Context context, TestSettings settings, OnTestFinishedListener listener, int color, int darkColor) {
+    public TimeTest(Context context, TestSettings settings, OnTestFinishedListener listener,
+                    int color, int darkColor) {
         super(context, settings, listener, color, darkColor);
 
         logic = new TimeTestLogic(context, (TimeTestSettings) settings, SIZE_X, SIZE_Y, this);
@@ -58,7 +60,8 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
         } else {
             super.show();
 
-            ButtonContainerTools.refreshButtons(layout, logic.getField(), getColor(), getDarkColor(), false);
+            ButtonContainerTools.refreshButtons(layout, logic.getField(), getColor(),
+                    getDarkColor(), false);
             question.setText(getContext().getString(R.string.test_question) + " " + "'" + logic.getQuestion() + "'?");
         }
     }
@@ -127,12 +130,14 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
 
     private void showResult(Position answerPos, Position resultPos) {
         if (shouldAnimate()) {
-            AppCompatButton answerButton = (AppCompatButton) ButtonContainerTools.getButtonAt(layout, answerPos);
+            AppCompatButton answerButton = (AppCompatButton) ButtonContainerTools.
+                    getButtonAt(layout, answerPos);
 
             if (resultPos == null) {
                 Utils.tintButton(answerButton, Utils.getColor(getContext(), R.color.green));
             } else {
-                AppCompatButton resultButton = (AppCompatButton) ButtonContainerTools.getButtonAt(layout, resultPos);
+                AppCompatButton resultButton = (AppCompatButton) ButtonContainerTools.
+                        getButtonAt(layout, resultPos);
 
                 Utils.tintButton(answerButton, Utils.getColor(getContext(), R.color.red));
                 Utils.tintButton(resultButton, Utils.getColor(getContext(), R.color.green));

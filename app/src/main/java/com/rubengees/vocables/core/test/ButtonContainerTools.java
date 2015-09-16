@@ -65,7 +65,8 @@ public class ButtonContainerTools {
      * @param darkColor A darker version of the Color
      * @param animateIn If Buttons should animate in
      */
-    public static void refreshButtons(@NonNull ViewGroup root, @NonNull MeaningField field, int color, int darkColor, boolean animateIn) {
+    public static void refreshButtons(@NonNull ViewGroup root, @NonNull MeaningField field,
+                                      int color, int darkColor, boolean animateIn) {
         List<View> viewsToAnimate = new ArrayList<>();
 
         for (int i = 0; i < field.getSizeX(); i++) {
