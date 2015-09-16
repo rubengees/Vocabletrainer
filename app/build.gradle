@@ -54,8 +54,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-games:7.8.0'
     compile 'com.google.android.gms:play-services-ads:7.8.0'
 
-    compile 'com.rubengees:introduction:1.0'
-
     compile 'com.afollestad:material-dialogs:0.7.9.1'
     compile('com.mikepenz:materialdrawer:4.0.7@aar') {
         transitive = true
