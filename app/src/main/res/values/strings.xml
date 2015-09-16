@@ -142,7 +142,7 @@
     <string name="activity_about_title">About</string>
 
     <string name="fragment_vocable_list_undo">Undo</string>
-    <string name="fragmnet_vocable_list_deleted_message">deleted</string>
+    <string name="fragment_vocable_list_deleted_message">deleted</string>
 
     <string name="vocable">Vocable</string>
     <string name="vocables">Vocables</string>
