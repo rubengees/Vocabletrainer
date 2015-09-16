@@ -13,9 +13,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.easyandroidanimations.library.Animation;
-import com.easyandroidanimations.library.AnimationListener;
-import com.easyandroidanimations.library.FadeInAnimation;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.ExtendedToolbarActivity;
 import com.rubengees.vocables.core.mode.ClassicMode;
@@ -24,6 +21,7 @@ import com.rubengees.vocables.core.test.logic.TestLogic;
 import com.rubengees.vocables.core.testsettings.ClassicTestSettings;
 import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.pojo.MeaningList;
+import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.Utils;
 
 /**
@@ -115,10 +113,9 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
         if (shouldAnimate()) {
             waiting = true;
 
-            new FadeInAnimation(status).setDuration(ANIMATION_TIME).setListener(new AnimationListener() {
+            AnimationUtils.fadeIn(status, ANIMATION_TIME, null, new AnimationUtils.AnimationEndListener() {
                 @Override
-                public void onAnimationEnd(Animation animation) {
-
+                public void onAnimationEnd() {
                     Utils.wait(getToolbarActivity(), WAIT_TIME, new Utils.OnWaitFinishedListener() {
                         @Override
                         public void onWaitFinished() {
@@ -130,7 +127,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
                         }
                     });
                 }
-            }).animate();
+            });
         } else {
             Utils.wait(getToolbarActivity(), WAIT_TIME, new Utils.OnWaitFinishedListener() {
                 @Override
@@ -178,12 +175,12 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
             if (shouldAnimate()) {
                 waiting = true;
 
-                new FadeInAnimation(status).setDuration(ANIMATION_TIME).setListener(new AnimationListener() {
+                AnimationUtils.fadeIn(status, ANIMATION_TIME, null, new AnimationUtils.AnimationEndListener() {
                     @Override
-                    public void onAnimationEnd(Animation animation) {
+                    public void onAnimationEnd() {
                         waiting = false;
                     }
-                }).animate();
+                });
             }
         }
     }

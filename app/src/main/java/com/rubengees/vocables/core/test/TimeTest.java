@@ -114,7 +114,7 @@ public class TimeTest extends Test implements View.OnClickListener, TimeTestLogi
     }
 
     private void processInput(Button button) {
-        Position pos = (Position) button.getTag();
+        Position pos = ButtonContainerTools.findPositionOfButton(layout, button);
 
         processAnswer(pos);
     }

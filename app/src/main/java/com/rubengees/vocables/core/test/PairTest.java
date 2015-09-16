@@ -2,14 +2,12 @@ package com.rubengees.vocables.core.test;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.easyandroidanimations.library.Animation;
-import com.easyandroidanimations.library.AnimationListener;
-import com.easyandroidanimations.library.FadeOutAnimation;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.mode.PairMode;
 import com.rubengees.vocables.core.test.logic.MeaningField;
@@ -17,6 +15,7 @@ import com.rubengees.vocables.core.test.logic.PairTestLogic;
 import com.rubengees.vocables.core.test.logic.Position;
 import com.rubengees.vocables.core.test.logic.TestLogic;
 import com.rubengees.vocables.core.testsettings.TestSettings;
+import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.Utils;
 
 /**
@@ -154,44 +153,48 @@ public class PairTest extends Test implements View.OnClickListener {
             firstButton.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    new FadeOutAnimation(firstButton).setDuration(ANIMATION_TIME).animate();
+                    AnimationUtils.fadeOut(firstButton, ANIMATION_TIME, null, null);
                 }
             }, WAIT_TIME);
             if (correctButton == null) {
                 secondButton.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        new FadeOutAnimation(secondButton).setDuration(ANIMATION_TIME).setListener(new AnimationListener() {
+                        AnimationUtils.fadeOut(secondButton, ANIMATION_TIME, null, new AnimationUtils.AnimationEndListener() {
                             @Override
-                            public void onAnimationEnd(Animation animation) {
+                            public void onAnimationEnd() {
                                 if (waiting) {
                                     waiting = false;
                                     next();
                                 }
                             }
-                        }).animate();
+                        });
                     }
                 }, WAIT_TIME);
             } else {
                 correctButton.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        new FadeOutAnimation(correctButton).setDuration(ANIMATION_TIME).setListener(new AnimationListener() {
+                        AnimationUtils.fadeOut(correctButton, ANIMATION_TIME, null, new AnimationUtils.AnimationEndListener() {
                             @Override
-                            public void onAnimationEnd(Animation animation) {
+                            public void onAnimationEnd() {
                                 if (waiting) {
                                     waiting = false;
                                     Utils.tintButton(secondButton, getColor());
                                     next();
                                 }
                             }
-                        }).animate();
+                        });
                     }
                 }, WAIT_TIME);
             }
         } else {
             next();
         }
+    }
+
+    private void fadeOut(@NonNull View view, @NonNull AnimationUtils.AnimationEndListener listener) {
+
     }
 
     private void next() {

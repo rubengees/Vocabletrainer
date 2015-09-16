@@ -10,13 +10,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.easyandroidanimations.library.FadeInAnimation;
-import com.easyandroidanimations.library.ParallelAnimator;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.test.logic.MeaningCell;
 import com.rubengees.vocables.core.test.logic.MeaningField;
 import com.rubengees.vocables.core.test.logic.Position;
+import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utils for the Modes with a Grid of Buttons.x
@@ -35,7 +37,7 @@ public class ButtonContainerTools {
      * @param buttonListener A listener which should be assigned to each Button
      */
     public static void buildButtonLayout(@NonNull ViewGroup root, int sizeX, int sizeY, @Nullable View.OnClickListener buttonListener) {
-        ParallelAnimator animator = new ParallelAnimator();
+        List<View> viewsToAnimate = new ArrayList<>();
         Context context = root.getContext();
 
         for (int i = 0; i < sizeX; i++) {
@@ -47,11 +49,11 @@ public class ButtonContainerTools {
                 container.addView(button);
 
                 button.setOnClickListener(buttonListener);
-                animator.add(new FadeInAnimation(button));
+                viewsToAnimate.add(button);
             }
         }
 
-        animator.setDuration(ANIMATION_DURATION).animate();
+        AnimationUtils.fadeInParallel(viewsToAnimate, ANIMATION_DURATION, null);
     }
 
     /**
@@ -64,7 +66,7 @@ public class ButtonContainerTools {
      * @param animateIn If Buttons should animate in
      */
     public static void refreshButtons(@NonNull ViewGroup root, @NonNull MeaningField field, int color, int darkColor, boolean animateIn) {
-        ParallelAnimator animator = new ParallelAnimator();
+        List<View> viewsToAnimate = new ArrayList<>();
 
         for (int i = 0; i < field.getSizeX(); i++) {
             ViewGroup buttonContainer = (ViewGroup) root.getChildAt(i);
@@ -90,13 +92,15 @@ public class ButtonContainerTools {
                     button.setEnabled(true);
 
                     if (animateIn) {
-                        animator.add(new FadeInAnimation(button));
+                        viewsToAnimate.add(button);
                     }
                 }
             }
         }
 
-        animator.setDuration(ANIMATION_DURATION).animate();
+        if (animateIn) {
+            AnimationUtils.fadeInParallel(viewsToAnimate, ANIMATION_DURATION, null);
+        }
     }
 
     /**

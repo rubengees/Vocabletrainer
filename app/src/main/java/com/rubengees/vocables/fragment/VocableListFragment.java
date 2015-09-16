@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -21,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.easyandroidanimations.library.ScaleInAnimation;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.activity.TransferActivity;
 import com.rubengees.vocables.adapter.UnitAdapter;
@@ -41,6 +39,7 @@ import com.rubengees.vocables.dialog.VocableDialog;
 import com.rubengees.vocables.enumeration.SortMode;
 import com.rubengees.vocables.pojo.Unit;
 import com.rubengees.vocables.pojo.Vocable;
+import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.ImportTask;
 import com.rubengees.vocables.utils.SnackbarManager;
 import com.rubengees.vocables.utils.Utils;
@@ -301,7 +300,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         });
         fab.setImageResource(R.drawable.ic_add);
 
-        new ScaleInAnimation(fab).setDuration(ANIMATION_DURATION).setInterpolator(new LinearOutSlowInInterpolator()).animate();
+        AnimationUtils.scaleIn(fab, ANIMATION_DURATION, null, null);
     }
 
     private void setUnitAdapter() {

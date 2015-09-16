@@ -13,7 +13,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,8 +22,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 
-import com.easyandroidanimations.library.ScaleInAnimation;
 import com.rubengees.vocables.R;
+import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.Utils;
 
 /**
@@ -216,7 +215,7 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
         if (isExtended) {
             fab.setImageResource(drawable);
             if (fab.getVisibility() != View.VISIBLE) {
-                new ScaleInAnimation(fab).setDuration(ANIMATION_DURATION).setInterpolator(new LinearOutSlowInInterpolator()).animate();
+                AnimationUtils.scaleIn(fab, ANIMATION_DURATION, null, null);
                 fab.setVisibility(View.VISIBLE);
             }
             fab.bringToFront();
