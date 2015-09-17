@@ -2,7 +2,6 @@ package com.rubengees.vocables.activity;
 
 import android.app.ActivityManager;
 import android.app.Service;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -13,6 +12,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -87,8 +87,8 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
             toggleExtendedToolbar();
         } else {
             currentTitle = getString(R.string.app_name);
-            currentColor = getResources().getColor(R.color.primary);
-            currentColorDark = getResources().getColor(R.color.primary_dark);
+            currentColor = ContextCompat.getColor(this, R.color.primary);
+            currentColorDark = ContextCompat.getColor(this, R.color.primary_dark);
         }
 
         init(savedInstanceState);
@@ -288,9 +288,8 @@ public abstract class ExtendedToolbarActivity extends AppCompatActivity {
      * @param darkColorRes The color as Resource-reference
      */
     public final void styleApplicationRes(@ColorRes int colorRes, @ColorRes int darkColorRes) {
-        Resources resources = getResources();
-        int color = resources.getColor(colorRes);
-        int darkColor = resources.getColor(darkColorRes);
+        int color = ContextCompat.getColor(this, colorRes);
+        int darkColor = ContextCompat.getColor(this, darkColorRes);
 
         styleApplication(color, darkColor);
     }
