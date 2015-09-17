@@ -28,3 +28,8 @@
 -dontwarn android.net.http.AndroidHttpClient
 -dontwarn com.google.android.gms.**
 -dontwarn com.android.volley.toolbox.**
+
+-keep class .R
+-keep class .R$* {
+    <fields>;
+}

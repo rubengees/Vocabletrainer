@@ -19,7 +19,6 @@ android {
     useLibrary 'org.apache.http.legacy'
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
-
     defaultConfig {
         applicationId "com.rubengees.vocables"
         minSdkVersion 15
@@ -27,7 +26,6 @@ android {
         versionCode 43
         versionName "4.2.1"
     }
-
     buildTypes {
         release {
             minifyEnabled true
@@ -40,7 +38,6 @@ android {
             ext.enableCrashlytics = false
         }
     }
-
     compileOptions {
         encoding "UTF-8"
     }
@@ -53,12 +50,11 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.0.1'
     compile 'com.google.android.gms:play-services-games:7.8.0'
     compile 'com.google.android.gms:play-services-ads:7.8.0'
-
     compile 'com.afollestad:material-dialogs:0.7.9.1'
-    compile('com.mikepenz:materialdrawer:4.0.7@aar') {
+    compile('com.mikepenz:materialdrawer:4.0.9@aar') {
         transitive = true
     }
-    compile('com.mikepenz:aboutlibraries:5.2.2@aar') {
+    compile('com.mikepenz:aboutlibraries:5.2.3@aar') {
         transitive = true
     }
     compile 'com.github.lecho:hellocharts-library:1.5.7@aar'
