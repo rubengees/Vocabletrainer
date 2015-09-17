@@ -101,11 +101,16 @@ public abstract class TestLogic<E extends TestSettings> {
 
     public final int getAdjustedPosition() {
         int currentPos = position;
-        int maxIndices = getAmount() - 1;
+        int maxIndex = getAmount() - 1;
 
-        if (currentPos > maxIndices) {
-            currentPos = currentPos / maxIndices;
-            return position - (currentPos * maxIndices);
+        if (maxIndex == 0) {
+            //Hack to avoid divide by zero
+            maxIndex = 1;
+        }
+
+        if (currentPos > maxIndex) {
+            currentPos = currentPos / maxIndex;
+            return position - (currentPos * maxIndex);
         } else {
             return currentPos;
         }
