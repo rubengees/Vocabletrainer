@@ -2,9 +2,9 @@ package com.rubengees.vocables.core.test.logic;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.Size;
 
 import com.rubengees.vocables.pojo.MeaningList;
 
@@ -32,12 +32,12 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     private int sizeX;
     private int sizeY;
 
-    public MeaningField(@Size(min = 2) int sizeX, @Size(min = 2) int sizeY, List<MeaningCell> cells) {
+    public MeaningField(@IntRange(from = 2) int sizeX, @IntRange(from = 2) int sizeY, List<MeaningCell> cells) {
         this(sizeX, sizeY);
         setCells(cells);
     }
 
-    public MeaningField(@Size(min = 2) int sizeX, @Size(min = 2) int sizeY) {
+    public MeaningField(@IntRange(from = 2) int sizeX, @IntRange(from = 2) int sizeY) {
         field = new MeaningCell[sizeX][sizeY];
         this.sizeX = sizeX;
         this.sizeY = sizeY;
@@ -48,9 +48,9 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         this.elementCount = in.readInt();
         this.sizeX = in.readInt();
         this.sizeY = in.readInt();
+        field = new MeaningCell[sizeX][sizeY];
         for (int i = 0; i < sizeY; i++) {
             field[i] = in.createTypedArray(MeaningCell.CREATOR);
-
         }
     }
 
