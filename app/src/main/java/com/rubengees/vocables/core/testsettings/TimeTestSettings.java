@@ -9,6 +9,15 @@ import java.util.ArrayList;
  */
 public class TimeTestSettings extends TestSettings {
 
+    public static final Creator<TimeTestSettings> CREATOR = new Creator<TimeTestSettings>() {
+        public TimeTestSettings createFromParcel(Parcel source) {
+            return new TimeTestSettings(source);
+        }
+
+        public TimeTestSettings[] newArray(int size) {
+            return new TimeTestSettings[size];
+        }
+    };
     private Direction direction;
 
     public TimeTestSettings() {
@@ -44,5 +53,4 @@ public class TimeTestSettings extends TestSettings {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.direction == null ? -1 : this.direction.ordinal());
     }
-
 }

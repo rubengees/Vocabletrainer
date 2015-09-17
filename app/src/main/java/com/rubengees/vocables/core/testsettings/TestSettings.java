@@ -11,6 +11,17 @@ import java.util.List;
  */
 public class TestSettings implements Parcelable {
 
+    public static final Creator<TestSettings> CREATOR = new Creator<TestSettings>() {
+        @Override
+        public TestSettings createFromParcel(Parcel in) {
+            return new TestSettings(in);
+        }
+
+        @Override
+        public TestSettings[] newArray(int size) {
+            return new TestSettings[size];
+        }
+    };
     private ArrayList<Integer> unitIds;
     private int maxRate;
 

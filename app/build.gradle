@@ -11,6 +11,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 repositories {
+    maven { url "https://jitpack.io" }
     maven { url 'https://maven.fabric.io/public' }
 }
 
