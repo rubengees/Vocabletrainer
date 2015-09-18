@@ -94,10 +94,12 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         selected = pos;
     }
 
+    @Nullable
     public Position getSelectedPosition() {
         return selected;
     }
 
+    @Nullable
     public MeaningCell getSelected() {
         if (selected == null) {
             return null;
@@ -106,6 +108,7 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         }
     }
 
+    @Nullable
     public Position findCellPosition(@NonNull MeaningList meaningList) {
         for (int i = 0; i < sizeX; i++) {
             for (int ii = 0; ii < sizeY; ii++) {

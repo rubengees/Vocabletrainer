@@ -2,6 +2,7 @@ package com.rubengees.vocables.core.test.logic;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.rubengees.vocables.core.testsettings.TestSettings;
 import com.rubengees.vocables.pojo.MeaningList;
@@ -90,7 +91,7 @@ public class PairTestLogic extends TestLogic<TestSettings> {
         return getSubList(getPosition(), getPosition() + field.getSize() / 2);
     }
 
-    public Position processAnswer(Position pos) {
+    public Position processAnswer(@NonNull Position pos) {
         MeaningCell selectedCell = field.getSelected();
         MeaningCell givenCell = field.getCell(pos);
         MeaningList question = selectedCell.getMeaningList();
@@ -100,7 +101,7 @@ public class PairTestLogic extends TestLogic<TestSettings> {
 
         boolean correct = answer.equals(given);
 
-        processAnswer(vocable, question, answer, given, correct);
+        super.processAnswer(vocable, question, answer, given, correct);
 
         field.remove(field.getSelectedPosition());
         field.unSelect();

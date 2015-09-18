@@ -22,7 +22,12 @@
 
 -keepattributes SourceFile,LineNumberTable
 
--keep class !android.support.v7.internal.view.menu.**,android.support.** {*;}
+-keep class !android.support.v7.internal.view.menu.*MenuBuilder*, android.support.v7.** { *; }
+-keep interface android.support.v7.** { *; }
+
+-keep class android.support.design.** { *; }
+-keep interface android.support.design.** { *; }
+-keep public class android.support.design.R$* { *; }
 
 -dontwarn org.apache.http.**
 -dontwarn android.net.http.AndroidHttpClient
