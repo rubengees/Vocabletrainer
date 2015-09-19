@@ -23,13 +23,13 @@ android {
         applicationId "com.rubengees.vocables"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 44
-        versionName "4.2.2"
+        versionCode 45
+        versionName "4.2.3"
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
