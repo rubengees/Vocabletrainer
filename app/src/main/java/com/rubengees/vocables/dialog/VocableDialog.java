@@ -119,7 +119,8 @@ public class VocableDialog extends DialogFragment {
         if (savedInstanceState == null) {
             processVocable();
         } else {
-            processMeanings(savedInstanceState.getStringArrayList(STATE_FIRST_MEANINGS), savedInstanceState.getStringArrayList(STATE_SECOND_MEANINGS));
+            processMeanings(savedInstanceState.getStringArrayList(STATE_FIRST_MEANINGS),
+                    savedInstanceState.getStringArrayList(STATE_SECOND_MEANINGS));
         }
 
         processUnit();

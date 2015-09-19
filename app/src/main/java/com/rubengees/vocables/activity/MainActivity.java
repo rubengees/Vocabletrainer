@@ -277,8 +277,11 @@ public class MainActivity extends ExtendedToolbarActivity implements EvaluationD
 
     private void generateDrawer(@Nullable Bundle savedInstanceState) {
         drawer = new DrawerBuilder().withActivity(this).withToolbar(getToolbar())
-                .withDrawerItems(generateDrawerItems()).withStickyDrawerItems(generateStickyDrawerItems())
-                .withOnDrawerItemClickListener(onDrawerItemClickListener).withShowDrawerOnFirstLaunch(true).withActionBarDrawerToggleAnimated(true).withOnDrawerListener(new Drawer.OnDrawerListener() {
+                .withDrawerItems(generateDrawerItems())
+                .withStickyDrawerItems(generateStickyDrawerItems())
+                .withOnDrawerItemClickListener(onDrawerItemClickListener)
+                .withShowDrawerOnFirstLaunch(true).withActionBarDrawerToggleAnimated(true)
+                .withHasStableIds(true).withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
                     public void onDrawerOpened(View view) {
                         hideKeyboard(null);
