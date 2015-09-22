@@ -23,8 +23,8 @@ android {
         applicationId "com.rubengees.vocables"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 46
-        versionName "4.2.4"
+        versionCode 47
+        versionName "4.2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -52,7 +52,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-games:7.8.0'
     compile 'com.google.android.gms:play-services-ads:7.8.0'
     compile 'com.afollestad.material-dialogs:core:0.8.0.1@aar'
-    compile('com.mikepenz:materialdrawer:4.1.2@aar') {
+    compile('com.mikepenz:materialdrawer:4.3.0@aar') {
         transitive = true
     }
     compile('com.mikepenz:aboutlibraries:5.2.3@aar') {

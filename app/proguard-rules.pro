@@ -22,8 +22,7 @@
 
 -keepattributes SourceFile,LineNumberTable
 
--keep class !android.support.v7.internal.view.menu.*MenuBuilder*, android.support.v7.** { *; }
--keep interface android.support.v7.** { *; }
+ -keep class !android.support.v7.internal.view.menu.* implements android.support.v4.internal.view.SupportMenu, android.support.v7.** {*;}
 
 -keep class android.support.design.** { *; }
 -keep interface android.support.design.** { *; }
