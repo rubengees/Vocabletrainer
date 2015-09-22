@@ -154,6 +154,11 @@ public class MeaningList implements List<String>, Comparable<MeaningList>, Parce
         }
     }
 
+    @Override
+    public int hashCode() {
+        return meanings.hashCode();
+    }
+
     /**
      * Return if this Meaning equals another Object. Case of the Meanings is ignored.
      *

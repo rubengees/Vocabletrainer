@@ -22,14 +22,16 @@ public class MeaningCell implements Parcelable {
     };
     private Vocable vocable;
     private MeaningList meaningList;
+
+
     public MeaningCell(Vocable vocable, MeaningList meaningList) {
         this.vocable = vocable;
         this.meaningList = meaningList;
     }
 
     protected MeaningCell(Parcel in) {
-        this.vocable = Vocable.CREATOR.createFromParcel(in);
-        this.meaningList = MeaningList.CREATOR.createFromParcel(in);
+        this.vocable = in.readParcelable(Vocable.class.getClassLoader());
+        this.meaningList = in.readParcelable(MeaningList.class.getClassLoader());
     }
 
     public Vocable getVocable() {

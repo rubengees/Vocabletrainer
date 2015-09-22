@@ -25,6 +25,7 @@ android {
         targetSdkVersion 23
         versionCode 46
         versionName "4.2.4"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -66,4 +67,7 @@ dependencies {
     compile('com.rubengees:introduction:1.0.5@aar') {
         transitive = true;
     }
+
+    androidTestCompile 'com.android.support.test:runner:0.4'
+    androidTestCompile 'com.android.support.test:rules:0.4'
 }

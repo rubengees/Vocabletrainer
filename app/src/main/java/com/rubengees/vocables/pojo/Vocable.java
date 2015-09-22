@@ -138,33 +138,30 @@ public class Vocable implements TrainerItem, Parcelable {
 
     @Override
     public boolean equals(Object o) {
-        if (o != null && o instanceof Vocable) {
-            Vocable other = (Vocable) o;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-            boolean result = (other == this) || (firstMeaningList.equals(other.getFirstMeaningList()) && secondMeaningList.equals(other.getSecondMeaningList())
-                    && (lastModificationTime == other.getLastModificationTime()) &&
-                    (getCorrect() == other.getCorrect()) && (incorrect == other.getIncorrect()));
-            if (hint != null) {
-                result = hint.equals(other.getHint());
-            }
+        Vocable vocable = (Vocable) o;
 
-            return result;
-        } else {
-            return false;
-        }
+        if (lastModificationTime != vocable.lastModificationTime) return false;
+        if (correct != vocable.correct) return false;
+        if (incorrect != vocable.incorrect) return false;
+        if (id != null ? !id.equals(vocable.id) : vocable.id != null) return false;
+        if (!firstMeaningList.equals(vocable.firstMeaningList)) return false;
+        if (!secondMeaningList.equals(vocable.secondMeaningList)) return false;
+        return !(hint != null ? !hint.equals(vocable.hint) : vocable.hint != null);
+
     }
 
     @Override
     public int hashCode() {
-        int result = this.id.hashCode();
-
-        result = 31 * result + this.firstMeaningList.hashCode();
-        result = 31 * result + this.secondMeaningList.hashCode();
-        result = 31 * result + (this.hint != null ? this.hint.hashCode() : 0);
-        result = 31 * result + (int) (this.lastModificationTime ^ lastModificationTime >>> 32);
-        result = 31 * result + this.correct;
-        result = 31 * result + this.incorrect;
-
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + firstMeaningList.hashCode();
+        result = 31 * result + secondMeaningList.hashCode();
+        result = 31 * result + (hint != null ? hint.hashCode() : 0);
+        result = 31 * result + (int) (lastModificationTime ^ (lastModificationTime >>> 32));
+        result = 31 * result + correct;
+        result = 31 * result + incorrect;
         return result;
     }
 
@@ -183,7 +180,7 @@ public class Vocable implements TrainerItem, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(this.id);
+        dest.writeValue(id);
         dest.writeParcelable(this.firstMeaningList, 0);
         dest.writeParcelable(this.secondMeaningList, 0);
         dest.writeString(this.hint);
