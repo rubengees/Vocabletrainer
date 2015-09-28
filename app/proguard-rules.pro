@@ -28,11 +28,6 @@
 -keep interface android.support.design.** { *; }
 -keep public class android.support.design.R$* { *; }
 
--dontwarn org.apache.http.**
--dontwarn android.net.http.AndroidHttpClient
--dontwarn com.google.android.gms.**
--dontwarn com.android.volley.toolbox.**
-
 -keep class .R
 -keep class **.R$* {
     <fields>;

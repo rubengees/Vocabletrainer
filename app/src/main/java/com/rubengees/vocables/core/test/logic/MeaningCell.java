@@ -10,7 +10,6 @@ import com.rubengees.vocables.pojo.Vocable;
  * Created by Ruben on 04.04.2015.
  */
 public class MeaningCell implements Parcelable {
-
     public static final Parcelable.Creator<MeaningCell> CREATOR = new Parcelable.Creator<MeaningCell>() {
         public MeaningCell createFromParcel(Parcel source) {
             return new MeaningCell(source);
@@ -22,7 +21,6 @@ public class MeaningCell implements Parcelable {
     };
     private Vocable vocable;
     private MeaningList meaningList;
-
 
     public MeaningCell(Vocable vocable, MeaningList meaningList) {
         this.vocable = vocable;
