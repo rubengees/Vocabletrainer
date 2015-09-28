@@ -20,4 +20,12 @@
         android:checked="false"
         android:text="@string/fragment_test_settings_classic_case_sensitive_check_box" />
 
+    <CheckBox
+        android:id="@+id/fragment_test_settings_classic_all_meanings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:checked="false"
+        android:text="@string/fragment_test_settings_classic_all_meanings_check_box" />
+
 </LinearLayout>

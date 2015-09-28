@@ -2,13 +2,16 @@ package com.rubengees.vocables.core.test;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,6 +27,9 @@ import com.rubengees.vocables.pojo.MeaningList;
 import com.rubengees.vocables.utils.AnimationUtils;
 import com.rubengees.vocables.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Ruben on 01.06.2015.
  */
@@ -33,7 +39,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
 
     private ClassicTestLogic logic;
 
-    private EditText input;
+    private ViewGroup inputContainer;
     private TextView status;
 
     private boolean waiting = false;
@@ -58,22 +64,8 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
         View root = View.inflate(getContext(), R.layout.layout_test_classic, null);
         View header = View.inflate(getContext(), R.layout.header, null);
 
-        input = (EditText) root.findViewById(R.id.layout_test_classic_input);
+        inputContainer = (ViewGroup) root.findViewById(R.id.layout_test_classic_input_container);
         status = (TextView) header.findViewById(R.id.header_text);
-
-        input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_GO) {
-                    processInput();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        input.requestFocus();
 
         getToolbarActivity().expandToolbar();
         getToolbarActivity().setToolbarView(header);
@@ -84,13 +76,30 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
 
     private void processInput() {
         if (!waiting) {
-            String text = input.getText().toString().trim();
+            MeaningList result = null;
 
-            if (text.length() <= 0) {
-                text = null;
+            if (inputContainer.getChildCount() == 1) {
+                String text = ((EditText) ((ViewGroup) inputContainer.getChildAt(0)).getChildAt(0))
+                        .getText().toString().trim();
+
+                if (text.length() <= 0) {
+                    text = null;
+                }
+
+                result = logic.processAnswer(text);
+            } else {
+                List<String> meanings = new ArrayList<>();
+                for (int i = 0; i < inputContainer.getChildCount(); i++) {
+                    EditText input = (EditText) ((ViewGroup) inputContainer.getChildAt(i))
+                            .getChildAt(0);
+
+                    String text = input.getText().toString().trim();
+
+                    meanings.add(text);
+                }
+
+                result = logic.processAnswer(new MeaningList(meanings));
             }
-
-            MeaningList result = logic.processAnswer(text);
 
             showResult(result);
         }
@@ -170,7 +179,8 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
             super.show();
 
             status.setText(getContext().getString(R.string.test_question) + " '" + logic.getQuestion().toString() + "'?");
-            input.getText().clear();
+
+            insertInputViews();
 
             if (shouldAnimate()) {
                 waiting = true;
@@ -185,6 +195,42 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
         }
     }
 
+    private void insertInputViews() {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        int amount = ((ClassicTestSettings) getSettings()).isAllMeanings() ?
+                logic.getAnswer().size() : 1;
+
+        inputContainer.removeAllViews();
+        for (int i = 0; i < amount; i++) {
+            TextInputLayout inputLayout = (TextInputLayout) inflater.inflate(R.layout.input,
+                    inputContainer, false);
+            EditText input = (EditText) inputLayout.getChildAt(0);
+
+            input.setHint(R.string.fragment_test_classic_input_hint);
+            input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+
+            if (i == amount - 1) {
+                input.setImeOptions(EditorInfo.IME_ACTION_GO);
+                input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_GO) {
+                            processInput();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+            } else {
+                input.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+            }
+
+            inputContainer.addView(inputLayout);
+            inputContainer.getChildAt(0).requestFocus();
+        }
+    }
+
+
     @Override
     public void onFabClick() {
         processInput();
@@ -195,7 +241,7 @@ public class ClassicTest extends Test implements ExtendedToolbarActivity.OnFabCl
             show();
             changeHintVisibility(logic.getHint() != null);
         } else {
-            getToolbarActivity().hideKeyboard(input);
+            getToolbarActivity().hideKeyboard(inputContainer.getFocusedChild());
             finishTest(logic.getResult(), logic.getVocables());
         }
     }

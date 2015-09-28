@@ -218,4 +218,5 @@
     <string name="intro_reminder_description">Get reminded every day to learn Vocables</string>
     <string name="intro_play_games_title">Play Games</string>
     <string name="intro_play_games_description">Enable Play Games to earn achievements</string>
+    <string name="fragment_test_settings_classic_all_meanings_check_box">Test all meanings</string>
 </resources>

@@ -127,11 +127,10 @@ public class MeaningList implements List<String>, Comparable<MeaningList>, Parce
     }
 
     /**
-     * Checks if a Object equalsMeanings to this Meaning.
+     * Checks if a MeaningList equals to this MeaningList.
      *
-     * @param another An other Object
-     * @return True if this Meaning equalsMeanings the other Object. More about the criteria in the Apache
-     * JavaDoc
+     * @param another An other MeaningList
+     * @return True if this Meaning equals the other MeaningList. The order is ignored.
      */
     public boolean equalsMeanings(MeaningList another) {
         if (another == this) {
@@ -166,33 +165,30 @@ public class MeaningList implements List<String>, Comparable<MeaningList>, Parce
     }
 
     /**
-     * Return if this Meaning equalsMeanings another Object. Case of the Meanings is ignored.
+     * Return if this MeaningList equals another MeaningList. The case of the Meanings and the
+     * order are ignored.
      *
-     * @param another An other Meaning
-     * @return True if this Meaning is equal to ther other Object
+     * @param another An other MeaningList
+     * @return True if this Meaning is equal to the other MeaningList
      */
-    public boolean equalsIgnoreCase(Object another) {
+    public boolean equalsMeaningsIgnoreCase(MeaningList another) {
         if (another == this) {
             return true;
         }
 
-        if (another instanceof MeaningList) {
-            List<String> copy = new LinkedList<>(meanings);
+        List<String> copy = new LinkedList<>(meanings);
 
-            for (String s : ((MeaningList) another).getMeanings()) {
-                ListIterator<String> iterator = copy.listIterator();
+        for (String s : another.getMeanings()) {
+            ListIterator<String> iterator = copy.listIterator();
 
-                while (iterator.hasNext()) {
-                    if (iterator.next().equalsIgnoreCase(s)) {
-                        iterator.remove();
-                    }
+            while (iterator.hasNext()) {
+                if (iterator.next().equalsIgnoreCase(s)) {
+                    iterator.remove();
                 }
             }
-
-            return copy.size() == 0;
-        } else {
-            return false;
         }
+
+        return copy.size() == 0;
     }
 
     @Override

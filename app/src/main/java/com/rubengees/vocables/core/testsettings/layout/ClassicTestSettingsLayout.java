@@ -20,6 +20,7 @@ public class ClassicTestSettingsLayout extends TestSettingsLayout {
 
     private RadioGroup direction;
     private CheckBox caseSensitive;
+    private CheckBox allMeanings;
 
     public ClassicTestSettingsLayout(Context context, OnTestSettingsListener listener) {
         super(context, listener);
@@ -31,6 +32,7 @@ public class ClassicTestSettingsLayout extends TestSettingsLayout {
 
         settings.setCaseSensitive(caseSensitive.isChecked());
         settings.setDirection(getDirection());
+        settings.setAllMeanings(allMeanings.isChecked());
 
         return settings;
     }
@@ -49,11 +51,15 @@ public class ClassicTestSettingsLayout extends TestSettingsLayout {
     }
 
     @Override
-    public void inflateSpecificLayout(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public void inflateSpecificLayout(LayoutInflater inflater, ViewGroup parent,
+                                      Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_test_settings_classic, parent, true);
 
         direction = (RadioGroup) root.findViewById(R.id.fragment_test_settings_direction);
-        caseSensitive = (CheckBox) root.findViewById(R.id.fragment_test_settings_classic_case_sensitive);
+        caseSensitive =
+                (CheckBox) root.findViewById(R.id.fragment_test_settings_classic_case_sensitive);
+        allMeanings =
+                (CheckBox) root.findViewById(R.id.fragment_test_settings_classic_all_meanings);
 
         for (int i = 0; i < direction.getChildCount(); i++) {
             View radioButton = direction.getChildAt(i);
@@ -65,6 +71,13 @@ public class ClassicTestSettingsLayout extends TestSettingsLayout {
                 }
             });
         }
+
+        allMeanings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onChange(ClassicTestSettingsLayout.super.generateTestSettings());
+            }
+        });
 
         caseSensitive.setOnClickListener(new View.OnClickListener() {
             @Override

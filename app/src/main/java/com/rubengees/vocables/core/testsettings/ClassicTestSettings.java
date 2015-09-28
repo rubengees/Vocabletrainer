@@ -20,15 +20,18 @@ public class ClassicTestSettings extends TestSettings {
     };
     private Direction direction;
     private boolean caseSensitive;
+    private boolean allMeanings;
 
     public ClassicTestSettings() {
 
     }
 
-    public ClassicTestSettings(ArrayList<Integer> unitIds, int maxRate, Direction direction, boolean caseSensitive) {
+    public ClassicTestSettings(ArrayList<Integer> unitIds, int maxRate, Direction direction,
+                               boolean caseSensitive, boolean allMeanings) {
         super(unitIds, maxRate);
         this.direction = direction;
         this.caseSensitive = caseSensitive;
+        this.allMeanings = allMeanings;
     }
 
     protected ClassicTestSettings(Parcel in) {
@@ -36,6 +39,7 @@ public class ClassicTestSettings extends TestSettings {
         int tmpDirection = in.readInt();
         this.direction = tmpDirection == -1 ? null : Direction.values()[tmpDirection];
         this.caseSensitive = in.readByte() != 0;
+        this.allMeanings = in.readByte() != 0;
     }
 
     public Direction getDirection() {
@@ -54,6 +58,14 @@ public class ClassicTestSettings extends TestSettings {
         this.caseSensitive = caseSensitive;
     }
 
+    public boolean isAllMeanings() {
+        return allMeanings;
+    }
+
+    public void setAllMeanings(boolean allMeanings) {
+        this.allMeanings = allMeanings;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -64,5 +76,6 @@ public class ClassicTestSettings extends TestSettings {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.direction == null ? -1 : this.direction.ordinal());
         dest.writeByte(caseSensitive ? (byte) 1 : (byte) 0);
+        dest.writeByte(allMeanings ? (byte) 1 : (byte) 0);
     }
 }

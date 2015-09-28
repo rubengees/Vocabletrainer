@@ -68,9 +68,28 @@ public class ClassicTestLogic extends TestLogic<ClassicTestSettings> {
         Vocable current = getCurrentVocable();
         MeaningList question = getQuestion();
         MeaningList answer = getAnswer();
-        boolean correct = given != null && getSettings().isCaseSensitive() ? answer.contains(given) : answer.containsIgnoreCase(given);
+        boolean correct = given != null && getSettings().isCaseSensitive() ?
+                answer.contains(given) : answer.containsIgnoreCase(given);
 
-        processAnswer(current, question, answer, given == null ? null : new MeaningList(given), correct);
+        processAnswer(current, question, answer, given == null ? null :
+                new MeaningList(given), correct);
+
+        if (correct) {
+            return null;
+        } else {
+            return answer;
+        }
+    }
+
+    public MeaningList processAnswer(MeaningList given) {
+        Vocable current = getCurrentVocable();
+        MeaningList question = getQuestion();
+        MeaningList answer = getAnswer();
+        boolean correct = given != null && getSettings().isCaseSensitive() ?
+                answer.equalsMeanings(given) : answer.equalsMeaningsIgnoreCase(given);
+
+        processAnswer(current, question, answer, given == null ? null :
+                given, correct);
 
         if (correct) {
             return null;

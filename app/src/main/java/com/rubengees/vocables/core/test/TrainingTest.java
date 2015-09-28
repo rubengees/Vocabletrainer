@@ -28,6 +28,8 @@ public class TrainingTest extends Test {
     private Button show;
     private LinearLayout answerContainer;
     private boolean waiting = false;
+    private Button ok;
+    private Button notOk;
 
     public TrainingTest(Context context, TestSettings settings, OnTestFinishedListener testFinishedListener, int color, int darkColor, Bundle savedInstanceState) {
         super(context, settings, testFinishedListener, color, darkColor, savedInstanceState);
@@ -52,8 +54,8 @@ public class TrainingTest extends Test {
         status = (TextView) header.findViewById(R.id.header_text);
         answerContainer = (LinearLayout) root.findViewById(R.id.layout_test_training_answer_container);
         show = (Button) root.findViewById(R.id.layout_test_training_show);
-        Button ok = (Button) answerContainer.findViewById(R.id.layout_test_training_ok);
-        Button notOk = (Button) answerContainer.findViewById(R.id.layout_test_training_not_ok);
+        ok = (Button) answerContainer.findViewById(R.id.layout_test_training_ok);
+        notOk = (Button) answerContainer.findViewById(R.id.layout_test_training_not_ok);
 
         Utils.tintButton((AppCompatButton) show, Utils.getColor(getContext(), R.color.accent));
         Utils.tintButton((AppCompatButton) ok, Utils.getColor(getContext(), R.color.green));
@@ -129,9 +131,13 @@ public class TrainingTest extends Test {
 
             if (shouldAnimate()) {
                 waiting = true;
+                ok.setEnabled(false);
+                notOk.setEnabled(false);
                 AnimationUtils.fadeIn(status, ANIMATION_TIME, null, new AnimationUtils.AnimationEndListener() {
                     @Override
                     public void onAnimationEnd() {
+                        ok.setEnabled(true);
+                        notOk.setEnabled(true);
                         waiting = false;
                     }
                 });

@@ -181,4 +181,5 @@
     <string name="intro_reminder_title">Erinnerungen</string>
     <string name="intro_welcome_description">Nur ein paar Einstellungen und es geht los!</string>
     <string name="intro_welcome_title">Willkommen</string>
+    <string name="fragment_test_settings_classic_all_meanings_check_box">Alle Bedeutungen abfragen</string>
 </resources>
