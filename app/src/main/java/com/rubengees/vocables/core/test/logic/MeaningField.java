@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import com.rubengees.vocables.pojo.MeaningList;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,19 +50,27 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         this.sizeX = in.readInt();
         this.sizeY = in.readInt();
         field = new MeaningCell[sizeX][sizeY];
-        for (int i = 0; i < sizeY; i++) {
-            field[i] = in.createTypedArray(MeaningCell.CREATOR);
-        }
+
+        List<MeaningCell> meaningCellList = new ArrayList<>(sizeX * sizeY);
+
+        in.readTypedList(meaningCellList, MeaningCell.CREATOR);
+        setCells(meaningCellList);
     }
 
     public void setCells(@NonNull List<MeaningCell> cells) {
+        elementCount = 0;
+
         for (int i = 0; i < sizeX; i++) {
             for (int ii = 0; ii < sizeY; ii++) {
-                field[i][ii] = cells.get(i * sizeY + ii);
+                MeaningCell current = cells.get(i * sizeY + ii);
+                field[i][ii] = current;
+
+                if (current != null) {
+                    elementCount++;
+                }
             }
         }
 
-        elementCount = getSize();
         unSelect();
     }
 
@@ -115,7 +124,7 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
                 Position current = new Position(i, ii);
                 MeaningCell cell = getCell(current);
 
-                if (cell != null && cell.getMeaningList().equals(meaningList)) {
+                if (cell != null && cell.getMeaningList().equalsMeanings(meaningList)) {
                     return current;
                 }
             }
@@ -158,6 +167,31 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MeaningField that = (MeaningField) o;
+
+        if (elementCount != that.elementCount) return false;
+        if (sizeX != that.sizeX) return false;
+        if (sizeY != that.sizeY) return false;
+        if (!Arrays.deepEquals(field, that.field)) return false;
+        return !(selected != null ? !selected.equals(that.selected) : that.selected != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = field != null ? Arrays.deepHashCode(field) : 0;
+        result = 31 * result + (selected != null ? selected.hashCode() : 0);
+        result = 31 * result + elementCount;
+        result = 31 * result + sizeX;
+        result = 31 * result + sizeY;
+        return result;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -169,8 +203,12 @@ public class MeaningField implements Iterable<MeaningCell>, Parcelable {
         dest.writeInt(this.sizeX);
         dest.writeInt(this.sizeY);
 
-        for (int i = 0; i < field.length; i++) {
-            dest.writeParcelableArray(field[i], flags);
+        List<MeaningCell> meaningCellList = new ArrayList<>(sizeX * sizeY);
+
+        for (int i = 0; i < sizeX; i++) {
+            meaningCellList.addAll(Arrays.asList(field[i]));
         }
+
+        dest.writeTypedList(meaningCellList);
     }
 }

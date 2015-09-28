@@ -159,7 +159,7 @@ public class TimeTestLogic extends TestLogic<TimeTestSettings> {
         MeaningList answer = current.getOtherMeaningList(question);
         MeaningList given = field.getCell(pos).getMeaningList();
 
-        boolean correct = answer.equals(given);
+        boolean correct = answer.equalsMeanings(given);
 
         processAnswer(current, question, answer, given, correct);
 

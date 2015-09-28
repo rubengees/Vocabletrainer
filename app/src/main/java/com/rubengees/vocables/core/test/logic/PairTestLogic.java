@@ -99,7 +99,7 @@ public class PairTestLogic extends TestLogic<TestSettings> {
         MeaningList given = givenCell.getMeaningList();
         Vocable vocable = selectedCell.getVocable();
 
-        boolean correct = answer.equals(given);
+        boolean correct = answer.equalsMeanings(given);
 
         super.processAnswer(vocable, question, answer, given, correct);
 

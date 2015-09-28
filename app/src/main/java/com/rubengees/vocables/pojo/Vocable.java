@@ -27,7 +27,8 @@ public class Vocable implements TrainerItem, Parcelable {
     private int correct;
     private int incorrect;
 
-    public Vocable(@NonNull MeaningList firstMeaningList, @NonNull MeaningList secondMeaningList, @Nullable String hint, long lastModificationTime) {
+    public Vocable(@NonNull MeaningList firstMeaningList, @NonNull MeaningList secondMeaningList,
+                   @Nullable String hint, long lastModificationTime) {
         this.firstMeaningList = firstMeaningList;
         this.secondMeaningList = secondMeaningList;
         this.hint = hint;
@@ -36,7 +37,9 @@ public class Vocable implements TrainerItem, Parcelable {
         this.incorrect = 0;
     }
 
-    public Vocable(@NonNull Integer id, @NonNull MeaningList firstMeaningList, @NonNull MeaningList secondMeaningList, int correct, int incorrect, @Nullable String hint, long lastModificationTime) {
+    public Vocable(@NonNull Integer id, @NonNull MeaningList firstMeaningList,
+                   @NonNull MeaningList secondMeaningList, int correct, int incorrect,
+                   @Nullable String hint, long lastModificationTime) {
         this.id = id;
         this.firstMeaningList = firstMeaningList;
         this.secondMeaningList = secondMeaningList;
@@ -147,8 +150,8 @@ public class Vocable implements TrainerItem, Parcelable {
         if (correct != vocable.correct) return false;
         if (incorrect != vocable.incorrect) return false;
         if (id != null ? !id.equals(vocable.id) : vocable.id != null) return false;
-        if (!firstMeaningList.equals(vocable.firstMeaningList)) return false;
-        if (!secondMeaningList.equals(vocable.secondMeaningList)) return false;
+        if (!firstMeaningList.equalsMeanings(vocable.firstMeaningList)) return false;
+        if (!secondMeaningList.equalsMeanings(vocable.secondMeaningList)) return false;
         return !(hint != null ? !hint.equals(vocable.hint) : vocable.hint != null);
 
     }
@@ -166,7 +169,7 @@ public class Vocable implements TrainerItem, Parcelable {
     }
 
     public MeaningList getOtherMeaningList(MeaningList meaningList) {
-        if (meaningList.equals(firstMeaningList)) {
+        if (meaningList.equalsMeanings(firstMeaningList)) {
             return secondMeaningList;
         } else {
             return firstMeaningList;

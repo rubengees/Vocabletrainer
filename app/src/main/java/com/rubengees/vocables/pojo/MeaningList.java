@@ -127,31 +127,37 @@ public class MeaningList implements List<String>, Comparable<MeaningList>, Parce
     }
 
     /**
-     * Checks if a Object equals to this Meaning.
+     * Checks if a Object equalsMeanings to this Meaning.
      *
      * @param another An other Object
-     * @return True if this Meaning equals the other Object. More about the criteria in the Apache
+     * @return True if this Meaning equalsMeanings the other Object. More about the criteria in the Apache
      * JavaDoc
      */
-    @Override
-    public boolean equals(Object another) {
+    public boolean equalsMeanings(MeaningList another) {
         if (another == this) {
             return true;
         }
 
-        if (another instanceof MeaningList) {
-            List<String> copy = new ArrayList<>(meanings);
+        List<String> copy = new ArrayList<>(meanings);
 
-            for (String s : ((MeaningList) another).getMeanings()) {
-                if (!copy.remove(s)) {
-                    return false;
-                }
+        for (String s : another.getMeanings()) {
+            if (!copy.remove(s)) {
+                return false;
             }
-
-            return copy.size() <= 0;
-        } else {
-            return false;
         }
+
+        return copy.size() <= 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MeaningList that = (MeaningList) o;
+
+        return !(meanings != null ? !meanings.equals(that.meanings) : that.meanings != null);
+
     }
 
     @Override
@@ -160,7 +166,7 @@ public class MeaningList implements List<String>, Comparable<MeaningList>, Parce
     }
 
     /**
-     * Return if this Meaning equals another Object. Case of the Meanings is ignored.
+     * Return if this Meaning equalsMeanings another Object. Case of the Meanings is ignored.
      *
      * @param another An other Meaning
      * @return True if this Meaning is equal to ther other Object

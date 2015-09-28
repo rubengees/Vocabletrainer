@@ -41,6 +41,25 @@ public class MeaningCell implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MeaningCell that = (MeaningCell) o;
+
+        if (vocable != null ? !vocable.equals(that.vocable) : that.vocable != null) return false;
+        return !(meaningList != null ? !meaningList.equalsMeanings(that.meaningList) : that.meaningList != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = vocable != null ? vocable.hashCode() : 0;
+        result = 31 * result + (meaningList != null ? meaningList.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
