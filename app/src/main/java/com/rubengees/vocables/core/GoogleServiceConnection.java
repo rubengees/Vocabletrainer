@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -15,7 +16,8 @@ import com.rubengees.vocables.utils.PreferenceUtils;
 /**
  * Created by Ruben on 24.04.2015.
  */
-public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleServiceErrorDialog.GoogleServiceErrorDialogCallback {
+public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, GoogleServiceErrorDialog.GoogleServiceErrorDialogCallback {
 
     private static final int REQUEST_RESOLVE_ERROR = 1001;
     private static final int REQUEST_ACHIEVEMENTS = 1002;
@@ -31,14 +33,19 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
 
     public GoogleServiceConnection(Activity context, Bundle savedInstanceState) {
 
-        mGoogleApiClient = new GoogleApiClient.Builder(context)
+        View content = context.findViewById(R.id.content_container);
+
+        GoogleApiClient.Builder builder = new GoogleApiClient.Builder(context)
                 .addApi(Games.API)
                 .addScope(Games.SCOPE_GAMES)
                 .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .setViewForPopups(context.findViewById(R.id.content))
-                .build();
+                .addOnConnectionFailedListener(this);
 
+        if (content != null) {
+            builder.setViewForPopups(content);
+        }
+
+        mGoogleApiClient = builder.build();
         this.context = context;
 
         if (savedInstanceState != null) {
@@ -48,7 +55,9 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
             shouldConnect = PreferenceUtils.shouldSignIn(context);
         }
 
-        GoogleServiceErrorDialog dialog = (GoogleServiceErrorDialog) context.getFragmentManager().findFragmentByTag(GOOGLE_SERVICE_ERROR_DIALOG);
+        GoogleServiceErrorDialog dialog =
+                (GoogleServiceErrorDialog) context.getFragmentManager()
+                        .findFragmentByTag(GOOGLE_SERVICE_ERROR_DIALOG);
 
         if (dialog != null) {
             dialog.setCallback(this);
@@ -63,7 +72,8 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
         shouldConnect = true;
         PreferenceUtils.setSignIn(context, true);
 
-        if (!mResolvingError && !mGoogleApiClient.isConnected() && !mGoogleApiClient.isConnecting()) {
+        if (!mResolvingError && !mGoogleApiClient.isConnected() &&
+                !mGoogleApiClient.isConnecting()) {
             mGoogleApiClient.connect();
         }
     }
@@ -91,7 +101,8 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
     }
 
     public void showAchievements() {
-        context.startActivityForResult(Games.Achievements.getAchievementsIntent(mGoogleApiClient), REQUEST_ACHIEVEMENTS);
+        context.startActivityForResult(Games.Achievements.getAchievementsIntent(mGoogleApiClient),
+                REQUEST_ACHIEVEMENTS);
     }
 
     public void onStart() {
@@ -126,7 +137,9 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
                 }
             } else {
                 if (context != null) {
-                    GoogleServiceErrorDialog dialog = GoogleServiceErrorDialog.newInstance(result.getErrorCode(), REQUEST_RESOLVE_ERROR);
+                    GoogleServiceErrorDialog dialog =
+                            GoogleServiceErrorDialog.newInstance(result.getErrorCode(),
+                                    REQUEST_RESOLVE_ERROR);
                     dialog.setCallback(this);
 
                     try {
@@ -154,7 +167,8 @@ public class GoogleServiceConnection implements GoogleApiClient.ConnectionCallba
                 }
             } else {
                 if (context != null) {
-                    GoogleServiceErrorDialog.newInstance(context.getString(R.string.google_service_connection_unknown_error))
+                    GoogleServiceErrorDialog.newInstance(context
+                            .getString(R.string.google_service_connection_unknown_error))
                             .show(context.getFragmentManager(), GOOGLE_SERVICE_ERROR_DIALOG);
 
                     disconnect();
