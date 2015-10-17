@@ -53,30 +53,32 @@ public class SortDialog extends DialogFragment {
                 break;
         }
 
-        builder.title(getString(R.string.dialog_sort_title)).items(R.array.sort_items).itemsCallbackSingleChoice(selectedItem, new MaterialDialog.ListCallbackSingleChoice() {
-            @Override
-            public boolean onSelection(MaterialDialog materialDialog, View view, int index, CharSequence charSequence) {
-                SortMode result;
+        builder.title(getString(R.string.dialog_sort_title)).items(R.array.sort_items).itemsCallbackSingleChoice(selectedItem,
+                new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view, int index,
+                                               CharSequence charSequence) {
+                        SortMode result;
 
-                switch (index) {
-                    case 0:
-                        result = SortMode.TITLE;
-                        break;
-                    case 1:
-                        result = SortMode.TIME;
-                        break;
-                    default:
-                        result = SortMode.TITLE;
-                        break;
-                }
+                        switch (index) {
+                            case 0:
+                                result = SortMode.TITLE;
+                                break;
+                            case 1:
+                                result = SortMode.TIME;
+                                break;
+                            default:
+                                result = SortMode.TITLE;
+                                break;
+                        }
 
-                if (result != mode && callback != null) {
-                    callback.onSort(result);
-                }
+                        if (result != mode && callback != null) {
+                            callback.onSort(result);
+                        }
 
-                return true;
-            }
-        });
+                        return true;
+                    }
+                });
 
         return builder.build();
     }

@@ -3,7 +3,9 @@ package com.rubengees.vocables.dialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
@@ -30,30 +32,35 @@ public class PlayGamesDialog extends DialogFragment {
         builder.title(getString(R.string.dialog_play_games_title));
         if (connection.isConnected()) {
             builder.positiveText(getString(R.string.dialog_play_games_sign_out))
-                    .neutralText(getString(R.string.dialog_play_games_show_achievements)).callback(new MaterialDialog.ButtonCallback() {
+                    .neutralText(getString(R.string.dialog_play_games_show_achievements))
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                            @NonNull DialogAction dialogAction) {
+                            if (callback != null) {
+                                callback.onSignOut();
+                            }
+                        }
+                    }).onNegative(new MaterialDialog.SingleButtonCallback() {
                 @Override
-                public void onPositive(MaterialDialog dialog) {
-                    if (callback != null) {
-                        callback.onSignOut();
-                    }
-                }
-
-                @Override
-                public void onNeutral(MaterialDialog dialog) {
+                public void onClick(@NonNull MaterialDialog materialDialog,
+                                    @NonNull DialogAction dialogAction) {
                     if (callback != null) {
                         callback.onShowAchievements();
                     }
                 }
             }).content(getString(R.string.dialog_play_games_content_singed_in));
         } else {
-            builder.positiveText(getString(R.string.dialog_play_games_sign_in)).callback(new MaterialDialog.ButtonCallback() {
-                @Override
-                public void onPositive(MaterialDialog dialog) {
-                    if (callback != null) {
-                        callback.onSignIn();
-                    }
-                }
-            }).content(getString(R.string.dialog_play_games_content_signed_out));
+            builder.positiveText(getString(R.string.dialog_play_games_sign_in))
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                            @NonNull DialogAction dialogAction) {
+                            if (callback != null) {
+                                callback.onSignIn();
+                            }
+                        }
+                    }).content(getString(R.string.dialog_play_games_content_signed_out));
         }
         builder.negativeText(getString(R.string.dialog_cancel));
 

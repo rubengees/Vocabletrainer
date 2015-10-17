@@ -23,9 +23,12 @@ public class DonateDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
-        builder.title(getString(R.string.dialog_donate_title)).content(getString(R.string.dialog_donate_content)).items(R.array.donation_titles).itemsCallback(new MaterialDialog.ListCallback() {
+        builder.title(getString(R.string.dialog_donate_title))
+                .content(getString(R.string.dialog_donate_content))
+                .items(R.array.donation_titles).itemsCallback(new MaterialDialog.ListCallback() {
             @Override
-            public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+            public void onSelection(MaterialDialog materialDialog, View view, int i,
+                                    CharSequence charSequence) {
                 Core core = Core.getInstance(getActivity());
 
                     switch (i) {

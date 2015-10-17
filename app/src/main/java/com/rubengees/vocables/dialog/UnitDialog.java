@@ -3,6 +3,7 @@ package com.rubengees.vocables.dialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.InputType;
@@ -13,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
@@ -52,7 +54,8 @@ public class UnitDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        unit = Core.getInstance(getActivity()).getVocableManager().getUnit(getArguments().getInt(KEY_UNIT_ID));
+        unit = Core.getInstance(getActivity()).getVocableManager().getUnit(getArguments()
+                .getInt(KEY_UNIT_ID));
         if (getArguments().containsKey(KEY_UNIT_POS)) {
             unitPos = getArguments().getInt(KEY_UNIT_POS);
         }
@@ -100,19 +103,20 @@ public class UnitDialog extends DialogFragment {
             }
         });
 
-        builder.title(getString(R.string.dialog_unit_title)).customView(inputLayout, true).positiveText(getString(R.string.dialog_unit_ok)).negativeText(getString(R.string.dialog_cancel))
-                .callback(new MaterialDialog.ButtonCallback() {
+        builder.title(getString(R.string.dialog_unit_title)).customView(inputLayout, true)
+                .positiveText(getString(R.string.dialog_unit_ok))
+                .negativeText(getString(R.string.dialog_cancel))
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog materialDialog,
+                                        @NonNull DialogAction dialogAction) {
+
+                        processInput();
+                    }
+                }).onNegative(new MaterialDialog.SingleButtonCallback() {
             @Override
-            public void onPositive(MaterialDialog dialog) {
-                super.onPositive(dialog);
-
-                processInput();
-            }
-
-            @Override
-            public void onNegative(MaterialDialog dialog) {
-                super.onNegative(dialog);
-
+            public void onClick(@NonNull MaterialDialog dialog,
+                                @NonNull DialogAction dialogAction) {
                 dialog.dismiss();
             }
         }).autoDismiss(false);

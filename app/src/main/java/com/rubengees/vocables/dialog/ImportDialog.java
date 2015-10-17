@@ -3,8 +3,10 @@ package com.rubengees.vocables.dialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.utils.ImportTask;
@@ -51,11 +53,13 @@ public class ImportDialog extends DialogFragment implements ImportTask.OnImportF
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        return builder.title(getString(R.string.import_title)).content(getString(R.string.dialog_import_content))
-                .progress(true, 100).negativeText(getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
+        return builder.title(getString(R.string.import_title))
+                .content(getString(R.string.dialog_import_content))
+                .progress(true, 100).negativeText(getString(R.string.dialog_cancel))
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onNegative(MaterialDialog dialog) {
-                        super.onNegative(dialog);
+                    public void onClick(@NonNull MaterialDialog materialDialog,
+                                        @NonNull DialogAction dialogAction) {
                         task.cancel();
                     }
                 }).build();

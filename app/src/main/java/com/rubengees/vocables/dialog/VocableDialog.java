@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.Core;
@@ -98,20 +99,19 @@ public class VocableDialog extends DialogFragment {
 
         builder.title(getString(R.string.dialog_vocable_title)).customView(inflateView(), true)
                 .positiveText(getString(R.string.dialog_vocable_ok))
-                .negativeText(getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
+                .negativeText(getString(R.string.dialog_cancel))
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog,
+                                        @NonNull DialogAction dialogAction) {
+                        if (processInput()) {
+                            dialog.dismiss();
+                        }
+                    }
+                }).onNegative(new MaterialDialog.SingleButtonCallback() {
             @Override
-            public void onPositive(MaterialDialog dialog) {
-                super.onPositive(dialog);
-
-                if (processInput()) {
-                    dialog.dismiss();
-                }
-            }
-
-            @Override
-            public void onNegative(MaterialDialog dialog) {
-                super.onNegative(dialog);
-
+            public void onClick(@NonNull MaterialDialog dialog,
+                                @NonNull DialogAction dialogAction) {
                 dialog.dismiss();
             }
         }).autoDismiss(false);
@@ -191,7 +191,8 @@ public class VocableDialog extends DialogFragment {
         }
 
         if (vocable == null) {
-            Vocable current = new Vocable(firstMeaningList, secondMeaningList, hint, System.currentTimeMillis());
+            Vocable current = new Vocable(firstMeaningList, secondMeaningList, hint,
+                    System.currentTimeMillis());
 
             if (callback != null) {
                 callback.onVocableAdded(unit, current);
@@ -238,8 +239,10 @@ public class VocableDialog extends DialogFragment {
             meaningContainer2.removeViewAt(i);
         }
 
-        EditText meaningInput1 = (EditText) ((ViewGroup) meaningContainer1.getChildAt(0)).getChildAt(0);
-        EditText meaningInput2 = (EditText) ((ViewGroup) meaningContainer2.getChildAt(0)).getChildAt(0);
+        EditText meaningInput1 =
+                (EditText) ((ViewGroup) meaningContainer1.getChildAt(0)).getChildAt(0);
+        EditText meaningInput2 =
+                (EditText) ((ViewGroup) meaningContainer2.getChildAt(0)).getChildAt(0);
 
         meaningInput1.getText().clear();
         meaningInput2.getText().clear();
@@ -287,14 +290,16 @@ public class VocableDialog extends DialogFragment {
         addMeaning1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                meaningContainer1.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_first_meaning)));
+                meaningContainer1.addView(generateInput(null,
+                        getString(R.string.dialog_vocable_input_hint_first_meaning)));
             }
         });
 
         addMeaning2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                meaningContainer2.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_second_meaning)));
+                meaningContainer2.addView(generateInput(null,
+                        getString(R.string.dialog_vocable_input_hint_second_meaning)));
             }
         });
 
@@ -326,7 +331,8 @@ public class VocableDialog extends DialogFragment {
         List<Unit> unitList = manager.getUnitList();
 
         Collections.sort(unitList);
-        adapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, unitList);
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item,
+                unitList);
 
         units.setAdapter(adapter);
 
@@ -346,29 +352,36 @@ public class VocableDialog extends DialogFragment {
 
     private void processVocable() {
         if (vocable != null) {
-            processMeanings(vocable.getFirstMeaningList().toList(), vocable.getSecondMeaningList().toList());
+            processMeanings(vocable.getFirstMeaningList().toList(),
+                    vocable.getSecondMeaningList().toList());
 
             this.hint.setText(vocable.getHint());
         } else {
-            meaningContainer1.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_first_meaning)));
-            meaningContainer2.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_second_meaning)));
+            meaningContainer1.addView(generateInput(null,
+                    getString(R.string.dialog_vocable_input_hint_first_meaning)));
+            meaningContainer2.addView(generateInput(null,
+                    getString(R.string.dialog_vocable_input_hint_second_meaning)));
         }
     }
 
     private void processMeanings(List<String> firstMeanings, List<String> secondMeanings) {
         if (firstMeanings.isEmpty()) {
-            meaningContainer1.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_first_meaning)));
+            meaningContainer1.addView(generateInput(null,
+                    getString(R.string.dialog_vocable_input_hint_first_meaning)));
         } else {
             for (String firstMeaning : firstMeanings) {
-                meaningContainer1.addView(generateInput(firstMeaning, getString(R.string.dialog_vocable_input_hint_first_meaning)));
+                meaningContainer1.addView(generateInput(firstMeaning,
+                        getString(R.string.dialog_vocable_input_hint_first_meaning)));
             }
         }
 
         if (secondMeanings.isEmpty()) {
-            meaningContainer2.addView(generateInput(null, getString(R.string.dialog_vocable_input_hint_second_meaning)));
+            meaningContainer2.addView(generateInput(null,
+                    getString(R.string.dialog_vocable_input_hint_second_meaning)));
         } else {
             for (String secondMeaning : secondMeanings) {
-                meaningContainer2.addView(generateInput(secondMeaning, getString(R.string.dialog_vocable_input_hint_second_meaning)));
+                meaningContainer2.addView(generateInput(secondMeaning,
+                        getString(R.string.dialog_vocable_input_hint_second_meaning)));
             }
         }
     }
@@ -376,8 +389,10 @@ public class VocableDialog extends DialogFragment {
     private View inflateView() {
         View content = View.inflate(getActivity(), R.layout.dialog_vocable, null);
 
-        meaningContainer1 = (LinearLayout) content.findViewById(R.id.dialog_vocable_meanings1_container);
-        meaningContainer2 = (LinearLayout) content.findViewById(R.id.dialog_vocable_meanings2_container);
+        meaningContainer1 =
+                (LinearLayout) content.findViewById(R.id.dialog_vocable_meanings1_container);
+        meaningContainer2 =
+                (LinearLayout) content.findViewById(R.id.dialog_vocable_meanings2_container);
         addMeaning1 = (ImageButton) content.findViewById(R.id.dialog_vocable_meanings1_add);
         addMeaning2 = (ImageButton) content.findViewById(R.id.dialog_vocable_meanings2_add);
         hint = (EditText) content.findViewById(R.id.dialog_vocable_hint);
@@ -412,7 +427,8 @@ public class VocableDialog extends DialogFragment {
     }
 
     private View generateInput(String text, String hint) {
-        final TextInputLayout result = (TextInputLayout) View.inflate(getActivity(), R.layout.input, null);
+        final TextInputLayout result = (TextInputLayout) View.inflate(getActivity(),
+                R.layout.input, null);
         EditText input = (EditText) result.getChildAt(0);
 
         result.setHint(hint);

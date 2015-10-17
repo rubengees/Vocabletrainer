@@ -3,7 +3,9 @@ package com.rubengees.vocables.dialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rubengees.vocables.R;
 
@@ -41,17 +43,19 @@ public class OverrideDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
 
-        builder.title(getString(R.string.export_title)).content(getString(R.string.dialog_override_content))
-                .positiveText(getString(R.string.dialog_override_ok)).negativeText(getString(R.string.dialog_cancel)).callback(new MaterialDialog.ButtonCallback() {
-            @Override
-            public void onPositive(MaterialDialog dialog) {
-                super.onPositive(dialog);
-
-                if (callback != null) {
-                    callback.onOverride(new File(path));
-                }
-            }
-        });
+        builder.title(getString(R.string.export_title))
+                .content(getString(R.string.dialog_override_content))
+                .positiveText(getString(R.string.dialog_override_ok))
+                .negativeText(getString(R.string.dialog_cancel))
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog materialDialog,
+                                        @NonNull DialogAction dialogAction) {
+                        if (callback != null) {
+                            callback.onOverride(new File(path));
+                        }
+                    }
+                });
 
         return builder.build();
     }
