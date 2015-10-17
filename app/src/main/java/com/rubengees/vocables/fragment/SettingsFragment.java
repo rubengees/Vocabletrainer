@@ -148,8 +148,12 @@ public class SettingsFragment extends PreferenceFragment implements
                     .withAboutDescription(getString(R.string.activity_about_content) + '\n'
                             + getString(R.string.activity_about_content_icons) + '\n'
                             + getString(R.string.activity_about_content_authors))
-                    .withActivityTitle(getString(R.string.activity_about_title)).withFields(R.string.class.getFields())
-                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR).start(getActivity());
+                    .withActivityTitle(getString(R.string.activity_about_title))
+                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                    .withAutoDetect(false).withFields(R.string.class.getFields())
+                    .withLibraries("systembartint", "materialdialogs", "crashlytics", "hellocharts",
+                            "androidflowlayout", "androidin_appbillingv3")
+                    .start(getActivity());
         } else if (preference == source) {
             Uri uri = Uri.parse("https://github.com/RubenGees/Vocabletrainer");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
