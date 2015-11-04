@@ -145,7 +145,7 @@ public class MeaningList implements List<String>, Comparable<MeaningList>, Parce
             }
         }
 
-        return copy.size() <= 0;
+        return copy.size() == 0;
     }
 
     @Override
@@ -184,6 +184,7 @@ public class MeaningList implements List<String>, Comparable<MeaningList>, Parce
             while (iterator.hasNext()) {
                 if (iterator.next().equalsIgnoreCase(s)) {
                     iterator.remove();
+                    break;
                 }
             }
         }

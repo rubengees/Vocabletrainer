@@ -144,7 +144,7 @@ public class SettingsFragment extends PreferenceFragment implements
             return true;
         } else if (preference == licences) {
             new LibsBuilder().withAboutIconShown(true).withAboutVersionShownName(true)
-                    .withAnimations(true).withAboutAppName(getString(R.string.app_name))
+                    .withAboutAppName(getString(R.string.app_name))
                     .withAboutDescription(getString(R.string.activity_about_content) + '\n'
                             + getString(R.string.activity_about_content_icons) + '\n'
                             + getString(R.string.activity_about_content_authors))

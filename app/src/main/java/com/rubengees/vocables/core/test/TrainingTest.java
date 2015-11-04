@@ -131,13 +131,10 @@ public class TrainingTest extends Test {
 
             if (shouldAnimate()) {
                 waiting = true;
-                ok.setEnabled(false);
-                notOk.setEnabled(false);
-                AnimationUtils.fadeIn(status, ANIMATION_TIME, null, new AnimationUtils.AnimationEndListener() {
+                AnimationUtils.fadeIn(status, ANIMATION_TIME, null,
+                        new AnimationUtils.AnimationEndListener() {
                     @Override
                     public void onAnimationEnd() {
-                        ok.setEnabled(true);
-                        notOk.setEnabled(true);
                         waiting = false;
                     }
                 });
