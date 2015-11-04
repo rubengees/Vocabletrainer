@@ -47,10 +47,10 @@ dependencies {
     compile('com.afollestad.material-dialogs:core:0.8.5.0@aar') {
         transitive = true
     }
-    compile('com.mikepenz:materialdrawer:4.4.4@aar') {
+    compile('com.mikepenz:materialdrawer:4.4.5@aar') {
         transitive = true
     }
-    compile('com.mikepenz:aboutlibraries:5.3.0@aar') {
+    compile('com.mikepenz:aboutlibraries:5.3.1@aar') {
         transitive = true
     }
     compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
