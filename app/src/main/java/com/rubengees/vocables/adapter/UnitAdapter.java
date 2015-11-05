@@ -26,7 +26,7 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
     private OnItemClickListener listener;
 
     public UnitAdapter(Collection<Unit> units, SortMode sortMode, OnItemClickListener listener) {
-        super(sortMode);
+        super(units, sortMode);
         this.listener = listener;
 
         list = new SortedList<>(Unit.class, new SortedList.Callback<Unit>() {
@@ -146,6 +146,20 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
     @Override
     protected boolean isLastPosition(int position) {
         return position == list.size();
+    }
+
+    @Override
+    protected void applyFilter(String filter) {
+        list.beginBatchedUpdates();
+        list.clear();
+
+        for (Unit unit : getItems()) {
+            if (unit.getTitle().contains(filter)) {
+                list.add(unit);
+            }
+        }
+
+        list.endBatchedUpdates();
     }
 
     public interface OnItemClickListener {

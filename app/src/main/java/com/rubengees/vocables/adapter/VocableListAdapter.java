@@ -5,17 +5,22 @@ import android.support.v7.widget.RecyclerView;
 
 import com.rubengees.vocables.enumeration.SortMode;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Ruben on 30.04.2015.
  */
 public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> {
 
+    private List<T> items;
     private SortMode sortMode;
+    private String filter;
 
-    public VocableListAdapter(@NonNull SortMode sortMode) {
+    public VocableListAdapter(@NonNull Collection<T> items, @NonNull SortMode sortMode) {
         this.sortMode = sortMode;
+        this.items = new ArrayList<>(items);
     }
 
     public abstract T remove(int pos);
@@ -58,5 +63,17 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
 
     protected SortMode getSortMode() {
         return sortMode;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+
+        applyFilter(filter);
+    }
+
+    protected abstract void applyFilter(String filter);
+
+    protected List<T> getItems() {
+        return items;
     }
 }

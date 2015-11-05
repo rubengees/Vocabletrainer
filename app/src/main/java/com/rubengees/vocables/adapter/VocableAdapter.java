@@ -28,7 +28,7 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
     private OnItemClickListener listener;
 
     public VocableAdapter(Unit unit, SortMode sortMode, OnItemClickListener listener) {
-        super(sortMode);
+        super(unit.getVocables(), sortMode);
         this.unit = unit;
         this.listener = listener;
         list = new SortedList<>(Vocable.class, new SortedList.Callback<Vocable>() {
@@ -156,6 +156,28 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
     @Override
     protected boolean isLastPosition(int position) {
         return position == list.size();
+    }
+
+    @Override
+    protected void applyFilter(String filter) {
+        list.beginBatchedUpdates();
+        list.clear();
+
+        for (Vocable vocable : getItems()) {
+            for (String meaning : vocable.getFirstMeaningList()) {
+                if (meaning.contains(filter)) {
+                    list.add(vocable);
+                }
+            }
+
+            for (String meaning : vocable.getSecondMeaningList()) {
+                if (meaning.contains(filter)) {
+                    list.add(vocable);
+                }
+            }
+        }
+
+        list.endBatchedUpdates();
     }
 
     public interface OnItemClickListener {
