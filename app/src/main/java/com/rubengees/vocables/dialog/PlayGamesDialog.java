@@ -41,7 +41,7 @@ public class PlayGamesDialog extends DialogFragment {
                                 callback.onSignOut();
                             }
                         }
-                    }).onNegative(new MaterialDialog.SingleButtonCallback() {
+                    }).onNeutral(new MaterialDialog.SingleButtonCallback() {
                 @Override
                 public void onClick(@NonNull MaterialDialog materialDialog,
                                     @NonNull DialogAction dialogAction) {
