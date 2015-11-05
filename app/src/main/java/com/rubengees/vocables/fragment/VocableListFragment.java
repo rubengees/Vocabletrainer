@@ -509,6 +509,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         adapter.clear();
         updateCount();
 
+        checkAdapter();
         Core.getInstance(getActivity()).getConnection().unlockAchievement(getString(R.string.achievement_fresh_start));
     }
 

@@ -96,11 +96,7 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
 
     @Override
     public void clear() {
-        list.beginBatchedUpdates();
-        for (int i = list.size() - 1; i >= 0; i--) {
-            list.removeItemAt(i);
-        }
-        list.endBatchedUpdates();
+        list.clear();
     }
 
     @Override
