@@ -31,6 +31,7 @@ public abstract class TestSettingsLayout {
     private static final int RATE_ALL = 100;
     private static final int RATE_OKAY = 60;
     private static final int RATE_BAD = 30;
+    private static final int RATE_NEW = -1;
 
     protected OnTestSettingsListener listener;
     private Context context;
@@ -70,6 +71,8 @@ public abstract class TestSettingsLayout {
                 return RATE_OKAY;
             case R.id.fragment_test_settings_rate_bad:
                 return RATE_BAD;
+            case R.id.fragment_test_settings_rate_new:
+                return RATE_NEW;
             default:
                 return RATE_ALL;
         }

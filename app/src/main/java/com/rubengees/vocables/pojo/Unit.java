@@ -127,8 +127,15 @@ public class Unit implements TrainerItem, Iterable<Vocable>, Comparable<Unit>, P
         ArrayList<Vocable> result = new ArrayList<>();
 
         for (Vocable vocable : vocables) {
-            if (Utils.calculateCorrectAnswerRate(vocable.getCorrect(), vocable.getIncorrect()) > maxRate) {
-                continue;
+            if (maxRate == -1) {
+                if (vocable.getCorrect() != 0 || vocable.getIncorrect() != 0) {
+                    continue;
+                }
+            } else {
+                if (Utils.calculateCorrectAnswerRate(vocable.getCorrect(),
+                        vocable.getIncorrect()) > maxRate) {
+                    continue;
+                }
             }
 
             result.add(vocable);
