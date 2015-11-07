@@ -149,13 +149,19 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
     }
 
     @Override
-    protected void applyFilter(String filter) {
+    public void setFilter(String filter) {
         list.beginBatchedUpdates();
-        list.clear();
 
-        for (Unit unit : getItems()) {
-            if (unit.getTitle().contains(filter)) {
-                list.add(unit);
+        if (filter == null) {
+            list.clear();
+            list.addAll(getItems());
+        } else {
+            list.clear();
+
+            for (Unit unit : getItems()) {
+                if (unit.getTitle().contains(filter)) {
+                    list.add(unit);
+                }
             }
         }
 

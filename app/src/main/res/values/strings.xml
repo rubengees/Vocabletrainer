@@ -220,4 +220,5 @@
     <string name="intro_play_games_description">Enable Play Games to earn achievements</string>
     <string name="fragment_test_settings_classic_all_meanings_check_box">Test all meanings</string>
     <string name="fragment_test_settings_rate_new">New Vocables only</string>
+    <string name="ic_action_seach">Search</string>
 </resources>

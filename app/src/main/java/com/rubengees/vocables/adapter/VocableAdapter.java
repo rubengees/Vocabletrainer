@@ -159,24 +159,28 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
     }
 
     @Override
-    protected void applyFilter(String filter) {
+    public void setFilter(String filter) {
         list.beginBatchedUpdates();
-        list.clear();
+        if (filter == null) {
+            list.clear();
+            list.addAll(getItems());
+        } else {
+            list.clear();
 
-        for (Vocable vocable : getItems()) {
-            for (String meaning : vocable.getFirstMeaningList()) {
-                if (meaning.contains(filter)) {
-                    list.add(vocable);
+            for (Vocable vocable : getItems()) {
+                for (String meaning : vocable.getFirstMeaningList()) {
+                    if (meaning.contains(filter)) {
+                        list.add(vocable);
+                    }
                 }
-            }
 
-            for (String meaning : vocable.getSecondMeaningList()) {
-                if (meaning.contains(filter)) {
-                    list.add(vocable);
+                for (String meaning : vocable.getSecondMeaningList()) {
+                    if (meaning.contains(filter)) {
+                        list.add(vocable);
+                    }
                 }
             }
         }
-
         list.endBatchedUpdates();
     }
 

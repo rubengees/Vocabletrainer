@@ -16,7 +16,6 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
 
     private List<T> items;
     private SortMode sortMode;
-    private String filter;
 
     public VocableListAdapter(@NonNull Collection<T> items, @NonNull SortMode sortMode) {
         this.sortMode = sortMode;
@@ -65,13 +64,7 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
         return sortMode;
     }
 
-    public void setFilter(String filter) {
-        this.filter = filter;
-
-        applyFilter(filter);
-    }
-
-    protected abstract void applyFilter(String filter);
+    public abstract void setFilter(String filter);
 
     protected List<T> getItems() {
         return items;

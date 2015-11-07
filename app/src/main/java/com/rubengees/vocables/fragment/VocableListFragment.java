@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -64,6 +65,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     private static final String SORT_MODE = "sort_mode";
     private static final String CURRENT_UNIT = "current_unit";
     private static final String INFO_DIALOG = "info_dialog";
+    private static final String FILTER = "filter";
 
     private RecyclerView recycler;
     private FloatingActionButton fab;
@@ -73,6 +75,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     private VocableListAdapter adapter;
     private VocableManager vocableManager;
 
+    private String filter = null;
     private SortMode mode;
 
     private ViewGroup root;
@@ -90,6 +93,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
+            filter = savedInstanceState.getString(FILTER);
             mode = (SortMode) savedInstanceState.getSerializable(SORT_MODE);
 
             VocableDialog vocableDialog = (VocableDialog) getActivity().getFragmentManager().findFragmentByTag(
@@ -131,6 +135,40 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_vocable_list, menu);
+
+        final MenuItem searchItem = menu.findItem(R.id.action_vocable_list_search);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                setFilter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                setFilter(newText);
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                setFilter(null);
+                return false;
+            }
+        });
+
+        if (filter != null) {
+            searchItem.expandActionView();
+            searchView.post(new Runnable() {
+                @Override
+                public void run() {
+                    searchView.setQuery(filter, false);
+                }
+            });
+        }
     }
 
     @Override
@@ -167,6 +205,7 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        outState.putString(FILTER, filter);
         outState.putSerializable(SORT_MODE, mode);
         if (adapter instanceof VocableAdapter) {
             outState.putParcelable(CURRENT_UNIT, ((VocableAdapter) adapter).getUnit());
@@ -323,6 +362,8 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
     }
 
     private void setAdapter(VocableListAdapter adapter) {
+        adapter.setFilter(filter);
+
         recycler.setAdapter(adapter);
         updateCount();
     }
@@ -441,6 +482,11 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
 
         dialog.setCallback(VocableListFragment.this);
         dialog.show(getFragmentManager(), VOCABLE_DIALOG);
+    }
+
+    private void setFilter(String filter) {
+        this.filter = filter;
+        adapter.setFilter(filter);
     }
 
     private void undo() {
