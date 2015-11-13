@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.util.TypedValue;
 
@@ -162,7 +163,7 @@ public class Utils {
      * @return The Color
      */
     public static int getColor(@NonNull Context context, @ColorRes int color) {
-        return context.getResources().getColor(color);
+        return ContextCompat.getColor(context, color);
     }
 
     /**

@@ -43,7 +43,7 @@ public class TimeMode extends Mode {
      */
     @Override
     public int getColor(final Context context) {
-        return context.getResources().getColor(R.color.time_mode);
+        return ContextCompat.getColor(context, R.color.time_mode);
     }
 
     /**
@@ -51,7 +51,7 @@ public class TimeMode extends Mode {
      */
     @Override
     public int getDarkColor(final Context context) {
-        return context.getResources().getColor(R.color.time_mode_dark);
+        return ContextCompat.getColor(context, R.color.time_mode_dark);
     }
 
     /**

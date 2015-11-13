@@ -38,7 +38,8 @@ public class TransferActivity extends ExtendedToolbarActivity implements FileFra
     private PermissionExplanationDialog.PermissionExplanationDialogCallback permissionExplanationDialogCallback = new PermissionExplanationDialog.PermissionExplanationDialogCallback() {
         @Override
         public void onDialogClosed() {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+            ActivityCompat.requestPermissions(TransferActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSION_WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
         }
     };

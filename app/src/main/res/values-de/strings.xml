@@ -183,4 +183,5 @@
     <string name="intro_welcome_title">Willkommen</string>
     <string name="fragment_test_settings_classic_all_meanings_check_box">Alle Bedeutungen abfragen</string>
     <string name="fragment_test_settings_rate_new">Nur neue Vokabeln</string>
+    <string name="ic_action_search">Suchen</string>
 </resources>

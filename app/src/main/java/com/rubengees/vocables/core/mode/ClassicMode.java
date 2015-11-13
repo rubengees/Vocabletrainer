@@ -43,7 +43,7 @@ public class ClassicMode extends Mode {
      */
     @Override
     public int getColor(final Context context) {
-        return context.getResources().getColor(R.color.classic_mode);
+        return ContextCompat.getColor(context, R.color.classic_mode);
     }
 
     /**
@@ -51,7 +51,7 @@ public class ClassicMode extends Mode {
      */
     @Override
     public int getDarkColor(final Context context) {
-        return context.getResources().getColor(R.color.classic_mode_dark);
+        return ContextCompat.getColor(context, R.color.classic_mode_dark);
     }
 
     /**

@@ -115,7 +115,12 @@ public class TestFragment extends MainFragment implements Test.OnTestFinishedLis
     @Override
     public void onResume() {
         super.onResume();
-        test.onResume();
+
+        if (shouldFinish) {
+            onTestFinished(result, settings, vocables);
+        } else {
+            test.onResume();
+        }
     }
 
     @Override
@@ -132,15 +137,6 @@ public class TestFragment extends MainFragment implements Test.OnTestFinishedLis
     public void onPause() {
         test.onPause();
         super.onPause();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        if (shouldFinish) {
-            onTestFinished(result, settings, vocables);
-        }
     }
 
     @Override

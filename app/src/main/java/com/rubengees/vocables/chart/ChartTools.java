@@ -1,6 +1,7 @@
 package com.rubengees.vocables.chart;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 
 import com.rubengees.vocables.R;
 import com.rubengees.vocables.core.mode.Mode;
@@ -30,8 +31,8 @@ public class ChartTools {
 
         values.add(correct);
         values.add(incorrect);
-        colors.add(context.getResources().getColor(R.color.green));
-        colors.add(context.getResources().getColor(R.color.red));
+        colors.add(ContextCompat.getColor(context, R.color.green));
+        colors.add(ContextCompat.getColor(context, R.color.red));
         titles.add(context.getString(R.string.chart_answer_correct));
         titles.add(context.getString(R.string.chart_answer_incorrect));
 
@@ -61,8 +62,8 @@ public class ChartTools {
 
         values.add(bestTime);
         values.add(averageTime);
-        colors.add(context.getResources().getColor(R.color.primary));
-        colors.add(context.getResources().getColor(R.color.primary_dark));
+        colors.add(ContextCompat.getColor(context, R.color.primary));
+        colors.add(ContextCompat.getColor(context, R.color.primary_dark));
         titles.add(context.getString(R.string.chart_time_best));
         titles.add(context.getString(R.string.chart_time_average));
 
@@ -121,7 +122,7 @@ public class ChartTools {
         Context context = chart.getContext();
 
         data.setHasLabels(true);
-        data.setValueLabelsTextColor(context.getResources().getColor(android.R.color.white));
+        data.setValueLabelsTextColor(ContextCompat.getColor(context, android.R.color.white));
         chart.setZoomEnabled(false);
     }
 
@@ -129,7 +130,7 @@ public class ChartTools {
         Context context = chart.getContext();
 
         data.setAxisYLeft(new Axis().setHasLines(true).setMaxLabelChars(4));
-        data.setValueLabelsTextColor(context.getResources().getColor(android.R.color.white));
+        data.setValueLabelsTextColor(ContextCompat.getColor(context, android.R.color.white));
         chart.setZoomEnabled(false);
     }
 }

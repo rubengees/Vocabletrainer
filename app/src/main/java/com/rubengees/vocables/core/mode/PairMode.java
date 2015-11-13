@@ -42,7 +42,7 @@ public class PairMode extends Mode {
      */
     @Override
     public int getColor(final Context context) {
-        return context.getResources().getColor(R.color.pair_mode);
+        return ContextCompat.getColor(context, R.color.pair_mode);
     }
 
     /**
@@ -50,7 +50,7 @@ public class PairMode extends Mode {
      */
     @Override
     public int getDarkColor(final Context context) {
-        return context.getResources().getColor(R.color.pair_mode_dark);
+        return ContextCompat.getColor(context, R.color.pair_mode_dark);
     }
 
     /**
