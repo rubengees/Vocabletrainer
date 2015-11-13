@@ -87,31 +87,55 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
 
     @Override
     public Vocable remove(int pos) {
+        getItems().remove(get(pos));
+
         return list.removeItemAt(pos);
     }
 
     public void remove(Vocable vocable) {
+        getItems().remove(vocable);
+
         list.remove(vocable);
     }
 
     @Override
     public void clear() {
+        getItems().clear();
+
         list.clear();
     }
 
     @Override
     public void add(@NonNull Vocable item) {
-        list.add(item);
+        super.add(item);
+
+        if (matchesFilter(getFilter(), item)) {
+            list.add(item);
+        }
     }
 
     @Override
     public void addAll(@NonNull Collection<Vocable> items) {
-        list.addAll(items);
+        super.addAll(items);
+
+        list.beginBatchedUpdates();
+
+        for (Vocable item : items) {
+            if (matchesFilter(getFilter(), item)) {
+                list.add(item);
+            }
+        }
+
+        list.endBatchedUpdates();
     }
 
     @Override
     public void update(@NonNull Vocable item, int pos) {
-        list.updateItemAt(pos, item);
+        if (matchesFilter(getFilter(), item)) {
+            list.updateItemAt(pos, item);
+        } else {
+            list.removeItemAt(pos);
+        }
     }
 
     @Override
@@ -160,6 +184,8 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
 
     @Override
     public void setFilter(String filter) {
+        super.setFilter(filter);
+
         list.beginBatchedUpdates();
         if (filter == null) {
             list.clear();
@@ -168,20 +194,32 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
             list.clear();
 
             for (Vocable vocable : getItems()) {
-                for (String meaning : vocable.getFirstMeaningList()) {
-                    if (meaning.contains(filter)) {
-                        list.add(vocable);
-                    }
-                }
-
-                for (String meaning : vocable.getSecondMeaningList()) {
-                    if (meaning.contains(filter)) {
-                        list.add(vocable);
-                    }
+                if (matchesFilter(filter, vocable)) {
+                    list.add(vocable);
                 }
             }
         }
         list.endBatchedUpdates();
+    }
+
+    private boolean matchesFilter(String filter, Vocable item) {
+        if (filter == null) {
+            return true;
+        }
+
+        for (String meaning : item.getFirstMeaningList()) {
+            if (meaning.contains(filter)) {
+                return true;
+            }
+        }
+
+        for (String meaning : item.getSecondMeaningList()) {
+            if (meaning.contains(filter)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public interface OnItemClickListener {

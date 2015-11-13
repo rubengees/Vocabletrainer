@@ -143,12 +143,16 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
             @Override
             public boolean onQueryTextSubmit(String query) {
                 setFilter(query);
+                updateCount();
+
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 setFilter(newText);
+                updateCount();
+
                 return false;
             }
         });
@@ -156,18 +160,15 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
             @Override
             public boolean onClose() {
                 setFilter(null);
+                updateCount();
+
                 return false;
             }
         });
 
         if (filter != null) {
             searchItem.expandActionView();
-            searchView.post(new Runnable() {
-                @Override
-                public void run() {
-                    searchView.setQuery(filter, false);
-                }
-            });
+            searchView.setQuery(filter, true);
         }
     }
 

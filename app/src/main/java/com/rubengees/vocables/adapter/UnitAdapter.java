@@ -78,26 +78,34 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
 
     @Override
     public Unit remove(int pos) {
+        getItems().remove(get(pos));
+
         return list.removeItemAt(pos);
     }
 
     @Override
     public void clear() {
+        getItems().clear();
+
         list.clear();
     }
 
     @Override
     public void add(@NonNull Unit item) {
-        if (list.indexOf(item) == -1) {
+        super.add(item);
+
+        if (list.indexOf(item) == -1 && matchesFilter(getFilter(), item)) {
             list.add(item);
         }
     }
 
     @Override
     public void addAll(@NonNull Collection<Unit> items) {
+        super.addAll(items);
+
         list.beginBatchedUpdates();
         for (Unit item : items) {
-            if (list.indexOf(item) == -1) {
+            if (list.indexOf(item) == -1 && matchesFilter(getFilter(), item)) {
                 list.add(item);
             }
         }
@@ -106,7 +114,11 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
 
     @Override
     public void update(@NonNull Unit item, int pos) {
-        list.updateItemAt(pos, item);
+        if (matchesFilter(getFilter(), item)) {
+            list.updateItemAt(pos, item);
+        } else {
+            list.removeItemAt(pos);
+        }
     }
 
     @Override
@@ -150,6 +162,8 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
 
     @Override
     public void setFilter(String filter) {
+        super.setFilter(filter);
+
         list.beginBatchedUpdates();
 
         if (filter == null) {
@@ -159,13 +173,18 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
             list.clear();
 
             for (Unit unit : getItems()) {
-                if (unit.getTitle().contains(filter)) {
+                if (matchesFilter(filter, unit)) {
                     list.add(unit);
                 }
             }
         }
 
         list.endBatchedUpdates();
+    }
+
+    private boolean matchesFilter(String filter, Unit item) {
+        return filter == null || item.getTitle().contains(filter);
+
     }
 
     public interface OnItemClickListener {

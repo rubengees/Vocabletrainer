@@ -12,10 +12,12 @@ import java.util.List;
 /**
  * Created by Ruben on 30.04.2015.
  */
-public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> {
+public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder>
+        extends RecyclerView.Adapter<H> {
 
     private List<T> items;
     private SortMode sortMode;
+    private String filter = null;
 
     public VocableListAdapter(@NonNull Collection<T> items, @NonNull SortMode sortMode) {
         this.sortMode = sortMode;
@@ -26,9 +28,13 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
 
     public abstract void clear();
 
-    public abstract void add(@NonNull T item);
+    public void add(@NonNull T item) {
+        this.items.add(item);
+    }
 
-    public abstract void addAll(@NonNull Collection<T> items);
+    public void addAll(@NonNull Collection<T> items) {
+        this.items.addAll(items);
+    }
 
     public abstract void update(@NonNull T item, int pos);
 
@@ -64,7 +70,13 @@ public abstract class VocableListAdapter<T, H extends RecyclerView.ViewHolder> e
         return sortMode;
     }
 
-    public abstract void setFilter(String filter);
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
 
     protected List<T> getItems() {
         return items;
