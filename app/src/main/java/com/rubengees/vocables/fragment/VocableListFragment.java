@@ -139,6 +139,16 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
         final MenuItem searchItem = menu.findItem(R.id.action_vocable_list_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
 
+        if (filter != null) {
+            searchItem.expandActionView();
+            searchView.post(new Runnable() {
+                @Override
+                public void run() {
+                    searchView.setQuery(filter, true);
+                }
+            });
+        }
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -165,11 +175,6 @@ public class VocableListFragment extends MainFragment implements UnitAdapter.OnI
                 return false;
             }
         });
-
-        if (filter != null) {
-            searchItem.expandActionView();
-            searchView.setQuery(filter, true);
-        }
     }
 
     @Override
