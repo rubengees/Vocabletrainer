@@ -86,4 +86,31 @@ public class ClassicTestSettingsLayout extends TestSettingsLayout {
             }
         });
     }
+
+    @Override
+    public void applyTestSettings(TestSettings settings) {
+        super.applyTestSettings(settings);
+
+        ClassicTestSettings classicTestSettings = (ClassicTestSettings) settings;
+
+        switch (classicTestSettings.getDirection()) {
+            case FIRST:
+                direction.check(R.id.fragment_test_settings_direction_your_other);
+                break;
+            case SECOND:
+                direction.check(R.id.fragment_test_settings_direction_other_your);
+                break;
+            case BOTH:
+                direction.check(R.id.fragment_test_settings_direction_mix);
+                break;
+        }
+
+        if (classicTestSettings.isAllMeanings()) {
+            allMeanings.setChecked(true);
+        }
+
+        if (classicTestSettings.isCaseSensitive()) {
+            caseSensitive.setChecked(true);
+        }
+    }
 }

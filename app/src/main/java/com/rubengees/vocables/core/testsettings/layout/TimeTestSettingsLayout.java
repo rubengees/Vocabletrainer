@@ -61,4 +61,21 @@ public class TimeTestSettingsLayout extends TestSettingsLayout {
             });
         }
     }
+
+    @Override
+    public void applyTestSettings(TestSettings settings) {
+        super.applyTestSettings(settings);
+
+        switch (((TimeTestSettings) settings).getDirection()) {
+            case FIRST:
+                direction.check(R.id.fragment_test_settings_direction_your_other);
+                break;
+            case SECOND:
+                direction.check(R.id.fragment_test_settings_direction_other_your);
+                break;
+            case BOTH:
+                direction.check(R.id.fragment_test_settings_direction_mix);
+                break;
+        }
+    }
 }

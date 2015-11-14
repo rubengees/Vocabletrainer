@@ -129,7 +129,8 @@ public class TestResultFragment extends MainFragment {
             @Override
             public void onFabClick() {
                 getActivity().getFragmentManager().beginTransaction().
-                        replace(R.id.content, TestFragment.newInstance(mode, settings)).commit();
+                        replace(R.id.content, TestSettingsFragment.newInstance(mode, settings))
+                        .commit();
             }
         });
 

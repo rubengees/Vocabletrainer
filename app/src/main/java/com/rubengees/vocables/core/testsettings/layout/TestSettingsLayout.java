@@ -212,6 +212,44 @@ public abstract class TestSettingsLayout {
 
     public abstract void inflateSpecificLayout(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState);
 
+    public void applyTestSettings(TestSettings settings) {
+        if (settings.getUnitIds().size() != units.getChildCount()) {
+            allUnits.setChecked(false);
+
+            for (int i = 0; i < units.getChildCount(); i++) {
+                CheckBox current = (CheckBox) units.getChildAt(i);
+                Object tag = current.getTag();
+                boolean hasId = false;
+
+                for (Integer id : settings.getUnitIds()) {
+                    if (id.equals(tag)) {
+                        hasId = true;
+                        break;
+                    }
+                }
+
+                if (!hasId) {
+                    current.setChecked(false);
+                }
+            }
+        }
+
+        switch (settings.getMaxRate()) {
+            case RATE_ALL:
+                rate.check(R.id.fragment_test_settings_rate_all);
+                break;
+            case RATE_OKAY:
+                rate.check(R.id.fragment_test_settings_rate_okay);
+                break;
+            case RATE_BAD:
+                rate.check(R.id.fragment_test_settings_rate_bad);
+                break;
+            case RATE_NEW:
+                rate.check(R.id.fragment_test_settings_rate_new);
+                break;
+        }
+    }
+
     public interface OnTestSettingsListener {
         void onChange(TestSettings settings);
     }

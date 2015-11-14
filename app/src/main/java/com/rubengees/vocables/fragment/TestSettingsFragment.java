@@ -27,6 +27,7 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
 
     public static final String STATE_MODE = "mode";
     private static final String KEY_MODE = "mode";
+    private static final String KEY_TEST_SETTINGS = "test_settings";
     private static final String STATE_TEST_SETTINGS = "test_settings";
     private static final String STATE_VOCABLE_AMOUNT = "vocable_amount";
 
@@ -51,12 +52,23 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
         return fragment;
     }
 
+    public static TestSettingsFragment newInstance(Mode mode, TestSettings settings) {
+        TestSettingsFragment fragment = new TestSettingsFragment();
+        Bundle args = new Bundle();
+
+        args.putParcelable(KEY_MODE, mode);
+        args.putParcelable(KEY_TEST_SETTINGS, settings);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
             mode = getArguments().getParcelable(KEY_MODE);
+            settings = getArguments().getParcelable(KEY_TEST_SETTINGS);
         } else {
             mode = getArguments().getParcelable(STATE_MODE);
             settings = savedInstanceState.getParcelable(STATE_TEST_SETTINGS);
@@ -76,7 +88,12 @@ public class TestSettingsFragment extends MainFragment implements TestSettingsLa
         final ViewGroup root = (ViewGroup) layout.inflateLayout(inflater, container, savedInstanceState);
 
         if (savedInstanceState == null) {
-            settings = layout.generateTestSettings();
+            if (settings == null) {
+                settings = layout.generateTestSettings();
+            } else {
+                layout.applyTestSettings(settings);
+            }
+
             getToolbarActivity().expandToolbar();
 
             updateStatus(calculateAmount(settings));

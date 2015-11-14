@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -360,15 +361,21 @@ public class MainActivity extends ExtendedToolbarActivity implements EvaluationD
      * @param color     The color to style the Application with
      * @param darkColor A darker Version fo the color
      */
-    public void setFragment(@NonNull Fragment fragment, @Nullable String title, int color, int darkColor) {
+    public void setFragment(@NonNull final Fragment fragment, @Nullable String title, int color,
+                            int darkColor) {
         if (fragment instanceof OnBackPressedListener) {
             onBackPressedListener = (OnBackPressedListener) fragment;
         } else {
             onBackPressedListener = null;
         }
 
-        getFragmentManager().beginTransaction()
-                .replace(R.id.content, fragment).commit();
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content, fragment).commit();
+            }
+        });
 
         setTitle(title);
         styleApplication(color, darkColor);
