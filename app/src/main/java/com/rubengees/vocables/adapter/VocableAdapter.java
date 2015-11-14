@@ -208,13 +208,13 @@ public class VocableAdapter extends VocableListAdapter<Vocable, RecyclerView.Vie
         }
 
         for (String meaning : item.getFirstMeaningList()) {
-            if (meaning.contains(filter)) {
+            if (meaning.toLowerCase().contains(filter.toLowerCase())) {
                 return true;
             }
         }
 
         for (String meaning : item.getSecondMeaningList()) {
-            if (meaning.contains(filter)) {
+            if (meaning.toLowerCase().contains(filter.toLowerCase())) {
                 return true;
             }
         }

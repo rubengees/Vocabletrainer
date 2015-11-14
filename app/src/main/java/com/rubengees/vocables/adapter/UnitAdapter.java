@@ -183,7 +183,7 @@ public class UnitAdapter extends VocableListAdapter<Unit, RecyclerView.ViewHolde
     }
 
     private boolean matchesFilter(String filter, Unit item) {
-        return filter == null || item.getTitle().contains(filter);
+        return filter == null || item.getTitle().toLowerCase().contains(filter.toLowerCase());
 
     }
 
