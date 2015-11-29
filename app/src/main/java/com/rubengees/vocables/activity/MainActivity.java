@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -369,13 +368,8 @@ public class MainActivity extends ExtendedToolbarActivity implements EvaluationD
             onBackPressedListener = null;
         }
 
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.content, fragment).commit();
-            }
-        });
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content, fragment).commitAllowingStateLoss();
 
         setTitle(title);
         styleApplication(color, darkColor);
