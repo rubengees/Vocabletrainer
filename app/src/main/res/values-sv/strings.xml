@@ -1,0 +1,224 @@
+<resources>
+    <string name="app_name">Vocabletrainer</string>
+
+    <string name="parse_app_id" translatable="false">jbGGB4h145fjHxPS2ShHNxltSQKRVWr7m1uvBLmG</string>
+    <string name="parse_client_key" translatable="false">xTqyiTkpRmds4WCyzylFSbZxXAcIR7UuvJBlNsKp</string>
+
+    <string name="preferences_ads_off">Ads are disabled. Ads support the development of this App</string>
+    <string name="preferences_ads_on">Ads are enabled. Thank you!</string>
+    <string name="preferences_ads_title">Advertisements</string>
+    <string name="preferences_category_general">General</string>
+    <string name="preferences_reminder_off">You won\'t be reminded</string>
+    <string name="preferences_reminder_on">You will be reminded</string>
+    <string name="preferences_reminder_title">Reminder</string>
+    <string name="preferences_reminder_time_title">Reminder time</string>
+    <string name="preferences_animations_off">Animations won\'t be displayed</string>
+    <string name="preferences_animations_on">Animations will be displayed</string>
+    <string name="preferences_animations_title">Animations in Tests</string>
+    <string name="preferences_category_contact">Contact</string>
+    <string name="preference_mail_summary">Give feedback, suggest or ask something</string>
+    <string name="preference_mail_title">Mail to the developer</string>
+    <string name="preferences_evaluation_summary">Rate this App in the Play Store</string>
+    <string name="preferences_evaluation_title">Evaluation</string>
+    <string name="preferences_developer_summary">Ruben Gees</string>
+    <string name="preferences_developer_title">Developer of this App</string>
+    <string name="preferences_licences_summary">Licences of libraries used in this App</string>
+    <string name="preferences_licences_title">Licences</string>
+    <string name="preferences_reminder_time_morning">In the morning</string>
+    <string name="preferences_reminder_time_noon">At noon</string>
+    <string name="preferences_reminder_time_evening">In the evening</string>
+
+    <string name="help_add_vocables_title">Add Vocables</string>
+    <string name="help_delete_vocables_title">Delete Vocables</string>
+    <string name="help_import_title">Import</string>
+    <string name="help_export_title">Export</string>
+    <string name="help_add_vocables">To add a Vocable go to the vocablelist and click on the "+"-button. A dialog will open and you can type in your vocable. If you click on the "+"-icons on the right of the textboxes another textbox will appear in which you can insert more meanings for your vocable. You can provide a hint that you can view in the test. In the last step you must select a unit or create a new one. The small arrow on the right allows you to toggle between creating a new one and selecting an existing one.</string>
+    <string name="help_delete_vocables">To delete Vocables you go to the vocablelist and swipe them away. This is evan possible with whole units. If you made a mistake you can undo the deletion by clicking the undo button at the bottom of the screen. If you want to delete all of your Vocables click the bin icon.</string>
+    <string name="help_import">You can import already prepared lists into Vocabletrainer. To do so go to the vocablelist and select \'import\' from the menu. A filebrowser will open in which you can select your file to import. The file-type must be either xml or csv. If you want to create a list fast at your computer create a text file and save it as csv. The xml file-type is for the backups of Vocabletrainer; see "Export"</string>
+    <string name="help_export">You can make a backup of your vocablelist to share it to other devices or just to save your list. If you want to create a backup go to the vocablelist and select "export" from the menu. A filexplorer opens and you can select in which directory the backup file should be saved. if you found a directory click on the save button. The file-type of the backup is xml and you can open it with any text editor.</string>
+
+    <string name="donate_50">Donate 50 Cent</string>
+    <string name="donate_100">Donate 1€</string>
+    <string name="donate_200">Donate 2€</string>
+
+    <string name="chart_answer_correct">Rätt</string>
+    <string name="chart_answer_incorrect">Fel</string>
+    <string name="chart_time_best">Bästa</string>
+    <string name="chart_time_average">Genomsnitt</string>
+
+    <string name="item_stat_general_title">Totalt</string>
+
+    <string name="fragment_result_perfect">Perfekt!</string>
+    <string name="fragment_result_very_good">Mycket bra</string>
+    <string name="fragment_result_good">Bra</string>
+    <string name="fragment_result_okay">Okej</string>
+    <string name="fragment_result_not_so_well">Inte så bra</string>
+    <string name="fragment_result_bad">Dåligt</string>
+    <string name="fragment_result_horrible">Hemskt</string>
+    <string name="fragment_result_no_answers">Inte svar</string>
+
+    <string name="fragment_vocable_list_title">Glosor</string>
+    <string name="activity_main_divider_modes">Övningar</string>
+    <string name="dialog_play_games_title">Play Spel</string>
+    <string name="fragment_help_title">Hjälp</string>
+    <string name="dialog_donate_title">Donera</string>
+    <string name="fragment_settings_title">Inställningar</string>
+    <string name="fragment_statistics_title">Statistik</string>
+
+    <string name="activity_transfer_error_sd">Det gick inte att läsa SD-kortet</string>
+    <string name="activity_transfer_error_retry">Försök igen</string>
+    <string name="activity_transfer_error_file_type">Denna filtyp stödjs inte. Läs hjälpavsnittet om import</string>
+
+    <string name="fragment_result_list_item_correct">Rätt svar:</string>
+    <string name="fragment_result_list_item_no_answer">Inget svar</string>
+
+    <string name="mode_classic_help">I skrivövningar lär du dig stava orden genom korrekta översättningar.
+        Du svarar genom att mata in din översättning och trycker vidare.</string>
+    <string name="mode_classic_title">Skrivövningar</string>
+    <string name="mode_classic_title_short">Skrivövningar</string>
+    <string name="mode_pair_help">Du ska hitta en glosa från vardera språk och matcha dem. När du har hittat två matchande glosor så trycker du på båda i följd.
+        Du kan se att en glosa är markerad genom dess mörkare färg.
+        Om du vill avmarkera en vald glosa så trycker du på den igen.</string>
+    <string name="mode_pair_title">Para ihop</string>
+    <string name="mode_pair_title_short">Para ihop</string>
+    <string name="mode_time_help">En glosa visas längst upp, och du får du ett flertal glosor att välja på. Leta reda på och tryck sedan på det korrekta svaret.
+        Övningen går på tid.</string>
+    <string name="mode_time_title">Flerval</string>
+    <string name="mode_time_title_short">Flerval</string>
+
+    <string name="test_question">Översätt</string>
+
+    <string name="google_service_connection_unknown_error">An unknown error occurred. Check your network connection. If this error occurs repeatedly please notify the developer.</string>
+
+    <string name="database_uni_title_default">Default</string>
+
+    <string name="dialog_delete_title">Delete all Vocables</string>
+    <string name="dialog_delete_content">Do you want to delete all of your Vocables?</string>
+    <string name="dialog_delete_ok">Delete</string>
+
+    <string name="dialog_cancel">Avbryt</string>
+
+    <string name="dialog_evaluation_title">Evaluation</string>
+    <string name="dialog_evaluation_content">Do you like this App? Then rate it in the Play Store!</string>
+    <string name="dialog_evaluation_ok">Evaluate</string>
+    <string name="dialog_evaluation_no">No</string>
+    <string name="dialog_evaluation_later">Later</string>
+
+    <string name="export_title">Export</string>
+    <string name="dialog_export_content">Exporting…</string>
+    <string name="dialog_export_finish_message">Export finished</string>
+    <string name="import_title">Import</string>
+    <string name="dialog_import_content">Importing…</string>
+    <string name="dialog_import_error_message">Import failed. Error in line:</string>
+    <string name="dialog_override_content">The file already exists. Do you want to override it?</string>
+    <string name="dialog_override_ok">Override</string>
+
+    <string name="dialog_info_title">Info</string>
+
+    <string name="dialog_play_games_sign_out">Sign Out</string>
+    <string name="dialog_play_games_show_achievements">Show Achievements</string>
+    <string name="dialog_play_games_content_singed_in">Do you want to Sign Out or view your Achievements?</string>
+    <string name="dialog_play_games_sign_in">Sign In</string>
+    <string name="dialog_play_games_content_signed_out">Do you want to sign in?</string>
+
+    <string name="dialog_sort_title">Sort</string>
+    <string name="dialog_sort_by_modification_date">Modification date</string>
+
+    <string name="dialog_unit_title">Modify Unit</string>
+    <string name="dialog_unit_input_hint">Unit title</string>
+
+    <string name="dialog_vocable_title">Modify Vocable</string>
+    <string name="dialog_vocable_ok">Save</string>
+    <string name="dialog_vocable_input_hint_first_meaning">Meaning in your language</string>
+    <string name="dialog_vocable_input_hint_second_meaning">Meaning in foreign language</string>
+
+    <string name="fragment_settings_mail_subject">Vocabletrainer Feedback</string>
+    <string name="fragment_settings_mail_client">Choose Client</string>
+
+    <string name="activity_about_content">A free and opensource App to learn Vocables.</string>
+    <string name="activity_about_title">About</string>
+
+    <string name="fragment_vocable_list_undo">Undo</string>
+    <string name="fragment_vocable_list_deleted_message">deleted</string>
+
+    <string name="vocable">Glosa</string>
+    <string name="vocables">Glosor</string>
+
+    <string name="notification_reminder_content">You have to learn Vocables!</string>
+
+    <string name="export_error_storage">Export failed: There was a problem with the storage</string>
+    <string name="import_error_storage">Import failed: There was a problem with the storage</string>
+
+    <string name="dialog_vocable_unit_input_hint">Unit title</string>
+
+    <string name="fragment_test_classic_input_hint">Answer</string>
+
+    <string name="fragment_test_settings_rate_all">All Vocables</string>
+    <string name="fragment_test_settings_rate_okay">Acceptable Vocables and worse</string>
+    <string name="fragment_test_settings_rate_bad">Only error-prone Vocables</string>
+    <string name="fragment_test_settings_all_units_check_box">All Units</string>
+    <string name="fragment_test_settings_classic_case_sensitive_check_box">Case-sensitive</string>
+    <string name="fragment_test_settings_direction_your_other">Your language - Foreign language</string>
+    <string name="fragment_test_settings_direction_other_your">Foreign language - Your language</string>
+    <string name="fragment_test_settings_direction_mix">Mix</string>
+
+    <string name="menu_vocable_list_delete">Delete all Vocables</string>
+    <string name="menu_vocable_list_sort">Sort</string>
+    <string name="menu_vocable_list_import">Import</string>
+    <string name="menu_vocable_list_export">Export</string>
+    <string name="preferences_source_summary">View the Source Code at GitHub.com</string>
+    <string name="preferences_source_title">Source Code</string>
+    <string name="fragment_test_settings_error_not_enough_vocables">You don\'t have enough Vocables selected. You need at least</string>
+    <string name="fragment_test_settings_vocable_selected">Vocable selected</string>
+    <string name="fragment_test_settings_vocables_selected">Vocables selected</string>
+    <string name="dialog_vocable_hint_input_hint">Hint</string>
+    <string name="test_classic_correct">Correct!</string>
+    <string name="test_classic_wrong">Wrong! Correct:</string>
+    <string name="dialog_donate_content">Donate to support the Developer and this App</string>
+    <string name="activity_main_donation_message">Thank you for your donation!</string>
+    <string name="activity_main_donation_error">An unknown Error occurred</string>
+    <string name="dialog_unit_ok">Save</string>
+    <string name="input_error_empty">Cannot be empty</string>
+    <string name="unit">Grupp</string>
+    <string name="units">Grupper</string>
+    <string name="menut_test_hint">Visa ledtråd</string>
+    <string name="dialog_hint_title">Ledtråd</string>
+    <string name="icon_back_description">Bakåt</string>
+    <string name="icon_result_description">Resultat</string>
+    <string name="icon_file_description">File</string>
+    <string name="icon_add_description">Add</string>
+    <string name="icon_edit_description">Edit</string>
+    <string name="icon_info_description">Info</string>
+    <string name="icon_toggle_description">Toggle</string>
+    <string name="test_error">Something went wrong, please re-add your Vocables</string>
+    <string name="menu_stats_reset">Nollställ</string>
+    <string name="dialog_reset_title">Nollställ statistik</string>
+    <string name="dialog_reset_content">All statistik tas bort. Statistik för glosor kommer inte påverkas</string>
+    <string name="dialog_reset_ok">Nollställ</string>
+    <string name="transfer_import_format_error">This format is not supported. See \'Import\' in Help.</string>
+    <string name="layout_test_training_ok">Kunde det</string>
+    <string name="layout_test_training_not_ok">Kunde det inte</string>
+    <string name="layout_test_training_show_answer">Visa svar</string>
+    <string name="mode_training_title">Övning</string>
+    <string name="mode_training_title_short">Övning</string>
+    <string name="activity_about_content_icons">Some Icons are created by authors at flaticon.com.</string>
+    <string name="activity_about_content_authors">Authors in current Version: &lt;a href="http://www.freepik.com">Freepik&lt;/>, &lt;a href="http://www.flaticon.com/authors/linh-pham">linh pham&lt;/>, &lt;a href="http://www.flaticon.com/authors/simpleicon">simpleicon&lt;/>, &lt;a href="http://www.flaticon.com/authors/dave-gandy">dave gandy&lt;/></string>
+    <string name="mode_training_help">Övningen är en enkel metod där du ärligt svarar på om du kunde glosan eller inte. Försök att komma på vad svaret är, sedan kan du visa det korrekta svaret och bekräfta om du kunde det eller inte. Dessa svar kommer inte bidra till statistiken eller prestationer.</string>
+    <string name="preference_suggestions_title">Input suggestions</string>
+    <string name="preference_suggestions_on">Suggestions will be displayed</string>
+    <string name="preference_suggestions_off">Suggestions won\'t be displayed</string>
+    <string name="dialog_permission_title">Permission explanation</string>
+    <string name="dialog_close">Stäng</string>
+    <string name="dialog_permission_explanation_write_external_storage">If you want to import and export, this App needs to have access to your external Storage. It will never read any personal data.</string>
+    <string name="intro_welcome_title">Välkommen</string>
+    <string name="intro_welcome_description">Just some settings and you are ready to go!</string>
+    <string name="intro_ads_title">Advertisements</string>
+    <string name="intro_ads_description">Enable advertisements if you want to support the development of this App</string>
+    <string name="intro_reminder_title">Reminder</string>
+    <string name="intro_reminder_description">Get reminded every day to learn Vocables</string>
+    <string name="intro_play_games_title">Play Spel</string>
+    <string name="intro_play_games_description">Enable Play Games to earn achievements</string>
+    <string name="fragment_test_settings_classic_all_meanings_check_box">Öva på alla betydelse</string>
+    <string name="fragment_test_settings_rate_new">Nya glosor endast</string>
+    <string name="ic_action_search">Sök</string>
+</resources>
