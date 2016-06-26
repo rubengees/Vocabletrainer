@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Vocabletrainer</string>
+    <string name="app_name">Glosträning</string>
 
     <string name="preferences_ads_off">Döljer reklam. Reklam bidrar till utvecklingen av denna app</string>
     <string name="preferences_ads_on">Visar reklam. Tackar!</string>
     <string name="preferences_ads_title">Reklam</string>
-    <string name="preferences_category_general">General</string>
+    <string name="preferences_category_general">Allmänt</string>
     <string name="preferences_reminder_off">Inga påminnelse</string>
     <string name="preferences_reminder_on">Du får påminnelser</string>
     <string name="preferences_reminder_title">Påminnelser</string>
@@ -13,7 +13,7 @@
     <string name="preferences_animations_on">Animationer visas</string>
     <string name="preferences_animations_title">Animationer under förhör</string>
     <string name="preferences_category_contact">Kontakta</string>
-    <string name="preference_mail_summary">Synpunkter? Föreslå eller fråga något</string>
+    <string name="preference_mail_summary">Synpunkter? Föreslå eller fråga något (på engelska)</string>
     <string name="preference_mail_title">Skicka e-post till utvecklaren</string>
     <string name="preferences_evaluation_summary">Betygsätt appen i Play Butik</string>
     <string name="preferences_evaluation_title">Utvärdering</string>
@@ -28,10 +28,10 @@
     <string name="help_delete_vocables_title">Ta bort glosor</string>
     <string name="help_import_title">Importera</string>
     <string name="help_export_title">Exportera</string>
-    <string name="help_add_vocables">To add a Vocable go to the vocablelist and click on the "+"-button. A dialog will open and you can type in your vocable. If you click on the "+"-icons on the right of the textboxes another textbox will appear in which you can insert more meanings for your vocable. You can provide a hint that you can view in the test. In the last step you must select a unit or create a new one. The small arrow on the right allows you to toggle between creating a new one and selecting an existing one.</string>
-    <string name="help_delete_vocables">To delete Vocables you go to the vocablelist and swipe them away. This is evan possible with whole units. If you made a mistake you can undo the deletion by clicking the undo button at the bottom of the screen. If you want to delete all of your Vocables click the bin icon.</string>
-    <string name="help_import">You can import already prepared lists into Vocabletrainer. To do so go to the vocablelist and select \'import\' from the menu. A filebrowser will open in which you can select your file to import. The file-type must be either xml or csv. If you want to create a list fast at your computer create a text file and save it as csv. The xml file-type is for the backups of Vocabletrainer; see "Export"</string>
-    <string name="help_export">You can make a backup of your vocablelist to share it to other devices or just to save your list. If you want to create a backup go to the vocablelist and select "export" from the menu. A filexplorer opens and you can select in which directory the backup file should be saved. if you found a directory click on the save button. The file-type of the backup is xml and you can open it with any text editor.</string>
+    <string name="help_add_vocables">För att lägga till en glosa; gå till glosor och tryck på "+"-knappen. En dialogruta visas och du kan mata in din glosa. Om du trycker på "+"-knapparna till höger om textrutorna, så kommer fler textrutor visas så du kan ange fler översättningar för glosan. Du kan också ange en ledtråd som visas i övningar. Sist måste du välja vilken grupp glosan ska tillhöra, eller skapa en ny. Pilen bredvid skiftar mellan att skapa en ny eller välja bland redan existerande.</string>
+    <string name="help_delete_vocables">För att ta bort glosor så går du till glosor och sveper över de glosor du vill ta bort. Du kan ångra den senaste borttagningen genom att trycka på ångra längst ned på skärmen. Om du vill ta bort alla glosor så trycker du på soptunnan.</string>
+    <string name="help_import">Du kan importera färdiga listor direkt till Glosträning. Du hittar alternativet i menyn under glosor. Leta reda på den fil du vill importera. Filtyperna som stödjs är xml och csv. Om du vill skapa en lista snabbt och enkelt på datorn, spara då i formatet csv. xml-filer använd som säkerhetskopior av Glosträning; läs mer under "Exportera"</string>
+    <string name="help_export">Du kan säkerhetskopiera dina glosor och använda på andra enheter, eller för att vara säker på att listorna inte försvinner. Om du vill skapa en säkerhetskopia, gå då till glosor och hitta "exportera" i menyn. Välj sedan vart du vill spara filen. Filtypen är xml och du kan öppna den i vilen textbehandlingsprogram som helst.</string>
 
     <string name="donate_50">Donera 0,50€</string>
     <string name="donate_100">Donera 1€</string>
@@ -84,12 +84,12 @@
 
     <string name="test_question">Översätt</string>
 
-    <string name="google_service_connection_unknown_error">An unknown error occurred. Check your network connection. If this error occurs repeatedly please notify the developer.</string>
+    <string name="google_service_connection_unknown_error">Ett okänt fel har inträffat. Kontrollera anslutningen. Om detta fel sker flera gånger, kontakta utvecklaren.</string>
 
-    <string name="database_uni_title_default">Default</string>
+    <string name="database_uni_title_default">Standard</string>
 
-    <string name="dialog_delete_title">Delete all Vocables</string>
-    <string name="dialog_delete_content">Do you want to delete all of your Vocables?</string>
+    <string name="dialog_delete_title">Ta bort alla glosor</string>
+    <string name="dialog_delete_content">Vill du ta bort alla glosor?</string>
     <string name="dialog_delete_ok">Ta bort</string>
 
     <string name="dialog_cancel">Avbryt</string>
@@ -120,8 +120,8 @@
     <string name="dialog_sort_title">Sortera</string>
     <string name="dialog_sort_by_modification_date">Ändringsdatum</string>
 
-    <string name="dialog_unit_title">Modify Unit</string>
-    <string name="dialog_unit_input_hint">Unit title</string>
+    <string name="dialog_unit_title">Ändra grupp</string>
+    <string name="dialog_unit_input_hint">Gruppnamn</string>
 
     <string name="dialog_vocable_title">Ändra glosa</string>
     <string name="dialog_vocable_ok">Spara</string>
@@ -131,7 +131,7 @@
     <string name="fragment_settings_mail_subject">Vocabletrainer Feedback</string>
     <string name="fragment_settings_mail_client">Välj klient</string>
 
-    <string name="activity_about_content">A free and opensource App to learn Vocables.</string>
+    <string name="activity_about_content">En gratis app med öppen källkod, anpassad för att öva på glosor.</string>
     <string name="activity_about_title">Om</string>
 
     <string name="fragment_vocable_list_undo">Ångra</string>
@@ -142,16 +142,16 @@
 
     <string name="notification_reminder_content">Lär dig nya glosor!</string>
 
-    <string name="export_error_storage">Export failed: There was a problem with the storage</string>
-    <string name="import_error_storage">Import failed: There was a problem with the storage</string>
+    <string name="export_error_storage">Fel vid exportering: Ett oväntat fel inträffade</string>
+    <string name="import_error_storage">Fel vid importering: Ett oväntat fel inträffade</string>
 
     <string name="dialog_vocable_unit_input_hint">Grupp</string>
 
     <string name="fragment_test_classic_input_hint">Svar</string>
 
     <string name="fragment_test_settings_rate_all">Alla glosor</string>
-    <string name="fragment_test_settings_rate_okay">Acceptable Vocables and worse</string>
-    <string name="fragment_test_settings_rate_bad">Only error-prone Vocables</string>
+    <string name="fragment_test_settings_rate_okay">Glosor som har varit svåra</string>
+    <string name="fragment_test_settings_rate_bad">Glosor som oftast blir fel</string>
     <string name="fragment_test_settings_all_units_check_box">Alla grupper</string>
     <string name="fragment_test_settings_classic_case_sensitive_check_box">Skiftlägeskänslig</string>
     <string name="fragment_test_settings_direction_your_other">Översätt till det nya språket</string>
@@ -162,17 +162,17 @@
     <string name="menu_vocable_list_sort">Sortera</string>
     <string name="menu_vocable_list_import">Importera</string>
     <string name="menu_vocable_list_export">Exportera</string>
-    <string name="preferences_source_summary">View the Source Code at GitHub.com</string>
+    <string name="preferences_source_summary">Visa källkoden på GitHub.com</string>
     <string name="preferences_source_title">Källkod</string>
-    <string name="fragment_test_settings_error_not_enough_vocables">You don\'t have enough Vocables selected. You need at least</string>
+    <string name="fragment_test_settings_error_not_enough_vocables">Du har inte valt tillräckligt många glosor. Du behöver minst</string>
     <string name="fragment_test_settings_vocable_selected">Glosa vald</string>
     <string name="fragment_test_settings_vocables_selected">Glosor valda</string>
     <string name="dialog_vocable_hint_input_hint">Ledtråd</string>
     <string name="test_classic_correct">Rätt!</string>
     <string name="test_classic_wrong">Fel! Rätt svar är:</string>
-    <string name="dialog_donate_content">Donate to support the Developer and this App</string>
-    <string name="activity_main_donation_message">Thank you for your donation!</string>
-    <string name="activity_main_donation_error">An unknown Error occurred</string>
+    <string name="dialog_donate_content">Donera för att stödja utvecklaren och denna app</string>
+    <string name="activity_main_donation_message">Tack för att du donerar!</string>
+    <string name="activity_main_donation_error">Ett oväntat fel inträffade</string>
     <string name="dialog_unit_ok">Spara</string>
     <string name="input_error_empty">Kan inte lämnas blankt</string>
     <string name="unit">Grupp</string>
@@ -181,39 +181,39 @@
     <string name="dialog_hint_title">Ledtråd</string>
     <string name="icon_back_description">Bakåt</string>
     <string name="icon_result_description">Resultat</string>
-    <string name="icon_file_description">File</string>
+    <string name="icon_file_description">Fil</string>
     <string name="icon_add_description">Lägg till</string>
     <string name="icon_edit_description">Ändra</string>
     <string name="icon_info_description">Info</string>
     <string name="icon_toggle_description">Växla</string>
-    <string name="test_error">Something went wrong, please re-add your Vocables</string>
+    <string name="test_error">Ett fel inträffade, vänligen lägg till dina glosor igen</string>
     <string name="menu_stats_reset">Nollställ</string>
     <string name="dialog_reset_title">Nollställ statistik</string>
     <string name="dialog_reset_content">All statistik tas bort. Statistik för glosor kommer inte påverkas</string>
     <string name="dialog_reset_ok">Nollställ</string>
-    <string name="transfer_import_format_error">This format is not supported. See \'Import\' in Help.</string>
+    <string name="transfer_import_format_error">Detta format stödjs inte. Läs hjälpavsnittet om \'Importera\'.</string>
     <string name="layout_test_training_ok">Kunde det</string>
     <string name="layout_test_training_not_ok">Kunde det inte</string>
     <string name="layout_test_training_show_answer">Visa svar</string>
     <string name="mode_training_title">Övning</string>
     <string name="mode_training_title_short">Övning</string>
-    <string name="activity_about_content_icons">Some Icons are created by authors at flaticon.com.</string>
-    <string name="activity_about_content_authors">Authors in current Version: &lt;a href="http://www.freepik.com">Freepik&lt;/>, &lt;a href="http://www.flaticon.com/authors/linh-pham">linh pham&lt;/>, &lt;a href="http://www.flaticon.com/authors/simpleicon">simpleicon&lt;/>, &lt;a href="http://www.flaticon.com/authors/dave-gandy">dave gandy&lt;/></string>
+    <string name="activity_about_content_icons">Vissa ikoner har skapats av användare på flaticon.com.</string>
+    <string name="activity_about_content_authors">Användare för denna version: &lt;a href="http://www.freepik.com">Freepik&lt;/>, &lt;a href="http://www.flaticon.com/authors/linh-pham">linh pham&lt;/>, &lt;a href="http://www.flaticon.com/authors/simpleicon">simpleicon&lt;/>, &lt;a href="http://www.flaticon.com/authors/dave-gandy">dave gandy&lt;/></string>
     <string name="mode_training_help">Övningen är en enkel metod där du ärligt svarar på om du kunde glosan eller inte. Försök att komma på vad svaret är, sedan kan du visa det korrekta svaret och bekräfta om du kunde det eller inte. Dessa svar kommer inte bidra till statistiken eller prestationer.</string>
-    <string name="preference_suggestions_title">Input suggestions</string>
-    <string name="preference_suggestions_on">Suggestions will be displayed</string>
-    <string name="preference_suggestions_off">Suggestions won\'t be displayed</string>
-    <string name="dialog_permission_title">Permission explanation</string>
+    <string name="preference_suggestions_title">Visa rättningsförslag</string>
+    <string name="preference_suggestions_on">Rättningsförslag visas</string>
+    <string name="preference_suggestions_off">Rättningsförslag visas inte</string>
+    <string name="dialog_permission_title">Behörigheter</string>
     <string name="dialog_close">Stäng</string>
-    <string name="dialog_permission_explanation_write_external_storage">If you want to import and export, this App needs to have access to your external Storage. It will never read any personal data.</string>
+    <string name="dialog_permission_explanation_write_external_storage">Om du vill importera och exportera så behöver denna app till lagring. Appen kommer inte läsa några personliga filer.</string>
     <string name="intro_welcome_title">Välkommen</string>
-    <string name="intro_welcome_description">Just some settings and you are ready to go!</string>
-    <string name="intro_ads_title">Advertisements</string>
-    <string name="intro_ads_description">Enable advertisements if you want to support the development of this App</string>
-    <string name="intro_reminder_title">Reminder</string>
-    <string name="intro_reminder_description">Get reminded every day to learn Vocables</string>
+    <string name="intro_welcome_description">Några få inställningar före du sätter igång!</string>
+    <string name="intro_ads_title">Reklam</string>
+    <string name="intro_ads_description">Visa reklam om du vill stödja utvecklingen av denna app</string>
+    <string name="intro_reminder_title">Påminnelser</string>
+    <string name="intro_reminder_description">Bli påmind varje dag om att öva på glosor</string>
     <string name="intro_play_games_title">Play Spel</string>
-    <string name="intro_play_games_description">Enable Play Games to earn achievements</string>
+    <string name="intro_play_games_description">Logga in på Play Spel för att låsa upp prestationer</string>
     <string name="fragment_test_settings_classic_all_meanings_check_box">Öva på alla betydelse</string>
     <string name="fragment_test_settings_rate_new">Nya glosor endast</string>
     <string name="ic_action_search">Sök</string>
