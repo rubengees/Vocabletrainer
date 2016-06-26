@@ -1,0 +1,220 @@
+<resources>
+    <string name="app_name">Glosträning</string>
+
+    <string name="preferences_ads_off">Döljer reklam. Reklam bidrar till utvecklingen av denna app</string>
+    <string name="preferences_ads_on">Visar reklam. Tackar!</string>
+    <string name="preferences_ads_title">Reklam</string>
+    <string name="preferences_category_general">Allmänt</string>
+    <string name="preferences_reminder_off">Inga påminnelse</string>
+    <string name="preferences_reminder_on">Du får påminnelser</string>
+    <string name="preferences_reminder_title">Påminnelser</string>
+    <string name="preferences_reminder_time_title">Påminn vid</string>
+    <string name="preferences_animations_off">Animationer visas inte</string>
+    <string name="preferences_animations_on">Animationer visas</string>
+    <string name="preferences_animations_title">Animationer under förhör</string>
+    <string name="preferences_category_contact">Kontakta</string>
+    <string name="preference_mail_summary">Synpunkter? Föreslå eller fråga något (på engelska)</string>
+    <string name="preference_mail_title">Skicka e-post till utvecklaren</string>
+    <string name="preferences_evaluation_summary">Betygsätt appen i Play Butik</string>
+    <string name="preferences_evaluation_title">Utvärdering</string>
+    <string name="preferences_developer_title">Utvecklare av denna app</string>
+    <string name="preferences_licences_summary">Licenser till bibliotek i denna app</string>
+    <string name="preferences_licences_title">Licenser</string>
+    <string name="preferences_reminder_time_morning">På morgonen</string>
+    <string name="preferences_reminder_time_noon">Mitt på dagen</string>
+    <string name="preferences_reminder_time_evening">På kvällen</string>
+
+    <string name="help_add_vocables_title">Lägg till glosor</string>
+    <string name="help_delete_vocables_title">Ta bort glosor</string>
+    <string name="help_import_title">Importera</string>
+    <string name="help_export_title">Exportera</string>
+    <string name="help_add_vocables">För att lägga till en glosa; gå till glosor och tryck på "+"-knappen. En dialogruta visas och du kan mata in din glosa. Om du trycker på "+"-knapparna till höger om textrutorna, så kommer fler textrutor visas så du kan ange fler översättningar för glosan. Du kan också ange en ledtråd som visas i övningar. Sist måste du välja vilken grupp glosan ska tillhöra, eller skapa en ny. Pilen bredvid skiftar mellan att skapa en ny eller välja bland redan existerande.</string>
+    <string name="help_delete_vocables">För att ta bort glosor så går du till glosor och sveper över de glosor du vill ta bort. Du kan ångra den senaste borttagningen genom att trycka på ångra längst ned på skärmen. Om du vill ta bort alla glosor så trycker du på soptunnan.</string>
+    <string name="help_import">Du kan importera färdiga listor direkt till Glosträning. Du hittar alternativet i menyn under glosor. Leta reda på den fil du vill importera. Filtyperna som stödjs är xml och csv. Om du vill skapa en lista snabbt och enkelt på datorn, spara då i formatet csv. xml-filer använd som säkerhetskopior av Glosträning; läs mer under "Exportera"</string>
+    <string name="help_export">Du kan säkerhetskopiera dina glosor och använda på andra enheter, eller för att vara säker på att listorna inte försvinner. Om du vill skapa en säkerhetskopia, gå då till glosor och hitta "exportera" i menyn. Välj sedan vart du vill spara filen. Filtypen är xml och du kan öppna den i vilen textbehandlingsprogram som helst.</string>
+
+    <string name="donate_50">Donera 0,50€</string>
+    <string name="donate_100">Donera 1€</string>
+    <string name="donate_200">Donera 2€</string>
+
+    <string name="chart_answer_correct">Rätt</string>
+    <string name="chart_answer_incorrect">Fel</string>
+    <string name="chart_time_best">Bästa</string>
+    <string name="chart_time_average">Genomsnitt</string>
+
+    <string name="item_stat_general_title">Totalt</string>
+
+    <string name="fragment_result_perfect">Perfekt!</string>
+    <string name="fragment_result_very_good">Mycket bra</string>
+    <string name="fragment_result_good">Bra</string>
+    <string name="fragment_result_okay">Okej</string>
+    <string name="fragment_result_not_so_well">Inte så bra</string>
+    <string name="fragment_result_bad">Dåligt</string>
+    <string name="fragment_result_horrible">Hemskt</string>
+    <string name="fragment_result_no_answers">Inte svar</string>
+
+    <string name="fragment_vocable_list_title">Glosor</string>
+    <string name="activity_main_divider_modes">Övningar</string>
+    <string name="dialog_play_games_title">Play Spel</string>
+    <string name="fragment_help_title">Hjälp</string>
+    <string name="dialog_donate_title">Donera</string>
+    <string name="fragment_settings_title">Inställningar</string>
+    <string name="fragment_statistics_title">Statistik</string>
+
+    <string name="activity_transfer_error_sd">Det gick inte att läsa SD-kortet</string>
+    <string name="activity_transfer_error_retry">Försök igen</string>
+    <string name="activity_transfer_error_file_type">Denna filtyp stödjs inte. Läs hjälpavsnittet om import</string>
+
+    <string name="fragment_result_list_item_correct">Rätt svar:</string>
+    <string name="fragment_result_list_item_no_answer">Inget svar</string>
+
+    <string name="mode_classic_help">I skrivövningar lär du dig stava orden genom korrekta översättningar.
+        Du svarar genom att mata in din översättning och trycker vidare.</string>
+    <string name="mode_classic_title">Skrivövningar</string>
+    <string name="mode_classic_title_short">Skrivövningar</string>
+    <string name="mode_pair_help">Du ska hitta en glosa från vardera språk och matcha dem. När du har hittat två matchande glosor så trycker du på båda i följd.
+        Du kan se att en glosa är markerad genom dess mörkare färg.
+        Om du vill avmarkera en vald glosa så trycker du på den igen.</string>
+    <string name="mode_pair_title">Para ihop</string>
+    <string name="mode_pair_title_short">Para ihop</string>
+    <string name="mode_time_help">En glosa visas längst upp, och du får du ett flertal glosor att välja på. Leta reda på och tryck sedan på det korrekta svaret.
+        Övningen går på tid.</string>
+    <string name="mode_time_title">Flerval</string>
+    <string name="mode_time_title_short">Flerval</string>
+
+    <string name="test_question">Översätt</string>
+
+    <string name="google_service_connection_unknown_error">Ett okänt fel har inträffat. Kontrollera anslutningen. Om detta fel sker flera gånger, kontakta utvecklaren.</string>
+
+    <string name="database_uni_title_default">Standard</string>
+
+    <string name="dialog_delete_title">Ta bort alla glosor</string>
+    <string name="dialog_delete_content">Vill du ta bort alla glosor?</string>
+    <string name="dialog_delete_ok">Ta bort</string>
+
+    <string name="dialog_cancel">Avbryt</string>
+
+    <string name="dialog_evaluation_title">Utvärdering</string>
+    <string name="dialog_evaluation_content">Gillar du appen? Betygsätt den i Play Butik!</string>
+    <string name="dialog_evaluation_ok">Utvärdera</string>
+    <string name="dialog_evaluation_no">Nej</string>
+    <string name="dialog_evaluation_later">Senare</string>
+
+    <string name="export_title">Exportering</string>
+    <string name="dialog_export_content">Exporterar…</string>
+    <string name="dialog_export_finish_message">Exportering slutförd</string>
+    <string name="import_title">Importering</string>
+    <string name="dialog_import_content">Importerar…</string>
+    <string name="dialog_import_error_message">Fel vid importering. Fel vid:</string>
+    <string name="dialog_override_content">Filen finns redan. Vill du skriva över?</string>
+    <string name="dialog_override_ok">Skriv över</string>
+
+    <string name="dialog_info_title">Info</string>
+
+    <string name="dialog_play_games_sign_out">Logga ut</string>
+    <string name="dialog_play_games_show_achievements">Visa prestationer</string>
+    <string name="dialog_play_games_content_singed_in">Vill du logga ut eller visa dina prestationer?</string>
+    <string name="dialog_play_games_sign_in">Logga in</string>
+    <string name="dialog_play_games_content_signed_out">Vill du logga in?</string>
+
+    <string name="dialog_sort_title">Sortera</string>
+    <string name="dialog_sort_by_modification_date">Ändringsdatum</string>
+
+    <string name="dialog_unit_title">Ändra grupp</string>
+    <string name="dialog_unit_input_hint">Gruppnamn</string>
+
+    <string name="dialog_vocable_title">Ändra glosa</string>
+    <string name="dialog_vocable_ok">Spara</string>
+    <string name="dialog_vocable_input_hint_first_meaning">På ditt språk</string>
+    <string name="dialog_vocable_input_hint_second_meaning">Översättning</string>
+
+    <string name="fragment_settings_mail_subject">Vocabletrainer Feedback</string>
+    <string name="fragment_settings_mail_client">Välj klient</string>
+
+    <string name="activity_about_content">En gratis app med öppen källkod, anpassad för att öva på glosor.</string>
+    <string name="activity_about_title">Om</string>
+
+    <string name="fragment_vocable_list_undo">Ångra</string>
+    <string name="fragment_vocable_list_deleted_message">borttagen</string>
+
+    <string name="vocable">Glosa</string>
+    <string name="vocables">Glosor</string>
+
+    <string name="notification_reminder_content">Lär dig nya glosor!</string>
+
+    <string name="export_error_storage">Fel vid exportering: Ett oväntat fel inträffade</string>
+    <string name="import_error_storage">Fel vid importering: Ett oväntat fel inträffade</string>
+
+    <string name="dialog_vocable_unit_input_hint">Grupp</string>
+
+    <string name="fragment_test_classic_input_hint">Svar</string>
+
+    <string name="fragment_test_settings_rate_all">Alla glosor</string>
+    <string name="fragment_test_settings_rate_okay">Glosor som har varit svåra</string>
+    <string name="fragment_test_settings_rate_bad">Glosor som oftast blir fel</string>
+    <string name="fragment_test_settings_all_units_check_box">Alla grupper</string>
+    <string name="fragment_test_settings_classic_case_sensitive_check_box">Skiftlägeskänslig</string>
+    <string name="fragment_test_settings_direction_your_other">Översätt till det nya språket</string>
+    <string name="fragment_test_settings_direction_other_your">Översätt till ditt eget språk</string>
+    <string name="fragment_test_settings_direction_mix">Blanda</string>
+
+    <string name="menu_vocable_list_delete">Ta bort alla glosor</string>
+    <string name="menu_vocable_list_sort">Sortera</string>
+    <string name="menu_vocable_list_import">Importera</string>
+    <string name="menu_vocable_list_export">Exportera</string>
+    <string name="preferences_source_summary">Visa källkoden på GitHub.com</string>
+    <string name="preferences_source_title">Källkod</string>
+    <string name="fragment_test_settings_error_not_enough_vocables">Du har inte valt tillräckligt många glosor. Du behöver minst</string>
+    <string name="fragment_test_settings_vocable_selected">Glosa vald</string>
+    <string name="fragment_test_settings_vocables_selected">Glosor valda</string>
+    <string name="dialog_vocable_hint_input_hint">Ledtråd</string>
+    <string name="test_classic_correct">Rätt!</string>
+    <string name="test_classic_wrong">Fel! Rätt svar är:</string>
+    <string name="dialog_donate_content">Donera för att stödja utvecklaren och denna app</string>
+    <string name="activity_main_donation_message">Tack för att du donerar!</string>
+    <string name="activity_main_donation_error">Ett oväntat fel inträffade</string>
+    <string name="dialog_unit_ok">Spara</string>
+    <string name="input_error_empty">Kan inte lämnas blankt</string>
+    <string name="unit">Grupp</string>
+    <string name="units">Grupper</string>
+    <string name="menut_test_hint">Visa ledtråd</string>
+    <string name="dialog_hint_title">Ledtråd</string>
+    <string name="icon_back_description">Bakåt</string>
+    <string name="icon_result_description">Resultat</string>
+    <string name="icon_file_description">Fil</string>
+    <string name="icon_add_description">Lägg till</string>
+    <string name="icon_edit_description">Ändra</string>
+    <string name="icon_info_description">Info</string>
+    <string name="icon_toggle_description">Växla</string>
+    <string name="test_error">Ett fel inträffade, vänligen lägg till dina glosor igen</string>
+    <string name="menu_stats_reset">Nollställ</string>
+    <string name="dialog_reset_title">Nollställ statistik</string>
+    <string name="dialog_reset_content">All statistik tas bort. Statistik för glosor kommer inte påverkas</string>
+    <string name="dialog_reset_ok">Nollställ</string>
+    <string name="transfer_import_format_error">Detta format stödjs inte. Läs hjälpavsnittet om \'Importera\'.</string>
+    <string name="layout_test_training_ok">Kunde det</string>
+    <string name="layout_test_training_not_ok">Kunde det inte</string>
+    <string name="layout_test_training_show_answer">Visa svar</string>
+    <string name="mode_training_title">Övning</string>
+    <string name="mode_training_title_short">Övning</string>
+    <string name="activity_about_content_icons">Vissa ikoner har skapats av användare på flaticon.com.</string>
+    <string name="activity_about_content_authors">Användare för denna version: &lt;a href="http://www.freepik.com">Freepik&lt;/>, &lt;a href="http://www.flaticon.com/authors/linh-pham">linh pham&lt;/>, &lt;a href="http://www.flaticon.com/authors/simpleicon">simpleicon&lt;/>, &lt;a href="http://www.flaticon.com/authors/dave-gandy">dave gandy&lt;/></string>
+    <string name="mode_training_help">Övningen är en enkel metod där du ärligt svarar på om du kunde glosan eller inte. Försök att komma på vad svaret är, sedan kan du visa det korrekta svaret och bekräfta om du kunde det eller inte. Dessa svar kommer inte bidra till statistiken eller prestationer.</string>
+    <string name="preference_suggestions_title">Visa rättningsförslag</string>
+    <string name="preference_suggestions_on">Rättningsförslag visas</string>
+    <string name="preference_suggestions_off">Rättningsförslag visas inte</string>
+    <string name="dialog_permission_title">Behörigheter</string>
+    <string name="dialog_close">Stäng</string>
+    <string name="dialog_permission_explanation_write_external_storage">Om du vill importera och exportera så behöver denna app till lagring. Appen kommer inte läsa några personliga filer.</string>
+    <string name="intro_welcome_title">Välkommen</string>
+    <string name="intro_welcome_description">Några få inställningar före du sätter igång!</string>
+    <string name="intro_ads_title">Reklam</string>
+    <string name="intro_ads_description">Visa reklam om du vill stödja utvecklingen av denna app</string>
+    <string name="intro_reminder_title">Påminnelser</string>
+    <string name="intro_reminder_description">Bli påmind varje dag om att öva på glosor</string>
+    <string name="intro_play_games_title">Play Spel</string>
+    <string name="intro_play_games_description">Logga in på Play Spel för att låsa upp prestationer</string>
+    <string name="fragment_test_settings_classic_all_meanings_check_box">Öva på alla betydelse</string>
+    <string name="fragment_test_settings_rate_new">Nya glosor endast</string>
+    <string name="ic_action_search">Sök</string>
+</resources>
