@@ -30,18 +30,23 @@ import java.util.List;
  */
 public class TransferUtils {
 
-    public static final String TAG_UNITS = "units";
-    public static final String TAG_UNIT = "unit";
-    public static final String TAG_TITLE = "title";
-    public static final String TAG_VOCABLES = "vocables";
-    public static final String TAG_VOCABLE = "vocable";
-    public static final String TAG_FIRST_MEANING = "first_meaning";
-    public static final String TAG_SECOND_MEANING = "second_meaning";
-    public static final String TAG_VALUE = "value";
+    private static final String TAG_UNITS = "units";
+    private static final String TAG_UNIT = "unit";
+    private static final String TAG_TITLE = "title";
+    private static final String TAG_VOCABLES = "vocables";
+    private static final String TAG_VOCABLE = "vocable";
+    private static final String TAG_FIRST_MEANING = "first_meaning";
+    private static final String TAG_SECOND_MEANING = "second_meaning";
+    private static final String TAG_VALUE = "value";
+    private static final String TAG_HINT = "hint";
+
+    private static final String EMPTY = "";
+    private static final String EXTENSION_CSV = ".csv";
+    private static final String EXTENSION_XML = ".xml";
 
     public static boolean isFileSupported(@NonNull File file) {
         String filename = file.getName();
-        return filename.endsWith(".csv") || filename.endsWith(".xml");
+        return filename.endsWith(EXTENSION_CSV) || filename.endsWith(EXTENSION_XML);
     }
 
     public static void export(@NonNull List<Unit> units, @NonNull File toExport)
@@ -74,6 +79,13 @@ public class TransferUtils {
                 serializer.startTag(null, TAG_SECOND_MEANING);
                 insertMeaning(serializer, vocable.getSecondMeaningList());
                 serializer.endTag(null, TAG_SECOND_MEANING);
+
+                if(vocable.getHint() != null) {
+                    serializer.startTag(null, TAG_HINT);
+                    serializer.text(vocable.getHint());
+                    serializer.endTag(null, TAG_HINT);
+                }
+
                 serializer.endTag(null, TAG_VOCABLE);
             }
             serializer.endTag(null, TAG_VOCABLES);
@@ -94,9 +106,9 @@ public class TransferUtils {
 
     public static List<Unit> getList(@NonNull Context context, @NonNull File file)
             throws FormatException, IOException {
-        if (file.getName().endsWith(".csv")) {
+        if (file.getName().endsWith(EXTENSION_CSV)) {
             return parseCsv(context, file);
-        } else if (file.getName().endsWith(".xml")) {
+        } else if (file.getName().endsWith(EXTENSION_XML)) {
             return parseXml(context, file);
         } else {
             throw new FormatException(context.getString(R.string.transfer_import_format_error));
@@ -204,9 +216,19 @@ public class TransferUtils {
         parser.require(XmlPullParser.START_TAG, null, TAG_VOCABLES);
         while (parser.nextTag() != XmlPullParser.END_TAG) {
             parser.require(XmlPullParser.START_TAG, null, TAG_VOCABLE);
+            Vocable vocable = null;
             while (parser.nextTag() != XmlPullParser.END_TAG) {
                 MeaningList first;
                 MeaningList second;
+
+                if(vocable != null) {
+                    String hint = readOptionalHint(parser);
+                    if(hint != null) {
+                        vocable.setHint(hint);
+                        vocable = null;
+                        continue;
+                    }
+                }
 
                 parser.require(XmlPullParser.START_TAG, null, TAG_FIRST_MEANING);
                 first = getMeaningFromXml(parser);
@@ -215,13 +237,25 @@ public class TransferUtils {
                 parser.require(XmlPullParser.START_TAG, null, TAG_SECOND_MEANING);
                 second = getMeaningFromXml(parser);
                 parser.require(XmlPullParser.END_TAG, null, TAG_SECOND_MEANING);
-                result.add(new Vocable(first, second, null, creationTime));
+                vocable = new Vocable(first, second, null, creationTime);
+                result.add(vocable);
             }
         }
         parser.require(XmlPullParser.END_TAG, null, TAG_VOCABLES);
         parser.nextTag();
 
         return result;
+    }
+
+    private static String readOptionalHint(XmlPullParser parser) {
+        try {
+            parser.require(XmlPullParser.START_TAG, null, TAG_HINT);
+            String hint = parser.nextText();
+            parser.require(XmlPullParser.END_TAG, null, TAG_HINT);
+            return hint == null? EMPTY : hint;
+        } catch(IOException | XmlPullParserException e) {
+            return null;
+        }
     }
 
     private static MeaningList getMeaningFromXml(XmlPullParser parser)
