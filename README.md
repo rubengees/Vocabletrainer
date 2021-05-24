@@ -1,5 +1,7 @@
 # Vocabletrainer
-A free App to learn Vocables 
+A free App to learn Vocables
+
+### Note: This project is not maintained anymore.
 
 The Source Code of this App: https://play.google.com/store/apps/details?id=com.rubengees.vocables
 
